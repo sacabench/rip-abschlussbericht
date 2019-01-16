@@ -1,0 +1,743 @@
+\section{Prefix Doubling}
+
+\subsection{Einleitung}
+
+Viele \currentauthor{Marvin Löbel} der Algorithmen, mit denen Suffix Arrays berechnet werden, eignen sich nicht dafür auf externen Speicher zu arbeiten, da sie zu viele I/O Operationen durchführen würden. Dies macht sie unbrauchbare für große Datenmengen, die nicht vollständig im Hauptspeicher verarbeiten zu werden können.
+
+Dieser Abschnitt präsentiert den in \cite{Dementiev2008} beschriebenen \textbf{Doubling} Algorithmus und seine verschiedenen Varianten. Er hat die Eigenschaft, möglichst effizient bezüglich der I/O Komplexität zu sein.
+
+\subsection{Grundlagen}
+
+Wir definieren $[i, j] = \{i, \dots, j\}$ und $[i, j) = [i, j - 1]$ als Kurzschreibweise für Integer Intervalle. Für jeden String $T$ der Länge $m$ mit beliebigen Alphabet lässt sich ein äquivalenter String $T'$ mit $\Sigma = [1, m]$ bilden, indem alle vorkommenden Zeichen aufsteigend sortiert, Duplikate entfernt, und die verbleibenden Zeichen durch einen aufsteigenden Zähler ersetzt werden. Wir weisen $\$$ den besonderen Integer Rang und Alphabeteintrag $0$ zu.
+
+Ein so \textbf{umbenannter} String hat die Eigenschaft, dass die Ordnung über dem neuen Alphabet identisch zu der über dem ursprünglichen ist, und sich somit darauf dasselbe Suffix Array ergibt. Ein dazu ähnliches Verfahren, \textbf{lexikographische Umbenennung}, wird Kern der vorgestellten Algorithmen sein, und beruht darauf ganze (Teil-)Strings eines Textes durch aufsteigende Zähler zu ersetzen.
+
+$\textbf{Lcp}(i, j)$ bezeichnet die längste gemeinsamen Präfix Länge (\textbf{longest common prefix}) zwischen $SA[i]$ und $SA[j]$, und ist $0$ wenn $i, j \notin [0, n)$ oder die beiden Suffixe keinen gemeinsamen Präfix haben. Für jedes $S_i$ definieren wir $\textbf{dps}(i) = 1 + \max\{\text{lcp}(i - 1, i), \text{lcp}(i, i + 1)\}$ als charakteristische Präfixlänge (\textbf{distinguishing prefix size}). Es lassen sich damit die folgenden Kenngrößen eines Suffix Arrays definieren:
+\begin{gather*}
+\text{maxlcp} := \max_{i \in [0, n)} \text{lcp}(i, i + 1) 
+\qquad\qquad
+\log \text{dps} := \frac{1}{n} \sum_{i \in [0, n)} \log(\text{dps}(i))
+\end{gather*}
+
+Für die Analyse der Zugriffsoperationen auf externe Speicher betrachten wir das I/O Model \cite{Vitter1994}. Darin besteht ein Computersystem aus $M$ Wörtern schnellen Hauptspeichers, und langsameren externen Speicher der sich über I/O Operation in Blockgrößen $B$ über $D$ Platten erstreckt. Für Eingaben der Länge $n$ nehmen wir eine Wortbreite von $\geq \ceil*{\log n}$ Bits an. Wir definieren folgende Kurzschreibweisen:
+\begin{itemize}
+\item $\text{scan}(x) = \ceil*{x/DB}$ für sequentielles lesen oder schreiben von $x$ Wörtern in externen Speicher.
+\item $\text{sort}(x) = \frac{2x}{DB}\ceil*{\log_{M/B}\frac{x}{M}}$ für das I/O-effiziente sortieren von $x$ Wörtern unter Zuhilfenahme von externen Speicher.
+\end{itemize}
+
+Wir geben alle Algorithmen in Pseudocode an, der an Python angelegt ist.
+
+\subsection{Überblick}
+
+Wir betrachten zunächst in Abschnitt \ref{algo:doubling:sec:doubling} den Doubling Algorithmus \cite{Arge1997}\cite{Crauser2002}. Dieser hat eine I/O Komplexität von $\mathcal{O}(\text{sort}(n \log \text{maxlcp}))$, und erlaubt es Strings der Länge $2^k$ in $k$ Iteration zu sortieren.
+
+In nachfolgenden Abschnitten werden wir anschließend systematisch Modifikationen einführen, die den Algorithmus bezüglich I/O Komplexität und Rechenaufwand verbessern. Wir beginnen in Abschnitt \ref{algo:doubling:sec:pipelining} mit dem Konzept des \textit{Pipelining}s, welches auf externen Algorithmen in der Regel eine I/O Reduzierung um den Faktor 2 ermöglicht.
+
+Abschnitt \ref{algo:doubling:sec:discarding} beschreibt eine simple Methode, bereits bestimmte Suffixe aus nachfolgenden Iterationen des Doubling Algorithmus zu entfernen (\textit{Discarding}). Dies verbessert die I/O Komplexität gegenüber Doubling zu $\mathcal{O}(\text{sort}(n \log \text{dps}))$, und ist besser als vorherige Discarding Ansätze mit einer Komplexität von $\mathcal{O}(\text{sort}(n \log \text{dps})) + \text{scan}(n \log \text{maxlcp})$ \cite{Crauser2002}.
+
+Abschnitt \ref{algo:doubling:sec:tupling} beschreibt eine Laufzeitverbesserung um einen Konstanten Faktor, bei dem Strings der Länge $a^k$ in $k$ Iterationen sortiert werden (\textit{$a$-Tupling}). Es stellen sich hierbei $a = 4$ und $a = 5$ als beste Ergebnisse heraus.
+
+Abschnitt \ref{algo:doubling:sec:summary} fasst die einzelnen Varianten zusammen, und gibt einen Überblick darüber welchen Nutzen sie für andere Algorithmen haben können.
+
+\subsection{Prefix Doubling}
+%captionpos=t,float,abovecaptionskip=-\medskipamount
+\label{algo:doubling:sec:doubling}
+\begin{listing}[htp]
+\caption{Doubling} 
+\label{algo:doubling:code:doubling}
+\begin{minted}[escapeinside=@@,numbers=left]{python}
+def doubling(T):
+  S = [((T[i], T[i + 1]), i) for i in @$[0, n)$@]
+  for k in @$[1, \ceil*{\log_2 n}]$@:
+    @sort@ S
+    P = name(S)
+    if @names in $P$ are unique@:
+      return [i for (c, i) in P]
+    @sort@ P @by $(i \mod 2^k, i \div 2^k)$@
+    S = []
+    for each @$(d, i) = P[j]$@:
+      if @$(d^\prime, i^\prime) = P[j + 1]$@ exists and @$i + 2^k == i^\prime$@:
+        append ((@$d$@, @$d^\prime$@), i) to S
+      else:
+        append ((@$d$@, @$\$$@), i) to S
+def name(S):
+  q = 0
+  r = 0
+  (@$l,l^\prime$@) = (@$\$$@, @$\$$@)
+  result = []
+  for ((@$c,c^\prime$@), i) in S:
+    q = q + 1
+    if (@$c,c^\prime$@) != (@$l,l^\prime$@):
+      r = q
+      (@$l,l^\prime$@) = (@$c,c^\prime$@)
+    append (r, i) to result
+  return result
+\end{minted}
+\end{listing}
+
+Um ein Suffix Array für $T$ zu bestimmen, müssen alle $S_i$ lexikographisch sortiert werden. Wir stellen fest, dass hierfür jeweils nur ein Präfix von bis zu $\text{dps}(i)$ Zeichen von $S_i$ betrachtet werden muss. Wir betrachten zunächst als Grundlage \texttt{doubling()} in Algorithmus \ref{algo:doubling:code:doubling}.
+
+Wir bauen auf dem in \cref{sec:ansatz:doubler} beschriebenen Doubling Ansatz auf. Die grundsätzliche Idee ist es, für jedes $T_i$ nur einen Präfix von $2^k$ Zeichen zu betrachten und lexikographisch zu sortieren, und dies ggf. mit inkrementierenden $k$ zu wiederholen. Falls alle betrachteten $T[i, i + 2^k)$ Strings paarweise verschieden sind, ergibt sich aus den sortierten $i$ Werten das gesuchte Suffix Array. 
+
+% Der Prozess wird iterativ durchgeführt, und beginnt bei $k = 1$. Falls nach einer Sortierung individuelle Präfixe mehr als einmal vorkommen, sprich nicht \textit{eindeutig} sind, wird der Vorgang mit $k + 1$ wiederholt.
+
+%Ansonsten gibt es Positionen $i$ mit $2^k < \text{dps}(i)$, und wir wiederholen den Vorgangs mit $k' = k + 1$.
+
+%Dies wir Iterativ durchgeführt, beginnend mit $k = 1$, bis alle so betrachteten $T[i, i + 2^k)$ paarweise verschieden sind.
+
+Es wird allerdings nicht direkt gemäß der Zeichenfolge $T[i, i + 2^k)$ sortiert, da dies den Rechenaufwand mit jedem Iterationsschritt verdoppeln würde. Stattdessen arbeitet der Algorithmus auf einer Sequenz $S$ von Tuplen $((c, c'), i)$, wobei $c$ und $c'$ eindeutige \textbf{Namen} für $T[i, i + 2^{k-1})$ und $T[i + 2^{k-1}, i + 2^k)$ sind. 
+
+\begin{figure}
+\caption{\texttt{doubling()} für $T$ = \textit{abracadabra} und $k = 1$}
+\label{algo:doubling:fig:doubling}
+\begin{tikzpicture}[cell/.style={rectangle,draw=black},
+space/.style={minimum height=1.5em,matrix of nodes,row sep=-\pgflinewidth,column sep=-\pgflinewidth,column 1/.style={font=\ttfamily}},text depth=0.5ex,text height=2ex,nodes in empty cells]
+
+\matrix (first) [space, column 1/.style={font=\ttfamily},column 2/.style={nodes={cell,minimum width=5.5em}}]
+{
+& $((a, b), 0)$ \\ 
+& $((b, r), 1)$ \\ 
+& $((r, a), 2)$ \\ 
+& $((a, c), 3)$ \\ 
+& $((c, a), 4)$ \\ 
+& $((a, d), 5)$ \\ 
+& $((d, a), 6)$ \\ 
+& $((a, b), 7)$ \\ 
+& $((b, r), 8)$ \\ 
+& $((r, a), 9)$ \\ 
+& $((a, \$), 10)$ \\ 
+};
+
+\matrix (second) [right=0.5em of first, space, column 1/.style={font=\ttfamily},column 2/.style={nodes={cell,minimum width=5.5em}}]
+{
+& $((a, \$), 10)$ \\ 
+& $((a, b), 0)$ \\ 
+& $((a, b), 7)$ \\ 
+& $((a, c), 3)$ \\ 
+& $((a, d), 5)$ \\ 
+& $((b, r), 1)$ \\ 
+& $((b, r), 8)$ \\ 
+& $((c, a), 4)$ \\ 
+& $((d, a), 6)$ \\ 
+& $((r, a), 2)$ \\ 
+& $((r, a), 9)$ \\ 
+};
+
+\matrix (third) [right=0.5em of second, space, column 1/.style={font=\ttfamily},column 2/.style={nodes={cell,minimum width=5.5em}}]
+{
+& $(1, 10)$ \\ 
+& $(2, 0)$ \\ 
+& $(2, 7)$ \\ 
+& $(4, 3)$ \\ 
+& $(5, 5)$ \\ 
+& $(6, 1)$ \\ 
+& $(6, 8)$ \\ 
+& $(8, 4)$ \\ 
+& $(9, 6)$ \\ 
+& $(10, 2)$ \\ 
+& $(10, 9)$ \\ 
+};
+
+\matrix (fourth) [right=0.5em of third, space, column 1/.style={font=\ttfamily},column 2/.style={nodes={cell,minimum width=5.5em}}]
+{
+& $(2, 0)$ \\ 
+& $(10, 2)$ \\ 
+& $(8, 4)$ \\ 
+& $(9, 6)$ \\ 
+& $(6, 8)$ \\ 
+& $(1, 10)$ \\ 
+& $(6, 1)$ \\ 
+& $(4, 3)$ \\ 
+& $(5, 5)$ \\ 
+& $(2, 7)$ \\ 
+& $(10, 9)$ \\ 
+};
+
+\matrix (fift) [right=0.5em of fourth, space, column 1/.style={font=\ttfamily},column 2/.style={nodes={cell,minimum width=5.5em}}]
+{
+& $((2, 10), 0)$ \\ 
+& $((10, 8), 2)$ \\ 
+& $((8, 9), 4)$ \\ 
+& $((9, 6), 6)$ \\ 
+& $((6, 1), 8)$ \\ 
+& $((1, \$), 10)$ \\ 
+& $((6, 4), 1)$ \\ 
+& $((4, 5), 3)$ \\ 
+& $((5, 2), 5)$ \\ 
+& $((2, 10), 7)$ \\ 
+& $((10, \$), 9)$ \\ 
+};
+
+
+\newcommand{\tbc}[4]{
+\draw[decorate,decoration={brace,amplitude=3pt,mirror}] 
+    ($(text-1-#1.south west) - (0, #4)$) -- ($(text-1-#2.south east) - (0, #4)$);
+\node at ($(text-1-#1)!0.5!(text-1-#2) - (0, 1.7em) - (0, #4)$) {#3};
+}
+
+\matrix (text) [above=5em of third, space, nodes={cell,minimum width=2em}]
+{
+a&b&r&a&c&a&d&a&b&r&a&\$ \\
+};
+\node [right of=text-1-12] {\dots};
+\node (textlable) [left of=text-1-1] {$T$:};
+\node [below=0.6em of textlable] {$P^k$:};
+\node (tl1) [above=0 of first] {$S^k$};
+\node (tl2) [above=0 of second] {$S^k$};
+\node (tl3) [above=0 of third] {$P^k$};
+\node (tl4) [above=0 of fourth] {$P^k$};
+\node (tl5) [above=0 of fift] {$S^{k+1}$};
+\draw [very thick] (fourth-6-2.south west) -- (fourth-6-2.south east);
+
+\node [right=0 of fift] {\dots};
+
+\node[single arrow, single arrow head extend=0.25em, draw=black, fill=gray!50, minimum height=40] at($(tl1)!0.5!(tl2)$) {sort};
+\node[single arrow, single arrow head extend=0.25em, draw=black, fill=gray!50, minimum height=40] at($(tl3)!0.5!(tl4)$) {sort};
+
+\node[single arrow, single arrow head extend=0.25em, draw=black, fill=gray!50, minimum height=40] at($(tl2)!0.5!(tl3)$) {name};
+\node[single arrow, single arrow head extend=0.25em, draw=black, fill=gray!50, minimum height=40] at($(tl4)!0.5!(tl5)$) {pair};
+\node[single arrow, single arrow head extend=0.25em, draw=black, fill=gray!50, minimum height=40] at($(tl4)!0.5!(tl5)$) {pair};
+      
+\tbc{1}{2}{2}{0.1em}
+\tbc{3}{4}{10}{0.1em}
+\tbc{5}{6}{8}{0.1em}
+\tbc{7}{8}{9}{0.1em}
+\tbc{9}{10}{6}{0.1em}
+\tbc{11}{12}{1}{0.1em}
+
+\tbc{2}{3}{6}{1.5em}
+\tbc{4}{5}{4}{1.5em}
+\tbc{6}{7}{5}{1.5em}
+\tbc{8}{9}{2}{1.5em}
+\tbc{10}{11}{10}{1.5em}
+\end{tikzpicture}
+\end{figure}
+
+Wir betrachten hierzu das Beispiel in Abbildung \ref{algo:doubling:fig:doubling}. Zu beginn der ersten Iteration entsprechen $c$ und $c'$ benachbarten Zeichen im Eingabestring. $S$ wird gemäß der $(c, c')$ Tuple lexikografisch sortiert (erster \textit{sort} Schritt im Beispiel), und anschließend gemäß ihrer neuen Position in $S$ \textbf{lexikographisch Umbenannt} (\textit{name} im Beispiel).
+
+Die Umbenennung erfolgt, indem die Tuple durch Zeichen $d$ aus $[1, n]$ ersetzt werden, die der selben aufsteigende Ordnung folgen. Siehe hierzu die \texttt{name()} Funktion in Algorithmus \ref{algo:doubling:code:doubling}. Die erhaltenen Tuple $(d, i)$ werden in eine Sequenz $P$ eingefügt, und haben die Eigenschaft, dass $d$ jeweils ein eindeutiger Name für die Zeichenfolge $T[i, i + 2^k)$ ist. Dies lässt sich gut an der Abbildung veranschaulichen, in der die Namen $d$ aller $(d, i) \in P^k$ zusätzlich an ihren Textpositionen $i$ unter der Eingabe $T$ eingezeichnet sind. So haben zum Beispiel die Länge-2 Teilstrings an Postion 2 und 9 beide den Namen 10.
+
+Die $P$ Sequenz wird anschließend gemäß $(i \mod 2^k, i \div 2^k)$ sortiert (zweiter \textit{sort} Schritt im Beispiel). Dies führt dazu, dass Namen für direkt benachbarte Teilstrings in $P$ nebeneinander liegen, und Namen für überlappende Teilstrings in separaten Abschnitten von $P$ liegen. Dies wird in der Abbildung durch die schwarze Trennlinie im zweiten $p^k$ Array deutlich.
+
+$P$ wird nun ähnlich zur Eingabezeichenfolge betrachtet, indem aus benachbarten Namen $d$ und $d'$ Tuple $((d, d'), i)$ gebildete werden, und diese als Sequenz $S$ für die nächste Iteration genutzt werden (\textit{pair} im Beispiel).
+
+Da immer nur zwei Namen für benachbarte Teilstrings zu neuen Namen zusammengefasst werden, und der Algorithmus mit allen Zeichen und Textpositionen der Eingabe beginnt, verdoppelt sich somit in jeder Iteration die Länge der repräsentierten Präfixe des Suffix Arrays. Da die Ordnung der darunterliegenden Strings in den neuen Namen erhalten bleibt, lässt sich aus $S$ Sequenzen von späteren Iterationen das korrekte Suffix Array auslesen, sobald alle Elemente in ihnen eindeutig sind. Und da in jeder Iteration immer nur Paare von Namen betrachtete werden, steigen die Sortierkosten von $S$ nicht mit jeder Iteration.
+
+Wir gehen nun davon aus, dass $S$ und $P$ in externen Speicher liegen.  Gemäß unserer Definition zu I/O Komplexität, führt der Algorithmus pro Iteration einen Konstante Anzahl von \textit{Scanning} und \textit{Sort} Operation über $n$ Elemente durch, und hat eine obere Iterationsschranke beim Logarithmus des längsten gemeinsamen Präfixes. Es gilt somit:
+
+\begin{theorem}
+Der Doubling Algorithmus berechnet ein Suffix Array in\\ $\mathcal{O}(\text{sort}(n) \ceil*{\log \text{maxlcp}})$ I/O Operationen.
+\end{theorem}
+
+\subsection{Pipelining}
+\label{algo:doubling:sec:pipelining}
+
+Als erste signifikante Verbesserung des Doubling Algorithmus beobachten wir, dass sich manche Operation auf $P$ und $S$ beschleunigen lassen, indem sie temporäre Daten, anstatt sie erst in eine Sequenz zu schreiben, und anschließend wieder auszulesen, direkt aneinander weitergeben (\textbf{Pipelining}). 
+
+Wir betrachten hierzu wieder Algorithmus \ref{algo:doubling:code:doubling}. Anstatt die Tuple in Zeile (2) zunächst vollständig in $S$ zu schreiben, können sie direkt an die Sortierfunktion in Zeile (4) übergeben werden. Ebenso können die so sortierten Tuple direkt in die Benennungsfunktion in Zeile (5), und von dort direkt in die Sortierfunktion in Zeile (8) geleitet werden, da sich die Benennungsfunktion nur jeweils das vorherige Tuple merken muss. Dasselbe gilt für die Paarbildung in den Zeilen (10)--(14), in der auch nur jeweils zwei nachfolgende Elemente betrachten werden müssen. Die in Zeile (12) und (14) bestimmten Tuple können schließlich wie in Zeile (2) direkt in die Sortierfunktion (4) der nächsten Iteration geleitet werden.
+
+Wir analysieren diese Modifikation nun genauer in Hinblick auf die I/O Komplexität. Wir nehmen zunächst an, dass sich eine Sequenz aus $m$ Wörtern mit einem geeigneten Sortieralgorithmus in $\approx 4m/DB$ I/O Operationen, und mit zwei Durchläufen sortieren lässt, falls $x \ll M^2/DB$ und $M \gg DB$ \cite{Aggarwal1988}.
+
+Ohne Pipelining benötigt die Sortierung von $n$ Triple in Zeile (4) somit $12m/DB$ I/Os, und das lesen der Triple und schreiben der Paare in Zeile (5) $5m/DB$ I/Os. Der Test auf Einzigartigkeit in Zeile (6) kann während der Benennung durchgeführt werden, und benötigt keine zusätzlichen I/Os. Das sortieren der Tuple in Zeile (8) kostet $8m/DB$ I/Os, und das lesen der Paare und schreiben der Triple in Zeilen (10)--(14) wiederum  $5m/DB$ I/Os. Insgesamt erhalten wir somit Kosten von $(12 + 5 + 8 +5)n/DB = 30n/DB$ I/Os.
+
+Wir betrachten nun die I/Os für die Pipeline Variante des Algorithmus. Zunächst können die $S$ Tuple direkt in die erste Phase des Sortieralgorithmus (Zeile (4)) geleitet werden, welche dabei mit $3n/DB$ I/Os in externen Speicher schreibt. Die zweite Phase liest die Triple sortiert in ebenfalls $3n/DB$ I/Os aus, und leitet sie ohne weiteren I/Os durch die Benennungsfunktion und in die erste Phase der Sortierung in Zeile (8). Diese schreibt mit $2n/DB$ I/Os, und liest sie in der zweiten Phase mit $2n/DB$ I/Os sortiert aus, leitet sie ohne zusätzliche I/Os durch die Paarbildung, und übergibt sie an die erste Phase der $S$ Sortierung der nächsten Iteration. 
+
+Insgesamt wurden somit innerhalb der Iterationen alle \textit{Scan}-Operationen von $S$ und $P$ eliminiert, und nur die Hälfte der I/Os von \textit{Sort}-Operationen beibehalten, womit sich insgesamt eine Reduzierung auf $(3 + 3 + 2 + 2)n/DB = 10n/DB$ I/Os ergibt. Dies erlaubt eine genauere Spezifizierung der I/O Komplexität des Algorithmus:
+
+\begin{theorem}
+Der Doubling Algorithmus mit Pipelining berechnet ein Suffix Array in\\ $\text{sort}(5n) \ceil*{\log \text{maxlcp}} +  \mathcal{O}(\text{sort}(n))$ I/O Operationen.
+\end{theorem}
+
+Der $\mathcal{O}(\text{sort}(n))$ Anteil steht hierbei für alle einmalig durchzuführende Berechnung vor Beginn, und nach Verlassen der Schleife.
+
+\subsection{Discarding}
+\label{algo:doubling:sec:discarding}
+
+\begin{listing}[htp]
+%captionpos=t,float,abovecaptionskip=-\medskipamount
+\caption{Doubling+Discarding} 
+\label{algo:doubling:code:discarding}
+\begin{minted}[escapeinside=@@,numbers=left]{python}
+def doubling_discarding(T):
+  S = [((T[i], T[i + 1]), i) for i in @$[0, n)$@]
+  @sort@ S
+  U = name(S) # undiscarded
+  P = []      # partially discarded
+  F = []      # fully discarded
+  for k in @$[1, \ceil{\log_2 n}]$@:
+    @mark unique names in@ U
+    @sort@ U @by $(i \mod 2^k, i \div 2^k)$@
+    @merge@ P @into@ U
+    P = []
+    S = []
+    count = 0
+    for each @$(d, i)$ = U[j]@:
+      if @$(d, i)$@ is unique:
+        if count < 2:
+          append (@$d, i$@) to F
+        else:
+          append (@$d, i$@) to P
+        count = 0
+      else:
+        if @$(d^\prime, i^\prime) = U[j + 1]$@ exists and @$i + 2^k == i^\prime$@:
+          append ((@$d$@, @$d^\prime$@), i) to S
+        else:
+          append ((@$d$@, @$\$$@), i) to S
+        count = count + 1
+    if S @is empty@:
+      @sort@ F
+      return [i for (d, i) in F]
+    @sort@ S
+    U = name2(S)
+def name2(S):
+  q = 0
+  r = 0
+  (@$l,l^\prime$@) = (@$\$,\$$@)
+  result = []
+  for ((@$c,c^\prime$@), i) in S:
+    if @$c$@ != @$l$@:
+      (q, r) = (0, 0)
+      (@$l,l^\prime$@) = (@$c,c^\prime$@)
+    elif @$c^\prime$@ != @$l^\prime$@:
+      r = q
+      @$l^\prime$@ = @$c^\prime$@
+    append (@$c$@ + r, i) to result
+    q = q + 1
+  return result
+\end{minted}
+\end{listing}
+
+Für die nächste Verbesserung des Algorithmus beobachten wir folgendes. Sei $c_i^k$ der lexikographische Name für ein $T[i, i + 2^k)$ in Iteration $k$. Falls $c_i^k$ einzigartig in $S$ ist, ist auch der zugehörige Teilstring ein einzigartiger Präfix. Es gilt somit $c_i^k = c_i^h$ für alle $h > k$, da die zusätzlichen Zeichen in $T[i, i + 2^h)$ nichts mehr an der lexikografischen Sortierung, und somit der Position in $S$ ändern würden. Die Idee des \textbf{Discardings} ist es nun, in jeder Iteration Tuple mit einzigartigen Namen aus $S$ zu entfernen, um somit nachfolgende I/Os zu verringern. 
+
+Ein Problem hierbei ist, dass sich durch das entfernen von Elementen aus $S$ die Benennungsfunktion \texttt{name()} anders verhalten würde, da ein Name durch die Anzahl vorheriger Tuple bestimmt wird. Dies macht eine neue Funktion \texttt{name2()} erforderlich, die bei der Benennung von allen $(c, c') \in S$ Namen relativ zum numerischen Wert von $c$ bildet. Siehe Algorithmus \ref{algo:doubling:code:discarding} für eine entsprechende Implementierung.
+
+Es dürfen außerdem nicht alle einzigartigen $c_i^k$ direkt aus $S$ entfernt werden, da sie gegebenenfalls noch mit benachbarten Namen gepaart werden müssen. Hierzu betrachten wir die Situation für $c_i^{k+1}$, und unterschieden zwei Fälle: Falls einer der vorherigen Namen $c_{i - 2^k}^k$ oder $c_{i - 2^{k+1}}^k$ einzigartig ist, gilt dies auch für ihre Zusammenführung in $c_{i - 2^{k+1}}^{k+1}$. Somit ist $c_i^{k+1}$ nicht notwendig um $c_{i - 2^{k+1}}^{k+2}$ als einzigartig zu identifizieren, und kann aus $S$ entfernt werden. Wir bezeichnen dies als \textit{Fully Discarded}. Ansonsten ist $c_{i - 2^{k+1}}^{k+1}$ nicht einzigartig, und wir benötigen $c_i^{k+1}$ um $c_{i - 2^{k+1}}^{k+2}$ zu bestimmen. Wir entfernen $c_i^k$ weiterhin aus $S$, aber übernehmen es zunächst noch als $d = c_i^{k+1}$ in die Liste der sortierten $(d, i)$ Paare der nächsten Iteration. Wir bezeichnen dies als \textit{Partially Discarded}.
+
+Alle Tuple, die vollständig aus $S$ entfernt wurden, werden in einer zusätzlichen Sequenz $F$ gesammelt, und der Algorithmus endet sobald $S$ leer ist. Wenn dies der Fall ist, enthält $F$ einen eindeutigen Namen für jede Textposition, und es lässt sich nach einer finalen lexikografische Sortierung das Suffix Array auslesen. Siehe hierzu \texttt{doubling\_discarding()} in Algorithmus \ref{algo:doubling:code:discarding}.
+
+Wir betrachten nun wieder die I/O Komplexität. Der naive Doubling Algorithmus sortiert und verdoppelt solange alle Präfixe, bis sie Paarweise verschieden sind. Jeder einzelne Präfix durchläuft somit immer genau $\log \text{maxlcp}$ Iterationen. Mit Discarding hingegen wird ein einzigartiger Präfix so früh wie möglich aus der Iteration entfernt. Somit gilt für alle $S_i$, das ein Präfix maximal $\text{dps}(i)$ Iterationen durchläuft.
+
+Wir stellen auch fest, dass Discarding kompatible mit Pipelining ist. Der Algorithmus nutzt zwar mehr (externe) Sequenzen von Tupeln, aber es werden weiterhin in $k$ Iterationen jeweils nur die zwei \textit{Sort} Operationen des Basisalgorithmus angewandt, und alle weiteren Operationen scannen die einzelnen Elemente jeweils nur in einem Durchlauf. Dies ermöglicht somit das direkt weiterleiten von Zwischenergebnissen in Form von Pipelining, und führt zu folgender Analyse der Gesamtkomplexität:
+
+\begin{theorem}
+Der Doubling Algorithmus mit Pipelining und Discarding berechnet ein Suffix Array in\\ $\text{sort}(5n) \ceil*{\log \text{dps}} +  \mathcal{O}(\text{sort}(n))$ I/O Operationen.
+\end{theorem}
+
+\subsection{A-Tupling}
+\label{algo:doubling:sec:tupling}
+\begin{listing}[htp]
+%captionpos=t,float,abovecaptionskip=-\medskipamount
+\caption{A-Tupling} 
+\label{algo:doubling:code:atupling}
+\begin{minted}[escapeinside=@@,numbers=left]{python}
+def a_tupling(T):
+  S = [((T[i], T[i + 1], @\dots@, T[i + a - 1]), i) for i in @$[0, n)$@]
+  for k in @$[1, \ceil{\log_a n}]$@:
+    @sort@ S
+    P = name(S)
+    if @names in $P$ are unique@:
+      return [i for (c, i) in P]
+    @sort@ P @by $(i \mod a^k, i \div a^k)$@
+    S = []
+    for each @$(d, i)$ = P[j]@:
+      l = @$i$@
+      T = [@$d$@]
+      for q in @$[1, a - 1]$@:
+        if @$(d^\prime, i^\prime) = P[j + q]$@ exists and @$l + a^k == i^\prime$@:
+          append @$d^\prime$@ to T
+        else:
+          append @$\$$@ to T
+        l = @$i^\prime$@
+      append (T, i) to S
+\end{minted}
+\end{listing}
+
+Als letzte Verbesserung lässt sich der Doubling Algorithmus schließlich darauf generalisieren, in jeder Iteration lexikografischen Namen für $a^k$ Zeichen, anstatt $2^k$, zu bestimmen. Hierzu werden jeweils $a$ benachbarte Namen in einem Tupel gesammelt. Algorithmus \ref{algo:doubling:code:atupling} zeigt den so modifizierten Code ohne Discarding oder Pipelining.
+
+Dies wirkt sich in zwei Aspekten auf die I/O Komplexität aus. Anstatt $\text{sort}(5n)$ Sortieroperationen pro Iteration, erhöhen sich die Kosten auf $\text{sort}((a+3)n)$. Andererseits verringert sich die Anzahl der Iterationen auf $\log_a n$. Setzt man beide Werte in Relation zueinander, so erhält man einen Faktor von $\frac{a + 3}{\log a}$ für die gesamten I/O Kosten des Algorithmus. 
+
+\begin{table}
+\caption{I/O Anforderungen für verschiedenen Varianten von A-Tupling}
+\label{algo:doubling:tab:tab1}
+\centering
+\begin{tabular}{cccccc}
+\toprule
+$a$ & 2 & 3 & 4 & 5 & 6 \\ 
+\midrule 
+$(a+3) / \log a$ & $5,0$ & $3,78$ & $3,50$ & $3,45$ & $3,56$ \\ 
+\bottomrule
+\end{tabular} 
+\end{table}
+
+Werten wir dies für unterschiedliche Werte von $a$ aus, so ist $a = 5$ optimal (Siehe Tabelle \ref{algo:doubling:tab:tab1}). In der Praxis eignet sich jedoch $a = 4$ mehr, da die I/O Kosten nur $1,5\%$ schlechter sind, und sich der Wert als Zweierpotenz besser für Berechnungen und Implementierung eignet.
+
+Die Nutzung von $a$-Tupling ist vollständig Kompatible mit Discarding und Pipelining, somit lassen sich die folgenden I/O Komplexitäten direkt ableiten:
+
+\begin{theorem}
+Der Doubling Algorithmus mit Pipelining und $a$-Tupling berechnet ein Suffix Array in $\text{sort}(\frac{a + 3}{\log a}n) \ceil*{\log \text{maxlcp}} +  \mathcal{O}(\text{sort}(n))$ I/O Operationen.
+\end{theorem}
+
+\begin{theorem}
+Der Doubling Algorithmus mit Pipelining, $a$-Tupling und Discarding berechnet ein Suffix Array in $\text{sort}(\frac{a + 3}{\log a}n) \ceil*{\log \text{dps}} +  \mathcal{O}(\text{sort}(n))$ I/O Operationen.
+\end{theorem}
+
+\subsection{Zusammenfassung und Ausblick}
+\label{algo:doubling:sec:summary}
+
+In den vorhergehenden Abschnitten haben wir den Doubling Algorithmus betrachtet, und die darauf aufbauenden Modifikationen Pipelining, Discarding und $a$-Tupling. Jede dieser drei Varianten verbessert die I/O Komplexität des Basisalgorithmus, und lässt sich mit den anderen Kombinieren, wodurch sich ein guter externen Suffix Array Algorithmus definieren lässt, der alle ineinander vereint.
+
+Das Pipelining beschreibt insbesondere eine allgemeine Technik, die auch für viele andere Algorithmen auf externen Speicher nützlich ist. Ebenso existieren weiterführende Algorithmen, die auf Präfix Doubling Aufbauen. Ein Beispiel hierfür ist der DCD3 und DCX Algorithmus \cite{Dementiev2008}. Siehe auch \cref{algorithm:dc3}.
+
+\subsection{Implementierung}
+\subsubsection{Adaption}
+Die Implementierung als Teil des Benchmarking-Frameworks erfolgt aus Gründen der Vergleichbarkeit nicht im externen Speicher. Stadtessen sind die in den Algorithmen benutzen $P$, $S$, $U$ und $F$ Arrays Grundsätzlich mit der vom Framework bereitgestellten \texttt{container} Klasse implementiert.
+
+Dies hat auch Auswirkungen auf den Sortieralgorithmus und die Anwendbarkeit des Pipelinings. Da nun davon ausgegangen wird, dass jedes Array immer in den Hauptspeicher passt, ist man somit nicht mehr auf einen effizienten externen Mergesort angewiesen, und kann einen beliebigen in-Memory Sortierer benutzen. 
+
+Dies verhindert jedoch ein direktes anwenden des Pipelining Ansatzes im vorgestellen Sinne, da die Sortierschritte in den Algorithmen nicht mehr als Stream-akzeptierenden bzw erzeugend betrachtet werden können. Aufgrund des Fehlens von IO-Operationen auf externen Speicher hat dies allerdings auch geringere Auswirkungen. In \cref{algo:doubling:sec:used_optimizations} nutzen wir stattdessen die Pipelining Idee dafür, den Speicherverbrauch der Arrays stark zu senken.
+
+\subsubsection{Umsetzung}
+
+Die Implementierung besteht aus der Klasse \texttt{prefix\_doubling\_impl}, die über dem benutzen \texttt{sa\_index} Typ und der Tupelgröße \texttt{a} gemäß des A-Tuplings templatisiert ist.
+
+Diese stellt die statischen Memberfunktionen \texttt{doubling()} und \texttt{doubling\_discarding()} bereit, die den normalen Doubling-Algorithmus bzw seine Discarding Variante abhängig von \texttt{a} Implementieren.
+
+Sie nutzen dabei das vom Framework vorgeschriebenen Interface bei dem die Eingabe als ein \texttt{string\_span} repräsentiert wird, der auf einen Bereich im Speicher zeigt, und das Ausgabe SA als ein \texttt{util::span<sa\_index>} repräsentiert wird, in das geschrieben werden muss.
+
+Die Arrays enthalten Tupel der Form  $(c, i)$ und $((c_1, \dots, c_a), i)$, wobei $c$ ein Prefixname ist, und $i$ ein Textindex. Da sowohl Namen als auch Indexe in $[0, n)$ liegen, passen alle Werte in eine Variable vom Typ \texttt{sa\_index} (siehe \cref{sec:code-structure}). Die Implementierung repräsentiert deshalb alle Tupel als Arrays fester Länge \texttt{std::array<sa\_index, 2>} bzw. \texttt{std::array<sa\_index, a + 1>}.
+
+Sei $w = \texttt{sizeof(sa\_index)}$. Bei einer direkten Umsetzung der Algorithmen in C++ liegt der zusätzliche Speicherverbrauch des normalen Doublings somit bei $(a + 3)nw$ Bytes, und der der Discarding Variante bei $(a + 7)nw$ Bytes. Siehe \cref{fig:doubling:opt:basic} und \cref{fig:doubling:opt:discard}.
+
+% Logical width
+\def\pdew{26}
+
+\begin{figure}
+\caption{Doubling Speicherlayout}
+\label{fig:doubling:opt:basic}
+\begin{tikzpicture}[yscale=-1,xscale=\textwidth/(\pdew cm + 1cm)]
+
+% Arrays
+\draw [black,fill=blue!20] (2, 0) rectangle coordinate (P1) ($(\pdew, 2)$);
+\draw [black,fill=green!20] (2, 2) rectangle coordinate (S1) ($(\pdew, 6)$);
+
+% Komponents
+\draw [black] (0, 0) rectangle coordinate (cP1) (2, 1);
+\draw [black] (0, 1) rectangle coordinate (iP1) (2, 2);
+
+\draw [black] (0, 2) rectangle coordinate (cS1) (2, 5);
+\draw [black] (0, 5) rectangle coordinate (iS1) (2, 6);
+
+% Komponent lines
+\draw [dashed] (2,1) -- (\pdew,1);
+\draw [dashed] (2,3) -- (\pdew,3);
+\draw [dashed] (2,4) -- (\pdew,4);
+\draw [dashed] (2,5) -- (\pdew,5);
+
+% Labels
+\node[fill=blue!20] at (P1) {$P$};
+\node[fill=green!20] at (S1) {$S$};
+
+\node[fill=white] at (cP1) {$c$};
+\node[fill=white] at (iP1) {$i$};
+
+\node[fill=white] at ($(cS1) - (0, 1)$)  {$c_1$};
+\node[fill=white] at (cS1) {$\vdots$};
+\node[fill=white] at ($(cS1) + (0, 1)$)  {$c_a$};
+\node[fill=white] at (iS1) {$i$};
+
+% Braces
+\draw[decoration={brace,amplitude=10pt,raise=2pt},decorate]
+  (2,0) -- node[above=12pt] {$n$} (\pdew,0);
+  
+\draw[decoration={brace,amplitude=5pt,raise=2pt},decorate]
+  (\pdew,0) -- node[right=7pt] {$w$} (\pdew,1);
+
+\end{tikzpicture}
+\end{figure}
+
+\begin{figure}
+\caption{Discarding Speicherlayout}
+\label{fig:doubling:opt:discard}
+\begin{tikzpicture}[yscale=-1,xscale=\textwidth/(\pdew cm + 1cm)]
+
+% Arrays
+\draw [black,fill=green!20] (2, 0) rectangle coordinate (S1) ($(\pdew, 4)$);
+\draw [black,fill=yellow!20] (2, 4) rectangle coordinate (U1) ($(\pdew, 6)$);
+\draw [black,fill=blue!20] (2, 6) rectangle coordinate (P1) ($(\pdew, 8)$);
+\draw [black,fill=red!20] (2, 8) rectangle coordinate (F1) ($(\pdew, 10)$);
+
+% Komponents
+\draw [black] (0, 6) rectangle coordinate (cP1) (2, 7);
+\draw [black] (0, 7) rectangle coordinate (iP1) (2, 8);
+
+\draw [black] (0, 0) rectangle coordinate (cS1) (2, 3);
+\draw [black] (0, 3) rectangle coordinate (iS1) (2, 4);
+
+\draw [black] (0, 4) rectangle coordinate (cU1) (2, 5);
+\draw [black] (0, 5) rectangle coordinate (iU1) (2, 6);
+
+\draw [black] (0, 8) rectangle coordinate (cF1) (2, 9);
+\draw [black] (0, 9) rectangle coordinate (iF1) (2, 10);
+
+% Komponent lines
+\draw [dashed] (2,0) -- (\pdew,0);
+\draw [dashed] (2,1) -- (\pdew,1);
+\draw [dashed] (2,2) -- (\pdew,2);
+\draw [dashed] (2,3) -- (\pdew,3);
+\draw [dashed] (2,4) -- (\pdew,4);
+\draw [dashed] (2,5) -- (\pdew,5);
+\draw [dashed] (2,6) -- (\pdew,6);
+\draw [dashed] (2,7) -- (\pdew,7);
+\draw [dashed] (2,8) -- (\pdew,8);
+\draw [dashed] (2,9) -- (\pdew,9);
+\draw [dashed] (2,10) -- (\pdew,10);
+
+% Labels
+\node[fill=blue!20] at (P1) {$P$};
+\node[fill=green!20] at (S1) {$S$};
+\node[fill=yellow!20] at (U1) {$U$};
+\node[fill=red!20] at (F1) {$F$};
+
+\node[fill=white] at (cP1) {$c$};
+\node[fill=white] at (iP1) {$i$};
+\node[fill=white] at (cU1) {$c$};
+\node[fill=white] at (iU1) {$i$};
+\node[fill=white] at (cF1) {$c$};
+\node[fill=white] at (iF1) {$i$};
+
+\node[fill=white] at ($(cS1) - (0, 1)$)  {$c_1$};
+\node[fill=white] at (cS1) {$\vdots$};
+\node[fill=white] at ($(cS1) + (0, 1)$)  {$c_a$};
+\node[fill=white] at (iS1) {$i$};
+
+% Braces
+\draw[decoration={brace,amplitude=10pt,raise=2pt},decorate]
+  (2,0) -- node[above=12pt] {$n$} (\pdew,0);
+  
+\draw[decoration={brace,amplitude=5pt,raise=2pt},decorate]
+  (\pdew,0) -- node[right=7pt] {$w$} (\pdew,1);
+
+\end{tikzpicture}
+\end{figure}
+
+\subsubsection{Optimierungen}
+\label{algo:doubling:sec:used_optimizations}
+
+Es wurden eine Reihe von Optimierungen durchgeführt, um den Speicherverbrauch und die Laufzeitperformance der anfänglichen Implementierung zu verbessern:
+
+\paragraph{Arrayüberlagerung beim Doubling} Die ausschlaggebendste Speicheroptimierung basiert auf der Beobachtung, dass die Algorithmen nie gleichzeitig auf alle Elemente der benutzen Arrays zugreifen müssen.
+
+Betrachten wir hierzu zunächst $P$ und $S$ des einfachen Doubling Algorithmus~\ref{algo:doubling:code:doubling}. Aus den Überlegungen zum Pipelining wissen wir, dass das Erzeugen der umbenannten Tupel in Zeile 5 online während er Iteration über die Elemente von $S$ geschehen kann. Dasselbe gilt umgekehrt für die Paarbildung in Zeile 11--14, bei der wir für das $i$-te Paar nur jeweils den $i$-ten und $i+1$-ten Eintrag aus $P$ benötigen. 
+
+Wir beobachteten außerdem, dass sich die Tupel $(c, i) \in P$ vollständig in Tupel $((c_1, \dots, c_a), i) \in S$ einbetten lassen, indem wir zB. $c$ immer durch $c_1$ repräsentieren.
+
+Wir repräsentieren $P$ und $S$ nun nicht mehr durch zwei getrennte Arrays der Länge $(a + 1)nw$ für $S$ und $2nw$ für $P$, sondern nutzen ein einzelnes Array $SP$ der Größe $(a + 1)nw$  bei dem ein Eintrag \textit{entweder} ein Tupel $(c, i) \in P$ \textit{oder} ein Tupel $((c_1, \dots, c_a), i) \in S$ enthält. Die Umbenennung bzw. Paarbildung im Algorithmus iteriert somit durch ein Array aus anfänglich $S$ bzw. $P$ Elementen, und ersetzt dabei sequentiell jeden Eintrag durch das errechnete $P$ bzw. $S$ Element. Siehe \cref{fig:doubling:opt:lagerung}.
+
+\begin{figure}
+\caption{Doubling Speicherlayout bei Arrayüberlagerung}
+\label{fig:doubling:opt:lagerung}
+\begin{tikzpicture}[yscale=-1,xscale=\textwidth/(\pdew cm + 1cm)]
+
+\def\pdegap{0.5}
+
+% Arrays
+\path (2, 0) rectangle coordinate (PSm) ($(\pdew, 4)$);
+
+\coordinate (P1start) at (2, 2);
+\coordinate (P1end) at (\pdew, 4);
+
+\coordinate (S1start) at (2, 0);
+\coordinate (S1end) at (\pdew, 4);
+
+\draw [black,fill=blue!20] (P1start) rectangle coordinate (P1) ($(PSm |- P1end) - (\pdegap, 0)$);
+\draw [black,fill=green!20] ($(PSm |- S1start) + (\pdegap, 0)$) rectangle coordinate (S1) (S1end);
+
+x% Komponents
+\draw [black] (0, 2) rectangle coordinate (cP1) (1, 3);
+\draw [black] (0, 3) rectangle coordinate (iPS1) (2, 4);
+
+\draw [black] (1, 0) rectangle coordinate (cS1) (2, 3);
+
+% Komponent lines
+\draw [dashed] (2,0) -- (\pdew,0);
+\draw [dashed] (2,1) -- (\pdew,1);
+\draw [dashed] (2,2) -- (\pdew,2);
+\draw [dashed] (2,3) -- (\pdew,3);
+\draw [dashed] (2,4) -- (\pdew,4);
+
+% Labels
+\node[fill=blue!20] at (P1) {$P$};
+\node[fill=green!20] at (S1) {$S$};
+
+\node at (cP1) {$c$};
+\node at (iPS1) {$i$};
+
+\node at ($(cS1) - (0, 1)$)  {$c_1$};
+\node at (cS1) {$\vdots$};
+\node at ($(cS1) + (0, 1)$)  {$c_a$};
+
+% Braces
+\draw[decoration={brace,amplitude=10pt,raise=2pt},decorate]
+  (2,0) -- node[above=12pt] {$n$} (\pdew,0);
+  
+\draw[decoration={brace,amplitude=5pt,raise=2pt},decorate]
+  (\pdew,0) -- node[right=7pt] {$w$} (\pdew,1);
+  
+% Arrow
+\coordinate (midbelow) at (PSm);
+
+\node[single arrow, draw=black, fill=gray!50, minimum height=40] at(midbelow) {$(c, i) \leftarrow name(c1, \dots, c_a)$};
+
+\end{tikzpicture}
+\end{figure}
+
+\paragraph{Arrayüberlagerung beim Discarding} Die vorherige Optimierung lässt sich zunächst direkt auf die $S$ und $U$ Arrays der Discaring Variante \ref{algo:doubling:code:discarding} anwenden, um den Speicherverbrauch auf $(a+5)nw$ Bytes zu senken.
+
+Wir können jedoch noch weiter gehen. Hierzu schauen wir uns an, wie genau die Arrays $P$ und $F$ benutzt werden. In den Zeilen 14--26 wird für jeden Eintrag den wir aus $U$ entfernen entweder ein Element zu $F$, $P$, oder $S$ hinzugefügt. Es gilt somit zu jeden Zeitpunkt $|S| + |U| + |F| + |P| = n$. Dies gilt ebenso in den Zeilen 8--12 und 31, da die beteiligten Arrays immer um die selbe Anzahl von Elementen erweitert und verringert werden.
+
+Es wäre somit erneut möglich, alle Arrays durch ein kombiniertes Array $SUPF$ der Größe $(a + 1)nw$ repräsentieren, in denen jeder Eintrag entweder $S$, $U$, $P$ oder $F$ zugeordnet ist. Das Problem hierbei ist, das wir nun in jeden Schritt des Algorithmus jeden Eintrag des kombinierten Arrays eindeutig einen der vier ursprünglichen Arrays zuordnen müssen, und sie in den selben Laufzeitschranken wie zuvor iterieren und erweitern bzw. verkürzen wollen.
+
+Wir Lösen diese Problem in der Implementierung wie folgt:
+
+\begin{enumerate}
+\item Alle Elemente der Teilarrays $P$, $S$ und $U$ liegen immer konsekutiv in $SUPF$. Dies erlaubt es die Arraygrenzen mit konstanten Platzverbrauch zu speichern, und auf jedes Element in konstanter Zeit zuzugreifen.
+\item Die Elemente von $F$ sind aufgeteilt in ein Teilarray aller Elemente von vergangen Iteration, und der der aktuellen Iteration. Beide Arrays werden nach jeder Iteration vereint.
+\item Teilarrays werden verkürzt indem das erste oder letzte Element entfernt wird. Dies lässt eine leere Stelle zurück.
+\item Teilarrays werden erweitert indem ein Element in eine anliegende Stelle eingefügt wird. Liegt dort ein Element eines Nachbararrays, wird dieses rekursiv entfernt und an der anderen Seite eingefügt. Dies verschiebt das Nachbararray in konstanter Zeit um ein Element, aber erhält nicht seine Reihenfolge.
+\item Teilarrays die vereinigt oder ineinander umgewandelt werden liegen nebeneinander oder nehmen denselben Platz ein.
+\end{enumerate}
+
+Daraus folgt folgendes Layout von $SUPF$:
+
+\begin{enumerate}
+\item $P$ liegt am linken Rand, da dort die Reihenfolge wichtig ist und äußere Teilarrays nicht verschoben werden können.
+\item $S$ liegt neben $P$, da es in $U$ umbenannt und danach mit $P$ vereinigt wird.
+\item Neue $F$ Elemente liegen neben $S$
+\item $U$ liegt rechts von neuen $F$ Elementen, und links neben $F$ Elemente der vorherigen Iteration.
+\item Das finale $F$ sammelt sich iterativ am rechten Rand von $SUPF$, und wird in jeder Iteration nach links um mögliche neue $F$ Elemente erweitert.
+\end{enumerate}
+
+Siehe \cref{fig:doubling:opt:discardlagerung} für ein Beispiel für den Zustand von $SUPF$ während Zeile 14--26 des Algorithmus. Diese Optimierung ermöglicht uns den Speicherverbrauch von Discarding auf den selben Wert $(a + 1)nw$ wie für das normale Doubling zu reduzieren.
+
+\begin{figure}
+\caption{Discarding Speicherlayout bei Arrayüberlagerung}
+\label{fig:doubling:opt:discardlagerung}
+\begin{tikzpicture}[yscale=-1,xscale=\textwidth/(\pdew cm + 1cm)]
+
+\def\pdegap{0.5}
+
+% Arrays
+\path (2, 0) rectangle coordinate (PSm) ($(\pdew, 4)$);
+
+\coordinate (P1start) at (2, 2);
+\coordinate (P1end) at (\pdew, 4);
+
+\coordinate (S1start) at (2, 0);
+\coordinate (S2start) at (6, 0);
+\coordinate (S1end) at (\pdew, 4);
+
+\coordinate (leftend) at ($(PSm |- P1end) - (\pdegap, 0)$);
+\coordinate (rightend) at ($(PSm |- S1start) + (\pdegap, 2)$);
+
+\draw [black,fill=blue!20] (2, 2) rectangle coordinate (P1) ++(3,2);
+\draw [black,fill=green!20] (5,0) rectangle coordinate (S1) ++(4,4);
+\draw [black,fill=red!20] (9, 2) rectangle coordinate (F1) (leftend);
+\draw [black,fill=yellow!20] (rightend) rectangle coordinate (U1) ++(5,2);
+\draw [black,fill=red!20] ($(rightend) + (5,0)$) rectangle coordinate (F2) (S1end);
+
+
+x% Komponents
+\draw [black] (0, 2) rectangle coordinate (cP1) (1, 3);
+\draw [black] (0, 3) rectangle coordinate (iPS1) (2, 4);
+
+\draw [black] (1, 0) rectangle coordinate (cS1) (2, 3);
+
+% Komponent lines
+\draw [dashed] (2,0) -- (\pdew,0);
+\draw [dashed] (2,1) -- (\pdew,1);
+\draw [dashed] (2,2) -- (\pdew,2);
+\draw [dashed] (2,3) -- (\pdew,3);
+\draw [dashed] (2,4) -- (\pdew,4);
+
+% Labels
+\node[fill=blue!20] at (P1) {$P$};
+\node[fill=green!20] at (S1) {$S$};
+\node[fill=red!20] at (F1) {$F_{new}$};
+\node[fill=red!20] at (F2) {$F_{prev}$};
+\node[fill=yellow!20] at (U1) {$U$};
+
+\node at (cP1) {$c$};
+\node at (iPS1) {$i$};
+
+\node at ($(cS1) - (0, 1)$)  {$c_1$};
+\node at (cS1) {$\vdots$};
+\node at ($(cS1) + (0, 1)$)  {$c_a$};
+
+% Braces
+\draw[decoration={brace,amplitude=10pt,raise=2pt},decorate]
+  (2,0) -- node[above=12pt] {$n$} (\pdew,0);
+  
+\draw[decoration={brace,amplitude=5pt,raise=2pt},decorate]
+  (\pdew,0) -- node[right=7pt] {$w$} (\pdew,1);
+  
+% Arrow
+\coordinate (midbelow) at (PSm);
+
+\node[single arrow, draw=black, fill=gray!50, minimum height=40] at(midbelow) {Zeilen 14--26};
+\node[single arrow, draw=black, fill=gray!50, minimum height=30] at(5,3.5) {};
+\node[single arrow, draw=black, fill=gray!50, minimum height=30] at(9,3.5) {};
+
+\end{tikzpicture}
+\end{figure}
+
+\paragraph{Wordpacking}
+
+Sowohl Doubling und Discarding erstellen eine initiale Version des $S$ Arrays, indem benachbarte Zeichen der Eingabe in den Tupeln $(c_1, \dots, c_a)$ als Namen benutzt werden. Da die Zeichen der Eingabe jedoch maximal ein Byte belegen, und \texttt{sa\_index} aus $\ge 4$ Bytes besteht, enthält jeder $c_x$ in der ersten Iteration $\ge 3$ identische Nullbytes.
+
+Die Idee des Wordpacking ist es, den Wertebereich der Namen $c_x$ voll auszunutzen indem man sie aus der Konkatenation von benachbarten Eingabebytes bildet. Die Namenstupel aus $S$ repräsentieren somit nicht mehr $a$ benachbarte Zeichen, sondern $aw$. Da gilt $w \ge 4$, erlaubt uns dies in der Regel die ersten Iterationen der Algorithmen zu Überspringen. Da diese gerade beim Discarding auch die aufwändigsten sind, reduziert dies die Rechenzeit um einen signifikanten Anteil.
+
+\paragraph{Schnellerer Sortierschlüssel}
+
+Alle Varianten der Algorithmen enthalten in der $k$-ten Iteration einen Sortierschritt, der Tupel $(c, i)$ gemäß des Sortierschlüssels $(i \mod 2^k, i \div 2^k)$ sortiert. Experimente basierend auf Profiling des Kompilierten C++ Codes ergaben folgende Erkenntnisse:
+
+\begin{enumerate}
+\item Die Modulorechnung macht einen signifikanten Anteil der Sortierlaufzeit aus.
+\item Ersetzt man sie für $a = 2$ oder $a = 4$ durch Bitshifting Operationen reduziert sich die Laufzeit auf $< 50\%$, aber sie machen immer noch einen signifikanten Anteil aus.
+\end{enumerate}
+
+Das fundamentale Problem ist, das wir während der Sortierung $\mathcal{O}(n \log n)$ zusätzliche Rechenoperationen durchführen müssen. Es stellt sich jedoch heraus das sich diese relativ trivial auf $\mathcal{O}(n)$ senken lassen: Anstatt die Indexwerte der Tupel temporär während jedes Vergleichs umzurechnen, werden sie in der vorherigen Pipeline einmal fest umgerechnet in den Tupel gespeichert, und in der nachfolgenden Pipeline im ersten Schritt wieder zurückgerechnet.
+
+Die eigentlichen Sortierung muss somit nur zwei Tupel miteinander vergleichen. Da diese als Integerwert repräsentiert sind, macht dies den Overhead während des Sortierens minimal.
+
+\paragraph{In-place Merging}
+
+Der Discarding Algorithmus \ref{algo:doubling:code:doubling} führt in Zeile 10 einen Merge-Schritt zwischen den $P$ und $U$ Arrays durch, nachdem $U$ gemäß des Sortierschlüssels für $k$ sortiert wurde. 
+
+Da ein einfacher Merge-Schritt zusätzlichen Speicher benötigt, erfolgt dies in der anfänglichen Implementierung durch eine simple Konkatenation von $P$ mit $U$ \textit{vor} der Sortierung. Die Laufzeit beträgt somit $\mathcal{O}( (|P| + |U|) \log (|P| + |U|))$, anstatt $\mathcal{O}( |U| + |P| + |U| \log |U|)$.
+
+Als Optimierung wurde deshalb an dieser Stelle ein In-Place Merge Algorithmus implementiert. Es wurde dabei ausgenutzt, dass durch die Arrayüberlagerung in den zu vereinigen Arrays $U$ und $P$ unbenutzte freie Tupelkomponenten vorhanden sind.
+
+Diese werden als zusätzliches Array der Länge $|U| + |P|$ mit Platz für $a - 1$ Elemente pro Position interpretiert, und genutzt um die $(c, i)$ Tupel von $P$ und dem sortierten $U$ in $\mathcal{O}( |U| + |P|)$ zu vereinigen. Für $a=2$ sind dabei zwei Scans notwendig, da nicht beide Komponenten der Tupel gleichzeitig an eine freie Stelle kopiert werden können.
+
+\paragraph{Schnellerer Sortieralgorithmus}
+
+Die Implementierung der Algorithmen is parametrisch über dem benutzten Sortieralgorithmus, weshalb es uns frei steht einen Sortierer zu nutzen der das beste Laufzeitverhalten zeigt.
+
+Wir haben hierzu den Discarding Algorithmus mit allen im Framework verfügbaren Sortierern auf einer Reihe von Testdaten angewandt, um dem sich empirisch am besten verhaltenen Algorithmus zu wählen. Es stellte sich hierbei der externe \texttt{ips4o} Algorithmus als mit Abstand bester Algorithmus heraus.
+
+%\todo{testdaten bild}
+
+\subsubsection{Ausgelassene Optimierungsansätze}
+
+Da der Ausgabe \texttt{span} zu einer Allokation von mindestens $n \log n$ Bits zeigt, würde er sich im Prinzip als temporären Speicher für eine der Komponenten der von dem Algorithmen benutzen Tupel-Arrays benutzen lassen, um den Speicherverbrauch während er Berechnung um den selben Wert zu senken. 
+
+%\todo{Beispiel Grafik?}
+
+Dies würde jedoch die Implementierung wesentlich komplexer machen, da die Komponenten eines Tupels nun über mehrere disjunkte \texttt{span}s verteilt wären. Da das Interface der Sortierer-Implementierungen darauf beruht, nur vollständige Elemente eines Arrays zu sortieren, wäre somit also auch eine Anpassung der benutzen Sortieralgorithmen notwendig.
+
+\subsection{Beispiel}
+
+Wir stellen nun die Funktionsweise des Discarding Algorithmus ohne Optimierungen anhand des Beispieltextes \texttt{caabaccaabacaa\$} vor:
+
+\input{kapitel/saca_algorithmen/prefix_doubling/prefix_doubling_example}
+

@@ -1,0 +1,24 @@
+\usepackage{ifthen}
+\usepackage{xspace}
+\newcommand{\inputtext}[1][]{\ensuremath{\mathsf{T}\ifthenelse{\equal{#1}{}}{}{[#1]}}\xspace}
+\newcommand{\suffix}[1]{\ensuremath{\mathsf{S}_{#1}}\xspace}
+\newcommand{\sa}[1][]{\ensuremath{\mathsf{SA}\ifthenelse{\equal{#1}{}}{}{[#1]}}\xspace}
+\newcommand{\bucket}[1]{\ensuremath{\mathsf{b}_{#1}}\xspace}
+\newcommand{\bptr}[1][]{\ensuremath{\mathsf{BPTR}\ifthenelse{\equal{#1}{}}{}{[#1]}}\xspace}
+\newcommand{\inputtextplus}[1][]{\ensuremath{\mathsf{T^{+}}\ifthenelse{\equal{#1}{}}{}{[#1]}}\xspace}
+\newcommand{\bpr}{\emph{Bucket-Pointer Refinement}\xspace}
+\newcommand{\sacabench}{\emph{SACABench}\xspace}
+\newcommand{\rank}{\textit{rank}\xspace}
+\newcommand{\coded}{\textit{code\textsubscript{d}}\xspace}
+\newcommand{\bkt}{\textit{bkt}\xspace}
+\newcommand{\offset}{\textit{offset}\xspace}
+\newcommand{\covfefefe}{\texttt{covfefefe}\xspace}
+\newcommand{\ovfefefe}{\texttt{ovfefefe}\xspace}
+\newcommand{\vfefefe}{\texttt{vfefefe}\xspace}
+\newcommand{\fefefe}{\texttt{fefefe}\xspace}
+\newcommand{\efefe}{\texttt{efefe}\xspace}
+\newcommand{\fefe}{\texttt{fefe}\xspace}
+\newcommand{\efe}{\texttt{efe}\xspace}
+\newcommand{\fe}{\texttt{fe}\xspace}
+\newcommand{\e}{\texttt{e}\xspace}
+\renewcommand{\O}{\mathcal{O}}

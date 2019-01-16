@@ -1,0 +1,21 @@
+\subsubsection{Erste Phase - Sortierung des Difference Covers}
+\label{dc3:algorithmus:phase1}
+
+In dem ersten Schritt des Algorithmus werden die Substrings $T[i, i+2]$ sortiert, wobei sich $i$ aus dem Difference Cover \(D\) $=$ \{1, 2\} ergibt. Das bedeutet, es werden alle Substrings der Länge drei - auch Triplets genannt - startend in den Positionen \(i\) \(modulo\) \(3\) $=$ \(1\), also $i = 1, 4, 7, 10,...$, und den Positionen \(i\) \(modulo\) \(3\) $=$ \(2\), also $i = 2, 5, 8, 11,...$, des Ausgangstextes $T$ aufsteigend sortiert.
+Anschließend werden den Triplets der Reihenfolge nach lexikographische Namen $t_i \in [0,\lceil2n/3\rceil)$ mit der Eigenschaft, dass $t_i < t_j$ wenn $T[i, i+2] < T[j, j+2]$ und $t_i = t_j$ wenn $T[i, i+2] = T[j, j+2]$, zugewiesen. Das bedeutet, dass das kleinste Triplet den lexikographisch kleinsten Namen $0$ erhält, das zweitkleinste Triplet die $1$ und so weiter. Sind mehrere Triplets gleich, das heißt, sowohl die erste, zweite und dritte Stelle des Substrings sind jeweils gleich, dann erhalten diese Triplets die gleichen lexikographischen Namen.
+Wenn jedem Triplet ein lexikographischer Name zugeordnet worden ist, wird überprüft, ob diese Namen eindeutig sind. Wenn in dem Ausgangstext keine gleichen Triplets mit den beschriebenen Eigenschaften vorkommen, sind wir mit dem ersten Schritt des \emph{DC3}-Algorithmus fertig und können mit der zweiten Phase fortfahren. Kommen in dem Ausgangstext $T$ jedoch gleiche Triplets startend in den Positionen \(i\) \(modulo\) \(3\) $\neq$ \(0\) vor, so können wir aktuell noch keine eindeutige Aussage über die Reihenfolge der gleichen Triplets treffen. Um diese eindeutige Aussage treffen zu können, schreiben wir die lexikographischen Namen so um, dass die Ordnung der Triplets beibehalten wird. Dabei werden die Namen $t_i$ in die Mengen $i \text{ modulo } 3 = 1$ und $i \text{ modulo } 3 = 2$ aufgeteilt und diese zu einem neuen String $t_{12}$ konkateniert. Anders dargestellt, bedeutet das, dass der String
+\begin{center}
+	$t_{12} = [t_i \mid i \text{ modulo } 3 = 1] \circ [t_i \mid i \text{ modulo } 3 = 2]$ 
+\end{center}
+als neuer Ausgangstext angesehen und der \emph{DC3}-Algorithmus auf diesem String ausgeführt wird, sodass wir nach erneutem Ausführen des Algorithmus die endgültige Sortierung der Triplets erhalten und mit dem zweiten Schritt fortfahren können.
+
+Es gibt jedoch einen Spezialfall, bei dem dieser Schritt zu einem falschem Suffix-Array führen kann. Der Spezialfall tritt auf, wenn folgende drei Punkte gleichzeitig zutreffen:
+
+$\begin{array}{ll}
+1. & \text{ die Textlänge ist } n \text{ modulo } 3 = 1\\ 
+2. & \text{ das Triplet an der Position } n - 3 \text{ kommt in dem Text mehrmals vor}\\ 
+3. & \text{ das Triplet an der Position } n - 2 \text{ ist nicht das kleinste Triplet}
+\end{array}$
+
+Denn dann ist der String mit den lexikographischen Namen falsch, weil der Algorithmus nicht weiß, dass mit dem Triplet an der Position $n - 3$ das Ende des Textes erreicht ist.
+Der Spezialfall tritt zum Beispiel bei dem Text $T = aabcabc$ auf. Der String mit den lexikographischen Namen wäre $t_{12} = [1, 1] \circ [3, 2]$, also $t_{12} = 1132$. Wird der String in dieser Form rekursiv aufgerufen, wird am Ende des Algorithmus das Suffix $T[1, n)$ kleiner sein als das Suffix $T[4, n)$, weil das Triplet $113$ in der Rekursion kleiner ist als $132$. Um dagegen vorzubeugen, wird vor Beginn des Algorithmus dem Ausgangstext ein sogenanntes Dummy-Triplet angehangen, das aus Sentinels besteht. Dadurch wird dafür gesorgt, dass das Ende des Textes mit in die Sortierung eingeht.

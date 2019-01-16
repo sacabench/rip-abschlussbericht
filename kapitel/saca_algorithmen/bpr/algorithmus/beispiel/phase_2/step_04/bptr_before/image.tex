@@ -1,0 +1,12 @@
+\documentclass{standalone}
+
+\usepackage[table]{xcolor}
+\usepackage{array}
+
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+\newcommand{\mc}[2]{\multicolumn{#1}{c}{#2}}
+\input{commands}
+
+\begin{document}
+	\input{table}
+\end{document}

@@ -1,0 +1,58 @@
+\subsubsection{Praktische Laufzeitmessungen}
+\label{bpr:effizienz:praxis}
+
+Bisher wurden mit Ausnahmen von \emph{Quicksort} nur asymptotische Laufzeitschranken thematisiert, welche in der praktischen Anwendung eine geringere Rolle spielen, als in der theoretischen Analyse.
+In der Praxis kann es vorkommen, dass gerade für sehr kleine Eingaben Algorithmen mit schlechterer asymptotischer Laufzeit schnellere Ergebnisse liefern als vermeintlich effizientere Algorithmen mit besseren Laufzeitschranken.
+Der wesentliche Grund dafür liegt darin, dass in der Analyse in \(\O\)-Notation konstante Faktoren in der Laufzeit nicht berücksichtigt werden. Das führt dazu, dass der gewünschte Vorteil in der tatsächlichen Laufzeit effizienter Algorithmen mitunter erst bei Eingabegrößen auftritt, wie sie in der Realität selten oder gar nicht auftreten.\par\smallskip
+Im Rahmen der Projektgruppe \emph{SACABench} wollen wir uns mit realen Anwendungsszenarien auseinandersetzen. Es liegt daher nahe, ausgewählte Algorithmen nicht nur in der Theorie, sondern auch im praktischen Einsatz zu evaluieren und mit anderen Algorithmen zu vergleichen. Da die Erstellung von Suffixarrays besonders in der Bioinformatik Anwendung findet, können für praktische Laufzeitmessungen Eingaben gewählt werden, die für dieses Gebiet typisch sind und es in vergleichbarer Art und Weise repräsentierten. Für die Evaluation von \bpr (\emph{bpr}) haben Schürmann und Stoye daher einige DNA-Sequenzen gewählt, anhand derer sie den von ihnen entwickelten Algorithmus testen \cite[Kapitel~4]{schuermann2005}. Die Auswahl der Sequenzen ist in Tabelle \ref{table:genomes} zu sehen und umfasst verschiedene -- in diesem Anwendungsgebiet häufig sehr geringe -- Alphabetgrößen und Eingabelängen. Bei den hier aufgeführten Testdaten handelt es sich um einen Auszug der in der ursprünglichen Publikation verwendeten Daten.\par
+\begin{table}[h]
+	\resizebox{\textwidth}{!}{
+		\begin{tabular}{|l|r|r|r|r|l|}
+			\hline
+			\multicolumn{1}{|c|}{\multirow{2}{*}{data set}} & \multicolumn{2}{c|}{LCP} & \multicolumn{1}{c|}{\multirow{2}{*}{\makecell{string\\length}}} & \multicolumn{1}{c|}{\multirow{2}{*}{\makecell{alphabet\\size}}} & \multicolumn{1}{c|}{\multirow{2}{*}{description}} \\
+			\cline{2-3}
+			& average & maximum & & & \\
+			\hline
+			\hline
+			\emph{E. coli} genome & 17 & 2815 & 4,638,680 & 5 & \emph{Escherichia coli} genome \\
+			\emph{A. thaliana} chr. 4 & 58 & 30,319 & 12,061,490 & 7 & \emph{A. thaliana} chromosome 4 \\
+			\emph{Human} chr. 22 & 1,979 & 199,999 & 34,553,758 & 5 & \emph{H. sapiens} chromosome 22 \\
+			\emph{C. elegans} chr. 1 & 3,181 & 110,283 & 14,188,020 & 5 & \emph{C. elegans} chromosome 1 \\
+			\hline
+			6 \emph{Streptococci} & 131 & 8,091 & 11,635,882 & 5 & 6 \emph{Streptococcus genomes} \\
+			4 \emph{Chlamydophila} & 1,555 & 23,625 & 4,856,123 & 6 & 4 \emph{Chlamydophila} genomes \\
+			3 \emph{E. coli} & 68,061 & 1,316,097 & 14,776,363 & 5 & 3 \emph{E. coli} genomes \\
+			\hline
+		\end{tabular}
+	}
+	\vspace{1ex}
+	\caption[Beschreibung des Testdatensatzes]{Beschreibung des Testdatensatzes. Übernommen aus \cite[Tabelle~1]{schuermann2005}.}
+	\label{table:genomes}
+\end{table}
+\noindent Die Auswertung erfolgte auf einem \emph{1.3 GHz Intel Pentium\texttrademark~M} Prozessor mit 512\,MB Arbeitsspeicher. Verglichen wurde der \bpr Algorithmus dabei mit anderen in der Praxis relevanten Verfahren (s.~Tabelle~\ref{table:construction_times}), wobei die jeweils beste im Test erreichte Laufzeit visuell hervorgehoben ist.
+\begin{table}[h]
+	\resizebox{\textwidth}{!}{
+		\begin{tabular}{|l|r|r|r|r|r|r|r|r|}
+			\hline
+			\multicolumn{1}{|c|}{\multirow{2}{*}{\makecell{DNA sequences}}} & \multicolumn{8}{c|}{construction time (sec.)} \\
+			\cline{2-9}
+			& \multicolumn{1}{c|}{\emph{bpr}} & \makecell{\emph{deep}\\\emph{shallow}} & \multicolumn{1}{c|}{\emph{cache}} & \multicolumn{1}{c|}{\emph{copy}} & \multicolumn{1}{c|}{\emph{qsufsort}} & \makecell{\emph{difference}\\\emph{cover}} & \makecell{\emph{divide}\\\emph{conquer}} & \multicolumn{1}{c|}{\emph{skew}} \\
+			\hline
+			\hline
+			\emph{E. coli} genome & \textbf{1.46} & 1.71 & 3.69 & 2.89 & 2.87 & 4.32 & 5.81 & 13.48 \\
+			\emph{A. thaliana} chr. 4 & 5.24 & \textbf{5.01} & 12.24 & 9.94 & 8.42 & 13.29 & 16.94 & 38.30 \\
+			\emph{Human} chr. 22 & \textbf{15.92} & 16.64 & 40.08 & 30.04 & 26.52 & 44.93 & 51.31 & 112.38 \\
+			\emph{C. elegans} chr. 1 & \textbf{5.70} & 6.03 & 20.79 & 17.48 & 13.09 & 16.94 & 18.64 & 41.28 \\
+			\hline
+			6 \emph{Streptococci} & \textbf{5.27} & 5.97 & 14.43 & 10.38 & 13.16 & 14.50 & 16.40 & 36.24 \\
+			4 \emph{Chlamydophila} & \textbf{2.31} & 3.43 & 17.46 & 14.45 & 7.49 & 5.59 & 6.13 & 14.13 \\
+			3 \emph{E. coli} & \textbf{8.01} & 13.75 & 437.18 & 1294.30 & 32.72 & 20.57 & 21.58 & 47.32 \\
+			\hline
+		\end{tabular}
+	}
+	\vspace{1ex}
+	\caption[Konstruktionszeiten für Suffixarrays diverser DNA-Sequenzen mit verschiedenen Algorithmen]{Konstruktionszeiten für Suffixarrays diverser DNA-Sequenzen mit verschiedenen Algorithmen (\bpr mit \(d = 7\)). Übernommen aus \cite[Tabelle~2]{schuermann2005}.}
+	\label{table:construction_times}
+\end{table}
+Es ist gut zu erkennen, das für die hier getesteten Fälle \emph{bpr} im Vergleich zu anderen Verfahren sehr gute Ergebnisse zeigt. Selbst für den Fall von \emph{A. thaliana}, wo die schnellste Laufzeit von \emph{deep shallow} erreicht wird, ist \emph{bpr} nur geringfügig langsamer. Weitere Tests -- unter anderem mit geschriebener Sprache und künstlich generierten Strings -- zeigen außerdem, dass neben der Länge des Strings und der Alphabetgröße auch die Länge des längsten gemeinsamen Präfixes (\emph{longest common prefix, LCP}) einen entscheidenden Einfluss auf die Laufzeiten der Algorithmen hat: So ist die tatsächliche Laufzeit von \emph{bpr} für geringe LCP vergleichbar mit \emph{deep shallow}, \emph{cache} und \emph{copy}, für steigende LCP ist \emph{bpr} allerdings der schnellste getestete Algorithmus \cite[Kapitel~4]{schuermann2005}. Bei den hier aufgeführten Ergebnissen ist außerdem zu beachten, dass die getesteten Verfahren dem Stand des Jahres 2005 entsprechen. Neuere Algorithmen wie beispielsweise von Nong, Zhang und Chan \cite{saca:6}, die mit linearen Laufzeitschranken auch in der Praxis sehr gute Ergebnisse erzielen, wurden bisher nicht unter vergleichbaren Konditionen getestet.\par\smallskip
+Ferner ist zumindest am Rande zu anzumerken, dass für die hier nicht aufgeführten Tests auf größeren Alphabeten ein geringerer Wert für den Parameter \(d\) gewählt wurde. Die Wahl geschah scheinbar ausschließlich in Abhängigkeit von der Alphabetgröße \(|\Sigma|\) und unabhängig von der Textlänge \(n\). Da auf diese Eigenschaft in den durchgeführten Tests nicht eingegangen wurde, handelt es sich dabei allerdings nur um eine augenscheinliche Vermutung.

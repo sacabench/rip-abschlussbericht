@@ -1,0 +1,13 @@
+\section{Notation und Definitionen}
+Einige\currentauthor{Rosa Pink} grundlegende Notationen und Definitionen werden hier kurz vorangestellt.
+
+\subsection{Alphabet und lexikographische Sortierung}
+Das konstante, indizierte Alphabet, $\Sigma$, besteht aus Zeichen $\sigma_j, j = 1,2,...,|\Sigma|$, die in dem Input String vorkommen können. Außerdem beinhaltet es das Sonderzeichen Sentinel \$, das das Ende des Strings markiert. Die Zeichen lassen sich aufsteigend lexikographisch (nach \textit{lexikographischer Sortierung}) ordnen: $\sigma_1 < \sigma_2 < ... < \sigma_{|\Sigma|}$. Das \$-Zeichen ist dabei definiert als das kleinste Zeichen im Alphabet.
+Übliche Grenzen für zulässige Alphabete zum Suffix-Sortieren liegen bei $|\Sigma| \leq 256$ oder, seltener, bei $|\Sigma| \leq 65536$. Jedes Zeichen kann als Integer kodiert werden, und benötigt (entsprechend der Alphabetgröße) ein oder zwei Byte Speicherplatz.
+
+\subsection{Input-String und Suffix}
+Der Input-String wird \inputtext genannt und hat die Länge $n$, wobei angenommen wird, dass $n < 2^{32}$, damit ein Integer von $0..n$ in 4 Byte passt. Das $i$-te Zeichen im Input-String ist \inputtext[i], das $i$-te Suffix  (kurz: Suffix $i$) ist \suffix{i} = $\inputtext[i,n)$ =  \mbox{\inputtext[i]\inputtext[i+1]$...$\inputtext[n-1]}. \inputtext[n] ist dann das Terminalsymbol \$ (sowie alle \inputtext[m] mit $m>n$) und ist formal nicht Teil des Eingabe-Strings. Der Eingabe-String beginnt bei \inputtext[0].
+
+\subsection{Suffix-Array}
+Das Suffix-Array, kurz \sa, bezeichnet ein Array, in dem in lexikographischer Reihenfolge die Suffix-Indizes (Positionen des Anfangsbuchstabens) gespeichert sind.
+Das bedeutet, \sa[j] = $i$ genau dann, wenn $\mathsf{T}[i,n)$ das $j$-te Suffix von \inputtext in Lexorder ist.

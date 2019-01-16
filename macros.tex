@@ -1,0 +1,62 @@
+% Authoren pro Abschnitt
+\newcommand{\currentauthor}[1]{\marginnote{\bfseries \textcolor{black!50}{#1}}}
+
+% Theorems, etc
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+
+% Auf- und Abrundungsklammern
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+% For better table centering control
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+% Notation
+\newcommand{\inputtext}[1][]{\ensuremath{\mathsf{T}\ifthenelse{\equal{#1}{}}{}{[#1]}}\xspace}
+\newcommand{\suffix}[1]{\ensuremath{\mathsf{S}_{#1}}\xspace}
+\newcommand{\sa}[1][]{\ensuremath{\mathsf{SA}\ifthenelse{\equal{#1}{}}{}{[#1]}}\xspace}
+\newcommand{\isa}[1][]{\ensuremath{\mathsf{ISA}\ifthenelse{\equal{#1}{}}{}{[#1]}}\xspace}
+\newcommand{\bucket}[1]{\ensuremath{\mathsf{b}_{#1}}\xspace}
+\newcommand{\bptr}[1][]{\ensuremath{\mathsf{BPTR}\ifthenelse{\equal{#1}{}}{}{[#1]}}\xspace}
+\newcommand{\effective}{\ensuremath{\textit{eff}}\xspace}
+\newcommand{\Dach}[1]{$\widehat{#1}$}
+
+\newcommand{\prevpointer}[0]{prev pointer\xspace}
+\newcommand{\prevpointern}[0]{prev pointern\xspace}
+
+% Umlaute (bei Problemen mit macOS)
+\newcommand{\Ü}[0]{{\"U}}
+\newcommand{\ü}[0]{{\"u}}
+\newcommand{\Ö}[0]{{\"O}}
+\newcommand{\ö}[0]{{\"o}}
+\newcommand{\Ä}[0]{{\"A}}
+\newcommand{\ä}[0]{{\"a}}
+\newcommand{\ß}[0]{{\ss}}
+
+% Farben
+\newcommand{\green}[0]{32CB00}
+\newcommand{\red}[0]{FD6864}
+\newcommand{\yellow}[0]{FFCC67}
+\newcommand{\blue}[0]{34CDF9}
+\newcommand{\gray}[0]{C0C0C0}
+\newcommand{\white}[0]{FFFFFF}
+
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+
+\newcommand{\cmarkc}{{\color{green}\cmark}}
+\newcommand{\xmarkc}{{\color{red}\xmark}}
+
+% Makes every color black to test if a place is missing the common color
+% \newcommand{\green}[0]{000000}
+% \newcommand{\red}[0]{000000}
+% \newcommand{\yellow}[0]{000000}
+% \newcommand{\blue}[0]{000000}
+% \newcommand{\gray}[0]{000000}
+% \newcommand{\white}[0]{000000}
+
+% float environment for minted
+\SetupFloatingEnvironment{listing}{name=Algorithmus}

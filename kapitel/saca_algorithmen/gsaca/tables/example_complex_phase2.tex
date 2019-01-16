@@ -1,0 +1,279 @@
+% Phase 2 - Start
+\begin{table}[H]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\centering
+\begin{tabular}{lccccccccccccccc}
+\multicolumn{16}{l}{Phase 2 - Start}                                                                                                                                                                                                                                                                                  \\ \hline
+\multicolumn{1}{l|}{Index}   & 1                       & 2  & 3                       & 4                          & 5                           & 6                         & 7                          & 8                       & 9                        & 10 & 11                      & 12  & 13  & 14  & 15  \\
+\multicolumn{1}{l|}{Zeichen} & c                       & a  & a                       & b                          & a                           & c                         & c                          & a                       & a                        & b  & a                       & c   & a   & a   & \$  \\
+\multicolumn{1}{l|}{Prev}    & 0                       & 0  & 2                       & 3                          & 3                           & 5                         & 5                          & 0                       & 8                        & 9  & 9                       & 11  & 0   & 0   & 0   \\ \hline
+\multicolumn{1}{l|}{Kontext} & \multicolumn{1}{c|}{\$} & \multicolumn{2}{c|}{a}       & \multicolumn{1}{c|}{aabac} & \multicolumn{1}{c|}{aabacc} & \multicolumn{1}{c|}{abac} & \multicolumn{1}{c|}{abacc} & \multicolumn{1}{c|}{ac} & \multicolumn{1}{c|}{acc} & \multicolumn{2}{c|}{b}       & \multicolumn{4}{c}{c} \\
+\multicolumn{1}{l|}{Gruppe}  & \multicolumn{1}{c|}{15} & 13 & \multicolumn{1}{c|}{14} & \multicolumn{1}{c|}{8}     & \multicolumn{1}{c|}{2}      & \multicolumn{1}{c|}{9}    & \multicolumn{1}{c|}{3}     & \multicolumn{1}{c|}{11} & \multicolumn{1}{c|}{5}   & 4  & \multicolumn{1}{c|}{10} & 1   & 6   & 7   & 12  \\
+\multicolumn{1}{l|}{SA}      & \multicolumn{1}{c|}{15} & -  & \multicolumn{1}{c|}{-}  & \multicolumn{1}{c|}{-}     & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}    & \multicolumn{1}{c|}{-}     & \multicolumn{1}{c|}{-}  & \multicolumn{1}{c|}{-}   & -  & \multicolumn{1}{c|}{-}  & -   & -   & -   & -  
+\end{tabular}
+\end{adjustbox}
+
+\caption[Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Beginn von Phase 2]{Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Beginn von Phase 2. Element 15 wird als Ausgangspunkt f{\"u}r die n{\"a}chsten Iterationen in SA aufgenommen.}
+\label{table_complex_example_2_start} 
+\end{table}
+
+% Phase 2 - Iteration 1
+\begin{table}[H]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\centering
+\begin{tabular}{lccccccccccccccc}
+\multicolumn{16}{l}{Phase 2 - Ergebnis Iteration 1}                                                                                                                                                                                                                                                                                                                   \\ \hline
+\multicolumn{1}{l|}{Index}   & 1                                               & 2                          & 3                       & 4                          & 5                           & 6                         & 7                          & 8                       & 9                        & 10 & 11                      & 12  & 13  & 14  & 15  \\
+\multicolumn{1}{l|}{Zeichen} & c                                               & a                          & a                       & b                          & a                           & c                         & c                          & a                       & a                        & b  & a                       & c   & a   & a   & \$  \\
+\multicolumn{1}{l|}{Prev}    & 0                                               & 0                          & 2                       & 3                          & 3                           & 5                         & 5                          & 0                       & 8                        & 9  & 9                       & 11  & 0   & 0   & 0   \\ \hline
+\multicolumn{1}{l|}{Kontext} & \multicolumn{1}{c|}{\$}                         & \multicolumn{2}{c|}{a}                               & \multicolumn{1}{c|}{aabac} & \multicolumn{1}{c|}{aabacc} & \multicolumn{1}{c|}{abac} & \multicolumn{1}{c|}{abacc} & \multicolumn{1}{c|}{ac} & \multicolumn{1}{c|}{acc} & \multicolumn{2}{c|}{b}       & \multicolumn{4}{c}{c} \\
+\multicolumn{1}{l|}{Gruppe}  & \multicolumn{1}{c|}{15}                         & 13                         & \multicolumn{1}{c|}{14} & \multicolumn{1}{c|}{8}     & \multicolumn{1}{c|}{2}      & \multicolumn{1}{c|}{9}    & \multicolumn{1}{c|}{3}     & \multicolumn{1}{c|}{11} & \multicolumn{1}{c|}{5}   & 4  & \multicolumn{1}{c|}{10} & 1   & 6   & 7   & 12  \\
+\multicolumn{1}{l|}{SA}      & \multicolumn{1}{c|}{\cellcolor[HTML]{\green}15} & \cellcolor[HTML]{\red}14 & \multicolumn{1}{c|}{-}  & \multicolumn{1}{c|}{-}     & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}    & \multicolumn{1}{c|}{-}     & \multicolumn{1}{c|}{-}  & \multicolumn{1}{c|}{-}   & -  & \multicolumn{1}{c|}{-}  & -   & -   & -   & -  
+\end{tabular}
+\end{adjustbox}
+
+\caption[Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 2, Iteration 1]{Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 2, Iteration 1. Betrachteter Index: 1, enthaltener Wert: 15, Vorg{\"a}ngerelement: 14, \prevpointer-Kette: 0. Element 14 wird in SA aufgenommen.}
+\label{table_complex_example_2_1} 
+\end{table}
+
+% Phase 2 - Iteration 2
+\begin{table}[H]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\centering
+\begin{tabular}{lccccccccccccccc}
+\multicolumn{16}{l}{Phase 2 - Ergebnis Iteration 2}                                                                                                                                                                                                                                                                                                                   \\ \hline
+\multicolumn{1}{l|}{Index}   & 1                       & 2                          & 3                                               & 4                          & 5                           & 6                         & 7                          & 8                       & 9                        & 10 & 11                      & 12  & 13  & 14  & 15  \\
+\multicolumn{1}{l|}{Zeichen} & c                       & a                          & a                                               & b                          & a                           & c                         & c                          & a                       & a                        & b  & a                       & c   & a   & a   & \$  \\
+\multicolumn{1}{l|}{Prev}    & 0                       & 0                          & 2                                               & 3                          & 3                           & 5                         & 5                          & 0                       & 8                        & 9  & 9                       & 11  & 0   & 0   & 0   \\ \hline
+\multicolumn{1}{l|}{Kontext} & \multicolumn{1}{c|}{\$} & \multicolumn{2}{c|}{a}                                                       & \multicolumn{1}{c|}{aabac} & \multicolumn{1}{c|}{aabacc} & \multicolumn{1}{c|}{abac} & \multicolumn{1}{c|}{abacc} & \multicolumn{1}{c|}{ac} & \multicolumn{1}{c|}{acc} & \multicolumn{2}{c|}{b}       & \multicolumn{4}{c}{c} \\
+\multicolumn{1}{l|}{Gruppe}  & \multicolumn{1}{c|}{15} & 13                         & \multicolumn{1}{c|}{14}                         & \multicolumn{1}{c|}{8}     & \multicolumn{1}{c|}{2}      & \multicolumn{1}{c|}{9}    & \multicolumn{1}{c|}{3}     & \multicolumn{1}{c|}{11} & \multicolumn{1}{c|}{5}   & 4  & \multicolumn{1}{c|}{10} & 1   & 6   & 7   & 12  \\
+\multicolumn{1}{l|}{SA}      & \multicolumn{1}{c|}{15} & \cellcolor[HTML]{\green}14 & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}13} & \multicolumn{1}{c|}{-}     & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{-}    & \multicolumn{1}{c|}{-}     & \multicolumn{1}{c|}{-}  & \multicolumn{1}{c|}{-}   & -  & \multicolumn{1}{c|}{-}  & -   & -   & -   & -  
+\end{tabular}
+\end{adjustbox}
+
+\caption[Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 2, Iteration 2]{Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 2, Iteration 2. Betrachteter Index: 2, enthaltener Wert: 14, Vorg{\"a}ngerelement: 13, \prevpointer-Kette: 0. Element 13 wird in SA aufgenommen.}
+\label{table_complex_example_2_2} 
+\end{table}
+
+% Phase 2 - Iteration 3
+\begin{table}[H]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\centering
+\begin{tabular}{lccccccccccccccc}
+\multicolumn{16}{l}{Phase 2 - Ergebnis Iteration 3}                                                                                                                                                                                                                                                                                                                                                                                \\ \hline
+\multicolumn{1}{l|}{Index}   & 1                       & 2  & 3                                               & 4                                              & 5                           & 6                                              & 7                          & 8                                               & 9                        & 10 & 11                      & 12                         & 13 & 14 & 15 \\
+\multicolumn{1}{l|}{Zeichen} & c                       & a  & a                                               & b                                              & a                           & c                                              & c                          & a                                               & a                        & b  & a                       & c                          & a  & a  & \$ \\
+\multicolumn{1}{l|}{Prev}    & 0                       & 0  & 2                                               & 3                                              & 3                           & 5                                              & 5                          & 0                                               & 8                        & 9  & 9                       & 11                         & 0  & 0  & 0  \\ \hline
+\multicolumn{1}{l|}{Kontext} & \multicolumn{1}{c|}{\$} & \multicolumn{2}{c|}{a}                               & \multicolumn{1}{c|}{aabac}                     & \multicolumn{1}{c|}{aabacc} & \multicolumn{1}{c|}{abac}                      & \multicolumn{1}{c|}{abacc} & \multicolumn{1}{c|}{ac}                         & \multicolumn{1}{c|}{acc} & \multicolumn{2}{c|}{b}       & \multicolumn{4}{c}{c}                     \\
+\multicolumn{1}{l|}{Gruppe}  & \multicolumn{1}{c|}{15} & 13 & \multicolumn{1}{c|}{14}                         & \multicolumn{1}{c|}{8}                         & \multicolumn{1}{c|}{2}      & \multicolumn{1}{c|}{9}                         & \multicolumn{1}{c|}{3}     & \multicolumn{1}{c|}{11}                         & \multicolumn{1}{c|}{5}   & 4  & \multicolumn{1}{c|}{10} & 1                          & 6  & 7  & 12 \\
+\multicolumn{1}{l|}{SA}      & \multicolumn{1}{c|}{15} & 14 & \multicolumn{1}{c|}{\cellcolor[HTML]{\green}13} & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}8} & \multicolumn{1}{c|}{-}      & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}9} & \multicolumn{1}{c|}{-}     & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}11} & \multicolumn{1}{c|}{-}   & -  & \multicolumn{1}{c|}{-}  & \cellcolor[HTML]{\red}12 & -  & -  & - 
+\end{tabular}
+\end{adjustbox}
+
+\caption[Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 2, Iteration 3]{Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 2, Iteration 3. Betrachteter Index: 3, enthaltener Wert: 13, Vorg{\"a}ngerelement: 12, \prevpointer-Kette: 11 $\rightarrow$ 9 $\rightarrow$ 8 $\rightarrow$ 0. Elemente 8, 9, 11 und 12 werden in SA aufgenommen.}
+\label{table_complex_example_2_3} 
+\end{table}
+
+% Phase 2 - Iteration 4
+\begin{table}[H]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\centering
+\begin{tabular}{lccccccccccccccc}
+\multicolumn{16}{l}{Phase 2 - Ergebnis Iteration 4}                                                                                                                                                                                                                                                                                                                                                                       \\ \hline
+\multicolumn{1}{l|}{Index}   & 1                       & 2  & 3                       & 4                                              & 5                                              & 6                         & 7                                              & 8                       & 9                                              & 10 & 11                      & 12 & 13                        & 14 & 15 \\
+\multicolumn{1}{l|}{Zeichen} & c                       & a  & a                       & b                                              & a                                              & c                         & c                                              & a                       & a                                              & b  & a                       & c  & a                         & a  & \$ \\
+\multicolumn{1}{l|}{Prev}    & 0                       & 0  & 2                       & 3                                              & 3                                              & 5                         & 5                                              & 0                       & 8                                              & 9  & 9                       & 11 & 0                         & 0  & 0  \\ \hline
+\multicolumn{1}{l|}{Kontext} & \multicolumn{1}{c|}{\$} & \multicolumn{2}{c|}{a}       & \multicolumn{1}{c|}{aabac}                     & \multicolumn{1}{c|}{aabacc}                    & \multicolumn{1}{c|}{abac} & \multicolumn{1}{c|}{abacc}                     & \multicolumn{1}{c|}{ac} & \multicolumn{1}{c|}{acc}                       & \multicolumn{2}{c|}{b}       & \multicolumn{4}{c}{c}                    \\
+\multicolumn{1}{l|}{Gruppe}  & \multicolumn{1}{c|}{15} & 13 & \multicolumn{1}{c|}{14} & \multicolumn{1}{c|}{8}                         & \multicolumn{1}{c|}{2}                         & \multicolumn{1}{c|}{9}    & \multicolumn{1}{c|}{3}                         & \multicolumn{1}{c|}{11} & \multicolumn{1}{c|}{5}                         & 4  & \multicolumn{1}{c|}{10} & 1  & 6                         & 7  & 12 \\
+\multicolumn{1}{l|}{SA}      & \multicolumn{1}{c|}{15} & 14 & \multicolumn{1}{c|}{13} & \multicolumn{1}{c|}{\cellcolor[HTML]{\green}8} & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}2} & \multicolumn{1}{c|}{9}    & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}3} & \multicolumn{1}{c|}{11} & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}5} & -  & \multicolumn{1}{c|}{-}  & 12 & \cellcolor[HTML]{\red}7 & -  & - 
+\end{tabular}
+\end{adjustbox}
+
+\caption[Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 2, Iteration 4]{Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 2, Iteration 4. Betrachteter Index: 4, enthaltener Wert: 8, Vorg{\"a}ngerelement: 7, \prevpointer-Kette: 5 $\rightarrow$ 3 $\rightarrow$ 2 $\rightarrow$ 0. Elemente 2, 3, 5 und 7 werden in SA aufgenommen.}
+\label{table_complex_example_2_4} 
+\end{table}
+
+% Phase 2 - Iteration 5
+\begin{table}[H]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\centering
+\begin{tabular}{lccccccccccccccc}
+\multicolumn{16}{l}{Phase 2 - Ergebnis Iteration 5}                                                                                                                                                                                                                                                                                                         \\ \hline
+\multicolumn{1}{l|}{Index}   & 1                       & 2  & 3                       & 4                          & 5                                              & 6                         & 7                          & 8                       & 9                        & 10 & 11                      & 12 & 13 & 14                        & 15 \\
+\multicolumn{1}{l|}{Zeichen} & c                       & a  & a                       & b                          & a                                              & c                         & c                          & a                       & a                        & b  & a                       & c  & a  & a                         & \$ \\
+\multicolumn{1}{l|}{Prev}    & 0                       & 0  & 2                       & 3                          & 3                                              & 5                         & 5                          & 0                       & 8                        & 9  & 9                       & 11 & 0  & 0                         & 0  \\ \hline
+\multicolumn{1}{l|}{Kontext} & \multicolumn{1}{c|}{\$} & \multicolumn{2}{c|}{a}       & \multicolumn{1}{c|}{aabac} & \multicolumn{1}{c|}{aabacc}                    & \multicolumn{1}{c|}{abac} & \multicolumn{1}{c|}{abacc} & \multicolumn{1}{c|}{ac} & \multicolumn{1}{c|}{acc} & \multicolumn{2}{c|}{b}       & \multicolumn{4}{c}{c}                    \\
+\multicolumn{1}{l|}{Gruppe}  & \multicolumn{1}{c|}{15} & 13 & \multicolumn{1}{c|}{14} & \multicolumn{1}{c|}{8}     & \multicolumn{1}{c|}{2}                         & \multicolumn{1}{c|}{9}    & \multicolumn{1}{c|}{3}     & \multicolumn{1}{c|}{11} & \multicolumn{1}{c|}{5}   & 4  & \multicolumn{1}{c|}{10} & 1  & 6  & 7                         & 12 \\
+\multicolumn{1}{l|}{SA}      & \multicolumn{1}{c|}{15} & 14 & \multicolumn{1}{c|}{13} & \multicolumn{1}{c|}{8}     & \multicolumn{1}{c|}{\cellcolor[HTML]{\green}2} & \multicolumn{1}{c|}{9}    & \multicolumn{1}{c|}{3}     & \multicolumn{1}{c|}{11} & \multicolumn{1}{c|}{5}   & -  & \multicolumn{1}{c|}{-}  & 12 & 7  & \cellcolor[HTML]{\red}1 & - 
+\end{tabular}
+\end{adjustbox}
+
+\caption[Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 2, Iteration 5]{Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 2, Iteration 5. Betrachteter Index: 5, enthaltener Wert: 2, Vorg{\"a}ngerelement: 1, \prevpointer-Kette: 0. Element 1 wird in SA aufgenommen.}
+\label{table_complex_example_2_5} 
+\end{table}
+
+% Phase 2 - Iteration 6
+\begin{table}[H]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\centering
+\begin{tabular}{lccccccccccccccc}
+\multicolumn{16}{l}{Phase 2 - Ergebnis Iteration 6}                                                                                                                                                                                                                                                                                        \\ \hline
+\multicolumn{1}{l|}{Index}   & 1                       & 2  & 3                       & 4                          & 5                           & 6                                              & 7                          & 8                       & 9                        & 10 & 11                      & 12  & 13  & 14  & 15  \\
+\multicolumn{1}{l|}{Zeichen} & c                       & a  & a                       & b                          & a                           & c                                              & c                          & a                       & a                        & b  & a                       & c   & a   & a   & \$  \\
+\multicolumn{1}{l|}{Prev}    & 0                       & 0  & 2                       & 3                          & 3                           & 5                                              & 5                          & 0                       & 8                        & 9  & 9                       & 11  & 0   & 0   & 0   \\ \hline
+\multicolumn{1}{l|}{Kontext} & \multicolumn{1}{c|}{\$} & \multicolumn{2}{c|}{a}       & \multicolumn{1}{c|}{aabac} & \multicolumn{1}{c|}{aabacc} & \multicolumn{1}{c|}{abac}                      & \multicolumn{1}{c|}{abacc} & \multicolumn{1}{c|}{ac} & \multicolumn{1}{c|}{acc} & \multicolumn{2}{c|}{b}       & \multicolumn{4}{c}{c} \\
+\multicolumn{1}{l|}{Gruppe}  & \multicolumn{1}{c|}{15} & 13 & \multicolumn{1}{c|}{14} & \multicolumn{1}{c|}{8}     & \multicolumn{1}{c|}{2}      & \multicolumn{1}{c|}{9}                         & \multicolumn{1}{c|}{3}     & \multicolumn{1}{c|}{11} & \multicolumn{1}{c|}{5}   & 4  & \multicolumn{1}{c|}{10} & 1   & 6   & 7   & 12  \\
+\multicolumn{1}{l|}{SA}      & \multicolumn{1}{c|}{15} & 14 & \multicolumn{1}{c|}{13} & \multicolumn{1}{c|}{8}     & \multicolumn{1}{c|}{2}      & \multicolumn{1}{c|}{\cellcolor[HTML]{\green}9} & \multicolumn{1}{c|}{3}     & \multicolumn{1}{c|}{11} & \multicolumn{1}{c|}{5}   & -  & \multicolumn{1}{c|}{-}  & 12  & 7   & 1   & -  
+\end{tabular}
+\end{adjustbox}
+
+\caption[Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 2, Iteration 6]{Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 2, Iteration 6. Betrachteter Index: 6, enthaltener Wert: 9, Vorg{\"a}ngerelement: 8, \prevpointer-Kette: 0. Keine neuen Elemente werden in SA aufgenommen.}
+\label{table_complex_example_2_6} 
+\end{table}
+
+% Phase 2 - Iteration 7
+\begin{table}[H]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\centering
+\begin{tabular}{lccccccccccccccc}
+\multicolumn{16}{l}{Phase 2 - Ergebnis Iteration 7}                                                                                                                                                                                                                                                                                       \\ \hline
+\multicolumn{1}{l|}{Index}   & 1                       & 2  & 3                       & 4                          & 5                           & 6                         & 7                                              & 8                       & 9                        & 10 & 11                      & 12  & 13  & 14  & 15  \\
+\multicolumn{1}{l|}{Zeichen} & c                       & a  & a                       & b                          & a                           & c                         & c                                              & a                       & a                        & b  & a                       & c   & a   & a   & \$  \\
+\multicolumn{1}{l|}{Prev}    & 0                       & 0  & 2                       & 3                          & 3                           & 5                         & 5                                              & 0                       & 8                        & 9  & 9                       & 11  & 0   & 0   & 0   \\ \hline
+\multicolumn{1}{l|}{Kontext} & \multicolumn{1}{c|}{\$} & \multicolumn{2}{c|}{a}       & \multicolumn{1}{c|}{aabac} & \multicolumn{1}{c|}{aabacc} & \multicolumn{1}{c|}{abac} & \multicolumn{1}{c|}{abacc}                     & \multicolumn{1}{c|}{ac} & \multicolumn{1}{c|}{acc} & \multicolumn{2}{c|}{b}       & \multicolumn{4}{c}{c} \\
+\multicolumn{1}{l|}{Gruppe}  & \multicolumn{1}{c|}{15} & 13 & \multicolumn{1}{c|}{14} & \multicolumn{1}{c|}{8}     & \multicolumn{1}{c|}{2}      & \multicolumn{1}{c|}{9}    & \multicolumn{1}{c|}{3}                         & \multicolumn{1}{c|}{11} & \multicolumn{1}{c|}{5}   & 4  & \multicolumn{1}{c|}{10} & 1   & 6   & 7   & 12  \\
+\multicolumn{1}{l|}{SA}      & \multicolumn{1}{c|}{15} & 14 & \multicolumn{1}{c|}{13} & \multicolumn{1}{c|}{8}     & \multicolumn{1}{c|}{2}      & \multicolumn{1}{c|}{9}    & \multicolumn{1}{c|}{\cellcolor[HTML]{\green}3} & \multicolumn{1}{c|}{11} & \multicolumn{1}{c|}{5}   & -  & \multicolumn{1}{c|}{-}  & 12  & 7   & 1   & -  
+\end{tabular}
+\end{adjustbox}
+
+\caption[Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 2, Iteration 7]{Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 2, Iteration 7. Betrachteter Index: 7, enthaltener Wert: 3, Vorg{\"a}ngerelement: 2, \prevpointer-Kette: 0. Keine neuen Elemente werden in SA aufgenommen.}
+\label{table_complex_example_2_7} 
+\end{table}
+
+% Phase 2 - Iteration 8
+\begin{table}[H]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\centering
+\begin{tabular}{lccccccccccccccc}
+\multicolumn{16}{l}{Phase 2 - Ergebnis Iteration 8}                                                                                                                                                                                                                                                                                                                   \\ \hline
+\multicolumn{1}{l|}{Index}   & 1                       & 2  & 3                       & 4                          & 5                           & 6                         & 7                          & 8                                               & 9                        & 10                         & 11                      & 12  & 13  & 14  & 15  \\
+\multicolumn{1}{l|}{Zeichen} & c                       & a  & a                       & b                          & a                           & c                         & c                          & a                                               & a                        & b                          & a                       & c   & a   & a   & \$  \\
+\multicolumn{1}{l|}{Prev}    & 0                       & 0  & 2                       & 3                          & 3                           & 5                         & 5                          & 0                                               & 8                        & 9                          & 9                       & 11  & 0   & 0   & 0   \\ \hline
+\multicolumn{1}{l|}{Kontext} & \multicolumn{1}{c|}{\$} & \multicolumn{2}{c|}{a}       & \multicolumn{1}{c|}{aabac} & \multicolumn{1}{c|}{aabacc} & \multicolumn{1}{c|}{abac} & \multicolumn{1}{c|}{abacc} & \multicolumn{1}{c|}{ac}                         & \multicolumn{1}{c|}{acc} & \multicolumn{2}{c|}{b}                               & \multicolumn{4}{c}{c} \\
+\multicolumn{1}{l|}{Gruppe}  & \multicolumn{1}{c|}{15} & 13 & \multicolumn{1}{c|}{14} & \multicolumn{1}{c|}{8}     & \multicolumn{1}{c|}{2}      & \multicolumn{1}{c|}{9}    & \multicolumn{1}{c|}{3}     & \multicolumn{1}{c|}{11}                         & \multicolumn{1}{c|}{5}   & 4                          & \multicolumn{1}{c|}{10} & 1   & 6   & 7   & 12  \\
+\multicolumn{1}{l|}{SA}      & \multicolumn{1}{c|}{15} & 14 & \multicolumn{1}{c|}{13} & \multicolumn{1}{c|}{8}     & \multicolumn{1}{c|}{2}      & \multicolumn{1}{c|}{9}    & \multicolumn{1}{c|}{3}     & \multicolumn{1}{c|}{\cellcolor[HTML]{\green}11} & \multicolumn{1}{c|}{5}   & \cellcolor[HTML]{\red}10 & \multicolumn{1}{c|}{-}  & 12  & 7   & 1   & -  
+\end{tabular}
+\end{adjustbox}
+
+\caption[Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 2, Iteration 8]{Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 2, Iteration 8. Betrachteter Index: 8, enthaltener Wert: 11, Vorg{\"a}ngerelement: 10, \prevpointer-Kette: 9 $\rightarrow$ 8 $\rightarrow$ 0. Element 10 wird in SA aufgenommen.}
+\label{table_complex_example_2_8} 
+\end{table}
+
+% Phase 2 - Iteration 9
+\begin{table}[H]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\centering
+\begin{tabular}{lccccccccccccccc}
+\multicolumn{16}{l}{Phase 2 - Ergebnis Iteration 9}                                                                                                                                                                                                                                                                                                                \\ \hline
+\multicolumn{1}{l|}{Index}   & 1                       & 2  & 3                       & 4                          & 5                           & 6                         & 7                          & 8                       & 9                                              & 10 & 11                                             & 12  & 13  & 14  & 15  \\
+\multicolumn{1}{l|}{Zeichen} & c                       & a  & a                       & b                          & a                           & c                         & c                          & a                       & a                                              & b  & a                                              & c   & a   & a   & \$  \\
+\multicolumn{1}{l|}{Prev}    & 0                       & 0  & 2                       & 3                          & 3                           & 5                         & 5                          & 0                       & 8                                              & 9  & 9                                              & 11  & 0   & 0   & 0   \\ \hline
+\multicolumn{1}{l|}{Kontext} & \multicolumn{1}{c|}{\$} & \multicolumn{2}{c|}{a}       & \multicolumn{1}{c|}{aabac} & \multicolumn{1}{c|}{aabacc} & \multicolumn{1}{c|}{abac} & \multicolumn{1}{c|}{abacc} & \multicolumn{1}{c|}{ac} & \multicolumn{1}{c|}{acc}                       & \multicolumn{2}{c|}{b}                              & \multicolumn{4}{c}{c} \\
+\multicolumn{1}{l|}{Gruppe}  & \multicolumn{1}{c|}{15} & 13 & \multicolumn{1}{c|}{14} & \multicolumn{1}{c|}{8}     & \multicolumn{1}{c|}{2}      & \multicolumn{1}{c|}{9}    & \multicolumn{1}{c|}{3}     & \multicolumn{1}{c|}{11} & \multicolumn{1}{c|}{5}                         & 4  & \multicolumn{1}{c|}{10}                        & 1   & 6   & 7   & 12  \\
+\multicolumn{1}{l|}{SA}      & \multicolumn{1}{c|}{15} & 14 & \multicolumn{1}{c|}{13} & \multicolumn{1}{c|}{8}     & \multicolumn{1}{c|}{2}      & \multicolumn{1}{c|}{9}    & \multicolumn{1}{c|}{3}     & \multicolumn{1}{c|}{11} & \multicolumn{1}{c|}{\cellcolor[HTML]{\green}5} & 10 & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}4} & 12  & 7   & 1   & -  
+\end{tabular}
+\end{adjustbox}
+
+\caption[Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 2, Iteration 9]{Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 2, Iteration 9. Betrachteter Index: 9, enthaltener Wert: 5, Vorg{\"a}ngerelement: 4, \prevpointer-Kette: 3 $\rightarrow$ 2 $\rightarrow$ 0. Element 4 wird in SA aufgenommen.}
+\label{table_complex_example_2_9} 
+\end{table}
+
+% Phase 2 - Iteration 10
+\begin{table}[H]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\centering
+\begin{tabular}{lccccccccccccccc}
+\multicolumn{16}{l}{Phase 2 - Ergebnis Iteration 10}                                                                                                                                                                                                                                                                                          \\ \hline
+\multicolumn{1}{l|}{Index}   & 1                       & 2  & 3                       & 4                          & 5                           & 6                         & 7                          & 8                       & 9                        & 10                         & 11                      & 12  & 13  & 14  & 15  \\
+\multicolumn{1}{l|}{Zeichen} & c                       & a  & a                       & b                          & a                           & c                         & c                          & a                       & a                        & b                          & a                       & c   & a   & a   & \$  \\
+\multicolumn{1}{l|}{Prev}    & 0                       & 0  & 2                       & 3                          & 3                           & 5                         & 5                          & 0                       & 8                        & 9                          & 9                       & 11  & 0   & 0   & 0   \\ \hline
+\multicolumn{1}{l|}{Kontext} & \multicolumn{1}{c|}{\$} & \multicolumn{2}{c|}{a}       & \multicolumn{1}{c|}{aabac} & \multicolumn{1}{c|}{aabacc} & \multicolumn{1}{c|}{abac} & \multicolumn{1}{c|}{abacc} & \multicolumn{1}{c|}{ac} & \multicolumn{1}{c|}{acc} & \multicolumn{2}{c|}{b}                               & \multicolumn{4}{c}{c} \\
+\multicolumn{1}{l|}{Gruppe}  & \multicolumn{1}{c|}{15} & 13 & \multicolumn{1}{c|}{14} & \multicolumn{1}{c|}{8}     & \multicolumn{1}{c|}{2}      & \multicolumn{1}{c|}{9}    & \multicolumn{1}{c|}{3}     & \multicolumn{1}{c|}{11} & \multicolumn{1}{c|}{5}   & 4                          & \multicolumn{1}{c|}{10} & 1   & 6   & 7   & 12  \\
+\multicolumn{1}{l|}{SA}      & \multicolumn{1}{c|}{15} & 14 & \multicolumn{1}{c|}{13} & \multicolumn{1}{c|}{8}     & \multicolumn{1}{c|}{2}      & \multicolumn{1}{c|}{9}    & \multicolumn{1}{c|}{3}     & \multicolumn{1}{c|}{11} & \multicolumn{1}{c|}{5}   & \cellcolor[HTML]{\green}10 & \multicolumn{1}{c|}{4}  & 12  & 7   & 1   & -  
+\end{tabular}
+\end{adjustbox}
+
+\caption[Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 2, Iteration 10]{Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 2, Iteration 10. Betrachteter Index: 10, enthaltener Wert: 10, Vorg{\"a}ngerelement: 9, \prevpointer-Kette: 8. Keine neuen Elemente werden in SA aufgenommen.} 
+\label{table_complex_example_2_10} 
+\end{table}
+
+% Phase 2 - Iteration 11
+\begin{table}[H]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\centering
+\begin{tabular}{lccccccccccccccc}
+\multicolumn{16}{l}{Phase 2 - Ergebnis Iteration 11}                                                                                                                                                                                                                                                                                         \\ \hline
+\multicolumn{1}{l|}{Index}   & 1                       & 2  & 3                       & 4                          & 5                           & 6                         & 7                          & 8                       & 9                        & 10 & 11                                             & 12  & 13  & 14  & 15  \\
+\multicolumn{1}{l|}{Zeichen} & c                       & a  & a                       & b                          & a                           & c                         & c                          & a                       & a                        & b  & a                                              & c   & a   & a   & \$  \\
+\multicolumn{1}{l|}{Prev}    & 0                       & 0  & 2                       & 3                          & 3                           & 5                         & 5                          & 0                       & 8                        & 9  & 9                                              & 11  & 0   & 0   & 0   \\ \hline
+\multicolumn{1}{l|}{Kontext} & \multicolumn{1}{c|}{\$} & \multicolumn{2}{c|}{a}       & \multicolumn{1}{c|}{aabac} & \multicolumn{1}{c|}{aabacc} & \multicolumn{1}{c|}{abac} & \multicolumn{1}{c|}{abacc} & \multicolumn{1}{c|}{ac} & \multicolumn{1}{c|}{acc} & \multicolumn{2}{c|}{b}                              & \multicolumn{4}{c}{c} \\
+\multicolumn{1}{l|}{Gruppe}  & \multicolumn{1}{c|}{15} & 13 & \multicolumn{1}{c|}{14} & \multicolumn{1}{c|}{8}     & \multicolumn{1}{c|}{2}      & \multicolumn{1}{c|}{9}    & \multicolumn{1}{c|}{3}     & \multicolumn{1}{c|}{11} & \multicolumn{1}{c|}{5}   & 4  & \multicolumn{1}{c|}{10}                        & 1   & 6   & 7   & 12  \\
+\multicolumn{1}{l|}{SA}      & \multicolumn{1}{c|}{15} & 14 & \multicolumn{1}{c|}{13} & \multicolumn{1}{c|}{8}     & \multicolumn{1}{c|}{2}      & \multicolumn{1}{c|}{9}    & \multicolumn{1}{c|}{3}     & \multicolumn{1}{c|}{11} & \multicolumn{1}{c|}{5}   & 10 & \multicolumn{1}{c|}{\cellcolor[HTML]{\green}4} & 12  & 7   & 1   & -  
+\end{tabular}
+\end{adjustbox}
+
+\caption[Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 2, Iteration 11]{Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 2, Iteration 11. Betrachteter Index: 11, enthaltener Wert: 4, Vorg{\"a}ngerelement: 3, \prevpointer-Kette: 2. Keine neuen Elemente werden in SA aufgenommen.}
+\label{table_complex_example_2_11} 
+\end{table}
+
+% Phase 2 - Iteration 12
+\begin{table}[H]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\centering
+\begin{tabular}{lccccccccccccccc}
+\multicolumn{16}{l}{Phase 2 - Ergebnis Iteration 12}                                                                                                                                                                                                                                                                                      \\ \hline
+\multicolumn{1}{l|}{Index}   & 1                       & 2  & 3                       & 4                          & 5                           & 6                         & 7                          & 8                       & 9                        & 10 & 11                      & 12                         & 13 & 14 & 15 \\
+\multicolumn{1}{l|}{Zeichen} & c                       & a  & a                       & b                          & a                           & c                         & c                          & a                       & a                        & b  & a                       & c                          & a  & a  & \$ \\
+\multicolumn{1}{l|}{Prev}    & 0                       & 0  & 2                       & 3                          & 3                           & 5                         & 5                          & 0                       & 8                        & 9  & 9                       & 11                         & 0  & 0  & 0  \\ \hline
+\multicolumn{1}{l|}{Kontext} & \multicolumn{1}{c|}{\$} & \multicolumn{2}{c|}{a}       & \multicolumn{1}{c|}{aabac} & \multicolumn{1}{c|}{aabacc} & \multicolumn{1}{c|}{abac} & \multicolumn{1}{c|}{abacc} & \multicolumn{1}{c|}{ac} & \multicolumn{1}{c|}{acc} & \multicolumn{2}{c|}{b}       & \multicolumn{4}{c}{c}                     \\
+\multicolumn{1}{l|}{Gruppe}  & \multicolumn{1}{c|}{15} & 13 & \multicolumn{1}{c|}{14} & \multicolumn{1}{c|}{8}     & \multicolumn{1}{c|}{2}      & \multicolumn{1}{c|}{9}    & \multicolumn{1}{c|}{3}     & \multicolumn{1}{c|}{11} & \multicolumn{1}{c|}{5}   & 4  & \multicolumn{1}{c|}{10} & 1                          & 6  & 7  & 12 \\
+\multicolumn{1}{l|}{SA}      & \multicolumn{1}{c|}{15} & 14 & \multicolumn{1}{c|}{13} & \multicolumn{1}{c|}{8}     & \multicolumn{1}{c|}{2}      & \multicolumn{1}{c|}{9}    & \multicolumn{1}{c|}{3}     & \multicolumn{1}{c|}{11} & \multicolumn{1}{c|}{5}   & 10 & \multicolumn{1}{c|}{4}  & \cellcolor[HTML]{\green}12 & 7  & 1  & - 
+\end{tabular}
+\end{adjustbox}
+
+\caption[Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 2, Iteration 12]{Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 2, Iteration 12. Betrachteter Index: 12, enthaltener Wert: 12, Vorg{\"a}ngerelement: 11, \prevpointer-Kette: 9 $\rightarrow$ 8 $\rightarrow$ 0, Es werden keine neuen Elemente in SA aufgenommen.}
+\label{table_complex_example_2_12} 
+\end{table}
+
+% Phase 2 - Iteration 13
+\begin{table}[H]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\centering
+\begin{tabular}{lccccccccccccccc}
+\multicolumn{16}{l}{Phase 2 - Ergebnis Iteration 13}                                                                                                                                                                                                                                                                                                            \\ \hline
+\multicolumn{1}{l|}{Index}   & 1                       & 2  & 3                       & 4                          & 5                           & 6                         & 7                          & 8                       & 9                        & 10 & 11                      & 12 & 13                        & 14 & 15                        \\
+\multicolumn{1}{l|}{Zeichen} & c                       & a  & a                       & b                          & a                           & c                         & c                          & a                       & a                        & b  & a                       & c  & a                         & a  & \$                        \\
+\multicolumn{1}{l|}{Prev}    & 0                       & 0  & 2                       & 3                          & 3                           & 5                         & 5                          & 0                       & 8                        & 9  & 9                       & 11 & 0                         & 0  & 0                         \\ \hline
+\multicolumn{1}{l|}{Kontext} & \multicolumn{1}{c|}{\$} & \multicolumn{2}{c|}{a}       & \multicolumn{1}{c|}{aabac} & \multicolumn{1}{c|}{aabacc} & \multicolumn{1}{c|}{abac} & \multicolumn{1}{c|}{abacc} & \multicolumn{1}{c|}{ac} & \multicolumn{1}{c|}{acc} & \multicolumn{2}{c|}{b}       & \multicolumn{4}{c}{c}                                           \\
+\multicolumn{1}{l|}{Gruppe}  & \multicolumn{1}{c|}{15} & 13 & \multicolumn{1}{c|}{14} & \multicolumn{1}{c|}{8}     & \multicolumn{1}{c|}{2}      & \multicolumn{1}{c|}{9}    & \multicolumn{1}{c|}{3}     & \multicolumn{1}{c|}{11} & \multicolumn{1}{c|}{5}   & 4  & \multicolumn{1}{c|}{10} & 1  & 6                         & 7  & 12                        \\
+\multicolumn{1}{l|}{SA}      & \multicolumn{1}{c|}{15} & 14 & \multicolumn{1}{c|}{13} & \multicolumn{1}{c|}{8}     & \multicolumn{1}{c|}{2}      & \multicolumn{1}{c|}{9}    & \multicolumn{1}{c|}{3}     & \multicolumn{1}{c|}{11} & \multicolumn{1}{c|}{5}   & 10 & \multicolumn{1}{c|}{4}  & 12 & \cellcolor[HTML]{\green}7 & 1  & \cellcolor[HTML]{\red}6
+\end{tabular}
+\end{adjustbox}
+
+\caption[Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 2, Iteration 13]{Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 2, Iteration 13. Betrachteter Index: 13, enthaltener Wert: 7, Vorg{\"a}ngerelement: 6, \prevpointer-Kette: 5 $\rightarrow$ 3 $\rightarrow$ 2 $\rightarrow$ 0. Element 6 wird in SA aufgenommen.}
+\label{table_complex_example_2_13} 
+\end{table}

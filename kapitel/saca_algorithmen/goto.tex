@@ -1,0 +1,350 @@
+\newcommand{\lms}{$suf_{LMS} $ }
+\newcommand{\lmsx}{$suf_{LMSx} $ }
+\newcommand{\lmsxnot}{$suf_{\overline{LMSx}} $ }
+\newcommand{\lmsy}{$suf_{LMSy} $ }
+\newcommand{\lmsynot}{$suf_{\overline{LMSy}} $ }
+\newcommand{\lx}{$suf_{Lx} $ }
+\newcommand{\lxnot}{$suf_{\overline{Lx}} $ }
+\newcommand{\sx}{$suf_{Sx} $ }
+\newcommand{\ly}{$suf_{Ly} $ }
+\newcommand{\lynot}{$suf_{\overline{Ly}} $ }
+\newcommand{\SAlms}{$SA_{LMS}$}
+\newcommand{\SAs}{$SA_{S}$}
+\newcommand{\SAl}{$SA_{L}$}
+\newcommand{\SAlmsynotlmsx}{$SA_{suf_{\overline{LMSy}}\bigcap suf_{LMSx}}$ }
+\newcommand{\SAlxlynot}{$SA_{suf_{Lx}\bigcap suf_{\overline{Ly}}}$ }
+\newcommand{\SAlysx}{$SA_{suf_{Ly}\bigcup suf_{Sx}}$ }
+\newcommand{\SAlsx}{$SA_{suf_{L}\bigcup suf_{Sx}}$ }
+\newcommand{\SAlmsxnot}{$SA_{suf_{\overline{LMSx}}}$ }
+\newcommand{\SAlmsynot}{$SA_{suf_{\overline{LMSy}}}$ }
+\newcommand{\SAlx}{$SA_{suf_{Lx}}$}
+\newcommand{\SAlxnot}{$SA_{suf_{\overline{Lx}}}$ }
+\newcommand{\SAlynot}{$SA_{suf_{\overline{Ly}}}$ }
+\newcommand{\SAsxnot}{$SA_{suf_{\overline{Sx}}}$ }
+
+
+\section{goto-SACA}
+Der \currentauthor{Janina Michaelis} Suffixarray Construction Algorithm von Keisuke Goto baut von der Idee her auf dem SAIS auf. Allerdings wird das Problem hier in O(n) Zeit und ohne Zusätzlichen Platzverbrauch gelöst. Im folgenden werden zunächst einige Begriffe erläutert, welche zum Verständnis des Algorithmus benötigt werden.
+\subsection{Erläuterungen}
+\paragraph{$\sigma$} Die Größe des Alphabets welches im String vorkommt.
+\paragraph{LE[c]/RE[c]} Die linkeste (LE) bzw. rechteste (RE) Position in einem Buchstabenintervall im Suffixarray.
+\paragraph{$CL_{c}$/$CR_{c}$} Die Anzahl der L- bzw. S-Suffixe, welche mit c starten. 
+\paragraph{LMSx} Pro Buchstaben das kleinste LMS-Suffix.
+\paragraph{LMSy} Pro Buchstaben, für den es kein L Suffix gibt, das kleinste LMS-Suffix.
+\paragraph{Lx} Pro Buchstaben das größte L-Suffix. 
+\paragraph{Ly} Pro Buchstabe, für den kein S-Suffix existiert, das größte L-Suffix.
+\paragraph{Sx} Pro Buchstabe das kleinste S-Suffix.
+\paragraph{SA} Das Suffix-Array.
+\paragraph{T} Der String, für welchen das Suffix-Array gesucht wird.
+\paragraph{$T_{i}$} Das Suffix ab dem Index i.
+\bigskip
+Es gilt du beachten, dass der Algorithmus von Goto auf Integeralphabete ausgelegt ist. Deshalb muss der String vor Start des Algorithmus falls notwendig in Integerzahlen umgewandelt werden.
+
+\subsection{LMS-Substring Sortierung}
+Im ersten Schritt des Algorithmus werden die LMS-Substrings sortiert. Hierfür werden zunächst zwei separate Hilfsarray Y und Z benötigt. Diese sind Subarrays von A. Z nimmt die letzten | \lmsxnot| Zeichen von A ein und Y die |$\sigma$ | Zeichen davor. Im ersten Schritt werden alle LMS-Substrings nach Anfangsbuchstaben sortiert in A gespeichert. Dafür wird zunächst RE bezüglich \lmsxnot für jeden Buchstaben in Y gespeichert. Also RE[c] in Y[c]. Dann wird T von rechts nach links durchlaufen und jeder LMS-Substring $T'_{i}$ wird in Z[RE[$c_{i}$]] gespeichert. Hierbei kann es vorkommen, dass der Platz in Z schon belegt ist. Dann werden die zwei Substrings verglichen und der größere in Z gespeichert. Der kleinere wird in Y[$c_{i}$] abgelegt. Wenn T durchlaufen ist, sind alle LMS-Substrings in Y und Z gespeichert. Da in Y Lücken seien können, werden alle darin gespeicherten Substrings ans Ende von Y, in $Y_{1}$ der Länge | \lmsx | geschoben. Im Anschluss werden $y_{1}$ und Z über die Anfangsbuchstaben der Substrings gemergt. In den letzten | \lms | Einträgen von A sind nun die nach Anfangsbuchstaben sortierten LMS-Substrings gespeichert. \\
+Nun müssen die Substrings lexikografisch sortiert werden. Es wird in drei Schritten vorgegangen:
+\paragraph{Schritt 1:}
+Die LMS-Substrings werden von links nach rechts durchlaufen und jeder gelesene Substring $T_{i}$ wird in $A[RE[c_{i}]]$ verschoben und $RE[c_{i}]$ um eins verringert.
+\paragraph{Schritt 2:}
+Von links nach rechts werden alle Substrings in A gelesen. Bei jedem Substring $T'_{i}$ wird sein Vorgänger $T_{i-1}$ betrachtet. Wenn dieser ein L-Substring ist, wird er in $A[LE[c_{i-1}]]$ gespeichert und LE[$c_{i-1}$] inkrementiert. Nachdem $T'_{i}$ gelesen wurde, wird er aus A gelöscht.
+\paragraph{Schritt 3:}
+Von rechts nach links werden alle Substrings in A gelesen. Bei jedem Substring $T'_{i}$ wird sein Vorgänger $T_{i-1}$ betrachtet. Wenn dieser ein S-Substring ist, wird er in $A[RE[c_{i-1}]]$ gespeichert und RE[$c_{i-1}$] dekrementiert. Nachdem $T'_{i}$ gelesen wurde, wird er aus A gelöscht.
+\bigskip
+Nun liegen alle LMS-Substrings in sortierter Reihenfolge vor und können wieder an das Ende von A verschoben werden.
+\subsection{LMS-Suffix Sortierung}
+Sollten alle LMS-Substrings einzigartig sein, können die LMS-Suffixe einfach von diese adaptiert werden.
+Anderenfalls wird ein String $T^{1}$ erstellt, in welchem jeder LMS-Substring in T durch seinen Rang unter den sortierten LMS-Substrings ersetzt wird. Um die richtige Reihenfolge der LMS-Substrings wird das Suffixarray von $T^{1}$ berechnet.
+\subsection{L-Suffix Sortierung}
+Nachdem die LMS-Suffixe sortiert vorliegen, werden darauf aufbauend die L-Suffixe sortiert. Dieser Schritt wird in neun Transitionen unterteilt.
+\paragraph{Transition 1}
+Alle sortierten LMS-Suffixe werden an das Ende von A, also in das Subarray Z verschoben.
+\paragraph{Transition 2}
+Das Ziel von Transition 2 soll es sein das Suffix-Array für \lmsxnot  im Subarray Z2 zu speichern und die unsortierten \lmsx  in Z1 abzulegen.\\
+Dafür werden die sortierten LMS-Suffixe von rechts nach links durchlaufen und falls \SAlms [i] $\in$ \lmsxnot , wird es mit Z2[j] getauscht. j startet bei |Z2| und wird bei jedem Tausch dekrementiert.
+\paragraph{Transition 3}
+Die \lmsx in Z1 = $T_{j}$ werden von links nach rechts in Y[$c_{j}$] verschoben.
+\paragraph{Transition 4}
+Ziel dieser Transition ist es die \lmsy in Y zu speichern und das \SAlmsynotlmsx zwischen Y und Z2 abzulegen.\\
+Dafür werden zunächst die Typen in Y festgelegt. Initial werden diese alle auf S gesetzt. Bei einem Scan von rechts nach links über T wird der Typ  von jedem Y[$c_{i}$] auf L gesetzt, wenn $T_{i}$ ein L-Suffix ist. Im   Anschluss wird jeder Eintrag von Y der vom Typ L ist von rechts nach    links in Z1 verschoben.
+\paragraph{Transition 5}
+\SAlmsynotlmsx in Z1 und \SAlmsxnot in Z2 werden über die Anfangsbuchstaben der Suffixe gemergt und man erhält \SAlmsynot in Z3.
+\paragraph{Transition 6}
+Jeder Eintrag in Y, welcher vom Typ L ist, wird auf 0 gesetzt. Dann wird für jedes c die Anzahl der L-Suffixe in Y[c] gespeichert, welche mit c beginnen. Anschließend wird von recht nach links auf Y jeder  Eintrag vom Typ L wie folgt neu berechnet: $\sum_{c'<c} max(0, CL_{c'}-1)$. Dadurch entsteht LE[c] in Y.
+\paragraph{Transition 7}
+Hier wird jeweils in drei Schritten vorgegangen.
+\subparagraph{Schritt 1: Lese alle L- und LMS-Suffixe in lexikogr. Reihenfolge}
+Suffixe die in X1, Y und Z3 gespeichert sind, sind darin sortiert. Jeweils von links nach rechts werden die drei Subarrays gelesen und das kleinste Suffix ausgewählt. Der entsprechende Iterator $i_{x}$, $i_{y}$ oder $i_{z}$ wird inkrementiert.\\
+X1 enthält entweder ein L-Suffix oder ist leer.\\
+Y enthält entweder ein Suffix aus \lx $\bigcup$ \lmsy, einen Wert für LE oder ist leer.\\
+Z3 enthält ein LMS-Suffix.\\
+Wenn ein Iterator größer wird als sein entsprechendes Array erhält er den Wert $\sigma + 1$, so dass dieser Eintrag auf keinen Fall mehr gewählt wird. Ist ein Eintrag in X1 leer, erhält er ebenfalls dem Wert $\sigma + 1$. Enthalten alle drei gelesenen Einträge den gleichen Wert, gilt X1<Y<Z3. Es könnte das Problem aufkommen, dass Y gelesen wird, aber kein Suffix sondern einen Wert für LE[$c_{i}$] enthält, oder leer ist. Dieses Problem wird wie folgt gelöst:\\
+Wenn Y leer ist, impliziert das, dass kein L- oder LMS-Suffix mit dem entsprechenden Anfangsbuchstaben existiert. $i_{y}$ wird einfach inkrementiert und das kleinste Suffix wird erneut gesucht. Wie wird erkannt, ob Y einen Wert für LE enthält? Im Normalfall enthält Y für jeden Buchstaben das größte L-Suffix. Ist dies nicht der Fall, enthält es noch den Wert für LE und das entsprechende Suffix aus \lx wurde zuvor aus X1 gelesen. Wenn man also das zuletzt gelesene Suffix und das dazugehörige Array speichert, weiß man, dass wenn ein Suffix mit gleichem Startbuchstaben $i_{y}$ aus X1 gelesen wurde, Y einen Wert für LE enthält. Für diesen Fall wird $T_{j}$ = X1[$i_{x}-1$] in LE[$i_{y}$] verschoben und $i_{y}$ inkrementiert. $i_{x}$ wird dekrementiert.
+\subparagraph{Schritt 2: Entscheide, ob $T_{i-1}$ ein L-Suffix ist}
+Wenn $T_{i}$ auf X1 oder Z3 gelsen wird, kennen wir dessen Typ und können den Typ von $T_{i-1}$ durch Vergleichen der Anfangsbuchstaben in Erfahrung bringen. Wenn $T_{i}$ aus Y gelesen wird, wissen wir das $c_{i}\neq c_{i-1}$. Also können diese beiden einfach verglichen werden, um den Typ zu bestimmen
+\subparagraph{Schritt 3: Speichere $T_{i-1}$, wenn es ein L-Suffix ist}
+Wenn $X1[LE[c_{i-1}]]$ leer ist, wird $T_{i-1}$ darin gespeichert und $LE[c_{i-1}]$ inkrementiert. Anderenfalls besteht ein Konflikt zwischen $T_{i-1}$ und $T_{j}$ gespeichert in $X1[LE[c_{i-1}]]$. Vergleiche beide Anfangsbuchstaben, speichere das größere von beiden in $X1[LE[c_{i-1}]]$ und das kleinere in $Y[min(c_{i-1},c_{j}]$. Wenn $c_{i-1}>c_{j}$, inkrementiere $LE[c_{i-1}]$ und $i_{y}$.
+\bigskip
+Jedes in Schritt 1 gelesene Suffix durchläuft erst Schritt 2 und 3, bevor das nächste Suffix gelesen wird. Abschließend erhalten wir \SAlxnot in X1 und $LE_{suf_{Lx}\bigcup suf_{LMSy}}$ in Y.
+\paragraph{Transition 8}
+In dieser Transition soll \SAlx in X2 erstellt werden.\\
+Verschiebe dafür von links nach rechts jeden Eintrag vom Typ L aus Y nach X2. Im Anschluss wird jeder Eintrag außerhalb von X gelöscht.
+\paragraph{Transition 9}
+\SAlx in X1 und \SAlxnot in X2 werden über die Anfangsbuchstaben der Suffixe zu \SAl in X gemergt.
+\bigskip
+Nach diesen 9 Schritte liegt das sortierte Suffix-Array der L-Suffixe am Anfang von A.
+\subsection{S-Suffix Sortierung}
+Das Prinzip beim Sortieren der S-Suffixe ist das gleiche wie beim Sortieren der L-Suffixe. Die Subarray Aufteilung ist ein wenig anders und die Schritte müssen geringfügig angepasst werden.
+\paragraph{Transition 1}
+entfällt
+\paragraph{Transition 2}
+Das Ziel von Transition 2 soll es sein das Suffix-Array für \lxnot  im Subarray X1 zu speichern und die unsortierten \lx  in X2 abzulegen.\\
+Dafür werden die sortierten L-Suffixe von links nach rechts durchlaufen und falls \SAl [i] $\in$ \lxnot , wird es mit X1[j] getauscht. j startet bei 0 und wird bei jedem Tausch inkrementiert.
+\paragraph{Transition 3}
+Die \lx in X2 = $T_{j}$ werden von rechts nach links in Y[$c_{j}$] verschoben.
+\paragraph{Transition 4}
+Ziel dieser Transition ist es die \ly in Y zu speichern und das \SAlxlynot zwischen Y und X1 abzulegen.\\
+Dafür werden zunächst die Typen in Y festgelegt. Initial werden diese alle auf L gesetzt. Bei einem Scan von rechts nach links über T wird der Typ  von jedem Y[$c_{i}$] auf S gesetzt, wenn $T_{i}$ ein S-Suffix ist. Im   Anschluss wird jeder Eintrag von Y der vom Typ S ist von links nach    rechts in X2 verschoben.
+\paragraph{Transition 5}
+\SAlxlynot in X2 und \SAlxnot in X1 werden über die Anfangsbuchstaben der Suffixe gemergt und man erhält \SAlynot in X3.
+\paragraph{Transition 6}
+Jeder Eintrag in Y, welcher vom Typ S ist, wird auf 0 gesetzt. Dann wird für jedes c die Anzahl der S-Suffixe in Y[c] gespeichert, welche mit c beginnen. Anschließend wird von links nach rechts auf Y jeder Eintrag vom Typ S wie folgt neu berechnet: $\sum_{c'\leq c} max(0, CS_{c'}-1)$. Sollte im Anschluss der Wert >0 sein, wird noch ein mal -1 gerechnet. Dadurch entsteht RE[c] in Y.
+\paragraph{Transition 7}
+Auch hier wird wieder jeweils in drei Schritten vorgegangen.
+\subparagraph{Schritt 1: Lese alle S- und LMS-Suffixe in lexikogr. Reihenfolge}
+Suffixe die in X3, Y und Z gespeichert sind, sind darin sortiert. Jeweils von rechts nach links werden die drei Subarrays gelesen und das größte Suffix ausgewählt. Der entsprechende Iterator $i_{x}$, $i_{y}$ oder $i_{z}$ wird dekrementiert.\\
+X3 enthält ein L-Suffix.\\
+Y enthält entweder ein Suffix aus \sx $\bigcup$ \ly, einen Wert für RE oder ist leer.\\
+Z enthält entweder ein S-Suffix oder ist leer.\\
+Wenn ein Iterator kleiner wird als Null erhält er den Wert -1, so dass dieser Eintrag auf keinen Fall mehr gewählt wird. Ist ein Eintrag in Z leer, erhält er ebenfalls dem Wert -1. Enthalten alle drei gelesenen Einträge den gleichen Wert, gilt X3<Y<Z. Es könnte das Problem aufkommen, dass Y gelesen wird, aber kein Suffix sondern einen Wert für RE[$c_{i}$] enthält, oder leer ist. Dieses Problem wird wie folgt gelöst:\\
+Wenn Y leer ist, impliziert das, dass kein L- oder LMS-Suffix mit dem entsprechenden Anfangsbuchstaben existiert. $i_{y}$ wird einfach dekrementiert und das größte Suffix wird erneut gesucht. Wie wird erkannt, ob Y einen Wert für RE enthält? Im Normalfall enthält Y für jeden Buchstaben das größte S-Suffix. Ist dies nicht der Fall, enthält es noch den Wert für RE und das entsprechende Suffix aus \sx wurde zuvor aus Z gelesen. Wenn man also das zuletzt gelesene Suffix und das dazugehörige Array speichert, weiß man, dass wenn ein Suffix mit gleichem Startbuchstaben $i_{y}$ aus Z gelesen wurde, Y einen Wert für RE enthält. Für diesen Fall wird $T_{j}$ = Z[$i_{x}+1$] in RE[$i_{y}$] verschoben und $i_{y}$ dekrementiert.
+\subparagraph{Schritt 2: Entscheide, ob $T_{i-1}$ ein S-Suffix ist}
+Wenn $T_{i}$ auf X3 oder Z gelesen wird, kennen wir dessen Typ und können den Typ von $T_{i-1}$ durch Vergleichen der Anfangsbuchstaben in Erfahrung bringen. Wenn $T_{i}$ aus Y gelesen wird, wissen wir das $c_{i}\neq c_{i-1}$. Also können diese beiden einfach verglichen werden, um den Typ zu bestimmen
+\subparagraph{Schritt 3: Speichere $T_{i-1}$, wenn es ein S-Suffix ist}
+Wenn $Z[RE[c_{i-1}]]$ leer ist, wird $T_{i-1}$ darin gespeichert und $RE[c_{i-1}]$ dekrementiert. Anderenfalls besteht ein Konflikt zwischen $T_{i-1}$ und $T_{j}$ gespeichert in $Z[RE[c_{i-1}]]$. Vergleiche beide Anfangsbuchstaben, speichere das größere von beiden in $Z[RE[c_{i-1}]]$ und das kleinere in $Y[min(c_{i-1},c_{j}]$. Wenn $c_{i-1}>c_{j}$, dekrementiere $RE[c_{i-1}]$.
+\bigskip
+Jedes in Schritt 1 gelesene Suffix durchläuft erst Schritt 2 und 3, bevor das nächste Suffix gelesen wird. Abschließend erhalten wir \SAsxnot in X3 und $RE_{suf_{Sx}\bigcup suf_{Ly}}$ in Y.
+\paragraph{Transition 8}
+\SAlysx in Y und \SAlynot in X3 werden über die Anfangsbuchstaben der Suffixe gemergt und man erhält \SAlsx in X3+Y.
+\paragraph{Transition 9}
+\SAlsx in X3Y und \SAsxnot in Z werden über die Anfangsbuchstaben der Suffixe gemergt und man erhält SA in A.
+\bigskip
+Somit erhält man das vollständige Suffix-Array von T.
+\subsection{Beispiel}
+Im folgenden wird der Algorithmus an einem Beispielstring "caabaccaabacaa" verdeutlicht.
+\begin{center}
+    \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
+        \hline
+        $i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 \\ \hline
+        $T$ & c & a & a & b & a & c & c & a & a & b & a & c & a & a & \$ \\ \hline
+        $type$ & L & S & S & L & S & L & L & S & S & L & S & L & L & L & S \\ 
+        \hline
+    \end{tabular}
+\end{center}
+\textbf{LMSx:} 7, 14\\
+\textbf{$\overline{LMSx}$:} 1, 4, 10\\
+\textbf{LMSy:} 14\\
+\textbf{$\overline{LMSy}$:} 1, 4, 7, 10\\
+\textbf{Lx:} 3, 5, 12\\
+\textbf{$\overline{Lx}$:} 0, 6, 9, 11, 13\\
+\paragraph{LMS-Substring Sortierung}
+\begin{center}
+    \resizebox{\textwidth}{!}{
+        \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
+            \hline
+            $i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 \\ \hline
+            $T$ & c & a & a & b & a & c & c & a & a & b & a & c & a & a & \$ \\ \hline
+            $T$ & 3 & 1 & 1 & 2 & 1 & 3 & 3 & 1 & 1 & 2 & 1 & 3 & 1 & 1 & 0 \\ \hline
+            $type$ & L & S & S & L & S & L & L & S & S & L & S & L & L & L & S \\ 
+            \hline
+            \hline
+            $A$ & & & & & & & & & & & & & & & \\ \hline
+            & \multicolumn{8}{c|}{} & \multicolumn{4}{c|}{Y} & \multicolumn{3}{c|}{Z}\\ \hline
+            $A$ & & & & & & & & & & 2 & & & & & \\ \hline
+            $A$ & & & & & & & & & & 2 & & & 14' & & \\ \hline
+            & \multicolumn{8}{c|}{} & \multicolumn{4}{c|}{Y} & \multicolumn{3}{c|}{Z}\\ \hline
+            $A$ & & & & & & & & & & 1 & & & 14' & & 10'\\ \hline
+            $A$ & & & & & & & & & & 0 & & & 14' & 7' & 10' \\ \hline
+            & \multicolumn{8}{c|}{} & \multicolumn{4}{c|}{Y} & \multicolumn{3}{c|}{Z}\\ \hline
+            $A$ & & & & & & & & & 14' & & & & 4' & 7' & 10' \\ \hline
+            $A$ & & & & & & & & & 14' & 1' & & & 4' & 7' & 10' \\ \hline
+            & \multicolumn{8}{c|}{} & \multicolumn{4}{c|}{Y} & \multicolumn{3}{c|}{Z}\\ \hline
+            $A$ & & & & & & & & & & & 14' & 1' & 4' & 7' & 10' \\ \hline
+            & \multicolumn{10}{c|}{} & \multicolumn{2}{c|}{Y1} & \multicolumn{3}{c|}{Z}\\ \hline \hline
+            $A$ & & & & & & & & & & & 14' & 1' & 4' & 7' & 10' \\ \hline
+            $A$ & 14' & & & & 10' & 7' & 4' & 1' & & & & & & & \\ \hline \hline
+            $A$ & 14' & 13' & & & 10' & 7' & 4' & 1' & & & & & & & \\ \hline
+            $A$ & & 13' & & & 10' & 7' & 4' & 1' & & & & & & & \\ \hline 
+            $A$ & & 13' & 12' & & 10' & 7' & 4' & 1' & & & & & & & \\ \hline
+            $A$ & & & 12' & & 10' & 7' & 4' & 1' & & & & & & & \\ \hline
+            $A$ & & & 12' & & 10' & 7' & 4' & 1' & & & 11' & & & & \\ \hline
+            $A$ & & & & & 10' & 7' & 4' & 1' & & & 11' & & & & \\ \hline
+            $A$ & & & & & 10' & 7' & 4' & 1' & 9' & & 11' & & & & \\ \hline
+            $A$ & & & & & & 7' & 4' & 1' & 9' & & 11' & & & & \\ \hline
+            $A$ & & & & & & 7' & 4' & 1' & 9' & & 11' & 6' & & & \\ \hline
+            $A$ & & & & & & & 4' & 1' & 9' & & 11' & 6' & & & \\ \hline
+            $A$ & & & & & & & 4' & 1' & 9' & 3' & 11' & 6' & & & \\ \hline
+            $A$ & & & & & & & & 1' & 9' & 3' & 11' & 6' & & & \\ \hline
+            $A$ & & & & & & & & 1' & 9' & 3' & 11' & 6' & 0' & & \\ \hline
+            $A$ & & & & & & & & & 9' & 3' & 11' & 6' & 0' & & \\ \hline
+            $A$ & & & & & & & & & 9' & 3' & 11' & 6' & 0' & & \\ \hline
+            $A$ & & & & & & & & & 9' & 3' & 11' & 6' & 0' & 5' &\\ \hline
+            $A$ & & & & & & & & & 9' & 3' & 11' & & 0' & 5' & \\ \hline \hline
+            $A$ & & & & & & & & & 9' & 3' & 11' & & 0' & 5'  &\\ \hline
+            $A$ & & & & & & & & 4' & 9' & 3' & 11' & & 0' & 5' & \\ \hline
+            $A$ & & & & & & & & 4' & 9' & 3' & 11' & & 0' & &  \\ \hline
+            $A$ & 14' & & & & & & & 4' & 9' & 3' & 11' & & 0' & & \\ \hline
+            $A$ & 14' & & & & & & & 4' & 9' & 3' & 11' & & & & \\ \hline
+            $A$ & 14' & & & & & & 10' & 4' & 9' & 3' & 11' & & & & \\ \hline
+            $A$ & 14' & & & & & & 10' & 4' & 9' & 3' & & & & & \\ \hline
+            $A$ & 14' & & & & & 2' & 10' & 4' & 9' & 3' & & & & & \\ \hline
+            $A$ & 14' & & & & & 2' & 10' & 4' & 9' & & & & & & \\ \hline
+            $A$ & 14' & & & & 8' & 2' & 10' & 4' & 9' & & & & & & \\ \hline
+            $A$ & 14' & & & & 8' & 2' & 10' & 4' & & & & & & & \\ \hline
+            $A$ & 14' & & & 1' & 8' & 2' & 10' & 4' & & & & & & & \\ \hline
+            $A$ & 14' & & & 1' & 8' & & 10' & 4' & & & & & & & \\ \hline
+            $A$ & 14' & & 7' & 1' & 8' & & 10' & 4' & & & & & & & \\ \hline
+            $A$ & 14' & & 7' & 1' & & & 10' & 4' & & & & & &  &  \\ \hline
+            $A$  & & & & & & & & & & & 14' & 7' & 1' & 10' & 4' \\ \hline
+        \end{tabular}
+    }
+\end{center}
+Da alle LMS-Substrings einzigartig sin, können die LMS-Suffixe übernommen werden. Es kann mit dem nächsten Schritt fortgefahren werden.
+\paragraph{L-Suffix Sortierung}
+\begin{center}
+    \resizebox{\textwidth}{!}{
+        \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
+            \hline
+            $i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 \\ \hline
+            $T$ & c & a & a & b & a & c & c & a & a & b & a & c & a & a & \$ \\ \hline
+            $T$ & 3 & 1 & 1 & 2 & 1 & 3 & 3 & 1 & 1 & 2 & 1 & 3 & 1 & 1 & 0 \\ \hline
+            & \multicolumn{5}{c|}{X1} & \multicolumn{3}{c|}{X2} & & & \multicolumn{2}{c|}{Z1} & \multicolumn{3}{c|}{Z2}\\ \hline
+            & & & & & & & & \multicolumn{4}{c|}{Y} & \multicolumn{4}{c|}{Z3} \\ \hline
+            $A$  & & & & & & & & & & & 14 & 7 & 1 & 10 & 4 \\ \hline
+            \multicolumn{16}{c}{\textbf{Transition 1}}\\
+            \hline
+            $A$  & & & & & & & & & & & 14 & 7 & 1 & 10 & 4 \\ \hline
+            \multicolumn{16}{c}{\textbf{Transition 2}}\\
+            \hline
+            $A$  & & & & & & & & & & & 14 & 7 & 1 & 10 & 4 \\ \hline
+            \multicolumn{16}{c}{\textbf{Transition 3}}\\
+            \hline
+            $A$  & & & & & & & & & & & 14 & 7 & 1 & 10 & 4 \\ \hline 
+            $A$  & & & & & & & & 14 & 7 & & & & 1 & 10 & 4 \\ \hline	
+            \multicolumn{16}{c}{\textbf{Transition 4}}\\
+            \hline
+            $A$  & & & & & & & & 14 & 7 & & & & 1 & 10 & 4 \\ \hline	
+            $A$  & & & & & & & & 14[S] & 7[S] & [S] & [S] & & 1 & 10 & 4 \\ \hline	
+            $A$  & & & & & & & & 14[S] & 7[L] & [L] & [L] & & 1 & 10 & 4 \\ \hline
+            $A$  & & & & & & & & 14[S] & [L] & [L] & [L] & 7 & 1 & 10 & 4 \\ \hline
+            \multicolumn{16}{c}{\textbf{Transition 5}}\\
+            \hline
+            $A$  & & & & & & & & 14[S] & [L] & [L] & [L] & 7 & 1 & 10 & 4 \\ \hline
+            \multicolumn{16}{c}{\textbf{Transition 6}}\\
+            \hline
+            $A$  & & & & & & & & 14[S] & [L] & [L] & [L] & 7 & 1 & 10 & 4 \\ \hline
+            $A$  & & & & & & & & 14[S] & 0[L] & 0[L] & 0[L] & 7 & 1 & 10 & 4 \\ \hline
+            $A$  & & & & & & & & 14[S] & 2[L] & 2[L] & 4[L] & 7 & 1 & 10 & 4 \\ \hline
+            $A$  & & & & & & & & 14[S] & 2[L] & 2[L] & 2[L] & 7 & 1 & 10 & 4 \\ \hline
+            $A$  & & & & & & & & 14[S] & 2[L] & 1[L] & 2[L] & 7 & 1 & 10 & 4 \\ \hline
+            $A$  & & & & & & & & 14[S] & 0[L] & 1[L] & 2[L] & 7 & 1 & 10 & 4 \\ \hline
+            \multicolumn{16}{c}{\textbf{Transition 7}}\\
+            \hline
+            $A$  & *(4) & (4) & (4) & (4) & (4) & & & *14[S](0) & 0[L](1) & 1[L](2) & 2[L](3) & *7 & 1 & 10 & 4 \\ \hline
+            $A$  & *13 & (4) & (4) & (4) & (4) & & & 14[S](0) & *1[L](1) & 1[L](2) & 2[L](3) & *7 & 1 & 10 & 4 \\ \hline
+            $A$  & 13 & *12 & (4) & (4) & (4) & & & 14[S](0) & *2[L](1) & 1[L](2) & 2[L](3) & *7 & 1 & 10 & 4 \\ \hline
+            $A$  & 13 & 12 & *11 & (4) & (4) & & & 14[S](0) & *2[L](1) & 1[L](2) & 3[L](3) & *7 & 1 & 10 & 4 \\ \hline
+            $A$  & 13 & *(4) & 11 & (4) & (4) & & & 14[S](0) & 12[L](1) & *1[L](2) & 3[L](3) & *7 & 1 & 10 & 4 \\ \hline
+            $A$  & 13 & *(4) & 11 & 6 & (4) & & & 14[S](0) & 12[L](1) & *1[L](2) & 4[L](3) & 7 & *1 & 10 & 4 \\ \hline
+            $A$  & 13 & *(4) & 11 & 6 & 0 & & & 14[S](0) & 12[L](1) & *1[L](2) & 5[L](3) & 7 & 1 & *10 & 4 \\ \hline 
+            $A$  & 13 & *9 & 11 & 6 & 0 & & & 14[S](0) & 12[L](1) & *2[L](2) & 5[L](3) & 7 & 1 & 10 & *4 \\ \hline
+            $A$  & 13 & *9 & 11 & 6 & 0 & & & 14[S](0) & 12[L](1) & *3[L](2) & 5[L](3) & 7 & 1 & 10 & 4 \\ \hline
+            $A$  & 13 & 9 & *11 & 6 & 0 & & & 14[S](0) & 12[L](1) & *3[L](2) & 5[L](3) & 7 & 1 & 10 & 4 \\ \hline
+            $A$  & 13 & 9 & *11 & 6 & 0 & & & 14[S](0) & 12[L](1) & 3[L](2) & *5[L](3) & 7 & 1 & 10 & 4 \\ \hline
+            $A$  & 13 & 9 & 11 & *6 & 0 & & & 14[S](0) & 12[L](1) & 3[L](2) & *5[L](3) & 7 & 1 & 10 & 4 \\ \hline
+            $A$  & 13 & 9 & 11 & 6 & *0 & & & 14[S](0) & 12[L](1) & 3[L](2) & *5[L](3) & 7 & 1 & 10 & 4 \\ \hline
+            $A$  & 13 & 9 & 11 & 6 & 0 & & & 14[S](0) & 12[L](1) & 3[L](2) & *5[L](3) & 7 & 1 & 10 & 4 \\ \hline
+            $A$  & 13 & 9 & 11 & 6 & 0 & & & 14[S](0) & 12[L](1) & 3[L](2) & 5[L](3) & 7 & 1 & 10 & 4 \\ \hline
+            \multicolumn{16}{c}{\textbf{Transition 8}}\\
+            \hline
+            $A$  & 13 & 9 & 11 & 6 & 0 & & & 14[S] & 12[L] & 3[L] & 5[L] & 7 & 1 & 10 & 4 \\ \hline
+            $A$  & 13 & 9 & 11 & 6 & 0 & 12 & 3 & 5 & & & & & & &  \\ \hline
+            \multicolumn{16}{c}{\textbf{Transition 9}}\\
+            \hline
+            $A$  & 13 & 9 & 11 & 6 & 0 & 12 & 3 & 5 & & & & & & &  \\ \hline
+            $A$  & 13 & 12 & 9 & 3 & 11 & 6 & 0 & 5 & & & & & & &  \\ \hline
+        \end{tabular}
+        }
+    \end{center}
+    \paragraph{S-Suffix Sortierung} 
+    \textbf{Ly:} 3, 5 \\
+    \textbf{$\overline{Ly}:$}  0, 6, 9, 11, 12, 13 \\
+    \textbf{Sx:} 7, 14 \\
+    \textbf{$\overline{Sx}:$} 1, 2, 4, 8, 10 \\
+    \textbf{Lx:} 3, 5, 12\\
+    \textbf{$\overline{Lx}$:} 0, 6, 9, 11, 13\\
+    \begin{center}
+        \resizebox{\textwidth}{!}{
+            \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
+                \hline
+                $i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 \\ \hline
+                $T$ & c & a & a & b & a & c & c & a & a & b & a & c & a & a & \$ \\ \hline
+                $T$ & 3 & 1 & 1 & 2 & 1 & 3 & 3 & 1 & 1 & 2 & 1 & 3 & 1 & 1 & 0 \\ \hline
+                & \multicolumn{5}{c|}{X1} & \multicolumn{3}{c|}{X2} & \multicolumn{7}{c|}{ } \\ \hline
+                & \multicolumn{6}{c|}{X3} & \multicolumn{4}{c|}{Y} & \multicolumn{5}{c|}{Z3} \\ \hline
+                $A$  & 13 & 12 & 9 & 3 & 11 & 6 & 0 & 5 & & & & & & &  \\ \hline
+                \multicolumn{16}{c}{\textbf{Transition 2}}\\
+                \hline
+                $A$  & 13 & 12 & 9 & 3 & 11 & 6 & 0 & 5 & & & & & & &  \\ \hline
+                $A$  & 13 & 9 & 12 & 3 & 11 & 6 & 0 & 5 & & & & & & &  \\ \hline
+                $A$  & 13 & 9 & 11 & 3 & 12 & 6 & 0 & 5 & & & & & & &  \\ \hline
+                $A$  & 13 & 9 & 11 & 6 & 12 & 3 & 0 & 5 & & & & & & &  \\ \hline
+                $A$  & 13 & 9 & 11 & 6 & 0 & 3 & 12 & 5 & & & & & & &  \\ \hline
+                \multicolumn{16}{c}{\textbf{Transition 3}}\\
+                \hline
+                $A$  & 13 & 9 & 11 & 6 & 0 & 3 & 12 & 5 & & & & & & &  \\ \hline
+                $A$  & 13 & 9 & 11 & 6 & 0 & & & 12 & 3 & 5 & & & & &  \\ \hline
+                \multicolumn{16}{c}{\textbf{Transition 4}}\\
+                \hline
+                $A$  & 13 & 9 & 11 & 6 & 0 & & [L] & 12[L] & 3[L] & 5[L] & & & & &  \\ \hline
+                $A$  & 13 & 9 & 11 & 6 & 0 & & [S] & 12[S] & 3[L] & 5[L] & & & & &  \\ \hline
+                $A$  & 13 & 9 & 11 & 6 & 0 & 12 & [S] & [S] & 3[L] & 5[L] & & & & &  \\ \hline
+                \multicolumn{16}{c}{\textbf{Transition 5}}\\
+                \hline
+                $A$  & 13 & 9 & 11 & 6 & 0 & 12 & [S] & [S] & 3[L] & 5[L] & & & & &  \\ \hline
+                $A$  & 13 & 12 & 9 & 11 & 6 & 0 & [S] & [S] & 3[L] & 5[L] & & & & &  \\ \hline
+                \multicolumn{16}{c}{\textbf{Transition 6}}\\
+                \hline
+                $A$  & 13 & 12 & 9 & 11 & 6 & 0 & [S] & [S] & 3[L] & 5[L] & & & & &  \\ \hline
+                $A$  & 13 & 12 & 9 & 11 & 6 & 0 & 0[S] & 0[S] & 3[L] & 5[L] & & & & &  \\ \hline
+                $A$  & 13 & 12 & 9 & 11 & 6 & 0 & 1[S] & 6[S] & 3[L] & 5[L] & & & & &  \\ \hline
+                $A$  & 13 & 12 & 9 & 11 & 6 & 0 & 0[S] & 4[S] & 3[L] & 5[L] & & & & &  \\ \hline
+                \multicolumn{16}{c}{\textbf{Transition 7}}\\
+                \hline
+                $A$  & 13 & 12 & 9 & 11 & 6 & *0 & 0[S](0) & 4[S](1) & 3[L](2) & *5[L](3) & (-1) & (-1) & (-1) & (-1) & *(-1)  \\ \hline
+                $A$  & 13 & 12 & 9 & 11 & 6 & *0 & 0[S](0) & 3[S](1) & *3[L](2) & 5[L](3) & (-1) & (-1) & (-1) & (-1) & *4  \\ \hline
+                $A$  & 13 & 12 & 9 & 11 & *6 & 0 & -1[S](0) & 3[S](1) & *3[L](2) & 5[L](3) & 14 & (-1) & (-1) & (-1) & *4  \\ \hline
+                $A$  & 13 & 12 & 9 & *11 & 6 & 0 & -1[S](0) & 2[S](1) & *3[L](2) & 5[L](3) & 14 & (-1) & (-1) & 10 & *4  \\ \hline
+                $A$  & 13 & 12 & *9 & 11 & 6 & 0 & -1[S](0) & 2[S](1) & *3[L](2) & 5[L](3) & 14 & (-1) & (-1) & 10 & *4  \\ \hline
+                $A$  & 13 & 12 & *9 & 11 & 6 & 0 & -1[S](0) & *1[S](1) & 3[L](2) & 5[L](3) & 14 & (-1) & 2 & 10 & *4  \\ \hline
+                $A$  & 13 & *12 & 9 & 11 & 6 & 0 & -1[S](0) & *0[S](1) & 3[L](2) & 5[L](3) & 14 & 8 & 2 & 10 & *4  \\ \hline
+                $A$  & 13 & *12 & 9 & 11 & 6 & 0 & -1[S](0) & *0[S](1) & 3[L](2) & 5[L](3) & 14 & 8 & 2 & *10 & 4  \\ \hline
+                $A$  & 13 & *12 & 9 & 11 & 6 & 0 & -1[S](0) & *0[S](1) & 3[L](2) & 5[L](3) & 14 & 8 & *2 & 10 & 4  \\ \hline
+                $A$  & 13 & *12 & 9 & 11 & 6 & 0 & 14[S](0) & *-1[S](1) & 3[L](2) & 5[L](3) & 1 & *8 & 2 & 10 & 4  \\ \hline
+                $A$  & 13 & *12 & 9 & 11 & 6 & 0 & 14[S](0) & *7[S](1) & 3[L](2) & 5[L](3) & *1 & 8 & 2 & 10 & 4  \\ \hline
+                $A$  & 13 & *12 & 9 & 11 & 6 & 0 & 14[S](0) & *7[S](1) & 3[L](2) & 5[L](3) & 1 & 8 & 2 & 10 & 4  \\ \hline
+                $A$  & 13 & *12 & 9 & 11 & 6 & 0 & *14[S](0) & 7[S](1) & 3[L](2) & 5[L](3) & 1 & 8 & 2 & 10 & 4  \\ \hline
+                $A$  & 13 & *12 & 9 & 11 & 6 & 0 & 14[S](0) & 7[S](1) & 3[L](2) & 5[L](3) & 1 & 8 & 2 & 10 & 4  \\ \hline
+                $A$  & *13 & 12 & 9 & 11 & 6 & 0 & 14[S](0) & 7[S](1) & 3[L](2) & 5[L](3) & 1 & 8 & 2 & 10 & 4  \\ \hline
+                $A$  & 13 & 12 & 9 & 11 & 6 & 0 & 14[S](0) & 7[S](1) & 3[L](2) & 5[L](3) & 1 & 8 & 2 & 10 & 4  \\ \hline
+                \multicolumn{16}{c}{\textbf{Transition 8}}\\
+                \hline
+                $A$  & 13 & 12 & 9 & 11 & 6 & 0 & 14[S](0) & 7[S](1) & 3[L](2) & 5[L](3) & 1 & 8 & 2 & 10 & 4  \\ \hline
+                $A$  & 14 & 13 & 12 & 7 & 9 & 3 & 11 & 6 & 0 & 5 & 1 & 8 & 2 & 10 & 4  \\ \hline
+                \multicolumn{16}{c}{\textbf{Transition 9}}\\
+                \hline
+                $A$  & 14 & 13 & 12 & 7 & 9 & 3 & 11 & 6 & 0 & 5 & 1 & 8 & 2 & 10 & 4  \\ \hline
+                $A$  & 14 & 13 & 12 & 1 & 8 & 2 & 10 & 4 & 7 & 9 & 3 & 11 & 6 & 0 & 5  \\ \hline \hline
+                $SA$  & 14 & 13 & 12 & 1 & 8 & 2 & 10 & 4 & 7 & 9 & 3 & 11 & 6 & 0 & 5  \\ \hline
+            \end{tabular}
+            }
+        \end{center}

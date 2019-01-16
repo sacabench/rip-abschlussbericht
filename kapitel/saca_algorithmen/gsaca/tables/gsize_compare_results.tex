@@ -1,0 +1,21 @@
+\begin{table}[H]
+\begin{tabular}{rrrrr}
+\multicolumn{1}{l}{} & \multicolumn{4}{c}{GSACA mit GSIZE\_LIST}                                                                                                                    \\
+\multicolumn{1}{l}{} & \multicolumn{3}{c}{Zeit in Millisekunden}                                                        & \multicolumn{1}{c}{\multirow{2}{*}{Speicherpeak in Byte}} \\
+\multicolumn{1}{l}{} & \multicolumn{1}{c}{1. Messung} & \multicolumn{1}{c}{2. Messung} & \multicolumn{1}{c}{3. Messung} & \multicolumn{1}{c}{}                                      \\
+1K                   & 0,07                           & 0,05                           & 0,05                           & 17.296                                                    \\
+10K                  & 0,65                           & 0,51                           & 0,64                           & 165.168                                                   \\
+100K                 & 7,84                           & 6,10                           & 5,51                           & 1.639.888                                                 \\
+1M                   & 176,87                         & 163,13                         & 174,05                         & 16.778.944                                                \\
+\multicolumn{1}{l}{} & \multicolumn{1}{l}{}           & \multicolumn{1}{l}{}           & \multicolumn{1}{l}{}           & \multicolumn{1}{l}{}                                      \\
+\multicolumn{1}{l}{} & \multicolumn{4}{c}{GSACA mit GSIZE\_BOOL}                                                                                                                    \\
+\multicolumn{1}{l}{} & \multicolumn{3}{c}{Zeit in Millisekunden}                                                        & \multicolumn{1}{c}{\multirow{2}{*}{Speicherpeak in Byte}} \\
+\multicolumn{1}{l}{} & \multicolumn{1}{c}{1. Messung} & \multicolumn{1}{c}{2. Messung} & \multicolumn{1}{c}{3. Messung} & \multicolumn{1}{c}{}                                      \\
+1K                   & 0,16                           & 0,14                           & 0,15                           & 15.246                                                    \\
+10K                  & 11,26                          & 8,34                           & 8,56                           & 144.686                                                   \\
+100K                 & 645,56                         & 645,18                         & 644,93                         & 1.435.086                                                 \\
+1M                   & 70.417,64                      & 70.432,93                      & 70.391,62                      & 14.681.790                                               
+\end{tabular}
+\caption{Messergebnisse des Vergleichs der Laufzeit und des Speicherbedarfs zwischen GSACA mit GSIZE-Liste aus Integer (oben) und GSIZE-Liste aus boolsche Werte (unten) auf Texten der Gr\ö\ße 1K, 10K, 100K und 1M.}
+\label{compare_gsize_results}
+\end{table}

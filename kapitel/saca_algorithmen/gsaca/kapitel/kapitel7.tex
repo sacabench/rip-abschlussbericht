@@ -1,0 +1,66 @@
+\newpage
+\subsection{Optimierungen}
+\label{gsaca:chapter7}
+% Einleitung / Ziel der Optimierung
+Nachdem in den vorherigen Kapitel die Einzelheiten zu GSACA vorgestellt wurden, werden in diesem Kapitel Optimierungen und {\"A}nderungen am Algorithmus vorgestellt.
+Dabei wurde das Augenmerk auf eine Reduktion des Speicherverbrauchs gelegt.
+Ausgangspunkt war eine abgewandelte Implementierung des GSACA-Algorithmus, in dem die Liste GSIZE als Vektor gespeichert wurde.
+Wie zuvor beschrieben, speichert GSIZE die Gr{\"o}{\ss}en der Gruppen.
+Dabei ist die eigentliche Gr{\"o}{\ss}e lediglich am Startindex der Gruppe gespeichert, der Rest der Gruppeneintr{\"a}ge ist 0.
+Hierdurch bot dieser Bestandteil des Algorithmus einen guten Einstiegspunkt, um den verbrauchten Speicherplatz zu verringern.
+Die Idee zur Verbesserung, die verfolgt wurde, war, die Gr{\"o}{\ss}e der einzelnen Elemente dieses Arrays zu reduzieren.
+Urspr{\"u}nglich wurden alle Elemente des Vektors als Integer gespeichert, so dass je nach Gr{\"o}{\ss}e der Integer bis zu 64 Bit pro Eintrag ben{\"o}tigt wurden.
+Durch geschickte Kodierung der Elemente gelang es, diese Gr{\"o}{\ss}e auf zwei Bit pro Eintrag zu reduzieren. \par
+% Beschreibung der Optimierung
+Wie auch in der alten Version, wurden die Eintr{\"a}ge in der neuen GSIZE-Liste mit geringerem Speicherverbrauch als Vektor gespeichert.
+Jedoch wurden sie nicht als Integer sondern als boolsche Werte gespeichert.
+Je zwei aufeinanderfolgende Bool-Werte kodieren dabei einen Eintrag in GSIZE, somit enth{\"a}lt der Vektor zwar doppelt so viele Eintr{\"a}ge wie zuvor, aber jeder Eintrag belegt nur ein Bit.
+Das erste Bit kennzeichnet den Start einer Gruppe.
+Ist es auf true gesetzt, ist das entsprechende Element an dem Index das erste Element der Gruppe.
+In der urspr{\"u}nglichen Version enthielte dieser Index die Anzahl der Elemente der Gruppe.
+Das zweite Bit markiert das Ende einer Gruppe.
+Diese Information ist wichtig, da beim Umsortieren der Gruppenkontexte in Phase 1 von GSACA die hinteren Elemente der Gruppen abgespalten werden, ohne dass die Gruppengr{\"o}{\ss}e direkt aktualisiert wird.
+Da die urspr{\"u}ngliche Gruppengr{\"o}{\ss}e aber weiter verwendet wird, kann zu dem Zeitpunkt noch nicht das erste Element der Gruppe aktualisiert werden, es wird also gleichzeitig die alte Gruppengr{\"o}{\ss}e und die Gr{\"o}{\ss}e der kleinen abgespaltenen Gruppen ben{\"o}tigt.
+Wird nun die Gr{\"o}{\ss}e einer Gruppe gespeichert, wird das erste Bit des ersten Elements der Gruppe auf 1 gesetzt.
+Anschlie{\ss}end werden f{\"u}r alle weiteren Elemente der Gruppe sowohl das erste als auch das zweite Bit auf 0 gesetzt.
+Schlie{\ss}lich wird das zweite Bit des letzten Elements der Gruppe auf 1 gesetzt.
+Ein Beispiel f{\"u}r den Vergleich einer Gruppe mit der alten und der neuen Variante l{\"a}sst sich in Tabelle \ref{compare_gsize_variants} sehen.
+Das Lesen eines Wertes ist etwas komplexer als das Spei\-chern eines Wertes.
+Wenn an der Index an einer beliebigen Stelle innerhalb einer Gruppe gelesen wird, ist das erste Bit 0, somit ist es nicht der Beginn der Gruppe.
+Wie bei der urspr{\"u}nglichen Variante wird als Gruppengr{\"o}{\ss}e 0 zur{\"u}ckgegeben.
+Wird aber am Beginn einer Gruppe gelesen, ist also das erste Bit 1, muss die Gr{\"o}{\ss}e der Gruppe erst bestimmt werden.
+Hierzu wird der Vektor von dem abgefragten Index an durchlaufen, solange bis ein Element erreicht wird, dessen erstes Bit 1 ist, das also den Beginn der n{\"a}chsten Gruppe darstellt.
+Bei diesem Durchlauf wird die Anzahl der Elemente gez{\"a}hlt.
+So kann aus der Struktur die Gruppengr{\"o}{\ss}e bestimmt werden. \par
+
+\input{kapitel/saca_algorithmen/gsaca/tables/gsize_compare}
+
+% Beschreibung des Ansatzes
+Um diesen neuen Ansatz zu entwickeln, war es n{\"o}tig, die Gleichheit der alten und der neuen Version nach jeder Operation sicherzustellen.
+Hierzu wurde zun{\"a}chst eine Klasse GSIZE\_LIST erstellt, welche die Verwaltung der alten Version kapselt.
+Diese Klasse bot Methoden zum lesenden und schreibenden Zugriff auf die einzelnen Element und wurde anschlie{\ss}end in dem Algorithmus verwendet.
+Dann wurde eine neue Klasse GSIZE\_BOOL hinzugef{\"u}gt, welche die glei\-chen Methoden wie GSIZE\_LIST bereitstellte.
+Hierdurch konnte innerhalb des Algorithmus an nur einer Stelle die verwendete Klasse ausgewechselt werden, indem statt einer Instanz von GSIZE\_LIST eine Instanz von GSIZE\_BOOL initialisiert wurde.
+Jetzt konnte zwar die Implementierung einfach ausgetauscht werden, jedoch konnten die beiden Versionen noch nicht direkt miteinander verglichen werden.
+Um dies zu tun wurde als drittes die Klasse GSIZE\_COMPARE erstellt.
+Auch diese Klasse enthielt die gleichen Methoden wie GSIZE\_LIST und GSIZE\_BOOL und konnte so ohne gro{\ss}e {\"A}nderungen vom Algorithmus verwendet werden.
+GSIZE\_COMPARE verwaltet je eine Instanz der beiden anderen Klassen und leitet alle Operationen an beide weiter.
+Verwendet GSACA nun eine Instanz dieser dritten Klasse und nutzt diese beispielsweise um einen Wert von GSIZE auszulesen, wird der Wert an dem abgefragten Index sowohl von GSIZE\_LIST als auch von GSIZE\_BOOL ausgelesen.
+Auch beim Setzen eines neuen Wertes wendet GSIZE\_COMPARE diese {\"A}nderungen auf beide Implementierungen an.
+Auf diese Art k{\"o}nnen in jedem Schritt die Werte von der alten und der neuen Variante verglichen werden.
+Au{\ss}erdem l{\"a}sst sich bei Abweichungen direkt feststellen, in welchem Schritt es passiert ist, warum es gescheitert ist und, aufgrund der Richtigkeit von GSIZE\_LIST, welcher Wert eigentlich in GSIZE\_BOOL enthalten sein m{\"u}sste.
+Durch dieses Vorgehen konnte das Verhalten von GSIZE\_LIST auch in Grenzf{\"a}llen passen analysiert und nachgebildet werden. \par
+% Evaluation der Optimierung
+Leider ben{\"o}tigt die neue Version GSIZE\_BOOL aber erheblich mehr Re\-chen\-auf\-wand, da sowohl beim Speichern eines neuen Wertes als auch beim Lesen eines Wertes die urspr{\"u}ngliche Zahl berechnet werden muss.
+Durch diesen Ansatz konnte der Speicherverbrauch im Vergleich zu der vorherigen Implementierung als Vektor reduziert werden.
+Aufgrund der ben{\"o}tigten Umrechnung der Werte erh{\"o}hte sich jedoch die Laufzeit gegen\über dem vorherigen Ansatz deutlich.
+Die Ergebnisse von Laufzeit- und Speicherverbrauchsmessungen auf Datens\ätzen verschiedener Gr\ö\ße l\ässt sich in \ref{compare_gsize_results} sehen.
+Beide wurden Varianten drei mal ausgef\ührt, um Schwankungen auszugleichen.
+Die gemessenen Werte beziehen sich dabei auf die Ausf\ührungsdauer des Algorithmus und beziehen nicht die Initialisierungsphase oder das Einlesen und Vorbereiten der Texte mit ein.
+Als Grundlage diente der Text \textit{english} des \textit{Pizza\&Chili Corpus} \cite{testdaten:pizzachilli2007}.
+Wegen dieser starken Erh{\"o}hung der Laufzeit bei gleich\-zeitig nur relativ moderater Reduktion des Speicherverbrauchs ist der untersuchte Ansatz als keine sinnvolle Optimierung von GSACA anzusehen.
+Jedoch hat sich der beschriebene Ansatz zum Vergleichen mehrerer alternativen Implementierungen als praktisch erwiesen.
+Durch die parallele Ausf{\"u}hrung mehrerer Varianten konnten schnell Abweichungen und Fehler gefunden werden.
+Zus{\"a}tz\-lich hatten die beiden Implementierungen von GSIZE nach jeder Operation den gleichen Zustand, so dass sich Unterschiede schnell untersuchen lassen konnten und der f{\"u}r die Ungleichheit verantwortlich Schritt reproduzierbar verglichen werden konnte. \par
+
+\input{kapitel/saca_algorithmen/gsaca/tables/gsize_compare_results}

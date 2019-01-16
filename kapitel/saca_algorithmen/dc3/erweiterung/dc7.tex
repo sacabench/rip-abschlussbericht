@@ -1,0 +1,44 @@
+\subsubsection{DC7}
+\label{dc7}
+
+Wie in \cref{dc3:vorueberlegungen}, ist nicht nur ein Difference Cover modulo $3$ möglich, sondern auch zum Beispiel modulo $7, 13, 21$ und $31$. Im Rahmen der Projektgruppe \emph{SACABench} wurde zusätzlich zum \emph{DC3} auch der \emph{DC7} implementiert. Dafür werden jedoch ein paar Änderungen an dem Algorithmus vorgenommen, die der wissenschaftlichen Arbeit von Juha Kärkkäinen, Peter Sanders und Stefan Burkhardt entnommen worden ist \cite{dc3:new}. Für den \emph{DC7}-Algorithmus verwenden wir das Difference-Cover \(D\) $=$ \{1, 2, 4\}.
+
+\subparagraph*{Erste Phase}
+
+Die erste Phase ist analog zu der ersten Phase des \emph{DC3}-Algorithmus. Hier werden die Septets $T[i,i+6]$ an den Positionen $i \text{ modulo } 7 \in \{1, 2, 4\}$ aufsteigend sortiert. Anschließend werden lexikographische Namen vergeben und diese so umsortiert, dass die Ordnung der Septets beibehalten wird.
+\begin{center}
+	$t_{124} = [t_i : i \text{ modulo } 7 = 1] \circ [t_i : i \text{ modulo } 7 = 2] \circ [t_i : i \text{ modulo } 7 = 4]$ 
+\end{center}
+Wenn die lexikographischen Namen eindeutig sind, kann mit der zweiten Phase fortgefahren werden, ansonsten wird der \emph{DC7}-Algorithmus erneut mit dem String $t_{124}$ der Länge $\mathcal{O}(3n/7)$ ausgeführt.
+
+\subparagraph*{Zweite Phase}
+
+In der zweiten Phase werden die Suffixe an den Positionen $i \text{ modulo } 7 \notin \{1, 2, 4\}$ sortiert, indem die Tupel $(T[i, i+5], Rang[i+6])$ aufgestellt und aufsteigend sortiert werden, wobei $Rang[i+6]$ den Rang des Suffixes beginnend in Position $i + 6$ repräsentiert. Dafür müssen wir eine bestimmte Reihenfolge einhalten. Demnach werden zuerst die Suffixe an den Positionen $i \text{ modulo } 7 = 3$ und $i \text{ modulo } 7 = 5$ bestimmt, indem die Ränge der Positionen $(i+6) \text{ modulo } 7 = 2$ beziehungsweise $(i+6) \text{ modulo } 7 = 4$ zu Hilfe genommen werden. Anschließend werden die Ränge der Positionen $i \text{ modulo } 7 = 5$ bestimmt, da diese für die Sortierung der Suffixe an $i \text{ modulo } 7 = 6$ benötigt werden. Danach werden die Ränge von $i \text{ modulo } 7 = 6$ bestimmt, um damit die noch übrig gebliebenen Suffixe an $i \text{ modulo } 7 = 0$ zu sortieren.
+
+\subparagraph*{Dritte Phase}
+
+Für die dritte Phase gibt es zwei verschiedene Ansätze. Zuerst betrachten wir den naiven Ansatz. Hierbei wird - ähnlich wie bei dem \emph{DC3}-Algorithmus - der jeweils kleinste Werte der Mengen $SA_{124}$, $SA_0$, $SA_3$, $SA_5$ und  $SA_6$, der noch nicht in dem endgültigen Suffix-Array einsortiert worden ist, miteinander verglichen. Dabei werden bei den Vergleichen zwischen $i$ und $j$ jeweils ein $l$ gesucht, sodass $(i + l) \text{ modulo } 7$ und $(j + l) \text{ modulo } 7$ aus dem Difference Cover $D = \{1, 2, 4\}$ sind. Zur Bestimmung der Länge $l$ kann die \cref{tab:merge} verwendet werden.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{c|lllllll}
+		i/j & 0 & 1 & 2 & 3 & 4 & 5 & 6 \\\hline
+		0   & 0 & 1 & 2 & 1 & 4 & 4 & 2 \\
+		1   & 1 & 0 & 0 & 1 & 0 & 3 & 3 \\
+		2   & 2 & 0 & 0 & 6 & 0 & 6 & 2 \\
+		3   & 1 & 1 & 6 & 0 & 5 & 6 & 5 \\
+		4   & 4 & 0 & 0 & 5 & 0 & 4 & 5 \\
+		5   & 4 & 3 & 6 & 6 & 4 & 0 & 3 \\
+		6   & 2 & 3 & 2 & 5 & 5 & 3 & 0
+	\end{tabular}
+	\caption{Merge-Tabelle}
+	\label{tab:merge}
+\end{table}
+
+Nun werden Tupel der Länge $l+1$ aufgestellt, die aus $l$ Zeichen beginnend von $i$ beziehungsweise $j$ und dem Rang der Position $i+l$ beziehungsweise $j+l$ bestehen, also $(T[i, i+l], Rang[i+l+1])$ und $(T[j, j+l], Rang[j+l+1])$. Wird dieser Ansatz verwendet, muss ein $\Theta(7)$-Wege-Merge mit jeweils $\mathcal{O}(7)$-Vergleichen durchgeführt werden, was zu einer \emph{Worst-Case}-Laufzeit von $\mathcal{O}(7n \text{ log} (7))$ führt.
+
+Der zweite Ansatz verfolgt eine theoretisch bessere Idee im Bezug auf die Laufzeit. Dafür wird die Menge $SA_{124}$ in die drei Mengen $SA_1$, $SA_2$ und $SA_4$ aufgeteilt, wobei die jeweilige Sortierung beibehalten wird. Anschließend werden alle Mengen zu einer Menge $SA_{0:6} = SA_0 \circ SA_1 \circ SA_2 \circ SA_3 \circ SA_4 \circ SA_5 \circ SA_6$ konkateniert. Nun wird diese Menge stabil nach den ersten sieben Zeichen sortiert. Die Eigenschaft \emph{stabil} ist in diesem Fall sehr wichtig, da wir die eindeutige vorherige Sortierung aus den ersten zwei Phasen nicht durcheinander bringen dürfen. Als nächstes müssen die noch gleichen Tupel mit einem vergleichsbasiertem $7$-Wege-Merge sortiert werden. Dies passiert, indem wir die Ränge von $(i+l)$ und $(j+l)$ miteinander vergleichen. Dadurch erhalten wir das endgültige Suffix-Array. Der zweite Ansatz hat in der Theorie eine bessere \emph{Worst-Case}-Laufzeit von $\mathcal{O}(7n)$
+
+\subsubsection*{Vergleich $\emph{DC3}$ - $\emph{DC7}$}
+
+Interessant ist, ob der $\emph{DC7}$ gegenüber dem $\emph{DC3}$ Vorteile oder sogar auch Nach\-tei\-le aufweist. In der Theorie hat der \emph{Difference Cover} - Algorithmus eine Laufzeit von $\mathcal{O}(vn)$ und somit ist die Laufzeit des $\emph{DC3}$ - Algorithmus zwar besser also die des $\emph{DC7}$ - Algorithmus, aber der String wird bei $\emph{DC3}$ - Algorithmus in jedem Rekursionsaufruf nur um $T(2n/3)$ verkleinert. Bei dem $\emph{DC7}$ - Algorithmus wird der String in der Rekursion um $T(3n/7)$ verkleinert. Wie dies in der Praxis aussieht, wird in dem Kapitel \ref{dc3:optim} näher untersucht.

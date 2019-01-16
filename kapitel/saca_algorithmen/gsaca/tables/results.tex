@@ -1,0 +1,74 @@
+\begin{table}[H]
+
+\begin{center}
+\begin{tabular}{l}
+
+% Ergebnis der 2 Phasen
+\begin{tabular}{lccccccc}
+\multicolumn{8}{l}{Ergebnis der 2 Phasen}                                                                                                                                                                                                                                                                                                                        \\ \hline
+\rowcolor[HTML]{\red} 
+\multicolumn{1}{l|}{\cellcolor[HTML]{\red}Kontext} & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}\$} & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}anane} & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}ane} & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}b} & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}e} & \multicolumn{2}{c}{\cellcolor[HTML]{\red}n} \\
+\rowcolor[HTML]{\white} 
+\multicolumn{1}{l|}{\cellcolor[HTML]{\white}Gruppe}  & \multicolumn{1}{c|}{\cellcolor[HTML]{\white}7}  & \multicolumn{1}{c|}{\cellcolor[HTML]{\white}2}     & \multicolumn{1}{c|}{\cellcolor[HTML]{\white}4}   & \multicolumn{1}{c|}{\cellcolor[HTML]{\white}1} & \multicolumn{1}{c|}{\cellcolor[HTML]{\white}6} & 3                     & 5                     \\
+\rowcolor[HTML]{\gray} 
+\multicolumn{1}{l|}{\cellcolor[HTML]{\gray}SA}      & \multicolumn{1}{c|}{\cellcolor[HTML]{\gray}7}  & \multicolumn{1}{c|}{\cellcolor[HTML]{\gray}2}     & \multicolumn{1}{c|}{\cellcolor[HTML]{\gray}4}   & \multicolumn{1}{c|}{\cellcolor[HTML]{\gray}1} & \multicolumn{1}{c|}{\cellcolor[HTML]{\gray}6} & 3                     & 5                     \\ \cline{2-8} 
+\rowcolor[HTML]{\yellow} 
+\multicolumn{1}{l|}{\cellcolor[HTML]{\yellow}Index}   & 1                                               & 2                                                  & 3                                                & 4                                              & 5                                              & 6                     & 7                     \\
+\rowcolor[HTML]{\green} 
+\multicolumn{1}{l|}{\cellcolor[HTML]{\green}Zeichen} & b                                               & a                                                  & n                                                & a                                              & n                                              & e                     & \$                   
+\end{tabular}
+
+\\
+\\
+
+% Endergebnis - Schritt 1
+\begin{tabular}{cccccc}
+\multicolumn{6}{l}{Endergebnis - Schritt 1}                                                                                                                 \\
+\cellcolor[HTML]{\green}Zeichen & \cellcolor[HTML]{\yellow}Index & \cellcolor[HTML]{\gray}SA & $ \widehat{SA} $ & S\textsubscript{SA} & \cellcolor[HTML]{\red}S{[}SA..$ \widehat{SA} $ {]} \\
+\cellcolor[HTML]{\green}b       & \cellcolor[HTML]{\yellow}1     & \cellcolor[HTML]{\gray}7  &    &     & \cellcolor[HTML]{\red}\$            \\
+\cellcolor[HTML]{\green}a       & \cellcolor[HTML]{\yellow}2     & \cellcolor[HTML]{\gray}2  &    &     & \cellcolor[HTML]{\red}anane         \\
+\cellcolor[HTML]{\green}n       & \cellcolor[HTML]{\yellow}3     & \cellcolor[HTML]{\gray}4  &    &     & \cellcolor[HTML]{\red}ane           \\
+\cellcolor[HTML]{\green}a       & \cellcolor[HTML]{\yellow}4     & \cellcolor[HTML]{\gray}1  &    &     & \cellcolor[HTML]{\red}b             \\
+\cellcolor[HTML]{\green}n       & \cellcolor[HTML]{\yellow}5     & \cellcolor[HTML]{\gray}6  &    &     & \cellcolor[HTML]{\red}e             \\
+\cellcolor[HTML]{\green}e       & \cellcolor[HTML]{\yellow}6     & \cellcolor[HTML]{\gray}3  &    &     & \cellcolor[HTML]{\red}n             \\
+\cellcolor[HTML]{\green}\$      & \cellcolor[HTML]{\yellow}7     & \cellcolor[HTML]{\gray}5  &    &     & \cellcolor[HTML]{\red}n            
+\end{tabular}
+
+\\
+\\
+
+% Endergebnis - Schritt 2
+\begin{tabular}{cccccc}
+\multicolumn{6}{l}{Endergebnis - Schritt 2}                                                                                                                 \\
+Zeichen & Index & SA & \cellcolor[HTML]{\blue} $ \widehat{SA} $ & S\textsubscript{SA} & S{[}SA..$ \widehat{SA} $ {]} \\
+b       & 1     & 7  & \cellcolor[HTML]{\blue}8  &     & \$            \\
+a       & 2     & 2  & \cellcolor[HTML]{\blue}7  &     & anane         \\
+n       & 3     & 4  & \cellcolor[HTML]{\blue}7  &     & ane           \\
+a       & 4     & 1  & \cellcolor[HTML]{\blue}2  &     & b             \\
+n       & 5     & 6  & \cellcolor[HTML]{\blue}7  &     & e             \\
+e       & 6     & 3  & \cellcolor[HTML]{\blue}4  &     & n             \\
+\$      & 7     & 5  & \cellcolor[HTML]{\blue}6  &     & n              
+\end{tabular}
+
+\\
+\\
+
+% Endergebnis - Schritt 3
+\begin{tabular}{cccccc}
+\multicolumn{6}{l}{Endergebnis - Schritt 3}                                                                                                                 \\
+Zeichen & Index & SA & $ \widehat{SA} $ & S\textsubscript{SA} & S{[}SA..$ \widehat{SA} $ {]} \\ \cline{5-5}
+b       & 1     & 7  & \multicolumn{1}{c|}{8} & \multicolumn{1}{c|}{\$}       & \$            \\
+a       & 2     & 2  & \multicolumn{1}{c|}{7} & \multicolumn{1}{c|}{anane\$}  & anane         \\
+n       & 3     & 4  & \multicolumn{1}{c|}{7} & \multicolumn{1}{c|}{ane\$}    & ane           \\
+a       & 4     & 1  & \multicolumn{1}{c|}{2} & \multicolumn{1}{c|}{banane\$} & b             \\
+n       & 5     & 6  & \multicolumn{1}{c|}{7} & \multicolumn{1}{c|}{e\$}      & e             \\
+e       & 6     & 3  & \multicolumn{1}{c|}{4} & \multicolumn{1}{c|}{nane\$}   & n             \\
+\$      & 7     & 5  & \multicolumn{1}{c|}{6} & \multicolumn{1}{c|}{ne\$}     & n             \\ \cline{5-5}
+\end{tabular}
+
+\end{tabular}
+\end{center}
+
+\caption[Konstruktion des Suffix Arrays f{\"u}r das Wort Banane: Zusammenf{\"u}hren der Ergebnisse]{Konstruktion des Suffix Arrays f{\"u}r das Wort Banane: Zusammenf{\"u}hren der Ergebnisse}
+\label{fig_banane_2_end}
+\end{table}

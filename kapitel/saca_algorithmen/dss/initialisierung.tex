@@ -1,0 +1,77 @@
+\subsubsection{Initialisierung}
+
+
+\begin{table}
+	\centering
+	\resizebox{\columnwidth}{!} {%
+		\begin{tabular}{l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l}
+			i      & 0 & 1 & 2   & 3 & 4   & 5 & 6 & 7 & 8   & 9 & 10  & 11 & 12 & 13 & 14 \\ \hline
+			T      & c & a & a   & b & a   & c & c & a & a   & b & a   & c  & a  & a  & \$ \\ \hline
+			SA     & 0 & 0 & 0   & 0 & 0   & 0 & 0 & 0 & 0   & 0 & 0   & \cellcolor[HTML]{32CB00}2  & \cellcolor[HTML]{32CB00}4  & \cellcolor[HTML]{32CB00}8  & \cellcolor[HTML]{32CB00}10 \\ \hline
+			SA-Typ & L & S & RMS & L & RMS & L & L & S & RMS & L & RMS & L  & L  & L  & L 
+		\end{tabular}%
+	}
+	\caption{Eingabetext mit Suffixtypen und initialisiertem Suffix-Array}
+	\label{table:sa-init}
+\end{table}
+
+
+
+
+
+Wir beginnen mit einem Durchlauf des Textes $T$, welcher von rechts nach links durchgeführt wird. In diesem Durchlauf werden zum einen die Typen der Suffixe festgelegt, zum anderen die Größe der Buckets abgespeichert. Zusätzlich wird am Ende des Suffix-Arrays \textit{SA} die Position jedes RMS-Suffixes im Text abgespeichert, d.h. in \textit{SA}$[n-m\dots n)$. Dies bezeichnen wir der Einfachheit halber mit \textit{PAb}$[i] = $ \textit{SA}$[n-m+i]$. Der Durchlauf von rechts nach links ermöglicht es, auch bei $T[i] = T[i-1]$ sofort den Typen bestimmen zu können, was bei einem Durchlauf von links nach rechts nicht so leicht möglich wäre. Tabelle \ref{table:sa-init} zeigt das initiale Suffix-Array sowie die Suffix-Typen für den Beispielstring $ T = \text{caabaccaabacaa\$}$.
+
+
+
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\begin{table}
+	\centering
+	\begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+		\hline
+		&             & \$                        & a                         & b                         & c                          & (a,a) & (a,b)                     & (a,c)                     \\ \hline
+		& Bucket\_L   & 1                         & 2                         & 2                         & 4                          &       &                           &                           \\ \cline{2-9} 
+		& Bucket\_S   &                           &                           &                           &                            & 2     &                           &                           \\ \cline{2-9} 
+		\multirow{-3}{*}{Größe}       & Bucket\_RMS &                           &                           &                           &                            &       & 2                         & 2                         \\ \hline
+		& Bucket\_L   & \cellcolor[HTML]{3531FF}0 & \cellcolor[HTML]{3531FF}1 & \cellcolor[HTML]{3531FF}9 & \cellcolor[HTML]{3531FF}11 &       &                           &                           \\ \cline{2-9} 
+		& Bucket\_S   &                           &                           &                           &                            & 2     &                           &                           \\ \cline{2-9} 
+		\multirow{-3}{*}{Präfixsumme} & Bucket\_RMS &                           &                           &                           &                            &       & \cellcolor[HTML]{32CB00}2 & \cellcolor[HTML]{32CB00}4 \\ \hline
+	\end{tabular}
+	\caption{Berechnung der Bucketgrößen und der Präfixsummen für L- und RMS-Buckets. Die L-Buckets enthalten die Präfixsummen über alle Suffix-Typen (linke Grenze des Buckets), die RMS-Buckets beinhalten die rechten Grenzen des jeweiligen Buckets (bestehend aus zwei Zeichen).}
+	\label{table:prefixsum}
+\end{table}
+
+
+Als nächstes werden die Präfixsummen für \textit{BUCK\-ET\_L} und \textit{BUCK\-ET\_RMS} berechnet. Dabei werden für \textit{BUCKET\_L}$[c0]$ die Mengen der Buckets aller vorherigen Symbole $c_i$ aufaddiert (inkl. \textit{BUCKET\_S} und \textit{BUCKET\_RMS}), für \textit{BUCKET\_RMS}$[c0,c1]$ die Präfixsumme über alle vorigen \textit{BUCK\-ET\_RMS}$[c_i,c_j]$  mit $c_i \leq c0, c_j <= c1$. Dies führt dazu, dass \textit{BUCKET\_L$[c0]$} die linkeste Position jedes $b_{c0}$ enthält. Für \textit{BUCKET\_RMS$[c0,c1]$} wird die rechteste Position der RMS-Suffixe in Relation zu anderen RMS-Suffixen abgespeichert, d.h. die Positionen sind aus dem Intervall $[0,m)$. Tabelle \ref{table:prefixsum} gibt die initiale Größe der Buckets sowie die berechneten Präfixsummen für den Beispielstring an.
+
+Bevor wir mit dem vollständigen Sortieren der RMS-Suffixe beginnen, werden die Referenzen in \textit{PAb} auf diese nach den ersten zwei Zeichen sortiert. Die Referenz auf das letzte RMS-Suffix wird an den Anfang des jeweiligen Buckets gesetzt, da kein nachfolgendes RMS-Suffix für dieses Suffix vorhanden ist, welcher jedoch für den Vergleich von RMS-Teilstrings benötigt wird. Nach dieser Sortierung zeigt \textit{BUCKET\_RMS$[c0,c1]$} auf die linkeste Position aus $[0,m)$. In Tabelle \ref{table:bucket-order} sind die Referenzen auf die RMS-Suffixe aus unserem Beispiel derart sortiert.
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\begin{table}
+	\centering
+	\begin{tabular}[t]{l|lllllllllllllll}
+		i  & 0                         & 1                         & 2                         & 3                         & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 \\ \hline
+		SA & \cellcolor[HTML]{32CB00}0 & \cellcolor[HTML]{32CB00}2 & \cellcolor[HTML]{32CB00}3 & \cellcolor[HTML]{32CB00}1 & 0 & 0 & 0 & 0 & 0 & 0 & 0  & 2  & 4  & 8  & 10 \\ \hline
+	\end{tabular}	\newline
+
+	\caption{Finaler Schritt der Initialisierung: Sortierte Referenzen \textbf{PAb} auf Indizes der RMS-Suffixe für den Beispielstring caabaccaabacaa\$.}
+	\label{table:bucket-order}
+\end{table}
+
+\begin{table}
+	\begin{tabular}[t]{l|c|c|c|c|c|c|c|}
+		\cline{2-8}
+		& \multicolumn{1}{l|}{\$} & \multicolumn{1}{l|}{a} & \multicolumn{1}{l|}{b} & \multicolumn{1}{l|}{c} & \multicolumn{1}{l|}{(a,a)} & \multicolumn{1}{l|}{(a,b)} & \multicolumn{1}{l|}{(a,c)} \\ \hline
+		\multicolumn{1}{|l|}{Bucket\_L}   & 0                       & 1                      & 9                      & 11                     &                            &                            &                            \\ \hline
+		\multicolumn{1}{|l|}{Bucket\_S}   &                         &                        &                        &                        & 2                          &                            &                            \\ \hline
+		\multicolumn{1}{|l|}{Bucket\_RMS} &                         &                        &                        &                        &                            & \cellcolor[HTML]{32CB00}0  & \cellcolor[HTML]{32CB00}2  \\ \hline
+	\end{tabular}
+	\caption{Finaler Schritt der Initialisierung: Alle RMS-Buckets zeigen auf die linke Grenze des Buckets.}
+\end{table}
+
+Nachdem die Initialisierung abgeschlossen wurde, folgt nun der Kern dieses Algorithmus: Das Sortieren der RMS-Suffixe.
+

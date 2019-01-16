@@ -1,0 +1,264 @@
+\section{SACA-K}
+\label{section:saca_k}
+
+\newcommand {\suf} {\text{suf}}
+\newcommand {\level} {\varepsilon}
+\newcommand {\symbWidth} {0.3cm}
+
+Ähnlich \currentauthor{Jonas Bode} wie SA-IS beruht auch der SACA-K Algorithmus auf der Technik des \textbf{Induced Sortings}. Die wichtige Frage -- und mitunter der größte Unterschied von SA-IS und SACA-K -- ist, wie sich mit möglichst wenig Aufwand eine Ordnung der LMS-Suffixe für $T$ herleiten lässt. Insgesamt kommt der SACA-K Algorithmus auf eine von dem Alphabet $K$ abhängige Platzschranke für den zusätzlich benötigten Speicher bei weiterhin linearer Laufzeit. In Abbildung $\ref{sacak}$ ist der SACA-K Algorithmus in Pseudocode angegeben. Im Folgenden werden die einzelnen Komponenten des Algorithmus erklärt. \\
+
+\begin{figure}
+\begin{minted}[escapeinside=@@,numbers=left]{python}
+def saca_k(T, SA, A, @$\varepsilon$@):
+# Input text T
+# Allocated space SA for suffixarray
+# Alphabet A of text T
+# Recursion Depth @$\varepsilon$@
+
+# Stage 1 - First Induced Sorting
+ if @$\varepsilon$@ = 0
+   Induced Sorting SA(T) using bucket-pointer-array bkt 
+   bkt stores a bucket pointer for each @$\sigma \in$@ K
+ else
+   Induced Sorting SA(T) 
+   using the first/last bucket entrys as bucket counters
+		
+# Stage 2 - Renaming the LMS Substrings
+ Assign individual supersymbols to distinct LMS-Substrings
+ This creates string T@$_1$@ with new alphabet K@$_1$@
+	
+# Stage 3 - Recursion
+ if all supersymbols in T@$_1$@ are distinct (length(T@$_1$@) = size(A@$_1$@))
+   No recursion needed, calculate SA(T@$_1$@) directly
+ else
+   saca_k(T@$_1$@, SA@$_1$@, A@$_1$@, @$\varepsilon$@+1)
+   where SA@$_1$@ reuses the space of SA
+
+# Now we know the correct order of the LMS-Substrings, given by SA(T@$_1$@)
+# Stage 4 - Second Induced Sorting
+ if @$\varepsilon$@ = 0
+   Induced Sorting of SA(T) from SA(T@$_1$@) 
+   with Bucket-Pointer-Array bkt
+ else
+   Induced Sorting of SA(T) from SA(T@$_1$@) 
+   with bucket counters inside the bucket
+
+\end{minted}
+\caption{SACA-K Algorithmus}
+\label{sacak}
+\end{figure}
+
+Insgesamt ergibt sich für den SACA-K Algorithmus ein Laufzeitaufwand von $\mathcal O(n)$, da die Aufrufe von Induced Sort lineare Zeit haben und jeder konstruierte String $T_1$ höchstens die Hälfte der Länge von $T$ hat. Im Worst-Case ist die Laufzeit des SACA-K Algorithmus also $\mathcal T(n) = \mathcal T(\lfloor n/2 \rfloor) + \mathcal O(n) = \mathcal O(n) + \mathcal O(\lfloor n/2 \rfloor) + \mathcal O(\lfloor n/4 \rfloor) + \ldots = \mathcal O(n)$. \\
+Der Speicherbedarf des Algorithmus ist -- neben der Eingabe $T$ und der Ausgabe $SA(T)$ -- nur abhängig von der Größe des Alphabets, wegen der Erstellung des Arrays \textit{bkt}. Für unsere Anwendungsfälle betrachten wir konstante Alphabete, daher können wir von konstantem Speicherplatzbedarf $\mathcal O(1)$ ausgehen. Um dies zu erzielen wird mehrmals der Speicher, welcher für SA(T) reserviert ist, mit Zwischenberechnungen gefüllt und danach wieder überschrieben. Wie oben bereits angedeutet berechnet der Algorithmus manche Schritte anders in den Rekursionsaufruf als in dem Top-Level. Die Ersparnis des Speicherplatzes im Vergleich zu SA-IS kommt genau durch dieses Verhalten des Algorithmus. \\
+
+Bei Terminierung des Algorithmus ist das Array $SA(T)$ in den Speicherplatz $SA$ geschrieben. Im Folgenden werden wir zuerst beleuchten, wie die Induced Sort genau funktioniert, und diese anhand eines Beispiels dem Leser näher bringen. Danach wird die Induced Sort mit den im Algorithmus besprochenen Einschränkungen und Anpassungen, wie mit dem Array \textit{bkt} oder den start und end Elementen der Buckets, weiter erläutert. Zuletzt werden das Benennungsverfahren für die Symbole von $T_1$ und einige Tricks, welche den Platzverbrauch des Algorithmus reduzieren, erklärt.
+
+\subsection{Induced Sort im SACA-K}
+
+Wir beschäftigen uns im Folgenden mit den Details der Induced Sort Technik. In diesem Abschnitt erläutern wir die generelle Funktionsweise von Induced Sorts auf einem String $T$. Zuerst zeigen wir dabei, wie aus den geordneten LMS-Suffixe das gesamte $SA(T)$-Array hergeleitet werden kann. Wir gehen dabei davon aus, dass die geordneten LMS-Suffixe als ein (geordnetes) Index-Array $SA_1$ vorliegen, welches die Länge $n_1 < n$ hat und in den ersten $0$ bis $n_1-1$ Stellen von $SA$ gespeichert ist. Es ist also $SA[0,n_1-1] = SA_1$. \pagebreak
+
+Wir verwenden die Abkürzungen RTL und LTR für \textit{Right-To-Left} und \textit{Left-To-Right}, als Iterationsvarianten welche ein Array der Länge $n$ entweder mit der Iterationsfolge $n-1, n-2, \ldots, 0$ oder $0, 1, \ldots, n - 1$ durchgehen. 
+
+\subsubsection{ Induced Sort für Rekursionstiefe $\level = 0$}
+
+Das größte Problem das sich bzgl. Induced Sort für den Speicherplatz stellt, ist die Frage, wie sich das Programm merken kann, an welchen Stellen die Buckets aufhören und wo sie anfangen, und wie genau das Programm für ein beliebiges $i$ berechnet, ob $\suf(T,i)$ ein L- oder ein S-Typ ist ohne diese zwischenzuspeichern, wie es in dem SA-IS Algorithmus der Fall ist. \\
+
+Um sich die Bucket-Anfänge und -Enden zu merken, allokiert das Programm Speicherplatz für das Array \textit{bkt}  der Größe $K = |A|$. Da es maximal $K$-viele Buckets geben kann, wird \textit{bkt} so befüllt, dass für $i \in \{0, \ldots, K-1\}$ der Wert \textit{bkt}$[i]$ genau die End-Position des Buckets von Symbol $A[i]$ wiedergibt. Eine genauere Version von Induced Sort ergibt sich dann wie folgt:
+\begin{itemize}
+\item \textbf{1) -- Initialisierungsphase} \\
+Initialisiere $SA[n_1, n-1]$, als \textit{null} bzw.\ leer.
+
+\item \textbf{2) -- RTL Einordnungsphase (mit \textit{bkt})} \\
+Füge in \textit{bkt}  alle \textbf{Endpositionen} der jeweiligen Buckets ein, wie oben beschrieben. Iteriere $SA_1$ RTL und füge jeden Index eines LMS-Suffixes, welches mit dem Symbol $A[k]$ beginnt, in die Stelle \textit{bkt}$[k]$ ein. Danach sei \textit{bkt}$[k] = $ \textit{bkt}$[k]-1$.
+
+\item \textbf{3) -- LTR L-Phase (mit \textit{bkt})} \\
+Füge in \textit{bkt}  alle \textbf{Startpositionen} der jeweiligen Buckets ein. Iteriere $SA$ LTR und für jedes nicht-leere $SA[i]$, mit $j = SA[i]-1$, so dass $T[j]$ ein L-Typ ist, schreibe $j$ an die Stelle \textit{bkt}$[k]$, falls $T[j] = A[k]$. Danach sei \textit{bkt}$[k] = $ \textit{bkt}$[k]+1$.
+
+\item \textbf{4) -- RTL S-Phase (mit \textit{bkt})} \\
+Füge in \textit{bkt}  alle \textbf{Endpositionen} der jeweiligen Buckets ein. Iteriere $SA$ RTL und für jedes nicht-leere $SA[i]$, mit $j = SA[i]-1$, so dass $T[j]$ ein S-Typ ist, schreibe $j$ an die Stelle \textit{bkt}$[k]$, falls $T[j] = A[k]$. Danach sei \textit{bkt}$[k] = $ \textit{bkt}$[k]-1$.
+\end{itemize}
+
+Wir können also nun die Abbildung des Induced Sort Algorithmus an dem Beispiel von $abracadabra\$$ mit einem weiteren wichtigen Detail versehen: Dem Array \textit{bkt} und den Veränderungen des Arrays in den einzelnen Zwischenschritten. (Aus Platzgründen hier nur für Phasen 3) und 4) ).
+
+\begin{center}
+\begin{tabular}{| r || c | c c c c c | c c | c | c | c c |   c   |c c c c c c| }
+\rule{1cm}{0pt}&\rule{\symbWidth}{0pt}&\rule{\symbWidth}{0pt}&\rule{\symbWidth}{0pt}&\rule{\symbWidth}{0pt}&\rule{\symbWidth}{0pt}&\rule{\symbWidth}{0pt}&\rule{\symbWidth}{0pt}&\rule{\symbWidth}{0pt}&\rule{\symbWidth}{0pt}&\rule{\symbWidth}{0pt}&\rule{\symbWidth}{0pt}&\rule{\symbWidth}{0pt}&\rule{0.4cm}{0pt}&\rule{\symbWidth}{0pt}&\rule{\symbWidth}{0pt}&\rule{\symbWidth}{0pt}&\rule{\symbWidth}{0pt}&\rule{\symbWidth}{0pt}&\rule{\symbWidth}{0pt}\\[-3.05ex]
+    \cline{1-13}
+ \multicolumn{1}{| r ||}{Index:}&
+ \multicolumn{1}{c}{0}&
+ \multicolumn{1}{c}{1}&
+ \multicolumn{1}{c}{2}&
+ \multicolumn{1}{c}{3}&
+ \multicolumn{1}{c}{4}&
+ \multicolumn{1}{c}{5}&
+ \multicolumn{1}{c}{6}&
+ \multicolumn{1}{c}{7}&
+ \multicolumn{1}{c}{8}&
+ \multicolumn{1}{c}{9}&
+ \multicolumn{1}{c}{10}&
+ \multicolumn{1}{c|}{11} \\
+ 
+ \multicolumn{1}{| r ||}{$T$:}&
+ \multicolumn{1}{c}{a}&
+ \multicolumn{1}{c}{b}&
+ \multicolumn{1}{c}{r}&
+ \multicolumn{1}{c}{a}&
+ \multicolumn{1}{c}{c}&
+ \multicolumn{1}{c}{a}&
+ \multicolumn{1}{c}{d}&
+ \multicolumn{1}{c}{a}&
+ \multicolumn{1}{c}{b}&
+ \multicolumn{1}{c}{r}&
+ \multicolumn{1}{c}{a}&
+ \multicolumn{1}{c|}{\$}\\
+ 
+ \multicolumn{1}{| r ||}{Typ:}&
+ \multicolumn{1}{c}{S}&
+ \multicolumn{1}{c}{S}&
+ \multicolumn{1}{c}{L}&
+ \multicolumn{1}{c}{S}&
+ \multicolumn{1}{c}{L}&
+ \multicolumn{1}{c}{S}&
+ \multicolumn{1}{c}{L}&
+ \multicolumn{1}{c}{S}&
+ \multicolumn{1}{c}{S}&
+ \multicolumn{1}{c}{L}&
+ \multicolumn{1}{c}{L}&
+ \multicolumn{1}{c|}{S} \\
+ 
+    \cline{1-13}
+    \multicolumn{15}{c}{}\\
+    \cline{1-13}
+  \multicolumn{1}{| r ||}{Buckets in SA:}&
+  \multicolumn{1}{c |}{\$} &
+  \multicolumn{5}{c |}{a} &
+  \multicolumn{2}{c |}{b} &
+  \multicolumn{1}{c |}{c} &
+  \multicolumn{1}{c |}{d} &
+  \multicolumn{2}{c |}{r} \\
+    \cline{1-13}
+  \multicolumn{1}{| r ||}{ }&
+  \multicolumn{1}{c |}{S} &
+  \multicolumn{1}{c :}{L} &
+  \multicolumn{4}{c |}{S} &
+  \multicolumn{2}{c |}{S} &
+  \multicolumn{1}{c |}{L} &
+  \multicolumn{1}{c |}{L} &
+  \multicolumn{2}{c |}{L} \\
+    \cline{1-13}
+    \multicolumn{15}{c}{}\\
+    \cline{1-13}
+1) -- SA:& 11 & 7 & 3 & 5 & - & - & - & - & - & - & - & - \\
+   \cline{1-13}
+    \multicolumn{15}{c}{}\\
+    \cline{1-13}
+    \cline{15-20}
+2) -- SA:& 11 & & & 7 & 3 & 5  & & & & & & & &
+ \multicolumn{6}{c|}{\textit{bkt} }  \\
+	\cline{1-13}
+    \cline{15-20}
+    \multicolumn{13}{c}{} & \multicolumn{1}{c|}{} &
+\textbf \$ & \textbf a & \textbf b & \textbf c & \textbf d & \textbf r \\
+    \cline{1-13}
+    \cline{15-20}
+3) -- SA:& & & & & & & & & & & &       & & 0 & 1 & 6 & 8 & 9 & 10 \\	
+	\cline{1-13}
+    \cline{15-20}
+& & 10 & & & & & & & & & &       & & 0 & \textbf 2 & 6 & 8 & 9 & 10 \\	
+	\cline{1-13}
+    \cline{15-20}
+& & 10 & & & & & & & & & 9 &       & & 0 & 2 & 6 & 8 & 9 & \textbf {11} \\	
+	\cline{1-13}
+    \cline{15-20}
+& & 10 & & & & & & & & 6 & 9 &       & & 0 & 2 & 6 & 8 & \textbf {10} & 11 \\
+	\cline{1-13}
+    \cline{15-20}
+& & 10 & & & & & & & & 6 & 9 & 2       & & 0 & 2 & 6 & 8 & 10 & \textbf {12} \\
+	\cline{1-13}
+    \cline{15-20}
+& & 10 & & & & & & & 4 & 6 & 9 & 2       & & 0 & 2 & 6 & \textbf 9 & 10 & 12 \\
+	\cline{1-13}
+    \cline{15-20}
+    \multicolumn{15}{c}{}\\
+    \cline{1-13}
+    \cline{15-20}
+4) -- SA:& & & & & & & & & & & &        & & 0 & 5 & 7 & 8 & 9 & 11 \\ 
+	\cline{1-13}
+    \cline{15-20}
+& & & & & & & & 1 & & & &         & & 0 & 5 & \textbf 6 & 8 & 9 & 11 \\
+	\cline{1-13}
+    \cline{15-20}
+& & & & & & & 8 & 1 & & & &        & & 0 & 5 & \textbf 5 & 8 & 9 & 11 \\
+	\cline{1-13}
+    \cline{15-20}
+& & & & & & 5 & 8 & 1 & & & &         & & 0 & \textbf 4 & 5 & 8 & 9 & 11 \\
+	\cline{1-13}
+    \cline{15-20}
+& & & & & 3 & 5 & 8 & 1 & & & &          & & 0 & \textbf 3 & 5 & 8 & 9 & 11 \\
+	\cline{1-13}
+    \cline{15-20}
+& & & & 0 & 3 & 5 & 8 & 1 & & & &         & & 0 & \textbf 2 & 5 & 8 & 9 & 11 \\
+	\cline{1-13}
+    \cline{15-20}
+& & & 7 & 0 & 3 & 5 & 8 & 1 & & & &        & & 0 & \textbf 1 & 5 & 8 & 9 & 11 \\
+	\cline{1-13}
+    \cline{15-20}
+\end{tabular} \\
+\end{center}
+
+Zuletzt bleibt noch die Frage zu klären, wie genau SACA-K ohne das Typ-Array $t$ in Phase 3) und 4) auskommt. In Phase 3) gilt für jede Zelle von $SA$, die einen Index $i$ enthält, dass an der Stelle $i$ in $T$ ein LMS-Substring beginnt, oder $\suf(T,i)$ ein L-Typ ist. In beiden Fällen gilt, dass $\suf(T,i-1)$ genau dann ein L-Typ ist, falls $T[i-1] \geq T[i]$ ist. \\
+In Phase 4) muss jedoch geprüft werden, ob Suffixe $\suf(T,i-1)$ S-Typen sind. In diesem Fall reicht es nicht zu prüfen, ob $T[i-1] < T[i]$ gilt, da wir ebenso den Fall bedenken müssen, dass $T[i-1] = T[i]$ gilt und $\suf(T,i)$ selber ein S-Typ ist, woraus folgt, dass $\suf(T,i-1)$ auch ein S-Typ ist. Im Paper des SACA-K Algorithmus \cite{Nong} wird dafür die folgende Eigenschaft verwendet:
+
+\begin{theorem}
+Bei Rekursionstiefe $\level = 0$ gilt in Phase 4) der Induced Sort:  \\
+Für jeden Index $SA[i]$ und $j = SA[i] - 1$ ist $\suf(T,j)$ ein S-Typ genau dann, wenn entweder $T[j] < T[SA[i]]$ gilt, oder $T[j] = T[SA[i]] = A[k]$ und \textit{bkt} $[k] < i$ gilt.
+\end{theorem}
+
+Umgangssprachlich heißt dabei \textit{bkt}$[k] < i$ für $A[k] = T[j]$, dass der Index $j$ an einer kleineren Stelle in $SA$ eingeordnet wird als die Stelle $i$, die wir momentan betrachten. \\
+Da wir beide in der Aussage geforderten Eigenschaften in konstanter Zeit testen können, lassen sich sowohl in Phase 3) als auch in Phase 4) die Typen-Tests für ein Suffix in konstanter Zeit ohne ein vorberechnetes Typen-Array $t$ ausführen.
+
+\subsubsection{ Induced Sort für Rekursionstiefe $\level > 0$}
+
+Wir beschäftigen uns nun mit den Feinheiten von Induced Sort für Suffixe auf den tieferen Rekursionsebenen. Beschrieben wird hier nur die Sortierung der Suffixe für Rekursionstiefe $\level = 1$, da das Vorgehen für alle anderen Rekursionstiefen analog erfolgt. Der String den wir hier betrachten ist $T_1$, welcher aus vollkommen neuen Symbolen besteht -- je ein Symbol pro verschiedenem Substring von den zu sortierenden Suffixen. Würden wir weiterhin ein Array \textit{bkt} zum Zählen verwenden, so würden wir im Worst-Case einen Speicheraufwand von $\mathcal O(n)$ riskieren, da es bis zu $\mathcal O(n/3) = \mathcal O(n)$ viele verschiedene LMS-Substrings von $T$ -- und damit auch eine von $n$ linear abhängige Alphabetgröße $K_1$ von $T_1$ -- geben kann. Der Trick, mit dem wir auch weiterhin einen konstanten Speicherverbrauch in linearer Zeit beibehalten können, ist eine spezielle Konstruktion des Strings $T_1$ (zu dem Konstruktionsmechanismus werden wir später kommen), so dass jeder L-Typ bzw.\ S-Typ in $T_1$ auch ein Pointer zu dem start- bzw.\ dem end-Element seines Buckets ist.  \\
+Wie schon vorher erwähnt wird für $SA_1$ kein zusätzlicher Speicherplatz benötigt, da wir einfach die bisherigen, nicht mehr gebrauchten Daten in $SA$ überschreiben können. Da $n_1 \lfloor n/2 \rfloor$ gilt, kann kann es in $T_1$ nur noch halb so viele zu sortierende Suffixe geben wie in $T$. Dies ermöglicht uns, da die in $T_1$ betrachteten Indizes nur noch maximal halb so groß werden können wie in $T$, das letzte Bit jedes Eintrages in $SA$ für eine zusätzliche Information zu benutzen: Es ist 0, falls dieser Eintrag ein Suffix-Index ist und es ist 1, falls der Eintrag leer ist (hier mit \textit{null} dargestellt, kann als größte negative Zahl implementiert werden) oder als bucket counter gebraucht wird. Im Folgenden werden nur die beiden kritischen Phasen 3) und 4) (genannt L- und S-Phase) von Induced Sort und ihre Implementierung für tiefere Rekursionsebenen betrachtet.
+
+\subsubsection{ L-Phase für Rekursionstiefe $\level > 0$}
+
+Wie in der ursprünglichen Form des Algorithmus vorgesehen iterieren wir durch $SA_1$ LTR. Für jedes Element $SA[i] \neq $ \textit{null} und $SA[i] > 0$ mit $j = SA[i] -1$, so dass $\suf(T_1,j)$ ein L-Typ ist (in diesem Fall wenn $T_1[j] \geq T_1[j+1]$ gilt), wird $j$ in seinen entsprechenden Bucket in $SA$ platziert. Da $c = T_1[j]$ auf das start-Element seines Buckets zeigt, muss dieses in den Bucket der Stelle $SA[c]$ eingefügt werden. Es können bei diesem Vorgang die folgenden drei verschiedenen Fälle auftreten:
+
+\begin{itemize}
+\item Wenn $SA[c] = $ \textit{null} ist, dann ist $j$ der erste in diesen Bucket einzufügende Index. Anstatt $j$ jedoch genau an dieser Stelle einzufügen prüfen wir ob $SA[c+1]  = $ \textit{null} ist. Ist dies nicht der Fall, so beginnt an der Stelle $c+1$ bereits ein neuer Bucket und $j$ ist das einzige Element seines Buckets und wir schreiben $j$ in $SA[c]$. Ist an der Stelle $c+1$ jedoch noch kein Element enthalten, so benutzen wir $SA[c]$ vorerst als einen negativen Bucketzähler und setzen $SA[c] = -1$ und $SA[c+1] = j$. Im weiteren Verlauf des Algorithmus wird $SA[c]$ dann entweder weiter verändert wenn mehr Elemente hinzu kommen oder wenn der Bucket mit allen seinen Elementen befüllt wurde und in den rechts anliegenden Bucket übergreift.
+\item Wenn $ 0 > SA[c] \neq$ \textit{null} ist, dann wird $SA[c]$ für einen Zähler benutzt und enthält die momentane (negative) Anzahl der Elemente im Bucket. Es sei $p = c - SA[c] + 1$, dann ist $p$ die Position an die der Index $j$ einsortiert wird, falls $SA[p] = $ \textit{null} ist und $SA[c] = SA[c] - 1$. Sollte der Wert in $SA[p]$ jedoch nicht \textit{null} sein, so haben wir das Ende unseres Buckets erreicht und würden mit dem Schreiben von $j$ in $SA[p]$ über die Grenzen unseres Buckets hinausgehen. In diesem Fall ist $j$ der letzte in den Bucket einzusortierende Index und wir führen für den gesamten Bucket einen links-shift aus, so dass $j$ in $SA[p-1]$ geschrieben werden kann und alle anderen Elemente einen Eintrag nach links wandern, bis der Zähler in $SA[c]$ von $SA[c+1]$ überschrieben wurde. Danach ist dieser Bucket vollständig.
+\item Wenn $ 0 < SA[c] \neq$ \textit{null} ist, so wird $SA[c]$ weder als Indikator gebraucht, noch ist es leer -- in diesem Fall benutzt der links anliegende Bucket also $SA[c]$ für seine eigene Auslagerung. Daraus lässt sich schließen, dass der links anliegende Bucket bereits voll ist und wir können (wie oben) für diesen Bucket einen links-shift ausführen, bis zu dem ersten nicht leeren, negativen Eintrag. Dann verfahren wir genauso wie im Fall $SA[c] = $ \textit{null} weiter für den Bucket von $SA[c]$.
+\end{itemize}
+
+Der Zeitaufwand ist hierbei linear, da das Einfügen jedes Index in konstanter Zeit passiert und jeder eingefügte Index maximal einmal geshiftet wird. Da maximal ein Index pro Iteration eingefügt wird, wird die Laufzeit von der Länge von $SA_1$ dominiert, welche $\mathcal O(n_1)$ ist.
+
+\subsubsection{ S-Phase für Rekursionstiefe $\level > 0$}
+
+Für diese Phase der Sortierung kommt uns die Eigenschaft von $T_1$ zuhilfe, dass für jeden S-Typ $\suf(T_1, i)$ der Eintrag $SA[i]$ das letzte Element des Buckets von $T_1[i]$ ist. Wie im Ursprungsalgorithmus vorgesehen iterieren wir RTL durch $SA_1$. Für jedes Element $SA[i] \neq $ \textit{null} und $SA[i] > 0$ mit $j = SA[i] -1$, so dass $\suf(T_1,j)$ ein S-Typ ist (dies ist der Fall, wenn $T_1[j] > T_1[j+1]$ gilt, oder $T[j] = T[j+1]$ und $T[j] > i$ ist), wird $j$ in seinen entsprechenden Bucket in $SA$ ähnlich wie oben platziert, und zwar für $c = T[j]$ wie folgt:
+
+\begin{itemize}
+\item Wenn $SA[c] = $ \textit{null} ist, dann ist $j$ der erste in diesen Bucket einzufügende Index. Wir prüfen ob $SA[c-1]$ leer ist. Falls ja, dann setzen wir $SA[c-1] = j$ und benutzen $SA[c]$ als einen Zähler indem wir initial $SA[c] = -1$ setzen. Falls nein, so umfasst der S-Teil des Buckets nur ein Element, nämlich $j$, und wir setzen $SA[c] = j$.
+\item Wenn $ 0 > SA[c] \neq$ \textit{null} ist, dann wird $SA[c]$ für einen Zähler benutzt und enthält die momentane (negative) Anzahl der Elemente im Bucket. Falls für $p = c + SA[c] - 1$ der Wert von $SA[p]$ leer ist, so ist $SA[p] = j$ und wir setzen $SA[c] = SA[c] - 1$. Falls $SA[p]$ nicht leer ist, so ist $SA[p-1]$ das Ende des S-Teils dieses Buckets und wir führen einen rechts-shift aller Elemente im Bereich $SA[c, p]$ aus, bis $SA[c]$ durch $SA[c-1]$ überschrieben wurde und setzen dann $SA[p-1] = j$.
+\item Wenn $ 0 < SA[c] \neq$ \textit{null} ist, so wird $SA[c]$ weder als Indikator gebraucht, noch ist es leer -- in diesem Fall benutzt der rechts anliegende Bucket also $SA[c]$ für seine eigene Auslagerung. Der rechts anliegende Bucket ist also bereits voll und wir können für diesen rechten Bucket einen rechts-shift ausführen, bis zu dem ersten nicht leeren, negativen Eintrag (dem Zähler dieses Buckets). Dann verfahren wir für den Bucket von $SA[c]$ genauso wie im Fall $SA[c] = $ \textit{null} weiter.
+\end{itemize}
+
+Der Zeitaufwand ist $\mathcal O(n)$, analog zu dem der L-Phase.
+
+\subsection{ Benennungsverfahren der LMS-Substrings}
+
+In diesem Abschnitt werden wir erfahren, wie sich die neuen Symbole des Alphabets für die Strings $T_1$ ergeben, so dass die oben vorausgesetzte Eigenschaft gilt, dass jeder L-Typ bzw.\ S-Typ in $T_1$ auch ein Pointer zu dem start- bzw.\ dem end-Element seines Buckets ist. Es werden die folgenden Definitionen gebraucht:
+
+\begin{definition}\textbf{S-Rang und SE-Rang}\\
+Für einen String $T$ der Länge $n$ und einen Index $i \in \{0, \ldots, n-1\}$ ist der S-Rang bzw.\ der SE-Rang von $T[i]$ die Anzahl von $T[j]$ für $j \neq i$ mit $T[j] < T[i]$ bzw.\ $T[j] \leq T[i]$. 
+\end{definition}
+
+Um den String $T_1$ aus den geordneten LMS-Substrings in $SA$ von $T$ zu erzeugen, wird jedem LMS-Substring wie folgt sein S- bzw. SE-Rang zugewiesen:
+
+\begin{itemize}
+\item Iteriere $SA_1$ LTR um jeden LMS-Substring den start-Index seines Buckets zuzuweisen in welchen er sortiert wurde.
+\item Iteriere den entstandenen String RTL und ersetze jedes Symbol mit S-Typ durch den end-Index des Buckets auf den es zeigt.
+\end{itemize}
+
+Um den ersten Schritt ausführen zu können muss der start-Index der jeweiligen Buckets korrekt identifiziert werden, indem je zwei benachbarte LMS-Substrings in $T$ miteinander verglichen werden. Um das Ende eines LMS-Substring feststellen zu können, wird der Substring durchlaufen bis zum ersten mal ein L-Typ mit einem darauf folgenden S-Typ erkannt wird. Damit ist das Benennungsverfahren mit einer Laufzeit von $\mathcal O(n)$ ausführbar.

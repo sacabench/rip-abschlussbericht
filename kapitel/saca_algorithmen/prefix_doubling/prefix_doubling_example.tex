@@ -1,0 +1,544 @@
+\begin{enumerate}
+\item 
+Erzeuge anfängliche Zeichenpaar-Textposition Tupel. Sie entsprechen Präfixen der Länge 2.
+\begin{center}
+\small\begin{tabular}{lrrrrrrrrrrrrrr}
+    \toprule 
+    $S$ & \textcolor{gray}{0} & \textcolor{gray}{1} & \textcolor{gray}{2} & \textcolor{gray}{3} & \textcolor{gray}{4} & \textcolor{gray}{5} & \textcolor{gray}{6} & \textcolor{gray}{7} & \textcolor{gray}{8} & \textcolor{gray}{9} & \textcolor{gray}{10} & \textcolor{gray}{11} & \textcolor{gray}{12} & \textcolor{gray}{13}\\
+    \midrule 
+    $c_0$ & $c$ & $a$ & $a$ & $b$ & $a$ & $c$ & $c$ & $a$ & $a$ & $b$ & $a$ & $c$ & $a$ & $a$ \\
+    $c_1$ & $a$ & $a$ & $b$ & $a$ & $c$ & $c$ & $a$ & $a$ & $b$ & $a$ & $c$ & $a$ & $a$ & $\$$ \\
+    $i$ & $0$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$ & $11$ & $12$ & $13$ \\
+    \bottomrule 
+\end{tabular}
+\end{center}
+\item 
+Sortiere $S$ lexikografisch.
+\begin{center}
+\small\begin{tabular}{lrrrrrrrrrrrrrr}
+    \toprule 
+    $S$ & \textcolor{gray}{0} & \textcolor{gray}{1} & \textcolor{gray}{2} & \textcolor{gray}{3} & \textcolor{gray}{4} & \textcolor{gray}{5} & \textcolor{gray}{6} & \textcolor{gray}{7} & \textcolor{gray}{8} & \textcolor{gray}{9} & \textcolor{gray}{10} & \textcolor{gray}{11} & \textcolor{gray}{12} & \textcolor{gray}{13}\\
+    \midrule 
+    $c_0$ & $a$ & $a$ & $a$ & $a$ & $a$ & $a$ & $a$ & $a$ & $b$ & $b$ & $c$ & $c$ & $c$ & $c$ \\
+    $c_1$ & $\$$ & $a$ & $a$ & $a$ & $b$ & $b$ & $c$ & $c$ & $a$ & $a$ & $a$ & $a$ & $a$ & $c$ \\
+    $i$ & $13$ & $1$ & $7$ & $12$ & $2$ & $8$ & $4$ & $10$ & $3$ & $9$ & $0$ & $6$ & $11$ & $5$ \\
+    \bottomrule 
+\end{tabular}
+\end{center}
+
+\item 
+Benenne die Paare in $S$ lexikografische um ($U$ = name($S$)).
+\begin{center}
+\small\begin{tabular}{lrrrrrrrrrrrrrr}
+    \toprule 
+    $U$ & \textcolor{gray}{0} & \textcolor{gray}{1} & \textcolor{gray}{2} & \textcolor{gray}{3} & \textcolor{gray}{4} & \textcolor{gray}{5} & \textcolor{gray}{6} & \textcolor{gray}{7} & \textcolor{gray}{8} & \textcolor{gray}{9} & \textcolor{gray}{10} & \textcolor{gray}{11} & \textcolor{gray}{12} & \textcolor{gray}{13}\\
+    \midrule 
+    $c$ & $1$ & $2$ & $2$ & $2$ & $5$ & $5$ & $7$ & $7$ & $9$ & $9$ & $11$ & $11$ & $11$ & $14$ \\
+    $i$ & $13$ & $1$ & $7$ & $12$ & $2$ & $8$ & $4$ & $10$ & $3$ & $9$ & $0$ & $6$ & $11$ & $5$ \\
+    \bottomrule 
+\end{tabular}
+\end{center}
+
+\item 
+Die anfängliche Zuordnung der Namen zu Präfixen ist somit:
+\begin{center}
+\small\begin{tabular}{rl}
+\toprule 
+Name & Präfix \\
+\midrule 
+  $1$ & $a\$$\\
+  $2$ & $aa$\\
+  $2$ & $aa$\\
+  $2$ & $aa$\\
+  $5$ & $ab$\\
+  $5$ & $ab$\\
+  $7$ & $ac$\\
+  $7$ & $ac$\\
+  $9$ & $ba$\\
+  $9$ & $ba$\\
+  $11$ & $ca$\\
+  $11$ & $ca$\\
+  $11$ & $ca$\\
+  $14$ & $cc$\\
+\bottomrule 
+\end{tabular}
+\end{center}
+
+\item 
+Initialisiere $P$ und $F$ als leere Sequenzen.
+\item 
+Iteriere bis zu $\ceil{\log_2 n} = 4$ mal.
+\item 
+Beginne Iteration $k = 1$.
+
+\item 
+Markiere alle einzigartigen Namen in U (Grün in der Tabelle).
+\begin{center}
+\small\begin{tabular}{lrrrrrrrrrrrrrr}
+    \toprule 
+    $U$ & \textcolor{gray}{0} & \textcolor{gray}{1} & \textcolor{gray}{2} & \textcolor{gray}{3} & \textcolor{gray}{4} & \textcolor{gray}{5} & \textcolor{gray}{6} & \textcolor{gray}{7} & \textcolor{gray}{8} & \textcolor{gray}{9} & \textcolor{gray}{10} & \textcolor{gray}{11} & \textcolor{gray}{12} & \textcolor{gray}{13}\\
+    \midrule 
+    $c$ & $1$ & $2$ & $2$ & $2$ & $5$ & $5$ & $7$ & $7$ & $9$ & $9$ & $11$ & $11$ & $11$ & $14$ \\
+    $i$ & $13$ & $1$ & $7$ & $12$ & $2$ & $8$ & $4$ & $10$ & $3$ & $9$ & $0$ & $6$ & $11$ & $5$ \\
+    $Uniq.$ & $$\cmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\cmarkc$$ \\
+    \bottomrule 
+\end{tabular}
+\end{center}
+
+\item 
+Merge P in die Sequenz U. Die Tupel sind dabei immer einzigartig.
+\begin{center}
+\small\begin{tabular}{l}
+    \toprule 
+    $P$\\
+    \midrule 
+    $c$ \\
+    $i$ \\
+    \bottomrule 
+\end{tabular}
+\end{center}
+\begin{center}
+$\Rightarrow$
+\end{center}
+\begin{center}
+\small\begin{tabular}{lrrrrrrrrrrrrrr}
+    \toprule 
+    $U$ & \textcolor{gray}{0} & \textcolor{gray}{1} & \textcolor{gray}{2} & \textcolor{gray}{3} & \textcolor{gray}{4} & \textcolor{gray}{5} & \textcolor{gray}{6} & \textcolor{gray}{7} & \textcolor{gray}{8} & \textcolor{gray}{9} & \textcolor{gray}{10} & \textcolor{gray}{11} & \textcolor{gray}{12} & \textcolor{gray}{13}\\
+    \midrule 
+    $c$ & $1$ & $2$ & $2$ & $2$ & $5$ & $5$ & $7$ & $7$ & $9$ & $9$ & $11$ & $11$ & $11$ & $14$ \\
+    $i$ & $13$ & $1$ & $7$ & $12$ & $2$ & $8$ & $4$ & $10$ & $3$ & $9$ & $0$ & $6$ & $11$ & $5$ \\
+    $Uniq.$ & $$\cmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\cmarkc$$ \\
+    \bottomrule 
+\end{tabular}
+\end{center}
+
+\item 
+Die Zuordnung der Namen zu Präfixen für diesen Schritt ist somit:
+\begin{center}
+\small\begin{tabular}{rl}
+\toprule 
+Name & Präfix \\
+\midrule 
+  $1$ & $a\$$\\
+  $2$ & $aa$\\
+  $2$ & $aa$\\
+  $2$ & $aa$\\
+  $5$ & $ab$\\
+  $5$ & $ab$\\
+  $7$ & $ac$\\
+  $7$ & $ac$\\
+  $9$ & $ba$\\
+  $9$ & $ba$\\
+  $11$ & $ca$\\
+  $11$ & $ca$\\
+  $11$ & $ca$\\
+  $14$ & $cc$\\
+\bottomrule 
+\end{tabular}
+\end{center}
+
+\item 
+Sortiere $U$ anhand $(i \mod 2^k, i \div 2^k)$.
+\begin{center}
+\small\begin{tabular}{lrrrrrrrrrrrrrr}
+    \toprule 
+    $U$ & \textcolor{gray}{0} & \textcolor{gray}{1} & \textcolor{gray}{2} & \textcolor{gray}{3} & \textcolor{gray}{4} & \textcolor{gray}{5} & \textcolor{gray}{6} & \textcolor{gray}{7} & \textcolor{gray}{8} & \textcolor{gray}{9} & \textcolor{gray}{10} & \textcolor{gray}{11} & \textcolor{gray}{12} & \textcolor{gray}{13}\\
+    \midrule 
+    $c$ & $11$ & $5$ & $7$ & $11$ & $5$ & $7$ & $2$ & $2$ & $9$ & $14$ & $2$ & $9$ & $11$ & $1$ \\
+    $i$ & $0$ & $2$ & $4$ & $6$ & $8$ & $10$ & $12$ & $1$ & $3$ & $5$ & $7$ & $9$ & $11$ & $13$ \\
+    $Uniq.$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\cmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\cmarkc$$ \\
+    \bottomrule 
+\end{tabular}
+\end{center}
+
+\item 
+Setze $P$ auf die leere Sequenz zurück.
+
+\item 
+Iteriere durch U.
+\begin{itemize}
+\item Falls der Namen einzigartig ist, und einer der beiden Vorgängernamen einzigartig ist, füge ihn zu F hinzu.
+\item Falls der Namen einzigartig ist, und keiner der beiden Vorgängernamen einzigartig ist, füge ihn zu P hinzu.
+\item Sonst bilde aus den Namen und seinen Nachfolger ein Paar, und füge es zu S hinzu.
+\end{itemize}
+
+\begin{center}
+\small\begin{tabular}{rrcccc}
+\toprule 
+ $U_c$ & $U_i$ & $U_{uniq}$ &     $S$      &   $P$   &   $F$   \\
+\midrule 
+$11$ & 0 & $$\xmarkc$$ & $((11, 5), 0)$ &       &       \\
+$ 5$ & 2 & $$\xmarkc$$ & $(( 5, 7), 2)$ &       &       \\
+$ 7$ & 4 & $$\xmarkc$$ & $(( 7,11), 4)$ &       &       \\
+$11$ & 6 & $$\xmarkc$$ & $((11, 5), 6)$ &       &       \\
+$ 5$ & 8 & $$\xmarkc$$ & $(( 5, 7), 8)$ &       &       \\
+$ 7$ & 10 & $$\xmarkc$$ & $(( 7, 2),10)$ &       &       \\
+$ 2$ & 12 & $$\xmarkc$$ & $(( 2, 0),12)$ &       &       \\
+$ 2$ & 1 & $$\xmarkc$$ & $(( 2, 9), 1)$ &       &       \\
+$ 9$ & 3 & $$\xmarkc$$ & $(( 9,14), 3)$ &       &       \\
+$14$ & 5 & $$\cmarkc$$  &            & $(14, 5)$ &       \\
+$ 2$ & 7 & $$\xmarkc$$ & $(( 2, 9), 7)$ &       &       \\
+$ 9$ & 9 & $$\xmarkc$$ & $(( 9,11), 9)$ &       &       \\
+$11$ & 11 & $$\xmarkc$$ & $((11, 1),11)$ &       &       \\
+$ 1$ & 13 & $$\cmarkc$$  &            & $( 1,13)$ &       \\
+\bottomrule 
+\end{tabular}
+\end{center}
+\item 
+$F$ nach diesem Schritt:
+\begin{center}
+\small\begin{tabular}{l}
+    \toprule 
+    $F$\\
+    \midrule 
+    $c$ \\
+    $i$ \\
+    \bottomrule 
+\end{tabular}
+\end{center}
+
+\item 
+Überprüfe ob $S$ leer ist.
+$\Rightarrow$ Nein, mache weiter.
+
+\item 
+Sortiere $S$ lexikografisch.
+\begin{center}
+\small\begin{tabular}{lrrrrrrrrrrrr}
+    \toprule 
+    $S$ & \textcolor{gray}{0} & \textcolor{gray}{1} & \textcolor{gray}{2} & \textcolor{gray}{3} & \textcolor{gray}{4} & \textcolor{gray}{5} & \textcolor{gray}{6} & \textcolor{gray}{7} & \textcolor{gray}{8} & \textcolor{gray}{9} & \textcolor{gray}{10} & \textcolor{gray}{11}\\
+    \midrule 
+    $c_0$ & $2$ & $2$ & $2$ & $5$ & $5$ & $7$ & $7$ & $9$ & $9$ & $11$ & $11$ & $11$ \\
+    $c_1$ & $0$ & $9$ & $9$ & $7$ & $7$ & $2$ & $11$ & $11$ & $14$ & $1$ & $5$ & $5$ \\
+    $i$ & $12$ & $1$ & $7$ & $2$ & $8$ & $10$ & $4$ & $9$ & $3$ & $11$ & $0$ & $6$ \\
+    \bottomrule 
+\end{tabular}
+\end{center}
+
+\item 
+Benenne die Paare in $S$ lexikografische um ($U$ = name2($S$)).
+\begin{center}
+\small\begin{tabular}{lrrrrrrrrrrrr}
+    \toprule 
+    $U$ & \textcolor{gray}{0} & \textcolor{gray}{1} & \textcolor{gray}{2} & \textcolor{gray}{3} & \textcolor{gray}{4} & \textcolor{gray}{5} & \textcolor{gray}{6} & \textcolor{gray}{7} & \textcolor{gray}{8} & \textcolor{gray}{9} & \textcolor{gray}{10} & \textcolor{gray}{11}\\
+    \midrule 
+    $c$ & $2$ & $3$ & $3$ & $5$ & $5$ & $7$ & $8$ & $9$ & $10$ & $11$ & $12$ & $12$ \\
+    $i$ & $12$ & $1$ & $7$ & $2$ & $8$ & $10$ & $4$ & $9$ & $3$ & $11$ & $0$ & $6$ \\
+    \bottomrule 
+\end{tabular}
+\end{center}
+\item 
+Beginne Iteration $k = 2$.
+
+\item 
+Markiere alle einzigartigen Namen in U (Grün in der Tabelle).
+\begin{center}
+\small\begin{tabular}{lrrrrrrrrrrrr}
+    \toprule 
+    $U$ & \textcolor{gray}{0} & \textcolor{gray}{1} & \textcolor{gray}{2} & \textcolor{gray}{3} & \textcolor{gray}{4} & \textcolor{gray}{5} & \textcolor{gray}{6} & \textcolor{gray}{7} & \textcolor{gray}{8} & \textcolor{gray}{9} & \textcolor{gray}{10} & \textcolor{gray}{11}\\
+    \midrule 
+    $c$ & $2$ & $3$ & $3$ & $5$ & $5$ & $7$ & $8$ & $9$ & $10$ & $11$ & $12$ & $12$ \\
+    $i$ & $12$ & $1$ & $7$ & $2$ & $8$ & $10$ & $4$ & $9$ & $3$ & $11$ & $0$ & $6$ \\
+    $Uniq.$ & $$\cmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\cmarkc$$ & $$\cmarkc$$ & $$\cmarkc$$ & $$\cmarkc$$ & $$\cmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ \\
+    \bottomrule 
+\end{tabular}
+\end{center}
+
+\item 
+Merge P in die Sequenz U. Die Tupel sind dabei immer einzigartig.
+\begin{center}
+\small\begin{tabular}{lrr}
+    \toprule 
+    $P$ & \textcolor{gray}{0} & \textcolor{gray}{1}\\
+    \midrule 
+    $c$ & $14$ & $1$ \\
+    $i$ & $5$ & $13$ \\
+    \bottomrule 
+\end{tabular}
+\end{center}
+\begin{center}
+$\Rightarrow$
+\end{center}
+\begin{center}
+\small\begin{tabular}{lrrrrrrrrrrrrrr}
+    \toprule 
+    $U$ & \textcolor{gray}{0} & \textcolor{gray}{1} & \textcolor{gray}{2} & \textcolor{gray}{3} & \textcolor{gray}{4} & \textcolor{gray}{5} & \textcolor{gray}{6} & \textcolor{gray}{7} & \textcolor{gray}{8} & \textcolor{gray}{9} & \textcolor{gray}{10} & \textcolor{gray}{11} & \textcolor{gray}{12} & \textcolor{gray}{13}\\
+    \midrule 
+    $c$ & $1$ & $2$ & $3$ & $3$ & $5$ & $5$ & $7$ & $8$ & $9$ & $10$ & $11$ & $12$ & $12$ & $14$ \\
+    $i$ & $13$ & $12$ & $1$ & $7$ & $2$ & $8$ & $10$ & $4$ & $9$ & $3$ & $11$ & $0$ & $6$ & $5$ \\
+    $Uniq.$ & $$\cmarkc$$ & $$\cmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\cmarkc$$ & $$\cmarkc$$ & $$\cmarkc$$ & $$\cmarkc$$ & $$\cmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\cmarkc$$ \\
+    \bottomrule 
+\end{tabular}
+\end{center}
+
+\item 
+Die Zuordnung der Namen zu Präfixen für diesen Schritt ist somit:
+\begin{center}
+\small\begin{tabular}{rl}
+\toprule 
+Name & Präfix \\
+\midrule 
+  $1$ & $a\$\$\$$\\
+  $2$ & $aa\$\$$\\
+  $3$ & $aaba$\\
+  $3$ & $aaba$\\
+  $5$ & $abac$\\
+  $5$ & $abac$\\
+  $7$ & $acaa$\\
+  $8$ & $acca$\\
+  $9$ & $baca$\\
+  $10$ & $bacc$\\
+  $11$ & $caa\$$\\
+  $12$ & $caab$\\
+  $12$ & $caab$\\
+  $14$ & $ccaa$\\
+\bottomrule 
+\end{tabular}
+\end{center}
+
+\item 
+Sortiere $U$ anhand $(i \mod 2^k, i \div 2^k)$.
+\begin{center}
+\small\begin{tabular}{lrrrrrrrrrrrrrr}
+    \toprule 
+    $U$ & \textcolor{gray}{0} & \textcolor{gray}{1} & \textcolor{gray}{2} & \textcolor{gray}{3} & \textcolor{gray}{4} & \textcolor{gray}{5} & \textcolor{gray}{6} & \textcolor{gray}{7} & \textcolor{gray}{8} & \textcolor{gray}{9} & \textcolor{gray}{10} & \textcolor{gray}{11} & \textcolor{gray}{12} & \textcolor{gray}{13}\\
+    \midrule 
+    $c$ & $12$ & $8$ & $5$ & $2$ & $3$ & $14$ & $9$ & $1$ & $5$ & $12$ & $7$ & $10$ & $3$ & $11$ \\
+    $i$ & $0$ & $4$ & $8$ & $12$ & $1$ & $5$ & $9$ & $13$ & $2$ & $6$ & $10$ & $3$ & $7$ & $11$ \\
+    $Uniq.$ & $$\xmarkc$$ & $$\cmarkc$$ & $$\xmarkc$$ & $$\cmarkc$$ & $$\xmarkc$$ & $$\cmarkc$$ & $$\cmarkc$$ & $$\cmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\cmarkc$$ & $$\cmarkc$$ & $$\xmarkc$$ & $$\cmarkc$$ \\
+    \bottomrule 
+\end{tabular}
+\end{center}
+
+\item 
+Setze $P$ auf die leere Sequenz zurück.
+
+\item 
+Iteriere durch U.
+\begin{itemize}
+\item Falls der Namen einzigartig ist, und einer der beiden Vorgängernamen einzigartig ist, füge ihn zu F hinzu.
+\item Falls der Namen einzigartig ist, und keiner der beiden Vorgängernamen einzigartig ist, füge ihn zu P hinzu.
+\item Sonst bilde aus den Namen und seinen Nachfolger ein Paar, und füge es zu S hinzu.
+\end{itemize}
+
+\begin{center}
+\small\begin{tabular}{rrcccc}
+\toprule 
+ $U_c$ & $U_i$ & $U_{uniq}$ &     $S$      &   $P$   &   $F$   \\
+\midrule 
+$12$ & 0 & $$\xmarkc$$ & $((12, 8), 0)$ &       &       \\
+$ 8$ & 4 & $$\cmarkc$$  &            &       & $( 8, 4)$\\
+$ 5$ & 8 & $$\xmarkc$$ & $(( 5, 2), 8)$ &       &       \\
+$ 2$ & 12 & $$\cmarkc$$  &            &       & $( 2,12)$\\
+$ 3$ & 1 & $$\xmarkc$$ & $(( 3,14), 1)$ &       &       \\
+$14$ & 5 & $$\cmarkc$$  &            &       & $(14, 5)$\\
+$ 9$ & 9 & $$\cmarkc$$  &            &       & $( 9, 9)$\\
+$ 1$ & 13 & $$\cmarkc$$  &            &       & $( 1,13)$\\
+$ 5$ & 2 & $$\xmarkc$$ & $(( 5,12), 2)$ &       &       \\
+$12$ & 6 & $$\xmarkc$$ & $((12, 7), 6)$ &       &       \\
+$ 7$ & 10 & $$\cmarkc$$  &            & $( 7,10)$ &       \\
+$10$ & 3 & $$\cmarkc$$  &            &       & $(10, 3)$\\
+$ 3$ & 7 & $$\xmarkc$$ & $(( 3,11), 7)$ &       &       \\
+$11$ & 11 & $$\cmarkc$$  &            &       & $(11,11)$\\
+\bottomrule 
+\end{tabular}
+\end{center}
+\item 
+$F$ nach diesem Schritt:
+\begin{center}
+\small\begin{tabular}{lrrrrrrr}
+    \toprule 
+    $F$ & \textcolor{gray}{0} & \textcolor{gray}{1} & \textcolor{gray}{2} & \textcolor{gray}{3} & \textcolor{gray}{4} & \textcolor{gray}{5} & \textcolor{gray}{6}\\
+    \midrule 
+    $c$ & $8$ & $2$ & $14$ & $9$ & $1$ & $10$ & $11$ \\
+    $i$ & $4$ & $12$ & $5$ & $9$ & $13$ & $3$ & $11$ \\
+    \bottomrule 
+\end{tabular}
+\end{center}
+
+\item 
+Überprüfe ob $S$ leer ist.
+$\Rightarrow$ Nein, mache weiter.
+
+\item 
+Sortiere $S$ lexikografisch.
+\begin{center}
+\small\begin{tabular}{lrrrrrr}
+    \toprule 
+    $S$ & \textcolor{gray}{0} & \textcolor{gray}{1} & \textcolor{gray}{2} & \textcolor{gray}{3} & \textcolor{gray}{4} & \textcolor{gray}{5}\\
+    \midrule 
+    $c_0$ & $3$ & $3$ & $5$ & $5$ & $12$ & $12$ \\
+    $c_1$ & $11$ & $14$ & $2$ & $12$ & $7$ & $8$ \\
+    $i$ & $7$ & $1$ & $8$ & $2$ & $6$ & $0$ \\
+    \bottomrule 
+\end{tabular}
+\end{center}
+
+\item 
+Benenne die Paare in $S$ lexikografische um ($U$ = name2($S$)).
+\begin{center}
+\small\begin{tabular}{lrrrrrr}
+    \toprule 
+    $U$ & \textcolor{gray}{0} & \textcolor{gray}{1} & \textcolor{gray}{2} & \textcolor{gray}{3} & \textcolor{gray}{4} & \textcolor{gray}{5}\\
+    \midrule 
+    $c$ & $3$ & $4$ & $5$ & $6$ & $12$ & $13$ \\
+    $i$ & $7$ & $1$ & $8$ & $2$ & $6$ & $0$ \\
+    \bottomrule 
+\end{tabular}
+\end{center}
+\item 
+Beginne Iteration $k = 3$.
+
+\item 
+Markiere alle einzigartigen Namen in U (Grün in der Tabelle).
+\begin{center}
+\small\begin{tabular}{lrrrrrr}
+    \toprule 
+    $U$ & \textcolor{gray}{0} & \textcolor{gray}{1} & \textcolor{gray}{2} & \textcolor{gray}{3} & \textcolor{gray}{4} & \textcolor{gray}{5}\\
+    \midrule 
+    $c$ & $3$ & $4$ & $5$ & $6$ & $12$ & $13$ \\
+    $i$ & $7$ & $1$ & $8$ & $2$ & $6$ & $0$ \\
+    $Uniq.$ & $$\cmarkc$$ & $$\cmarkc$$ & $$\cmarkc$$ & $$\cmarkc$$ & $$\cmarkc$$ & $$\cmarkc$$ \\
+    \bottomrule 
+\end{tabular}
+\end{center}
+
+\item 
+Merge P in die Sequenz U. Die Tupel sind dabei immer einzigartig.
+\begin{center}
+\small\begin{tabular}{lr}
+    \toprule 
+    $P$ & \textcolor{gray}{0}\\
+    \midrule 
+    $c$ & $7$ \\
+    $i$ & $10$ \\
+    \bottomrule 
+\end{tabular}
+\end{center}
+\begin{center}
+$\Rightarrow$
+\end{center}
+\begin{center}
+\small\begin{tabular}{lrrrrrrr}
+    \toprule 
+    $U$ & \textcolor{gray}{0} & \textcolor{gray}{1} & \textcolor{gray}{2} & \textcolor{gray}{3} & \textcolor{gray}{4} & \textcolor{gray}{5} & \textcolor{gray}{6}\\
+    \midrule 
+    $c$ & $3$ & $4$ & $5$ & $6$ & $7$ & $12$ & $13$ \\
+    $i$ & $7$ & $1$ & $8$ & $2$ & $10$ & $6$ & $0$ \\
+    $Uniq.$ & $$\cmarkc$$ & $$\cmarkc$$ & $$\cmarkc$$ & $$\cmarkc$$ & $$\cmarkc$$ & $$\cmarkc$$ & $$\cmarkc$$ \\
+    \bottomrule 
+\end{tabular}
+\end{center}
+
+\item 
+Die Zuordnung der Namen zu Präfixen für diesen Schritt ist somit:
+\begin{center}
+\small\begin{tabular}{rl}
+\toprule 
+Name & Präfix \\
+\midrule 
+  $3$ & $aabacaa\$$\\
+  $4$ & $aabaccaa$\\
+  $5$ & $abacaa\$\$$\\
+  $6$ & $abaccaab$\\
+  $7$ & $acaa\$\$\$\$$\\
+  $12$ & $caabacaa$\\
+  $13$ & $caabacca$\\
+\bottomrule 
+\end{tabular}
+\end{center}
+
+\item 
+Sortiere $U$ anhand $(i \mod 2^k, i \div 2^k)$.
+\begin{center}
+\small\begin{tabular}{lrrrrrrr}
+    \toprule 
+    $U$ & \textcolor{gray}{0} & \textcolor{gray}{1} & \textcolor{gray}{2} & \textcolor{gray}{3} & \textcolor{gray}{4} & \textcolor{gray}{5} & \textcolor{gray}{6}\\
+    \midrule 
+    $c$ & $13$ & $5$ & $4$ & $6$ & $7$ & $12$ & $3$ \\
+    $i$ & $0$ & $8$ & $1$ & $2$ & $10$ & $6$ & $7$ \\
+    $Uniq.$ & $$\cmarkc$$ & $$\cmarkc$$ & $$\cmarkc$$ & $$\cmarkc$$ & $$\cmarkc$$ & $$\cmarkc$$ & $$\cmarkc$$ \\
+    \bottomrule 
+\end{tabular}
+\end{center}
+
+\item 
+Setze $P$ auf die leere Sequenz zurück.
+
+\item 
+Iteriere durch U.
+\begin{itemize}
+\item Falls der Namen einzigartig ist, und einer der beiden Vorgängernamen einzigartig ist, füge ihn zu F hinzu.
+\item Falls der Namen einzigartig ist, und keiner der beiden Vorgängernamen einzigartig ist, füge ihn zu P hinzu.
+\item Sonst bilde aus den Namen und seinen Nachfolger ein Paar, und füge es zu S hinzu.
+\end{itemize}
+
+\begin{center}
+\small\begin{tabular}{rrcccc}
+\toprule 
+ $U_c$ & $U_i$ & $U_{uniq}$ &     $S$      &   $P$   &   $F$   \\
+\midrule 
+$13$ & 0 & $$\cmarkc$$  &            &       & $(13, 0)$\\
+$ 5$ & 8 & $$\cmarkc$$  &            &       & $( 5, 8)$\\
+$ 4$ & 1 & $$\cmarkc$$  &            &       & $( 4, 1)$\\
+$ 6$ & 2 & $$\cmarkc$$  &            &       & $( 6, 2)$\\
+$ 7$ & 10 & $$\cmarkc$$  &            &       & $( 7,10)$\\
+$12$ & 6 & $$\cmarkc$$  &            &       & $(12, 6)$\\
+$ 3$ & 7 & $$\cmarkc$$  &            &       & $( 3, 7)$\\
+\bottomrule 
+\end{tabular}
+\end{center}
+\item 
+$F$ nach diesem Schritt:
+\begin{center}
+\small\begin{tabular}{lrrrrrrrrrrrrrr}
+    \toprule 
+    $F$ & \textcolor{gray}{0} & \textcolor{gray}{1} & \textcolor{gray}{2} & \textcolor{gray}{3} & \textcolor{gray}{4} & \textcolor{gray}{5} & \textcolor{gray}{6} & \textcolor{gray}{7} & \textcolor{gray}{8} & \textcolor{gray}{9} & \textcolor{gray}{10} & \textcolor{gray}{11} & \textcolor{gray}{12} & \textcolor{gray}{13}\\
+    \midrule 
+    $c$ & $8$ & $2$ & $14$ & $9$ & $1$ & $10$ & $11$ & $13$ & $5$ & $4$ & $6$ & $7$ & $12$ & $3$ \\
+    $i$ & $4$ & $12$ & $5$ & $9$ & $13$ & $3$ & $11$ & $0$ & $8$ & $1$ & $2$ & $10$ & $6$ & $7$ \\
+    \bottomrule 
+\end{tabular}
+\end{center}
+
+\item 
+Überprüfe ob $S$ leer ist.
+$\Rightarrow$ Ja, beende Algorithmus.
+\item 
+Sortiere $F$ lexikografisch.
+\begin{center}
+\small\begin{tabular}{lrrrrrrrrrrrrrr}
+    \toprule 
+    $F$ & \textcolor{gray}{0} & \textcolor{gray}{1} & \textcolor{gray}{2} & \textcolor{gray}{3} & \textcolor{gray}{4} & \textcolor{gray}{5} & \textcolor{gray}{6} & \textcolor{gray}{7} & \textcolor{gray}{8} & \textcolor{gray}{9} & \textcolor{gray}{10} & \textcolor{gray}{11} & \textcolor{gray}{12} & \textcolor{gray}{13}\\
+    \midrule 
+    $c$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$ & $11$ & $12$ & $13$ & $14$ \\
+    $i$ & $13$ & $12$ & $7$ & $1$ & $8$ & $2$ & $10$ & $4$ & $9$ & $3$ & $11$ & $6$ & $0$ & $5$ \\
+    \bottomrule 
+\end{tabular}
+\end{center}
+
+\item 
+Gebe finales Suffix Array aus.
+\begin{center}
+\small\begin{tabular}{rl}
+\toprule 
+ Index & Suffix \\
+\midrule 
+  $13$ & $a$ \\
+  $12$ & $aa$ \\
+  $ 7$ & $aabacaa$ \\
+  $ 1$ & $aabaccaabacaa$ \\
+  $ 8$ & $abacaa$ \\
+  $ 2$ & $abaccaabacaa$ \\
+  $10$ & $acaa$ \\
+  $ 4$ & $accaabacaa$ \\
+  $ 9$ & $bacaa$ \\
+  $ 3$ & $baccaabacaa$ \\
+  $11$ & $caa$ \\
+  $ 6$ & $caabacaa$ \\
+  $ 0$ & $caabaccaabacaa$ \\
+  $ 5$ & $ccaabacaa$ \\
+\bottomrule 
+\end{tabular}\\
+\end{center}
+\end{enumerate}

@@ -1,0 +1,1962 @@
+[
+    [
+        {
+            "memFinal": 0,
+            "memOff": 0,
+            "memPeak": 1310720032,
+            "stats": [
+                {
+                    "key": "algorithm_name",
+                    "value": "Std-Discarding4"
+                }
+            ],
+            "sub": [
+                {
+                    "memFinal": 209715200,
+                    "memOff": 0,
+                    "memPeak": 1310720000,
+                    "stats": [
+                        {
+                            "key": "text_size",
+                            "value": "52428800"
+                        },
+                        {
+                            "key": "extra_sentinels",
+                            "value": "0"
+                        },
+                        {
+                            "key": "sa_index_bit_size",
+                            "value": "32"
+                        }
+                    ],
+                    "sub": [
+                        {
+                            "memFinal": 262144000,
+                            "memOff": 0,
+                            "memPeak": 262144000,
+                            "stats": [],
+                            "sub": [],
+                            "timeEnd": 366274687.749416,
+                            "timeStart": 366274592.958412,
+                            "title": "Allocate SA and Text container"
+                        },
+                        {
+                            "memFinal": 0,
+                            "memOff": 262144000,
+                            "memPeak": 0,
+                            "stats": [],
+                            "sub": [],
+                            "timeEnd": 366274894.025378,
+                            "timeStart": 366274687.754144,
+                            "title": "Initialize Text"
+                        },
+                        {
+                            "memFinal": 0,
+                            "memOff": 262144000,
+                            "memPeak": 0,
+                            "stats": [],
+                            "sub": [],
+                            "timeEnd": 366274965.680682,
+                            "timeStart": 366274894.030875,
+                            "title": "Apply effective Alphabet"
+                        },
+                        {
+                            "memFinal": 0,
+                            "memOff": 262144000,
+                            "memPeak": 1048576000,
+                            "stats": [
+                                {
+                                    "key": "A_Tuple",
+                                    "value": "4"
+                                }
+                            ],
+                            "sub": [
+                                {
+                                    "memFinal": 1048576000,
+                                    "memOff": 0,
+                                    "memPeak": 1048576000,
+                                    "stats": [],
+                                    "sub": [],
+                                    "timeEnd": 366285121.692643,
+                                    "timeStart": 366274965.695198,
+                                    "title": "Initialization"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "2"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "16"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "0"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "0"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "52428800"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366296949.816503,
+                                    "timeStart": 366285121.697957,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "3"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "64"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "18629627"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "970445"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "32828728"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366305349.983878,
+                                    "timeStart": 366296949.820656,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "4"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "256"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "23711367"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "797674"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "27919759"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366312715.734669,
+                                    "timeStart": 366305349.988645,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "5"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "1024"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "25522345"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "1512077"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "25394378"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366318979.605694,
+                                    "timeStart": 366312715.738767,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "6"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "4096"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "29440727"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "2432977"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "20555096"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366323394.245618,
+                                    "timeStart": 366318979.611286,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "7"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "16384"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "37119048"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "2523890"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "12785862"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366325412.146012,
+                                    "timeStart": 366323394.250469,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "8"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "65536"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "47572531"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "808743"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "4047526"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366325868.396297,
+                                    "timeStart": 366325412.151131,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "9"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "262144"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "52101936"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "0"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "326864"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366325894.415296,
+                                    "timeStart": 366325868.40084,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": -1048576000,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "9"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "262144"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "52428800"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "0"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "0"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366331500.502722,
+                                    "timeStart": 366325894.419885,
+                                    "title": "Write out result"
+                                }
+                            ],
+                            "timeEnd": 366331500.503936,
+                            "timeStart": 366274965.685259,
+                            "title": "Algorithm"
+                        }
+                    ],
+                    "timeEnd": 366331503.721514,
+                    "timeStart": 366274592.955045,
+                    "title": "SACA"
+                },
+                {
+                    "memFinal": 0,
+                    "memOff": 209715232,
+                    "memPeak": 1101004800,
+                    "stats": [
+                        {
+                            "key": "check_result",
+                            "value": "ok"
+                        }
+                    ],
+                    "sub": [],
+                    "timeEnd": 366342427.517291,
+                    "timeStart": 366331503.725299,
+                    "title": "SA Checker"
+                }
+            ],
+            "timeEnd": 366342438.377131,
+            "timeStart": 366274592.921415,
+            "title": "Std-Discarding4"
+        }
+    ],
+    [
+        {
+            "memFinal": 0,
+            "memOff": 0,
+            "memPeak": 1312868160,
+            "stats": [
+                {
+                    "key": "algorithm_name",
+                    "value": "Ips4o-Discarding4"
+                }
+            ],
+            "sub": [
+                {
+                    "memFinal": 209715200,
+                    "memOff": 0,
+                    "memPeak": 1312868160,
+                    "stats": [
+                        {
+                            "key": "text_size",
+                            "value": "52428800"
+                        },
+                        {
+                            "key": "extra_sentinels",
+                            "value": "0"
+                        },
+                        {
+                            "key": "sa_index_bit_size",
+                            "value": "32"
+                        }
+                    ],
+                    "sub": [
+                        {
+                            "memFinal": 262144000,
+                            "memOff": 0,
+                            "memPeak": 262144000,
+                            "stats": [],
+                            "sub": [],
+                            "timeEnd": 366342530.467481,
+                            "timeStart": 366342438.641056,
+                            "title": "Allocate SA and Text container"
+                        },
+                        {
+                            "memFinal": 0,
+                            "memOff": 262144000,
+                            "memPeak": 0,
+                            "stats": [],
+                            "sub": [],
+                            "timeEnd": 366342541.713608,
+                            "timeStart": 366342530.47072,
+                            "title": "Initialize Text"
+                        },
+                        {
+                            "memFinal": 0,
+                            "memOff": 262144000,
+                            "memPeak": 0,
+                            "stats": [],
+                            "sub": [],
+                            "timeEnd": 366342606.936647,
+                            "timeStart": 366342541.71701,
+                            "title": "Apply effective Alphabet"
+                        },
+                        {
+                            "memFinal": 0,
+                            "memOff": 262144000,
+                            "memPeak": 1050724160,
+                            "stats": [
+                                {
+                                    "key": "A_Tuple",
+                                    "value": "4"
+                                }
+                            ],
+                            "sub": [
+                                {
+                                    "memFinal": 1048576000,
+                                    "memOff": 0,
+                                    "memPeak": 1050724160,
+                                    "stats": [],
+                                    "sub": [],
+                                    "timeEnd": 366355974.263883,
+                                    "timeStart": 366342606.94824,
+                                    "title": "Initialization"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 2148160,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "2"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "16"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "0"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "0"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "52428800"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366366030.625328,
+                                    "timeStart": 366355974.268782,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 2148160,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "3"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "64"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "18629627"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "970445"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "32828728"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366373567.018121,
+                                    "timeStart": 366366030.629097,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 2148160,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "4"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "256"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "23711367"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "797674"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "27919759"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366380240.504384,
+                                    "timeStart": 366373567.02355,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 2148160,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "5"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "1024"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "25522345"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "1512077"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "25394378"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366385811.563444,
+                                    "timeStart": 366380240.51001,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 2148160,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "6"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "4096"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "29440727"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "2432977"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "20555096"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366389578.15861,
+                                    "timeStart": 366385811.569381,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 2148160,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "7"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "16384"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "37119048"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "2523890"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "12785862"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366391128.506903,
+                                    "timeStart": 366389578.1641,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 2148160,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "8"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "65536"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "47572531"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "808743"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "4047526"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366391442.199706,
+                                    "timeStart": 366391128.512557,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 2148160,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "9"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "262144"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "52101936"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "0"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "326864"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366391459.771045,
+                                    "timeStart": 366391442.205025,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": -1048576000,
+                                    "memOff": 1048576000,
+                                    "memPeak": 2148160,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "9"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "262144"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "52428800"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "0"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "0"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366394724.262232,
+                                    "timeStart": 366391459.77658,
+                                    "title": "Write out result"
+                                }
+                            ],
+                            "timeEnd": 366394724.263733,
+                            "timeStart": 366342606.939496,
+                            "title": "Algorithm"
+                        }
+                    ],
+                    "timeEnd": 366394727.450994,
+                    "timeStart": 366342438.640465,
+                    "title": "SACA"
+                },
+                {
+                    "memFinal": 0,
+                    "memOff": 209715232,
+                    "memPeak": 1101004800,
+                    "stats": [
+                        {
+                            "key": "check_result",
+                            "value": "ok"
+                        }
+                    ],
+                    "sub": [],
+                    "timeEnd": 366405643.530733,
+                    "timeStart": 366394727.454836,
+                    "title": "SA Checker"
+                }
+            ],
+            "timeEnd": 366405654.466552,
+            "timeStart": 366342438.601474,
+            "title": "Ips4o-Discarding4"
+        }
+    ],
+    [
+        {
+            "memFinal": 0,
+            "memOff": 0,
+            "memPeak": 1310720032,
+            "stats": [
+                {
+                    "key": "algorithm_name",
+                    "value": "Introsort-Discarding4"
+                }
+            ],
+            "sub": [
+                {
+                    "memFinal": 209715200,
+                    "memOff": 0,
+                    "memPeak": 1310720000,
+                    "stats": [
+                        {
+                            "key": "text_size",
+                            "value": "52428800"
+                        },
+                        {
+                            "key": "extra_sentinels",
+                            "value": "0"
+                        },
+                        {
+                            "key": "sa_index_bit_size",
+                            "value": "32"
+                        }
+                    ],
+                    "sub": [
+                        {
+                            "memFinal": 262144000,
+                            "memOff": 0,
+                            "memPeak": 262144000,
+                            "stats": [],
+                            "sub": [],
+                            "timeEnd": 366405746.914538,
+                            "timeStart": 366405654.676862,
+                            "title": "Allocate SA and Text container"
+                        },
+                        {
+                            "memFinal": 0,
+                            "memOff": 262144000,
+                            "memPeak": 0,
+                            "stats": [],
+                            "sub": [],
+                            "timeEnd": 366405758.158514,
+                            "timeStart": 366405746.918046,
+                            "title": "Initialize Text"
+                        },
+                        {
+                            "memFinal": 0,
+                            "memOff": 262144000,
+                            "memPeak": 0,
+                            "stats": [],
+                            "sub": [],
+                            "timeEnd": 366405823.845878,
+                            "timeStart": 366405758.161557,
+                            "title": "Apply effective Alphabet"
+                        },
+                        {
+                            "memFinal": 0,
+                            "memOff": 262144000,
+                            "memPeak": 1048576000,
+                            "stats": [
+                                {
+                                    "key": "A_Tuple",
+                                    "value": "4"
+                                }
+                            ],
+                            "sub": [
+                                {
+                                    "memFinal": 1048576000,
+                                    "memOff": 0,
+                                    "memPeak": 1048576000,
+                                    "stats": [],
+                                    "sub": [],
+                                    "timeEnd": 366431367.501897,
+                                    "timeStart": 366405823.858683,
+                                    "title": "Initialization"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "2"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "16"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "0"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "0"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "52428800"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366452996.502084,
+                                    "timeStart": 366431367.506038,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "3"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "64"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "18629627"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "970445"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "32828728"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366468906.74722,
+                                    "timeStart": 366452996.505709,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "4"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "256"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "23711367"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "797674"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "27919759"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366483341.918822,
+                                    "timeStart": 366468906.75179,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "5"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "1024"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "25522345"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "1512077"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "25394378"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366495066.418164,
+                                    "timeStart": 366483341.924067,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "6"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "4096"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "29440727"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "2432977"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "20555096"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366503084.414985,
+                                    "timeStart": 366495066.423075,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "7"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "16384"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "37119048"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "2523890"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "12785862"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366506494.751285,
+                                    "timeStart": 366503084.420221,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "8"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "65536"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "47572531"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "808743"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "4047526"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366507189.85392,
+                                    "timeStart": 366506494.756495,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "9"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "262144"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "52101936"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "0"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "326864"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366507227.306056,
+                                    "timeStart": 366507189.859693,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": -1048576000,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "9"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "262144"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "52428800"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "0"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "0"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366516051.703846,
+                                    "timeStart": 366507227.310893,
+                                    "title": "Write out result"
+                                }
+                            ],
+                            "timeEnd": 366516051.705501,
+                            "timeStart": 366405823.84971,
+                            "title": "Algorithm"
+                        }
+                    ],
+                    "timeEnd": 366516054.899812,
+                    "timeStart": 366405654.675994,
+                    "title": "SACA"
+                },
+                {
+                    "memFinal": 0,
+                    "memOff": 209715232,
+                    "memPeak": 1101004800,
+                    "stats": [
+                        {
+                            "key": "check_result",
+                            "value": "ok"
+                        }
+                    ],
+                    "sub": [],
+                    "timeEnd": 366526965.92099,
+                    "timeStart": 366516054.903464,
+                    "title": "SA Checker"
+                }
+            ],
+            "timeEnd": 366526976.891677,
+            "timeStart": 366405654.651747,
+            "title": "Introsort-Discarding4"
+        }
+    ],
+    [
+        {
+            "memFinal": 0,
+            "memOff": 0,
+            "memPeak": 1310720032,
+            "stats": [
+                {
+                    "key": "algorithm_name",
+                    "value": "Heapsort-Discarding4"
+                }
+            ],
+            "sub": [
+                {
+                    "memFinal": 209715200,
+                    "memOff": 0,
+                    "memPeak": 1310720000,
+                    "stats": [
+                        {
+                            "key": "text_size",
+                            "value": "52428800"
+                        },
+                        {
+                            "key": "extra_sentinels",
+                            "value": "0"
+                        },
+                        {
+                            "key": "sa_index_bit_size",
+                            "value": "32"
+                        }
+                    ],
+                    "sub": [
+                        {
+                            "memFinal": 262144000,
+                            "memOff": 0,
+                            "memPeak": 262144000,
+                            "stats": [],
+                            "sub": [],
+                            "timeEnd": 366527069.609966,
+                            "timeStart": 366526977.115071,
+                            "title": "Allocate SA and Text container"
+                        },
+                        {
+                            "memFinal": 0,
+                            "memOff": 262144000,
+                            "memPeak": 0,
+                            "stats": [],
+                            "sub": [],
+                            "timeEnd": 366527080.694436,
+                            "timeStart": 366527069.613013,
+                            "title": "Initialize Text"
+                        },
+                        {
+                            "memFinal": 0,
+                            "memOff": 262144000,
+                            "memPeak": 0,
+                            "stats": [],
+                            "sub": [],
+                            "timeEnd": 366527145.84609,
+                            "timeStart": 366527080.697653,
+                            "title": "Apply effective Alphabet"
+                        },
+                        {
+                            "memFinal": 0,
+                            "memOff": 262144000,
+                            "memPeak": 1048576000,
+                            "stats": [
+                                {
+                                    "key": "A_Tuple",
+                                    "value": "4"
+                                }
+                            ],
+                            "sub": [
+                                {
+                                    "memFinal": 1048576000,
+                                    "memOff": 0,
+                                    "memPeak": 1048576000,
+                                    "stats": [],
+                                    "sub": [],
+                                    "timeEnd": 366567731.973499,
+                                    "timeStart": 366527145.858434,
+                                    "title": "Initialization"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "2"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "16"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "0"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "0"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "52428800"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366653692.425149,
+                                    "timeStart": 366567731.977935,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "3"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "64"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "18629627"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "970445"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "32828728"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366708021.274434,
+                                    "timeStart": 366653692.428793,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "4"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "256"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "23711367"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "797674"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "27919759"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366754891.214251,
+                                    "timeStart": 366708021.278723,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "5"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "1024"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "25522345"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "1512077"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "25394378"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366795683.883309,
+                                    "timeStart": 366754891.218368,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "6"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "4096"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "29440727"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "2432977"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "20555096"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366824774.686501,
+                                    "timeStart": 366795683.88752,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "7"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "16384"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "37119048"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "2523890"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "12785862"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366838947.083611,
+                                    "timeStart": 366824774.691324,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "8"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "65536"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "47572531"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "808743"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "4047526"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366841767.365037,
+                                    "timeStart": 366838947.090632,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "9"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "262144"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "52101936"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "0"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "326864"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366841848.179402,
+                                    "timeStart": 366841767.370481,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": -1048576000,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "9"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "262144"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "52428800"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "0"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "0"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366905958.261316,
+                                    "timeStart": 366841848.184579,
+                                    "title": "Write out result"
+                                }
+                            ],
+                            "timeEnd": 366905958.262698,
+                            "timeStart": 366527145.849444,
+                            "title": "Algorithm"
+                        }
+                    ],
+                    "timeEnd": 366905961.478045,
+                    "timeStart": 366526977.114396,
+                    "title": "SACA"
+                },
+                {
+                    "memFinal": 0,
+                    "memOff": 209715232,
+                    "memPeak": 1101004800,
+                    "stats": [
+                        {
+                            "key": "check_result",
+                            "value": "ok"
+                        }
+                    ],
+                    "sub": [],
+                    "timeEnd": 366916882.533834,
+                    "timeStart": 366905961.481394,
+                    "title": "SA Checker"
+                }
+            ],
+            "timeEnd": 366916893.718267,
+            "timeStart": 366526977.080035,
+            "title": "Heapsort-Discarding4"
+        }
+    ],
+    [
+        {
+            "memFinal": 0,
+            "memOff": 0,
+            "memPeak": 1310720032,
+            "stats": [
+                {
+                    "key": "algorithm_name",
+                    "value": "TernaryQuicksort-Discarding4"
+                }
+            ],
+            "sub": [
+                {
+                    "memFinal": 209715200,
+                    "memOff": 0,
+                    "memPeak": 1310720000,
+                    "stats": [
+                        {
+                            "key": "text_size",
+                            "value": "52428800"
+                        },
+                        {
+                            "key": "extra_sentinels",
+                            "value": "0"
+                        },
+                        {
+                            "key": "sa_index_bit_size",
+                            "value": "32"
+                        }
+                    ],
+                    "sub": [
+                        {
+                            "memFinal": 262144000,
+                            "memOff": 0,
+                            "memPeak": 262144000,
+                            "stats": [],
+                            "sub": [],
+                            "timeEnd": 366916985.892742,
+                            "timeStart": 366916893.946258,
+                            "title": "Allocate SA and Text container"
+                        },
+                        {
+                            "memFinal": 0,
+                            "memOff": 262144000,
+                            "memPeak": 0,
+                            "stats": [],
+                            "sub": [],
+                            "timeEnd": 366916996.99314,
+                            "timeStart": 366916985.895667,
+                            "title": "Initialize Text"
+                        },
+                        {
+                            "memFinal": 0,
+                            "memOff": 262144000,
+                            "memPeak": 0,
+                            "stats": [],
+                            "sub": [],
+                            "timeEnd": 366917062.186243,
+                            "timeStart": 366916996.996293,
+                            "title": "Apply effective Alphabet"
+                        },
+                        {
+                            "memFinal": 0,
+                            "memOff": 262144000,
+                            "memPeak": 1048576000,
+                            "stats": [
+                                {
+                                    "key": "A_Tuple",
+                                    "value": "4"
+                                }
+                            ],
+                            "sub": [
+                                {
+                                    "memFinal": 1048576000,
+                                    "memOff": 0,
+                                    "memPeak": 1048576000,
+                                    "stats": [],
+                                    "sub": [],
+                                    "timeEnd": 366944083.742278,
+                                    "timeStart": 366917062.198767,
+                                    "title": "Initialization"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "2"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "16"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "0"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "0"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "52428800"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366968416.831545,
+                                    "timeStart": 366944083.747451,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "3"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "64"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "18629627"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "970445"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "32828728"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 366986218.445361,
+                                    "timeStart": 366968416.835053,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "4"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "256"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "23711367"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "797674"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "27919759"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 367002074.904045,
+                                    "timeStart": 366986218.448817,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "5"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "1024"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "25522345"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "1512077"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "25394378"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 367015388.423734,
+                                    "timeStart": 367002074.90755,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "6"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "4096"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "29440727"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "2432977"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "20555096"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 367024610.093737,
+                                    "timeStart": 367015388.427863,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "7"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "16384"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "37119048"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "2523890"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "12785862"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 367028554.86458,
+                                    "timeStart": 367024610.097568,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "8"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "65536"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "47572531"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "808743"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "4047526"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 367029357.823235,
+                                    "timeStart": 367028554.869552,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": 0,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "9"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "262144"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "52101936"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "0"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "326864"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 367029402.333469,
+                                    "timeStart": 367029357.828533,
+                                    "title": "Iteration"
+                                },
+                                {
+                                    "memFinal": -1048576000,
+                                    "memOff": 1048576000,
+                                    "memPeak": 0,
+                                    "stats": [
+                                        {
+                                            "key": "current_iteration",
+                                            "value": "9"
+                                        },
+                                        {
+                                            "key": "prefix_size",
+                                            "value": "262144"
+                                        },
+                                        {
+                                            "key": "fully_discarded",
+                                            "value": "52428800"
+                                        },
+                                        {
+                                            "key": "partially_discarded",
+                                            "value": "0"
+                                        },
+                                        {
+                                            "key": "remaining",
+                                            "value": "0"
+                                        }
+                                    ],
+                                    "sub": [],
+                                    "timeEnd": 367039042.170776,
+                                    "timeStart": 367029402.338343,
+                                    "title": "Write out result"
+                                }
+                            ],
+                            "timeEnd": 367039042.172286,
+                            "timeStart": 366917062.189225,
+                            "title": "Algorithm"
+                        }
+                    ],
+                    "timeEnd": 367039045.337275,
+                    "timeStart": 366916893.945637,
+                    "title": "SACA"
+                },
+                {
+                    "memFinal": 0,
+                    "memOff": 209715232,
+                    "memPeak": 1101004800,
+                    "stats": [
+                        {
+                            "key": "check_result",
+                            "value": "ok"
+                        }
+                    ],
+                    "sub": [],
+                    "timeEnd": 367049990.061921,
+                    "timeStart": 367039045.340913,
+                    "title": "SA Checker"
+                }
+            ],
+            "timeEnd": 367050000.855397,
+            "timeStart": 366916893.912573,
+            "title": "TernaryQuicksort-Discarding4"
+        }
+    ]
+]

@@ -1,0 +1,42 @@
+\begin{figure}[!h]
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+fontsize=\footnotesize,
+linenos,
+numbersep=-4mm,
+breaklines,
+escapeinside=@@,
+frame=single,
+framesep=14pt
+]
+{text}
+// Phase 1: divide suffixes into groups
+Order all suffixes of @$S$@ into groups according to their first character: Let @$S_{i}$@ and @$S_{j}$@ be two suffixes. Then, group(@$i$@) = group(@$j$@) @$\Leftrightarrow$ $S[i] = S[j]$@.
+order the suffix groups: Let @$G_{1}$@ be a suffix group with group context character @$u$@, @$G_{2}$@ be a suffix group with group context character @$v$@. Then, @$G_{1}$@ < @$G_{2}$@ if @$u$@ < @$v$@.
+for each group @$G$@ in descending group order do
+	for each @$i$ $\in$ $G$@ do
+		prev(@$i$@) @$\leftarrow$@ max(@\{@ @$j$@ @$\in$@ [1 ... @$i$@] | group(@$j$@) < group(@$i$@) @\}@ @$\cup$@ @\{@0@\}@)
+	let @$P$@ be the set of previous suffixes from @$G, P$@ := @\{ $j$ $\in$ [1 ... $n$] | prev($i$) = $j$ for any $i$ $\in$ $G$ \}@.
+	split @$P$@ into @$k$@ subsets @$P_{1}$@, ... , @$P_{k}$@ such that a subset @$P_{l}$@ contains suffixes whose number of prev pointers from @$G$@ pointing to them is equal to @$l$@, i.e. @$i$@ @$\in$@ @$P_{l}$@ @$\Leftrightarrow$@ |@\{@ @$j$@ @$\in$@ @$G$@ | prev(@$j$@) = @$i$@ @\}@| = @$l$@.
+	for @$l$@ = @$k$@ down to 1 do
+		split @$P_{l}$@ into @$m$@ subsets @$P_{l1}$@ , ... , @$P_{lm}$@ such that suffixes of same group are gathered in the same subset. 
+		for @$q$@ = 1 up to @$m$@ do
+			remove suffixes of @$P_{lq}$@ from their group and put them into a new group placed as immediate successor of their old group.
+// Phase 2: construct suffix array from groups
+SA[1] @$\leftarrow$@ @$n$@ 
+for @$i$@ = 1 up to @$n$@ do
+	@$j$@ @$\leftarrow$@ SA[@$i$@] - 1 
+	while @$j$@ @$\neq$@ 0 do
+		let @$sr$@ be the number of suffixes placed in lower groups, i.e. @$sr$@ :=  |@\{@ @$s$@ @$\in$@ [1 ... @$n$@] | group(@$s$@) < group(@$j$@) @\}@|.
+		if SA[@$sr$@ + 1] @$\neq$@ nil then 
+			break
+		SA[@$sr$@ + 1] @$\leftarrow$@ @$j$@
+		remove @$j$@ from its current group and put it in a new group placed as immediate predecessor of @$j$@'s old group. 
+		@$j$@ @$\leftarrow$@ prev(@$j$@)
+\end{minted}
+\caption[Algorithmus zur Konstruktion eines Suffix Arrays f\ür einen gegebenen nullterminierten String $S$ der L\änge $n$]{Algorithmus zur Konstruktion eines Suffix Arrays f\ür einen gegebenen nullterminierten String $S$ der L\änge $n$}
+\label{saca:3:code}
+\end{figure}

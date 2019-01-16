@@ -1,0 +1,44 @@
+\chapter{Einleitung}
+
+Im \currentauthor{Christopher Poeplau und Marvin Böcker} Zuge der Projektgruppe 2018/2019 beschäftigt sich $SACABench$ mit Suffix-Array-Konstruktions-Algorithmen. $SACA$ ist das Akronym für \textbf{S}uffix \textbf{A}rray \textbf{C}onstruction \textbf{A}lgorithm und $Bench$ die Abkürzung für Benchmark, also dem Messen von Laufzeit und Speicherplatz der Algorithmen.\\
+Die Forschung an effizienten Konstruktionsalgorithmen für Suffix-Arrays hat in den letzten Jahren durch die immer komplexer werdenden Anwendungen enorm an Bedeutung gewonnen. Gerade in der Bioinformatik, in der man es im Bereich der Genomforschung mit Größenordnungen von Milliarden von Zeichen zu tun hat, sind effiziente Algorithmen in Bezug auf Zeit und Speicherplatz notwendig\cite[ch.~1]{saca:6}.
+
+\noindent Ein Suffix-Array repräsentiert die Suffixe eines Strings $T$ in lexikographischer Reihenfolge. \\
+Sei $T=suffix$. Für den String $T$ ergibt sich die folgende Suffix-Tabelle:
+\begin{center}
+  \begin{tabular}{ | l | c | r }
+    \hline
+        $i$ & $T[i, n)$ \\ \hline
+        0 & suffix \\ \hline
+        1 & uffix \\ \hline
+        2 & ffix \\ \hline
+        3 & fix \\ \hline
+        4 & ix \\ \hline
+        5 & x \\ \hline
+        6 & \$ \\
+    \hline
+  \end{tabular}
+\end{center}
+Es ist sofort ersichtlich, dass $T[0, n) = T$ und $T[n-2, n)=\$$ gilt. \\
+Sortiert man die Suffixe nun lexikografisch, ergibt sich das Suffix-Array:
+\begin{center}
+  \begin{tabular}{ | l | c | r }
+    \hline
+        $i$ & $T[i, n)$ \\ \hline
+        6 & \$ \\ \hline
+        3 & fix \\ \hline
+        2 & ffix \\ \hline
+        4 & ix \\ \hline
+        0 & suffix \\ \hline
+        1 & uffix \\ \hline
+        5 & x \\
+    \hline
+  \end{tabular}
+\end{center}
+Somit ergibt sich als Suffix-Array $SA(T)$: $\{6,3,2,4,0,1,5\}$
+
+\bigskip
+\noindent Ziel ist die effiziente Konstruktion dieses Arrays. Dabei gibt es Algorithmen, die den Fokus auf die Laufzeit setzen, andere wiederum auf die Speicheroptimierung und wieder andere versuchen den besten Kompromiss aus beiden Welten zu finden.
+\\Die Aufgabe der Projektgruppe ist das Schaffen einer umfangreichen Library der bekanntesten SACAs, eingebettet in ein Framework, das es ermöglicht auf intuitiver Art und Weise Algorithmen auf beliebigen Texten zu testen und die Performance miteinander zu vergleichen. Grundziel des Frameworks ist die Vereinheitlichung. Viele der Algorithmen existieren in einzelnen Repositorys und die Algorithmen werden in den meisten Fällen nicht auf vergleichbarer Basis getestet und analysiert. Diese Algorithmen gilt es zunächst zu verstehen und dann zu implementieren, sodass sie den Schnittstellen des Frameworks genügen. Es soll also ein erweiterbares Gesamtkonstrukt geschaffen werden, das bestehende SACAs sammelt und repräsentatives Vergleichen der Algorithmen ermöglicht.
+
+\input{kapitel/notation_definitionen.tex}

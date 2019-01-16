@@ -1,0 +1,33 @@
+\subsubsection{DC3-Lite}
+\label{dc3:lite}
+
+
+Es \currentauthor{Nico Bertram} ist möglich den Speicherverbrauch des \emph{DC3} so weit zu reduzieren, dass nur ein zusätzliches Hilfsarray $U$ der Länge $n$ verwendet wird. Diese Variante des \emph{DC3} wurde in ~\cite{saca:10} vorgestellt und wird als Komponente im \emph{nzSufSort} \cref{algorithm:nzSufSort} verwendet. Wir bezeichnen diese Variante in unserem Framework als \emph{DC3-Lite}. \\
+Im Folgenden gehen wir auf die Unterschiede der einzelnen Phasen zwischen dem \emph{DC3} und dem \emph{DC3-Lite} ein. Da das Induzieren komplett analog zum \emph{DC3} ist, wird diese Phase hier nicht genauer betrachtet. 
+
+\subparagraph*{Erste Phase}
+
+Ähnlich wie im \emph{DC3} werden in der ersten Phase die Triplets $T[i,i+2]$ sortiert und lexikographische Namen vergeben. Im Unterschied zum \emph{DC3} werden aber alle Positionen $i$ von $T$ sortiert. Dies machen wir, um den Eingabetext mit den lexikographischen Rängen zu überschreiben, damit für $t_0$ und $t_{12}$ kein zusätzlicher Speicherbereich benötigt wird. Anders formuliert berechnet sich der überschriebene Text $T_{\text{new}}$ durch 
+\begin{center}
+	$T_{\text{new}} = [t_i : i \text{ modulo } 3 = 0] \circ [t_i : i \text{ modulo } 3 = 1] \circ [t_i : i \text{ modulo } 3 = 2]$ 
+\end{center}
+Dadurch bleiben die Informationen des ursprünglichen Textes erhalten, da in jedem lexikographischen Rang die Information des Zeichens an der betrachteten Position berücksichtigt wurde. In jedem Zeichen sind sogar mehr Informationen enthalten, da die beiden darauf folgenden Zeichen ebenfalls berücksichtigt werden. \\
+Zunächst werden die Positionen von $T$ in das Array $U$ geschrieben und mithilfe der Inplace-Variante des Radixsort für große Alphabete \cref{sort:radix:big_alph} sortiert. Dabei wird der Speicherbereich für das $SA$ als Bucketarray verwendet. \\
+Anschließend werden die lexikographischen Ränge vergeben und damit $T_{\text{new}}$ berechnet. Damit für den rekursiven Aufruf die lexikographischen Ränge durch die Textlänge beschränkt sind, berechnen wir parallel auch $t_{12}$ und schreiben dies in die Positionen von $T_{\text{new}}$, welche den Positionen $i$ mit $i \text{ modulo } 3 = 1$ und $i \text{ modulo } 3 = 2$ entsprechen. Die Positionen $i$ von $T_{\text{new}}$ mit $i \text{ modulo } 3 = 1$, werden vorher im ersten Drittel von $U$ und die Positionen mit $i \text{ modulo } 3 = 2$ im ersten Drittel von $SA$ zwischengespeichert. \\
+Der rekursive Aufruf erfolgt dann mit $t_{12}$ und dem nicht verwendeten Speicher von $U$ und $SA$. Dadurch wird das Suffixarray $SA_{12}$ von $t_{12}$ berechnet und die zwischengespeicherten Positionen von $T_{\text{new}}$ werden wieder zurückgeschrieben.
+
+
+\subparagraph*{Dritte Phase}
+
+Durch das Induzieren in der zweiten Phase wurde das $SA_0$ berechnet. In dieser Phase werden nun $SA_0$ und $SA_{12}$ vereinigt. Dazu werden das $ISA_0$ und das $ISA_{12}$ hintereinander in $U$ berechnet. Im Unterschied zum \emph{DC3} wird das vereinigte Suffixarray nicht direkt in einen neuen Speicherbereich geschrieben, sondern die Einträge von $SA_0$ und $SA_{12}$ werden mit den Positionen im vereinigten Suffixarray überschrieben. \\
+Beim Vereinigen werden jeweils die Suffixe an den Positionen $SA_0[i]$ und $SA_{12}[j]$ miteinander verglichen. Wenn $T[SA_0[i]]$ und $T[SA_{12}[j]]$ ungleich sind, kann die Position im vereinigten Suffixarray direkt bestimmt werden. Ansonsten kann die Ordnung der Suffixe durch Nachschauen in $ISA_0$ und $ISA_{12}$ bestimmt werden. Falls $SA_{12}[i] \text{ modulo } 3 = 1$ gilt, kann die Ordnung der Suffixe durch einen Vergleich von $ISA_{12}[SA_0[i]]$ und $ISA_{12}[p_2+SA_{12}[j]]$ bestimmt werden, wobei $p_2$ die erste Position in $ISA_{12}$ ist, die der Menge entspricht, die alle Positionen $i$ mit $i \text{ modulo } 3 = 2$ enthält. Falls $SA_{12}[i] \text{ modulo } 3 = 2$ gilt, wird die Ordnung der Suffixe durch einen Vergleich von $ISA_{12}[p_2+SA_0[i]]$ und $ISA_{12}[SA_{12}[j]-p_2+1]$ bestimmt. \\
+Anschließend werden $ISA_0$ und $ISA_{12}$ mit den berechneten Positionen im vereinigten Suffixarray, die in $SA_0$ und $SA_{12}$ stehen, verknüpft. Genauer gesagt wird $ISA_0[i] = SA_0[ISA_0[i]]$ und $ISA_{12}[i] = SA_{12}[ISA_{12}[i]]$ gesetzt. Da $ISA_0$ und $ISA_{12}$ hintereinander in $U$ gespeichert wurden, steht in $U$ nun das inverse Suffixarray $ISA_{\text{new}}$ von $T_{\text{new}}$. Um $SA_{\text{new}}$ zu berechnen wird das Inverse von $U$ in $SA$ berechnet. \\
+Bis jetzt haben wir nur das Suffixarray $SA_{\text{new}}$ des überschriebenen Eingabetextes berechnet. Da wir die Positionen des ursprünglichen Eingabetextes umsortiert haben, müssen wir diese wieder in die korrekte Reihenfolge bringen. Dies lässt sich durch einen Durchlauf mit der folgenden Funktion erreichen. \\
+\begin{center}
+	$SA[i] =
+   \begin{cases}
+     3SA_{\text{new}}[i] & \text{für } SA_{\text{new}}[i] \in[0, m_0) \\
+     3(SA_{\text{new}}[i]-m_0)+1 & \text{für } SA_{\text{new}}[i] \in [m_0 ,m_0+\lceil \frac{m_{12}}{2} \rceil)) \\
+     3(SA_{\text{new}}[i]-m_1)+2 & \text{für } SA_{\text{new}}[i] \in [m_0+\lceil \frac{m_{12}}{2} \rceil),m_0+m_{12})
+   \end{cases}$ mit $m_0 = |t_0$|, $m_{12} = |t_{12}|$
+\end{center}

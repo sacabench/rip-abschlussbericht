@@ -1,0 +1,32 @@
+\subsection{Vorüberlegungen}
+\label{dc3:vorueberlegungen}
+
+\newtheorem{example}{Beispiel}
+Der \emph{DC3}-Algorithmus baut auf dem \emph{Divide-and-Conquer} Prinzip auf. Diese Art von Algorithmen teilen das Hauptproblem rekursiv in kleinere Teilprobleme auf, bis diese leichter zu lösen sind. Im Anschluss werden die Teilprobleme zu einer Gesamtlösung zusammengefügt (\emph{gemerged}).
+
+Das zweite Prinzip, das sich hinter dem \emph{DC3}-Algorithmus verbirgt, ist das sogenannte \emph{Difference Cover}. Diesem Prinzip verdankt der Algorithmus auch seinen Namen.
+
+\begin{definition}[Difference Cover]
+	\label{def:differenceCover}
+	Eine Menge \(D\) $\subseteq$ \([0,v)\) ist ein Difference Cover \(modulo\) \(v\), wenn die Werte in \([0,v)\) als Differenz zweier Werte aus \(D\) $\subseteq$ \([0,v)\) ausgedrückt werden können. Anders dargestellt:\\ \\
+	$\makebox[\linewidth]{\{(i - j) \(modulo\) \(v\) $\mid$ $i,j$ $\in$ \(D\)\} $=$ \([0,v)\)}$
+			
+\end{definition}
+
+\begin{example}
+	Ein Beispiel für das Difference Cover \(modulo\) \(7\):\\
+	\(D\) $=$ \{1, 2, 4\} 
+	\begin{table}[!htbp]
+		\centering
+		\begin{tabular}{lllll}
+			1 - 1 = 0 &  & 1 - 4 = -3 $\equiv$ 4 &  & (\(modulo\) \(7\))\\
+			2 - 1 = 1 &  & 2 - 4 = -2 $\equiv$ 5 &  & (\(modulo\) \(7\))\\
+			4 - 2 = 2 &  & 1 - 2 = -1 $\equiv$ 6 &  & (\(modulo\) \(7\))\\
+			4 - 1 = 3 &  &                       &  & 
+		\end{tabular}
+	\end{table}
+	
+	Das bedeutet, dass wir mit der Menge \(D\) $=$ \{1, 2, 4\}, die Zahlen aus \([0,7)\) mit der Hilfe von Differenzen zweier Werte aus \(D\) ausdrücken können.
+	
+	Ein Beispiel für das Difference Cover \(modulo\) \(3\): \(D\) $=$ \{1, 2\} 
+\end{example}

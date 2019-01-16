@@ -1,0 +1,26 @@
+\section{Code Struktur/Übersicht}
+\label{sec:code-structure}
+Dieses \currentauthor{David Piper und Florian Grieskamp} Projekt besteht aus den vier Bereichen \textit{Bigtest}, \textit{External}, \textit{Sacabench} und \textit{Tests}. \par
+Werden die Bigtests ausgef{\"u}hrt, werden verschiedene gro{\ss}e Textdateien geladen und lokal in dem Ordner external/datasets/downloads gespeichert. 
+Anschlie{\ss}end werden die SACAs mit den gro{\ss}en Textdateien ausgef{\"u}hrt und das Ergebnis auf Korrektheit {\"u}berpr{\"u}ft. 
+Die Ausf{\"u}hrung wird mit \termfont{make bigtest} gestartet. \par
+Im Bereich External liegen verschiedene Bibliotheken, welche innerhalb des Projekts eingebunden werden.
+Au{\ss}erdem sind die Referenzimplementierungen der SACAs im Unterordner reference\_impls enthalten. 
+Diese k{\"o}nnen vom Framework mit Hilfe von Wrappern verwendet werden, welche sich im Bereich Sacabench befinden.
+In dem Unterordner datasets/downloads sind zudem alle Texte enthalten, auf denen die Bigtests ausgef{\"u}hrt werden. \par
+Sacabench ist der Hauptbestandteil des Frameworks. 
+Im Ordner saca sind die Implementierungen der SACAs enthalten. 
+Zus{\"a}tzlich befindet sich hier der Ordner external, in dem die zuvor beschriebenen Wrapper zur Einbindung der externen Referenzimplementierungen vorhanden sind. 
+Alle SACAs enthalten die Wert \termfont{EXTRA\_SENTINELS}, \termfont{NAME} und \termfont{DESCRIPTION}. 
+\termfont{EXTRA\_SENTINELS} bestimmt die Anzahl der zus{\"a}tzlichen Sentinals, die von dem Framework vor Aufruf des Algorithmus an den zu verarbeitenden Text angehangen werden m{\"u}ssen. 
+\termfont{NAME} und \termfont{DESCRIPTION} werden bei Aufruf von \termfont{sacabench list} ausgegeben. 
+Zus{\"a}tzlich stellt jeder SACA die Methode \termfont{construct\_sa} bereit, welche den Algorihtmus auf den {\"u}bergebenene Text anwendet. 
+Die Wrapper stellen diese Werte f{\"u}r die externen Referenzimplementierungen bereit.
+Neben dem Ordner saca befindet sich der Ordner util. 
+In diesem sind verschiedenen Hilfsfunktionen und -klassen implementiert, beispielsweise finden sich hier unterschiedliche Sortieralgorithmen, die von den SACAs verwendet werden. 
+Zuletzt befindet sich hier die Datei sacabench.cpp, welche das CLI implementiert. 
+Sie enth{\"a}lt die main-Funktion, welche die eingegebenen Parameter verarbeitet und die ausgew{\"a}hlten Algorithmen startet.\par
+Der Ordner Tests umfasst eine Menge von Testf{\"a}llen, welche mit \termfont{make check} ausgef{\"u}hrt werden k{\"o}nnen. 
+Neben den Tests f{\"u}r die einzelnen Util-Klassen und -Funktionen stellt die Datei saca.hpp viele verschiedene Testeingaben bereit, mit denen die Korrektheit der internen und externen SACAs {\"u}berpr{\"u}ft werden kann. 
+Anschlie{\ss}end wird das Ergebnis mit einem Referenz-SACA verglichen. 
+Die Testeingaben, auf die die SACAs angewendet werden, umfassen verschiedene Sprachen und Zeichens{\"a}tze, u.a. einen All-a-Text, Smileys, Kanji und Hieroglyphen.\par

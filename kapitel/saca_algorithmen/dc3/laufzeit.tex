@@ -1,0 +1,10 @@
+\subsubsection{Laufzeit}
+\label{dc3:algorithmus:laufzeit}
+
+Interessant ist jetzt, ob dieser Algorithmus im \emph{Worst-Case} eine lineare Laufzeit aufweist. Dabei überprüfen wir grob jede einzelne Phase.
+In der ersten Phase werden Triplets aufgestellt und diese anschließlich sortiert. Für die Sortierung könnte zum Beispiel das Sortierverfahren \emph{Radix-Sort} verwendet werden. Der \emph{LSD-Radix-Sort}, der im Kapitel \ref{sort:radix:lsd} näher erläutert worden ist, benötigt eine Laufzeit von $\mathcal{O}(kn)$, wobei $k$ für die Länge der zu ver\-gleich\-en\-den Werte steht. In unserem Fall wäre die Länge $k = 3$. Für die Vergabe der lexikographischen Namen wird ebenfalls eine lineare Laufzeit benötigt. Im \emph{Worst-Case} sind diese Namen jedoch nicht eindeutig, sodass ein rekursiver Aufruf erfolgt. Dabei wird der Algorithmus mit einer Textlänge von $2n/3$ aufgerufen. Zusammengefasst erhalten wir für die erste Phase eine Laufzeit von $T(n) = \mathcal{O}(n) + T(2n/3)$. Da der Faktor $2/3$ kleiner als $1$ ist, lässt sich diese Rekursionsgleichung in $T(n) = \mathcal{O}(n)$ umschreiben.
+
+Die zweite Phase stellt Paare auf, welche erneut mit Hilfe von \emph{Radix-Sort} sortiert werden. Dies benötigt eine Laufzeit von $T(n) = \mathcal{O}(n)$.
+
+In der dritten Phase werden beide Mengen $SA_{0}$ und $SA_{12}$ jeweils einmal durchlaufen und einfache Vergleiche ausgeführt. Dies führt ebenfalls zu einer Laufzeit von $T(n) = \mathcal{O}(n)$.
+Also ergeben alle Phasen zusammen eine Laufzeit von $T(n) = \mathcal{O}(n)$. Somit ist die Laufzeit des \emph{DC3}-Algorithmus linear.

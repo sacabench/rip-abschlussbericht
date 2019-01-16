@@ -1,0 +1,87 @@
+\subsection{Algorithmus}
+\subsubsection{Definitionen}
+Grundgedanke des Algorithmus ist, dass die Suffixe eines Suffix die Präfixe der darauf im String folgenden Suffixe sind und diese bereits in einem anderen Bereich des Suffixarrays teils sortiert vorliegen. Anstatt also erneut Zeichen zu vergleichen, die wir bereits verglichen haben, nutzen wir so weit es geht bereits errechnete Teilresultate.
+Wichtig ist hierbei die Rolle der sogenannten $h$-Reihenfolge:
+\begin{definition}[$h$-Reihenfolge]
+Gegeben seien die Suffixe $S_i$ eines Strings $T$ mit $i \in \{0,...,n\}$. Die Suffixe liegen in \textit{h-Reihenfolge} vor, falls die Reihenfolge der lexikographischen Sortierung ausschließlich auf den ersten $h$ Zeichen eines Strings beruht. 
+\end{definition}
+Eine Sortierung nach ausschließlich dem Anfangszeichen eines Strings, würde demnach eine 1-Reihenfolge ergeben. Zudem muss eine $h$-Reihenfolge nicht zwingend eindeutig sein. Beispielsweise sind die Positionen der Strings $aab$, $aaa$ und $aaab$ innerhalb einer 2-Reihenfolge untereinander nicht eindeutig. \\
+Bezüglich der $h$-Reihenfolge lässt sich zudem der Begriff der Gruppe definieren:
+\begin{definition}[Gruppe]
+Sei $SA$ ein Suffixarray in $h$-Reihenfolge. Eine Sequenz aufeinander folgender Suffixe in $SA$ dessen ersten $h$ Zeichen übereinstimmen, wird als \textit{Gruppe} bezeichnet. Befindet sich innerhalb einer Gruppe nur ein Suffix, handelt es sich um eine \textit{sortierte} Gruppe, andernfalls um eine \textit{unsortierte} Gruppe. 
+Eine Sequenz von sortierten Gruppen wird \textit{kombinierte sortierte} Gruppe genannt.
+\end{definition}
+
+\subsubsection{Logarithmische Schranke für Vergleiche}
+Grund dafür, dass der straight-forward Ansatz mittels direkter Vergleiche ähnlich wie bei der Sortierung von Zahlen nicht effizient genug arbeitet, ist die Tatsache, dass für den Vergleich zweier Suffixe die Anzahl der direkten Zeichenvergleiche linear in der Länge des Strings ist. Wünschenswert wäre es daher zwar ähnlich viele Vergleiche von Stellen, aber deutlich weniger Zeichenvergleiche durchführen zu müssen.\\
+Ein Ansatz, um die Anzahl letzterer reduzieren zu können wurde von Karp, Miller und Rosenberg \cite{Karp} veröffentlicht und basiert auf der $h$-Reihenfolge. Folgendes Lemma ist dabei essentiell:
+\begin{lemma}[Manbers und Myers]
+\label{manmyers}
+Werden die Suffixe $S_i$ zunächst nach ihrer Position in $SA$ in der $h$-Reihenfolge und anschließend nach der Position des Suffixes $S_{i+h}$ sortiert , erhalten wir die 2h-Reihenfolge.
+\end{lemma}
+Aufbauend darauf, können wir also zunächst die 1-Reihenfolge vergleichsbasiert berechnen, indem wir nur anhand des ersten Zeichens sortieren und uns anschließend an den bereits teilweise sortierten Suffixen der Suffixe an i+$2^j-1$-ter Stelle orientieren, wobei $j \geq 1$ der Anzahl der Durchläufe entspricht.\\
+Hierzu zur Veranschaulichung der Idee ein kleines Beispiel:\\
+Betrachten wir den String T $=  babc\$ $. Ein Suffixarray in 1-Reihenfolge wäre SA$=[4,1,2,0,3]$ (alternativ auch SA$=[4,1,0,2,3]$, da nicht eindeutig). Um jetzt beispielsweise die beiden mit $ b $ beginnenden Suffixe zu sortieren, können wir uns die Position des bei jeweils $h$ beginnenden Suffixes im Array anschauen. Im Fall für $ bc\$ $  ist SA$[$T$[2+1]]=4$ und für $ babc\$ $ SA$[$T$[0+1]]=1$. Das heißt, die Suffixe, die in beiden Fällen auf das $ b $ folgen, sind bereits soweit lexikographisch im Suffixarray sortiert, dass sich daraus eine Reihenfolge für die beiden Suffixe ablesen lässt und keine weiteren Vergleiche notwendig sind. Daraus resultiert SA$=[4,1,0,2,3]$ und somit das fertig sortierte Suffixarray.\\
+Zwar ergibt sich in diesem Beispiel dadurch nicht wirklich eine Laufzeitersparnis, denken wir allerdings an deutlich längere Strings und daran, dass wir $h$ in jedem Schritt verdoppeln können, können wir uns durch diese Technik die Betrachtung vieler einzelner Zeichen ersparen. \\
+Dadurch dass wir $h$ in jedem Schritt verdoppeln, reduziert sich unsere obere Schranke für die Anzahl der Vergleiche auf $\mathcal{O}(log\ n)$.
+ \subsubsection{qSufSort}
+Aufbauend auf den Resultaten aus dem vorherigen Abschnitt und dem des ternary Quicksort, lässt sich nun der qSufSort Algorithmus wie folgt konstruieren.
+Benötigt werden neben dem Ergebnisarray $SA$ zunächst zwei Hilfsarrays $V$ und $L$ der Länge $n$+1.\\
+Array $V$ speichert für das Suffixarray $SA$ die Nummern der Gruppen. Die Nummer einer Gruppe ergibt sich aus dem maximalen Index im Suffixarray, den diese Gruppe belegt. Für eine Gruppe die also die Positionen $l$ bis $k$ mit $l \leq k$ in $SA$ belegt, ist die Gruppennummer also $V[l]$=$V[l+1]$=...=$V[k]$=$k$.\\
+Das Hilfsarray $L$ dagegen speichert die dazu gehörigen Gruppenlängen. Um kombinierte sortierte Gruppen von unsortierten besser unterscheiden zu können, wird die Länge erst als negative Länge gespeichert. Für beliebige Gruppengrenzen $l$ und $k$ mit $l \leq k$ in $SA$ ist also die Gruppenlänge, falls unsortiert, $L[l]$=($k-l+1$), anderenfalls $L[l]$=$-$($k-l+1$). \\
+Der Algorithmus würde wie folgt vorgehen:\\
+
+%\begin{lstlisting}[caption={qSufSort},label=algo,captionpos=t,float,abovecaptionskip=-\medskipamount, mathescape]
+%1. Sortiere Suffixe $S_i$ anhand des ersten Zeichens in $SA$ ein 
+%2. Berechne $V$ und $L$
+%3. $h$ = 1
+%4. Do  
+%5.   Sortiere jede unsortierte Gruppe in $I$ mit Hilfe
+%     des ternaeren Quicksort mit V[i+h] als Key
+%6.   Markiere dabei die Grenzen von $A_l$, $A_e$ und $A_g$
+%7.   Erstelle neue Gruppen mit Hilfe der Grenzen
+%8.   Aktualisiere $V$ und $L$
+%9.   h=2*h
+%10. Until($SA$ besteht aus nur einer kombinierten sortierten Gruppe)
+%\end{lstlisting}
+\begin{minted}[escapeinside=||,mathescape=true, frame = single]{text}
+qSufSort(T)
+1. Sortiere Suffixe |$S_i$| anhand des ersten Zeichens in |$SA$| ein 
+2. Berechne |$V$| und |$L$|
+3. |$h$ = 1|
+4. Do  
+5.   Sortiere jede unsortierte Gruppe in |$SA$| mit Hilfe
+     des ternary Quicksort mit |$V[i+h]$| als Key
+6.   Markiere dabei die Grenzen von |$A_l$, $A_e$| und |$A_g$|
+7.   Erstelle neue Gruppen mit Hilfe der Grenzen
+8.   Aktualisiere |$V$| und |$L$|
+9.   |$h=2*h$|
+10. Until(|SA| besteht aus einer kombinierten sortierten Gruppe)
+\end{minted}
+
+In der ersten Zeile sortieren wir zunächst die Suffixe anhand ihres ersten Zeichens in das Array SA ein, wodurch dieses dann in 1-Reihenfolge vorliegt. Aufbauend darauf berechnen wir dann initial die Hilfsarrays $L$ und $V$ und setzen die Variable $h$ auf unsere derzeitige $h$-Reihenfolge, also 1.
+Die nachfolgende Schleife wiederholen wir dann solange bis unser Suffixarray nur noch eine kombinierte sortierte Gruppe beinhaltet, also vollständig sortiert ist.
+In dieser sortieren wir dann die einzelnen sortierten Gruppen, deren Startposition und Länge wir schnell mit $V$ und $L$ bestimmen können mit Hilfe des ternary Quicksort auf Basis der Suffixarray-Position des an $i+h$ startenden Suffixes. Damit versetzen wir das Ergebnisarray SA nach Lemma \ref{manmyers} in $2h$-Reihenfolge. Dementsprechend setzen wir dann $h$ auf seinen doppelten Wert, nachdem wir in Zeile 7 und 8 die Informationen zu den Gruppen in $L$ und $V$ mit Hilfe der Split-Positionen des Quicksorts aktualisiert haben.\\
+\subsubsection{Laufzeit}
+Die initiale Sortierung in Schritt 1 kann in $\mathcal{O}(n\ log\ n)$ durchgeführt werden, beispielsweise mit Hilfe des Quicksort-Algorithmus. Die Berechnung der Arrays $V$ und $L$ ist in linearer Zeit mittels eines Scans über das Array SA möglich, sowohl in den Zeilen 2 und 3 als auch in Zeile 8. Der für die Laufzeit ausschlaggebende Teil ist die in Zeile 4 beginnende Schleife. Wie wir bereits gesehen haben, rufen wir diese höchstens $\mathcal{O}(log\ n)$ mal auf. Zwar rufen wir in jedem Durchlauf in Zeile 5 den Quicksort auf, woraus sich intuitiv eine Worst-Case Laufzeit $\mathcal{O}(n\ log\ n)\cdot \mathcal{O}(log\ n)$ = $\mathcal{O}(n\ (log\ n)^2)$ ergeben würde, jedoch können wir diese mittels einer genaueren Analyse deutlich schärfer wählen:\\
+Als Sortierverfahren wurde sowohl in Zeile 1 als auch in Zeile 5 der ternary Quicksort gewählt. Der Verlauf der Partitionierungen lässt sich implizit durch einen ternären Baum darstellen (siehe Abb. $\ref{terTree}$).\\
+Die Partitionierung eines Arrays $A$ mit $|A|=n$ lässt sich in $\mathcal{O}(n)$ berechnen. Da für die drei resultierenden Arrays $A_l$, $A_e$ und $A_g$ gilt, dass diese in Summe höchstens genauso lang sind wie $A$, also $n$, können wir auch die Partitionierung der gesamten unter $A$ liegenden Ebene in $\mathcal{O}(n)$ berechnen. Daraus folgt folgendes Lemma:
+\begin{lemma}
+Die Partitionierung der auf einer beliebigen Ebene im ternären Baum befindlichen Teilmengen lässt sich in $\mathcal{O}(n)$ erzeugen. 
+\end{lemma}
+Es bleibt zu zeigen, wie hoch der ternäre Baum sein kann. Für den Pfad entlang der $A_e$ Partitionen gilt, dass die Anzahl betrachteter Zeichen sich mit jeder Ebene verdoppelt. Damit ist die maximale Pfadlänge von der Wurzel zum Blatt entlang der $A_k$ Mengen kleiner gleich $ \ log\ (n+1)$.\\
+Für die Teilmengen $A_l$ und $A_g$ gilt, dass die Mengen in den jeweiligen Kindern höchstens halb so groß sind, da wir am Median teilen. Daraus folgt, dass auch entlang eines Pfades höchstens $\ log\ (n+1)$ linke oder rechte Teilarrays sein können.\\
+Daraus resultiert folgendes Lemma:
+\begin{lemma}
+Die Höhe eines auf diese Weise erstellten ternären Baumes ist durch $\mathcal{O}(log\ n)$ beschränkt.
+\end{lemma}
+Fassen wir nun beide Lemmas inklusive unserer vorangegangen Überlegungen bezüglich der anderen Zeilen zusammen: 
+\begin{lemma}
+Die Berechnung des Suffix Arrays mit Hilfe des qSufSort-Algorithmus ist in $\mathcal{O}(n \ log \ n)$ möglich.
+\end{lemma}
+\begin{figure}[t]
+\centering
+\includegraphics[scale=0.9]{kapitel/saca_algorithmen/qsufsort/Bilder/TerTree.pdf}
+\caption{Der durch die ternäre Sortierung entstehende ternäre Baum anhand des Strings T=$HONGKONG\$$.}
+\label{terTree}
+\end{figure}

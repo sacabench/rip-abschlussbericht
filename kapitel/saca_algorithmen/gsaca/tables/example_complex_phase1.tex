@@ -1,0 +1,230 @@
+% Phase 1 - Start
+\begin{table}[H]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lccccccccccccccc}
+\multicolumn{16}{l}{Phase 1 - Start}                                                                                                                                                         \\ \hline
+\multicolumn{1}{l|}{Index}   & 1                       & 2   & 3   & 4   & 5   & 6   & 7   & 8   & 9                       & 10  & 11                      & 12  & 13  & 14  & 15  \\
+\multicolumn{1}{l|}{Zeichen} & c                       & a   & a   & b   & a   & c   & c   & a   & a                       & b   & a                       & c   & a   & a   & \$  \\ \cline{1-16}
+\multicolumn{1}{l|}{Kontext} & \multicolumn{1}{c|}{\$} & \multicolumn{8}{c|}{a}                                            & \multicolumn{2}{c|}{b}        & \multicolumn{4}{c}{c} \\
+\multicolumn{1}{l|}{Gruppe}      & \multicolumn{1}{c|}{15} & 2   & 3   & 5   & 8   & 9   & 11  & 13  & \multicolumn{1}{c|}{14} & 4   & \multicolumn{1}{c|}{10} & 1   & 6   & 7   & 12  \\
+\multicolumn{1}{l|}{GSIZE}   & \multicolumn{1}{c|}{1}  & 8   & 0   & 0   & 0   & 0   & 0   & 0   & \multicolumn{1}{c|}{0}  & 2   & \multicolumn{1}{c|}{0}  & 4   & 0   & 0   & 0   \\
+\multicolumn{1}{l|}{GLINK}   & 12                      & 2   & 2   & 10  & 2   & 12  & 12  & 2   & 2                       & 10  & 2                       & 12  & 2   & 2   & 1   \\
+\multicolumn{1}{l|}{ISA}     & 12                      & 2   & 3   & 10  & 4   & 13  & 14  & 5   & 6                       & 11  & 7                       & 15  & 8   & 9   & 1   \\
+\multicolumn{1}{l|}{PREV}    & nil                     & nil & nil & nil & nil & nil & nil & nil & nil                     & nil & nil                     & nil & nil & nil & nil
+\end{tabular}
+\end{adjustbox}
+
+\caption[Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Beginn von Phase 1]{Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Beginn von Phase 1}
+\label{table_complex_example_1_start} 
+\end{table}
+
+% Phase 1 - Iteration 1
+\begin{table}[H]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lccccccccccccccc}
+\multicolumn{16}{l}{Phase 1 - Ergebnis Iteration 1}                                                                                                                                                                                                                                                                                                                                                                                                                      \\ \hline
+\multicolumn{1}{l|}{Index}   & 1                         & 2                         & 3   & 4   & 5                         & 6                         & 7                         & 8                                               & 9                                                & 10  & 11                        & \cellcolor[HTML]{\green}12 & \cellcolor[HTML]{\green}13 & \cellcolor[HTML]{\green}14 & \cellcolor[HTML]{\green}15 \\
+\multicolumn{1}{l|}{Zeichen} & c                         & a                         & a   & b   & a                         & c                         & c                         & a                                               & a                                                & b   & a                         & c                          & a                          & a                          & \$                         \\ \cline{1-16}
+\multicolumn{1}{l|}{Kontext} & \multicolumn{1}{c|}{\$}   & \multicolumn{6}{c|}{a}                                                                                                    & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}ac} & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}acc} & \multicolumn{2}{c|}{b}          & \multicolumn{4}{c}{c}                                                                                             \\
+\multicolumn{1}{l|}{Gruppe}      & \multicolumn{1}{c|}{15}   & 2                         & 3   & 8   & 9                         & 13                        & \multicolumn{1}{c|}{14}   & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}11} & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}5}   & 4   & \multicolumn{1}{c|}{10}   & 1                          & 6                          & 7                          & 12                         \\
+\multicolumn{1}{l|}{GSIZE}   & \multicolumn{1}{c|}{1}    & \cellcolor[HTML]{\red}6 & 0   & 0   & 0                         & 0                         & \multicolumn{1}{c|}{0}    & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}1}  & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}1}   & 2   & \multicolumn{1}{c|}{0}    & 4                          & 0                          & 0                          & 0                          \\
+\multicolumn{1}{l|}{GLINK}   & 12                        & 2                         & 2   & 10  & \cellcolor[HTML]{\red}9 & 12                        & 12                        & 2                                               & 2                                                & 10  & \cellcolor[HTML]{\red}8 & 12                         & 2                          & 2                          & 1                          \\
+\multicolumn{1}{l|}{ISA}     & 12                        & 2                         & 3   & 10  & \cellcolor[HTML]{\red}9 & 13                        & 14                        & \cellcolor[HTML]{\red}4                       & \cellcolor[HTML]{\red}5                        & 11  & \cellcolor[HTML]{\red}8 & 15                         & \cellcolor[HTML]{\red}6  & \cellcolor[HTML]{\red}7  & 1                          \\
+\multicolumn{1}{l|}{PREV}    & \cellcolor[HTML]{\red}0 & nil                       & nil & nil & nil                       & \cellcolor[HTML]{\red}5 & \cellcolor[HTML]{\red}5 & nil                                             & nil                                              & nil & nil                       & \cellcolor[HTML]{\red}11 & nil                        & nil                        & nil                       
+\end{tabular}
+\end{adjustbox}
+
+\caption[Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 1, Iterationen 1]{Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 1, Iterationen 1. Beginnend mit der lexikografisch gr{\"o}{\ss}ten Gruppe spaltet sich der Kontext \textit{a} in die Kontexte \textit{a}, \textit{ac} und \textit{acc}. Dies spiegelt sich auch in den Listen GSIZE, GLIST, ISA und PREV wieder.}
+\label{table_complex_example_1_1} 
+\end{table}
+
+% Phase 1 - Iteration 2
+\begin{table}[H]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lccccccccccccccc}
+\multicolumn{16}{l}{Phase 1 - Ergebnis Iteration 2}                                                                                                                                                                                                                                                                                                                                                                                              \\ \hline
+\multicolumn{1}{l|}{Index}   & 1                       & 2                         & 3                         & 4                         & 5                       & 6                         & 7                                              & 8                         & 9                         & \cellcolor[HTML]{\green}10 & \cellcolor[HTML]{\green}11 & 12 & 13                        & 14                        & 15  \\
+\multicolumn{1}{l|}{Zeichen} & c                       & a                         & a                         & b                         & a                       & c                         & c                                              & a                         & a                         & b                          & a                          & c  & a                         & a                         & \$  \\ \cline{1-16}
+\multicolumn{1}{l|}{Kontext} & \multicolumn{1}{c|}{\$} & \multicolumn{4}{c|}{a}                                                                                      & \multicolumn{2}{c|}{\cellcolor[HTML]{\red}ab}                            & \multicolumn{1}{c|}{ac}   & \multicolumn{1}{c|}{acc}  & \multicolumn{2}{c|}{b}                                  & \multicolumn{4}{c}{c}                                            \\
+\multicolumn{1}{l|}{Gruppe}      & \multicolumn{1}{c|}{15} & 2                         & 8                         & 13                        & \multicolumn{1}{c|}{14} & \cellcolor[HTML]{\red}3 & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}9} & \multicolumn{1}{c|}{11}   & \multicolumn{1}{c|}{5}    & 4                          & \multicolumn{1}{c|}{10}    & 1  & 6                         & 7                         & 12  \\
+\multicolumn{1}{l|}{GSIZE}   & \multicolumn{1}{c|}{1}  & \cellcolor[HTML]{\red}4 & 0                         & 0                         & \multicolumn{1}{c|}{0}  & \cellcolor[HTML]{\red}2 & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}0} & \multicolumn{1}{c|}{1}    & \multicolumn{1}{c|}{1}    & 2                          & \multicolumn{1}{c|}{0}     & 4  & 0                         & 0                         & 0   \\
+\multicolumn{1}{l|}{GLINK}   & 12                      & 2                         & \cellcolor[HTML]{\red}6 & 10                        & 9                       & 12                        & 12                                             & 2                         & \cellcolor[HTML]{\red}6 & 10                         & 8                          & 12 & 2                         & 2                         & 1   \\
+\multicolumn{1}{l|}{ISA}     & 12                      & 2                         & \cellcolor[HTML]{\red}6 & 10                        & 9                       & 13                        & 14                                             & \cellcolor[HTML]{\red}3 & \cellcolor[HTML]{\red}7 & 11                         & 8                          & 15 & \cellcolor[HTML]{\red}4 & \cellcolor[HTML]{\red}5 & 1   \\
+\multicolumn{1}{l|}{PREV}    & 0                       & nil                       & nil                       & \cellcolor[HTML]{\red}3 & nil                     & 5                         & 5                                              & nil                       & nil                       & \cellcolor[HTML]{\red}9  & nil                        & 11 & nil                       & nil                       & nil
+\end{tabular}
+\end{adjustbox}
+
+\caption[Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 1, Iterationen 2]{Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 1, Iterationen 2. Die Bearbeitung der nachfolgenden Gruppe mit dem Kontext \textit{b} f{\"u}hrt zu einer weiteren Aufteilung des Kontextes \textit{a} in die Kontexte \textit{a} und \textit{ab}.}
+\label{table_complex_example_1_2} 
+\end{table}
+
+% Phase 1 - Iteration 3
+\begin{table}[H]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lccccccccccccccc}
+\multicolumn{16}{l}{Phase 1 - Ergebnis Iteration 3}                                                                                                                                                                                                                                                                                                     \\ \hline
+\multicolumn{1}{l|}{Index}   & 1                       & 2   & 3                         & 4  & 5                         & 6                                               & 7                                                  & 8                       & \cellcolor[HTML]{\green}9 & 10 & 11                      & 12  & 13  & 14  & 15  \\
+\multicolumn{1}{l|}{Zeichen} & c                       & a   & a                         & b  & a                         & c                                               & c                                                  & a                       & a                         & b  & a                       & c   & a   & a   & \$  \\ \cline{1-16}
+\multicolumn{1}{l|}{Kontext} & \multicolumn{1}{c|}{\$} & \multicolumn{4}{c|}{a}                                           & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}ab} & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}abacc} & \multicolumn{1}{c|}{ac} & \multicolumn{1}{c|}{acc}  & \multicolumn{2}{c|}{b}       & \multicolumn{4}{c}{c} \\
+\multicolumn{1}{l|}{Gruppe}      & \multicolumn{1}{c|}{15} & 2   & 8                         & 13 & \multicolumn{1}{c|}{14}   & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}9}  & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}3}     & \multicolumn{1}{c|}{11} & \multicolumn{1}{c|}{5}    & 4  & \multicolumn{1}{c|}{10} & 1   & 6   & 7   & 12  \\
+\multicolumn{1}{l|}{GSIZE}   & \multicolumn{1}{c|}{1}  & 4   & 0                         & 0  & \multicolumn{1}{c|}{0}    & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}1}  & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}1}     & \multicolumn{1}{c|}{1}  & \multicolumn{1}{c|}{1}    & 2  & \multicolumn{1}{c|}{0}  & 4   & 0   & 0   & 0   \\
+\multicolumn{1}{l|}{GLINK}   & 12                      & 2   & \cellcolor[HTML]{\red}7 & 10 & 9                         & 12                                              & 12                                                 & 2                       & 6                         & 10 & 8                       & 12  & 2   & 2   & 1   \\
+\multicolumn{1}{l|}{ISA}     & 12                      & 2   & \cellcolor[HTML]{\red}7 & 10 & 9                         & 13                                              & 14                                                 & 3                       & \cellcolor[HTML]{\red}6 & 11 & 8                       & 15  & 4   & 5   & 1   \\
+\multicolumn{1}{l|}{PREV}    & 0                       & nil & nil                       & 3  & \cellcolor[HTML]{\red}3 & 5                                               & 5                                                  & nil                     & nil                       & 9  & nil                     & 11  & nil & nil & nil
+\end{tabular}
+\end{adjustbox}
+
+\caption[Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 1, Iterationen 3]{Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 1, Iterationen 3. In diesem Schritt wird eines der beiden Elemente des Kontextes \textit{ab} durch den lexikografisch gr{\"o}{\ss}eren Kontext \textit{acc} erweitert und bildet so den Kontext \textit{abacc}.}
+\label{table_complex_example_1_3} 
+\end{table}
+
+% Phase 1 - Iteration 4
+\begin{table}[H]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lccccccccccccccc}
+\multicolumn{16}{l}{Phase 1 - Ergebnis Iteration 4}                                                                                                                                                                                                                                                          \\ \hline
+\multicolumn{1}{l|}{Index}   & 1                       & 2   & 3   & 4  & 5                       & 6                                                 & 7                          & \cellcolor[HTML]{\green}8 & 9                        & 10 & 11                        & 12  & 13  & 14  & 15  \\
+\multicolumn{1}{l|}{Zeichen} & c                       & a   & a   & b  & a                       & c                                                 & c                          & a                         & a                        & b  & a                         & c   & a   & a   & \$  \\ \cline{1-16}
+\multicolumn{1}{l|}{Kontext} & \multicolumn{1}{c|}{\$} & \multicolumn{4}{c|}{a}                   & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}abac} & \multicolumn{1}{c|}{abacc} & \multicolumn{1}{c|}{ac}   & \multicolumn{1}{c|}{acc} & \multicolumn{2}{c|}{b}         & \multicolumn{4}{c}{c} \\
+\multicolumn{1}{l|}{Gruppe}      & \multicolumn{1}{c|}{15} & 2   & 8   & 13 & \multicolumn{1}{c|}{14} & \multicolumn{1}{c|}{9}                            & \multicolumn{1}{c|}{3}     & \multicolumn{1}{c|}{11}   & \multicolumn{1}{c|}{5}   & 4  & \multicolumn{1}{c|}{10}   & 1   & 6   & 7   & 12  \\
+\multicolumn{1}{l|}{GSIZE}   & \multicolumn{1}{c|}{1}  & 4   & 0   & 0  & \multicolumn{1}{c|}{0}  & \multicolumn{1}{c|}{1}                            & \multicolumn{1}{c|}{1}     & \multicolumn{1}{c|}{1}    & \multicolumn{1}{c|}{1}   & 2  & \multicolumn{1}{c|}{0}    & 4   & 0   & 0   & 0   \\
+\multicolumn{1}{l|}{GLINK}   & 12                      & 2   & 7   & 10 & 9                       & 12                                                & 12                         & 2                         & 6                        & 10 & 8                         & 12  & 2   & 2   & 1   \\
+\multicolumn{1}{l|}{ISA}     & 12                      & 2   & 7   & 10 & 9                       & 13                                                & 14                         & 3                         & 6                        & 11 & 8                         & 15  & 4   & 5   & 1   \\
+\multicolumn{1}{l|}{PREV}    & 0                       & nil & nil & 3  & 3                       & 5                                                 & 5                          & nil                       & nil                      & 9  & \cellcolor[HTML]{\red}9 & 11  & nil & nil & nil
+\end{tabular}
+\end{adjustbox}
+
+\caption[Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 1, Iterationen 4]{Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 1, Iterationen 4. Auch der Kontext des anderen Elements der ehemaligen Gruppe \textit{ab} wird erweitert und geh{\"o}rt nun zum Kontext \textit{abac}.}
+\label{table_complex_example_1_4} 
+\end{table}
+
+% Phase 1 - Iteration 5
+\begin{table}[H]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lccccccccccccccc}
+\multicolumn{16}{l}{Phase 1 - Ergebnis Iteration 5}                                                                                                                                                                                                                                                                                                                                                                        \\ \hline
+\multicolumn{1}{l|}{Index}   & 1                       & 2                         & 3                         & 4                       & 5                                                   & 6                         & \cellcolor[HTML]{\green}7  & 8                         & 9                        & 10 & 11                      & 12 & 13                        & 14                        & 15  \\
+\multicolumn{1}{l|}{Zeichen} & c                       & a                         & a                         & b                       & a                                                   & c                         & c                          & a                         & a                        & b  & a                       & c  & a                         & a                         & \$  \\ \cline{1-16}
+\multicolumn{1}{l|}{Kontext} & \multicolumn{1}{c|}{\$} & \multicolumn{3}{c|}{a}                                                          & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}aabacc} & \multicolumn{1}{c|}{abac} & \multicolumn{1}{c|}{abacc} & \multicolumn{1}{c|}{ac}   & \multicolumn{1}{c|}{acc} & \multicolumn{2}{c|}{b}       & \multicolumn{4}{c}{c}                                            \\
+\multicolumn{1}{l|}{Gruppe}      & \multicolumn{1}{c|}{15} & 8                         & 13                        & \multicolumn{1}{c|}{14} & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}2}      & \multicolumn{1}{c|}{9}    & \multicolumn{1}{c|}{3}     & \multicolumn{1}{c|}{11}   & \multicolumn{1}{c|}{5}   & 4  & \multicolumn{1}{c|}{10} & 1  & 6                         & 7                         & 12  \\
+\multicolumn{1}{l|}{GSIZE}   & \multicolumn{1}{c|}{1}  & \cellcolor[HTML]{\red}3 & 0                         & \multicolumn{1}{c|}{0}  & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}1}      & \multicolumn{1}{c|}{1}    & \multicolumn{1}{c|}{1}     & \multicolumn{1}{c|}{1}    & \multicolumn{1}{c|}{1}   & 2  & \multicolumn{1}{c|}{0}  & 4  & 0                         & 0                         & 0   \\
+\multicolumn{1}{l|}{GLINK}   & 12                      & \cellcolor[HTML]{\red}5 & 7                         & 10                      & 9                                                   & 12                        & 12                         & 2                         & 6                        & 10 & 8                       & 12 & 2                         & 2                         & 1   \\
+\multicolumn{1}{l|}{ISA}     & 12                      & \cellcolor[HTML]{\red}5 & 7                         & 10                      & 9                                                   & 13                        & 14                         & \cellcolor[HTML]{\red}2 & 6                        & 11 & 8                       & 15 & \cellcolor[HTML]{\red}3 & \cellcolor[HTML]{\red}4 & 1   \\
+\multicolumn{1}{l|}{PREV}    & 0                       & nil                       & \cellcolor[HTML]{\red}2 & 3                       & 3                                                   & 5                         & 5                          & nil                       & nil                      & 9  & 9                       & 11 & nil                       & nil                       & nil
+\end{tabular}
+\end{adjustbox}
+
+\caption[Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 1, Iterationen 5]{Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 1, Iterationen 5. Wieder wird der Kontext \textit{a} unterteilt. Der neue Kontext \textit{aabacc} ist durch eine Erweiterung des Kontextes \textit{a} durch einen lexikografisch gr{\"o}{\ss}eren Kontext entstanden und ist somit selbst lexikografisch gr{\"o}{\ss}er als \textit{a}.}
+\label{table_complex_example_1_5} 
+\end{table}
+
+% Phase 1 - Iteration 6
+\begin{table}[H]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lccccccccccccccc}
+\multicolumn{16}{l}{Phase 1 - Ergebnis Iteration 6}                                                                                                                                                                                                                                                                                                                                                                          \\ \hline
+\multicolumn{1}{l|}{Index}   & 1                       & 2                         & 3                       & 4                                                  & 5                           & \cellcolor[HTML]{\green}6 & 7                          & 8                         & 9                         & 10 & 11                      & 12 & 13                        & 14                        & 15  \\
+\multicolumn{1}{l|}{Zeichen} & c                       & a                         & a                       & b                                                  & a                           & c                         & c                          & a                         & a                         & b  & a                       & c  & a                         & a                         & \$  \\ \cline{1-16}
+\multicolumn{1}{l|}{Kontext} & \multicolumn{1}{c|}{\$} & \multicolumn{2}{c|}{a}                              & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}aabac} & \multicolumn{1}{c|}{aabacc} & \multicolumn{1}{c|}{abac} & \multicolumn{1}{c|}{abacc} & \multicolumn{1}{c|}{ac}   & \multicolumn{1}{c|}{acc}  & \multicolumn{2}{c|}{b}       & \multicolumn{4}{c}{c}                                            \\
+\multicolumn{1}{l|}{Gruppe}      & \multicolumn{1}{c|}{15} & 13                        & \multicolumn{1}{c|}{14} & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}8}     & \multicolumn{1}{c|}{2}      & \multicolumn{1}{c|}{9}    & \multicolumn{1}{c|}{3}     & \multicolumn{1}{c|}{11}   & \multicolumn{1}{c|}{5}    & 4  & \multicolumn{1}{c|}{10} & 1  & 6                         & 7                         & 12  \\
+\multicolumn{1}{l|}{GSIZE}   & \multicolumn{1}{c|}{1}  & \cellcolor[HTML]{\red}2 & \multicolumn{1}{c|}{0}  & \multicolumn{1}{c|}{\cellcolor[HTML]{\red}1}     & \multicolumn{1}{c|}{1}      & \multicolumn{1}{c|}{1}    & \multicolumn{1}{c|}{1}     & \multicolumn{1}{c|}{1}    & \multicolumn{1}{c|}{1}    & 2  & \multicolumn{1}{c|}{0}  & 4  & 0                         & 0                         & 0   \\
+\multicolumn{1}{l|}{GLINK}   & 12                      & 5                         & 7                       & 10                                                 & 9                           & 12                        & 12                         & \cellcolor[HTML]{\red}4 & 6                         & 10 & 8                       & 12 & 2                         & 2                         & 1   \\
+\multicolumn{1}{l|}{ISA}     & 12                      & 5                         & 7                       & 10                                                 & 9                           & 13                        & 14                         & \cellcolor[HTML]{\red}4 & 6                         & 11 & 8                       & 15 & \cellcolor[HTML]{\red}2 & \cellcolor[HTML]{\red}3 & 1   \\
+\multicolumn{1}{l|}{PREV}    & 0                       & nil                       & 2                       & 3                                                  & 3                           & 5                         & 5                          & nil                       & \cellcolor[HTML]{\red}8 & 9  & 9                       & 11 & nil                       & nil                       & nil
+\end{tabular}
+\end{adjustbox}
+
+\caption[Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 1, Iterationen 6]{Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 1, Iterationen 6. Ein weiteres Element spaltet sich von der Gruppe mit Kontext \textit{a} ab und ist nun dem Kontext \textit{aabac} zugeh{\"o}rig.}
+\label{table_complex_example_1_6} 
+\end{table}
+
+% Phase 1 - Iteration 7
+\begin{table}[H]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lccccccccccccccc}
+\multicolumn{16}{l}{Phase 1 - Ergebnis Iteration 7}                                                                                                                                                                                                                                                                                                    \\ \hline
+\multicolumn{1}{l|}{Index}   & 1                       & 2                         & 3                       & 4                          & \cellcolor[HTML]{\green}5   & 6                         & 7                          & 8                       & 9                        & 10 & 11                      & 12  & 13  & 14  & 15  \\
+\multicolumn{1}{l|}{Zeichen} & c                       & a                         & a                       & b                          & a                           & c                         & c                          & a                       & a                        & b  & a                       & c   & a   & a   & \$  \\ \cline{1-16}
+\multicolumn{1}{l|}{Kontext} & \multicolumn{1}{c|}{\$} & \multicolumn{2}{c|}{a}                              & \multicolumn{1}{c|}{aabac} & \multicolumn{1}{c|}{aabacc} & \multicolumn{1}{c|}{abac} & \multicolumn{1}{c|}{abacc} & \multicolumn{1}{c|}{ac} & \multicolumn{1}{c|}{acc} & \multicolumn{2}{c|}{b}       & \multicolumn{4}{c}{c} \\
+\multicolumn{1}{l|}{Gruppe}      & \multicolumn{1}{c|}{15} & 13                        & \multicolumn{1}{c|}{14} & \multicolumn{1}{c|}{8}     & \multicolumn{1}{c|}{2}      & \multicolumn{1}{c|}{9}    & \multicolumn{1}{c|}{3}     & \multicolumn{1}{c|}{11} & \multicolumn{1}{c|}{5}   & 4  & \multicolumn{1}{c|}{10} & 1   & 6   & 7   & 12  \\
+\multicolumn{1}{l|}{GSIZE}   & \multicolumn{1}{c|}{1}  & 2                         & \multicolumn{1}{c|}{0}  & \multicolumn{1}{c|}{1}     & \multicolumn{1}{c|}{1}      & \multicolumn{1}{c|}{1}    & \multicolumn{1}{c|}{1}     & \multicolumn{1}{c|}{1}  & \multicolumn{1}{c|}{1}   & 2  & \multicolumn{1}{c|}{0}  & 4   & 0   & 0   & 0   \\
+\multicolumn{1}{l|}{GLINK}   & 12                      & 5                         & 7                       & 10                         & 9                           & 12                        & 12                         & 4                       & 6                        & 10 & 8                       & 12  & 2   & 2   & 1   \\
+\multicolumn{1}{l|}{ISA}     & 12                      & 5                         & 7                       & 10                         & 9                           & 13                        & 14                         & 4                       & 6                        & 11 & 8                       & 15  & 2   & 3   & 1   \\
+\multicolumn{1}{l|}{PREV}    & 0                       & \cellcolor[HTML]{\red}0 & 2                       & 3                          & 3                           & 5                         & 5                          & nil                     & 8                        & 9  & 9                       & 11  & nil & nil & nil
+\end{tabular}
+\end{adjustbox}
+
+\caption[Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 1, Iterationen 7]{Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 1, Iterationen 7. Auch wenn die Bearbeitung des n{\"a}chsten Kontextes keine weitere {\"A}nderung der Gruppen erzeugt, f{\"u}hrt dies zur F{\"u}llung der \prevpointer-Liste.}
+\label{table_complex_example_1_7} 
+\end{table}
+
+% Phase 1 - Iteration 8
+\begin{table}[H]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lccccccccccccccc}
+\multicolumn{16}{l}{Phase 1 - Ergebnis Iteration 8}                                                                                                                                                                                                                                                                               \\ \hline
+\multicolumn{1}{l|}{Index}   & 1                       & 2  & 3                       & \cellcolor[HTML]{\green}4  & 5                           & 6                         & 7                          & 8                         & 9                        & 10 & 11                      & 12  & 13  & 14  & 15  \\
+\multicolumn{1}{l|}{Zeichen} & c                       & a  & a                       & b                          & a                           & c                         & c                          & a                         & a                        & b  & a                       & c   & a   & a   & \$  \\ \cline{1-16}
+\multicolumn{1}{l|}{Kontext} & \multicolumn{1}{c|}{\$} & \multicolumn{2}{c|}{a}       & \multicolumn{1}{c|}{aabac} & \multicolumn{1}{c|}{aabacc} & \multicolumn{1}{c|}{abac} & \multicolumn{1}{c|}{abacc} & \multicolumn{1}{c|}{ac}   & \multicolumn{1}{c|}{acc} & \multicolumn{2}{c|}{b}       & \multicolumn{4}{c}{c} \\
+\multicolumn{1}{l|}{Gruppe}      & \multicolumn{1}{c|}{15} & 13 & \multicolumn{1}{c|}{14} & \multicolumn{1}{c|}{8}     & \multicolumn{1}{c|}{2}      & \multicolumn{1}{c|}{9}    & \multicolumn{1}{c|}{3}     & \multicolumn{1}{c|}{11}   & \multicolumn{1}{c|}{5}   & 4  & \multicolumn{1}{c|}{10} & 1   & 6   & 7   & 12  \\
+\multicolumn{1}{l|}{GSIZE}   & \multicolumn{1}{c|}{1}  & 2  & \multicolumn{1}{c|}{0}  & \multicolumn{1}{c|}{1}     & \multicolumn{1}{c|}{1}      & \multicolumn{1}{c|}{1}    & \multicolumn{1}{c|}{1}     & \multicolumn{1}{c|}{1}    & \multicolumn{1}{c|}{1}   & 2  & \multicolumn{1}{c|}{0}  & 4   & 0   & 0   & 0   \\
+\multicolumn{1}{l|}{GLINK}   & 12                      & 5  & 7                       & 10                         & 9                           & 12                        & 12                         & 4                         & 6                        & 10 & 8                       & 12  & 2   & 2   & 1   \\
+\multicolumn{1}{l|}{ISA}     & 12                      & 5  & 7                       & 10                         & 9                           & 13                        & 14                         & 4                         & 6                        & 11 & 8                       & 15  & 2   & 3   & 1   \\
+\multicolumn{1}{l|}{PREV}    & 0                       & 0  & 2                       & 3                          & 3                           & 5                         & 5                          & \cellcolor[HTML]{\red}0 & 8                        & 9  & 9                       & 11  & nil & nil & nil
+\end{tabular}
+\end{adjustbox}
+
+\caption[Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 1, Iterationen 8]{Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 1, Iterationen 8. Wie auch schon in der vorherigen Iteration ergeben sich keine {\"A}nderungen der Gruppenkontexte.}
+\label{table_complex_example_1_8} 
+\end{table}
+
+% Phase 1 - Iteration 9
+\begin{table}[H]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lccccccccccccccc}
+\multicolumn{16}{l}{Phase 1 - Ergebnis Iteration 9}                                                                                                                                                                                                                                                                                                                                                 \\ \hline
+\multicolumn{1}{l|}{Index}   & 1                       & \cellcolor[HTML]{\green}2 & \cellcolor[HTML]{\green}3 & 4                          & 5                           & 6                         & 7                          & 8                       & 9                        & 10 & 11                      & 12 & 13                        & 14                        & 15  \\
+\multicolumn{1}{l|}{Zeichen} & c                       & a                         & a                         & b                          & a                           & c                         & c                          & a                       & a                        & b  & a                       & c  & a                         & a                         & \$  \\ \cline{1-16}
+\multicolumn{1}{l|}{Kontext} & \multicolumn{1}{c|}{\$} & \multicolumn{2}{c|}{a}                                & \multicolumn{1}{c|}{aabac} & \multicolumn{1}{c|}{aabacc} & \multicolumn{1}{c|}{abac} & \multicolumn{1}{c|}{abacc} & \multicolumn{1}{c|}{ac} & \multicolumn{1}{c|}{acc} & \multicolumn{2}{c|}{b}       & \multicolumn{4}{c}{c}                                            \\
+\multicolumn{1}{l|}{Gruppe}      & \multicolumn{1}{c|}{15} & 13                        & \multicolumn{1}{c|}{14}   & \multicolumn{1}{c|}{8}     & \multicolumn{1}{c|}{2}      & \multicolumn{1}{c|}{9}    & \multicolumn{1}{c|}{3}     & \multicolumn{1}{c|}{11} & \multicolumn{1}{c|}{5}   & 4  & \multicolumn{1}{c|}{10} & 1  & 6                         & 7                         & 12  \\
+\multicolumn{1}{l|}{GSIZE}   & \multicolumn{1}{c|}{1}  & 2                         & \multicolumn{1}{c|}{0}    & \multicolumn{1}{c|}{1}     & \multicolumn{1}{c|}{1}      & \multicolumn{1}{c|}{1}    & \multicolumn{1}{c|}{1}     & \multicolumn{1}{c|}{1}  & \multicolumn{1}{c|}{1}   & 2  & \multicolumn{1}{c|}{0}  & 4  & 0                         & 0                         & 0   \\
+\multicolumn{1}{l|}{GLINK}   & 12                      & 5                         & 7                         & 10                         & 9                           & 12                        & 12                         & 4                       & 6                        & 10 & 8                       & 12 & 2                         & 2                         & 1   \\
+\multicolumn{1}{l|}{ISA}     & 12                      & 5                         & 7                         & 10                         & 9                           & 13                        & 14                         & 4                       & 6                        & 11 & 8                       & 15 & 2                         & 3                         & 1   \\
+\multicolumn{1}{l|}{PREV}    & 0                       & 0                         & 2                         & 3                          & 3                           & 5                         & 5                          & 0                       & 8                        & 9  & 9                       & 11 & \cellcolor[HTML]{\red}0 & \cellcolor[HTML]{\red}0 & nil
+\end{tabular}
+\end{adjustbox}
+
+\caption[Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 1, Iterationen 9]{Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 1, Iterationen 9. Die Betrachtung des vorletzten Kontextes f{\"u}llt weiter die Liste der \prevpointer.}
+\label{table_complex_example_1_9} 
+\end{table}
+
+% Phase 1 - Iteration 10
+\begin{table}[H]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lccccccccccccccc}
+\multicolumn{16}{l}{Phase 1 - Ergebnis Iteration 10}                                                                                                                                                                                                                                                                                                 \\ \hline
+\multicolumn{1}{l|}{Index}   & \cellcolor[HTML]{\green}1 & 2  & 3                       & 4                          & 5                           & 6                         & 7                          & 8                       & 9                        & 10 & 11                      & 12 & 13 & 14 & 15                        \\
+\multicolumn{1}{l|}{Zeichen} & c                         & a  & a                       & b                          & a                           & c                         & c                          & a                       & a                        & b  & a                       & c  & a  & a  & \$                        \\ \cline{1-16}
+\multicolumn{1}{l|}{Kontext} & \multicolumn{1}{c|}{\$}   & \multicolumn{2}{c|}{a}       & \multicolumn{1}{c|}{aabac} & \multicolumn{1}{c|}{aabacc} & \multicolumn{1}{c|}{abac} & \multicolumn{1}{c|}{abacc} & \multicolumn{1}{c|}{ac} & \multicolumn{1}{c|}{acc} & \multicolumn{2}{c|}{b}       & \multicolumn{4}{c}{c}                    \\
+\multicolumn{1}{l|}{Gruppe}      & \multicolumn{1}{c|}{15}   & 13 & \multicolumn{1}{c|}{14} & \multicolumn{1}{c|}{8}     & \multicolumn{1}{c|}{2}      & \multicolumn{1}{c|}{9}    & \multicolumn{1}{c|}{3}     & \multicolumn{1}{c|}{11} & \multicolumn{1}{c|}{5}   & 4  & \multicolumn{1}{c|}{10} & 1  & 6  & 7  & 12                        \\
+\multicolumn{1}{l|}{GSIZE}   & \multicolumn{1}{c|}{1}    & 2  & \multicolumn{1}{c|}{0}  & \multicolumn{1}{c|}{1}     & \multicolumn{1}{c|}{1}      & \multicolumn{1}{c|}{1}    & \multicolumn{1}{c|}{1}     & \multicolumn{1}{c|}{1}  & \multicolumn{1}{c|}{1}   &    & \multicolumn{1}{c|}{0}  & 4  & 0  & 0  & 0                         \\
+\multicolumn{1}{l|}{GLINK}   & 12                        & 5  & 7                       & 10                         & 9                           & 12                        & 12                         & 4                       & 6                        & 10 & 8                       & 12 & 2  & 2  & 1                         \\
+\multicolumn{1}{l|}{ISA}     & 12                        & 5  & 7                       & 10                         & 9                           & 13                        & 14                         & 4                       & 6                        & 11 & 8                       & 15 & 2  & 3  & 1                         \\
+\multicolumn{1}{l|}{PREV}    & 0                         & 0  & 2                       & 3                          & 3                           & 5                         & 5                          & 0                       & 8                        & 9  & 9                       & 11 & 0  & 0  & \cellcolor[HTML]{\red}0
+\end{tabular}
+\end{adjustbox}
+
+\caption[Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 1, Iterationen 10]{Konstruktion des Suffix Arrays f{\"u}r das Wort caabaccaabacaa: Phase 1, Iterationen 10. Schlie{\ss}lich sind alle Kontexte in lexikografisch absteigender Reihenfolge bearbeitet worden. Sowohl Gruppenkontexte als auch die \prevpointer-Liste wurden f{\"u}r die n{\"a}chste Phase vorbereitet.}
+\label{table_complex_example_1_10} 
+\end{table}

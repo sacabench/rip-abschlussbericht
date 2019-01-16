@@ -1,0 +1,98 @@
+\newpage
+\subsection{Suffix Array Konstruktion am Beispiel Banane}
+\label{gsaca:chapter3}
+%
+Nachdem im vorherigen Kapitel das Vorgehen beschrieben wurde, wird in diesem Kapitel das Suffix Array f{\"u}r das kurze Beispielwort Banane konstruiert.
+
+\subsection*{Phase 1:}
+In der ersten Phase werden die Gruppen und Gruppenkontexte f{\"u}r das Wort Banane erstellt. Dies geschieht in insgesamt vier Iterationen.\\
+
+Iteration 1:\\
+Schritt 1: 
+Das Wort Banane besteht aus vier verschiedenen Buchstaben (a, b, e, n), zusammen mit dem Terminationssymbol \$ sind somit am Beginn der ersten Iteration f{\"u}nf Gruppen vorhanden. 
+In der in Tabelle \ref{fig_banane_1_1} dargestellten Tabelle sind in der oberen H{\"a}lfte die initialen Gruppen und Gruppenkontexte dargestellt und in der unteren H{\"a}lfte das Wort zusammen mit den Indices der Buchstaben. 
+Der Algorithmus beginnt, indem der lexikographisch letzte Gruppenkontext betrachtet wird. 
+In diesem Fall ist das der Buchstabe n, welcher an den Indices 3 und 5 in dem Wort vorkommt. Die entsprechenden Zellen der Tabelle sind gr\ün hervorgehoben. \\
+Schritt 2: 
+Dann werden die Vorkommen der aktuell betrachteten Gruppe im Wort untersucht. 
+In dieser ersten Iteration ist es das Vorkommen von dem Zei\-chen n an den Positionen 3 und 5. \\
+Schritt 3: 
+Danach werden die direkten Vorg{\"a}nger im Wort untersucht. 
+In diesem Schritt ist das der Buchstabe a an den Positionen 2 und 4. Diese Indices sind zusammen mit den Buchstaben an den entsprechenden Positionen in der Tabelle rot hinterlegt. \\
+Schritt 4: 
+Im letzten Schritt dieser Iteration wird der Gruppenkontext der im vorherigen Schritt markierten Buchstaben betrachtet und um den Kontext der initial in dieser Iteration betrachteten Gruppe erweitert. 
+Da alle Vorkommen der Gruppe a Vorg{\"a}nger von der Gruppe n waren, findet diese Kontexterweiterung bei allen Elementen statt. 
+Somit wird aus der Gruppe a die Gruppe an. Das finale Ergebnis zeigt die \Änderungen vor gelben Hintergrund an.\\
+
+Iteration 2:\\
+Schritt 1: In der zweiten Iteration, deren Schritte in Tabelle \ref{gsaca:fig_banane_1_2} verdeutlicht werden, wird die n{\"a}chste Gruppe bez{\"u}glich der lexikographisch absteigenden Ordnung betrachtet. Dies ist die Gruppe mit Kontext e.\\
+Schritt 2: Der Buchstabe e kommt nur an Index 6 im Wort vor.\\
+Schritt 3: F{\"u}r diesen Index wird die Vorg{\"a}ngergruppe gesucht. Diese ist die Gruppe an, die im vorherigen Schritt gebildet wurde.\\
+Schritt 4: Anders als in der vorherigen Iteration werden in diesem Durchlauf nicht alle Vorkommen der Vorg{\"a}ngergruppe getroffen. Damit muss diese Gruppe in zwei neue Gruppen aufgeteilt werden. Der erste Teil der Gruppe bleibt an und der zweite Teil wird um den Kontext von e erweitert. Da die Gruppe mit dem erweiterten Kontext lexikographisch gr{\"o}{\ss}er ist, wird sie zum neuen Nachfolger der Teilgruppe ohne Kontexterweiterung.\\
+
+Iteration 3:\\
+Schritt 1: Als n{\"a}chstes wird die Gruppe b betrachtet. Die Zwischenergebnisse dieser Iteration sind in Tabelle \ref{fig_banane_1_3} zu sehen.\\
+Schritt 2: Diese Gruppe hat keinen Vorg{\"a}nger im betrachteten Wort. Daher endet diese Iteration ohne {\"A}nderungen an den Kontextgruppen.\\
+
+Iteration 4: \\
+Schritt 1: Es wird die n{\"a}chste Gruppe betrachtet. Dies ist die Gruppe mit Kontext ane.\\
+Schritt 2: Diese Gruppe umfasst die Indices 4 bis 6 im Wort Banane.\\
+Schritt 3: Der Vorg{\"a}nger dieser Gruppe ist die Gruppe an.\\
+Schritt 4: Wie in der ersten Iteration wird die gesamte Vorg{\"a}ngergruppe getroffen. Diese wird um den Kontext der Gruppe ane erweitert. Das Ergebnis dieser Iteration und der gesamten Phase 1 ist in Tabelle \ref{fig_banane_1_4} gezeigt. Am Ende dieser Phase hat man somit 6 Gruppenkontexte: \$, anane, ane, b, e und n. Zus{\"a}tzlich wurden f{\"u}r alle Buchstaben des Wortes die \prevpointer erzeugt und gespeichert. Die entstandenen Pointer-Ketten lassen sich in Abbildung \ref{fig_banane_prev_pointer} sehen. Auf diesem Ergebnis aufbauend wird in Phase 2 das finale Suffix Array berechnet werden.\\
+
+\subsection*{Phase 2:}
+In der zweiten Phase wird das Suffix Array mithilfe der zuvor erstellten Gruppen und Gruppenkontexte sowie der \prevpointer konstruiert. In diesem Beispiel werden hierf{\"u}r 5 Iterationen durchlaufen.\\
+
+Iteration 1:\\
+Schritt 1: Die Phase 2 arbeitet auf einer anderen Tabelle als Phase 1. Die untere H{\"a}lfte der Tabelle enth{\"a}lt, genau wie die in Phase 1, das betrachtete Wort Banane und die Indices der Buchstaben. Die obere H{\"a}lfte besteht aus den Gruppen und Gruppenkontexten, wie sie aus Phase 1 {\"u}bernommen wurden und aus der Liste SA. Diese enth{\"a}lt den Index des ersten Buchstaben des Suffixes.
+Wie zuvor beschrieben werden in dieser Phase die Werte von SA von links nach rechts durchlaufen, beginnend mit der ersten Gruppe, in diesem Beispiel also mit der Gruppe \$ an Index 7. Die Tabelle und die einzelnen Schritte dieser Iteration sind in Tabelle \ref{fig_banane_2_1} gezeigt. Die aktuell betrachtete Gruppe ist durch gr\ünen Hintergrund gekennzeichnet. \\
+Schritt 2: Es wird das Zeichen \$ an Position 7 im Wort Banane betrachtet. Auch die aktuell bearbeitete Position ist durch gr\üne Farbe hervorgehoben. \\
+Schritt 3: Um das n{\"a}chste Element von SA zu bestimmen wird der direkte Vorg{\"a}nger dieses Zeichens untersucht. Dabei bezieht sich diese Iteration also auf das Element 6, welches in der Zelle mit blauem Hintergrund zu sehen ist. \\
+Schritt 4: Von diesem Element ausgehend werden die \prevpointer aus Phase 1 durchlaufen bis das letzte Element dieser Liste gefunden ist. Das Vorg{\"a}ngerelement von dem Zeichen e an Index 6, also das Zeichen, auf das der \prevpointer von e zeigt, ist das Zeichen a an Index 4. Dieses wiederum hat einen \prevpointer auf das Zeichen a an Index 2. Die betrachteten Indices, die in der Tabelle rot hinterlegt sind, werden in die Liste SA {\"u}bertragen. Somit enth\ält diese am Ende der ersten Iteration drei weitere Indices, welche durch gelben Hintergrund hervorgehoben sind. \\
+
+Iteration 2:\\
+Schritt 1: In diesem Durchlauf wird das zweite Element in SA betrachtet, dies ist Index 2.\\
+Schritt 2: Es wird dieser Index im Wort betrachtet.\\
+Schritt 3: Der Vorg{\"a}nger des Buchstaben a an Index 2 ist das Zeichen b an Index 1. Da b kein vorheriges Element hat, der \prevpointer also auf kein Element zeigt, endet diese Iteration hier. Der Index von Zeichen b wird in SA eingetragen. Das Ergebnis l{\"a}sst sich in Tabelle \ref{fig_banane_2_2} sehen.\\
+
+Iteration 3: \\
+Schritt 1: Als n{\"a}chstes wird das dritte Element von SA untersucht. Aus der Tabelle \ref{fig_banane_2_3} l{\"a}sst sich erkennen, dass dies das Element an Index 4 ist.\\
+Schritt 2: Das Zeichen an dem betrachteten Index ist a.\\
+Schritt 3: Der Vorg{\"a}nger von a an Index 4 ist n an Index 3.\\
+Schritt 4: Der \prevpointer von n an Index 3 zeigt auf das a an Index 2. Der Index 2 ist bereits in SA enthalten, Index 3 aber noch nicht, daher wird dieser in die Liste aufgenommen.\\
+
+Iteration 4: \\
+Wie sich in der Tabellen \ref{fig_banane_2_4} sehen l{\"a}sst, wird das Zeichen an Index 1 betrachtet. Dies ist das Zeichen b, welches kein Element hat, auf das sein \prevpointer zeigt. Somit endet diese Iteration ohne {\"A}nderung der Tabelle.\\
+
+Iteration 5: \\
+Schritt 1: In dieser Iteration wird das Element an Index 6 untersucht.\\
+Schritt 2: Das Zeichen an Index 6 im Wort ist e.\\
+Schritt 3: Es wird der Vorg{\"a}nger von diesem Zeichen betrachtet. Die Tabelle zu dieser Iteration, Tabelle \ref{fig_banane_2_5}, zeigt, dass dies das Zeichen n an Index 5 ist.\\
+Schritt 4: Dieses Zeichen hat einen Zeiger auf das Vorg{\"a}ngerelement a an Index 4. Wie in einer vorherigen Iteration hat dieses a einen Zeiger auf das Zeichen a an Index 2. Da die Zeichen an Index 4 und 2 bereits in der Liste SA enthalten sind, wird in diesem Schritt nur der Index 5 zu dieser Liste hinzugef{\"u}gt. Somit ist die Liste vollst{\"a}ndig gef{\"u}llt.\\
+
+In diesem einfachen und kurzen Beispiel ist das Ergebnis von Phase 2 nicht besonders interessant, die Liste SA entspricht der Liste der Gruppen. Dies ist jedoch nicht immer der Fall, vor allem in l{\"a}ngeren und komplexeren Beispielen unterscheiden sich diese teilweise. Diese Unterschiede werden bei der Berechnung des Suffix Arrays f\ür das Wort \textit{caabaccaabacaa} in Kapitel \ref{gsaca:chapter6} deutlich. Je mehr Gruppen mit mehr als einem Index existieren, umso h{\"a}ufiger kann die Reihenfolge der Indices innerhalb dieser Gruppe gewechselt werden. Im Beispiel zum Wort Banane gab es jedoch nur eine Gruppe mit mehr als einem Index. In dieser Gruppe mit dem Buchstaben n fand keine Ver{\"a}nderung durch diese Schritte statt.\\
+
+%%%%%%%%%%% Phase 1 %%%%%%%%%%%%%%%
+\input{kapitel/saca_algorithmen/gsaca/tables/phase1-iteration1}
+\input{kapitel/saca_algorithmen/gsaca/tables/phase1-iteration2}
+\input{kapitel/saca_algorithmen/gsaca/tables/phase1-iteration3}
+\input{kapitel/saca_algorithmen/gsaca/tables/phase1-iteration4}
+
+\begin{figure}
+	\begin{minipage}[H]{10cm}
+		\centering
+		\includegraphics[width=10cm]{kapitel/saca_algorithmen/gsaca/images/Banane-prev-pointer}
+	\end{minipage}
+	\caption[Konstruktion des Suffix Arrays f{\"u}r das Wort Banane: \prevpointer]{Konstruktion des Suffix Arrays f{\"u}r das Wort Banane: \prevpointer. Die Zahlen geben die Nummer der Iteration an, in welcher der \prevpointer berechnet wurde.}
+\label{fig_banane_prev_pointer}
+\end{figure}
+
+%%%%%%%%%%% Phase 2 %%%%%%%%%%%%%%%
+\input{kapitel/saca_algorithmen/gsaca/tables/phase2-iteration1}
+\input{kapitel/saca_algorithmen/gsaca/tables/phase2-iteration2}
+\input{kapitel/saca_algorithmen/gsaca/tables/phase2-iteration3}
+\input{kapitel/saca_algorithmen/gsaca/tables/phase2-iteration4}
+\input{kapitel/saca_algorithmen/gsaca/tables/phase2-iteration5}
+
+%%%%%%%%%%% Ergebnis %%%%%%%%%%%%%%%
+%\input{kapitel/saca_algorithmen/gsaca/tables/results}
