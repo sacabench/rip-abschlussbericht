@@ -16,10 +16,46 @@ even though it has a theoretical complexity of $\mathcal O (n \log n)$,
 while there are a few $\mathcal O(n)$ algorithms available.
 In the last year we (re-)implemented eleven SACAs~\cite{saca:3,saca:11,saca:5,saca:9,saca:1,saca:8,saca:4,saca:7,saca:10,saca:6,saca:2} in modern C++ in order to beat divsufsort from its throne,
 and although our attempts were not successful,
-we created a sophisticated and fully-fledged benchmark system for SACA algorithms, \emph{SACABench}, in the process.
+we created a sophisticated benchmark system for SACA algorithms, \emph{SACABench}, in the process.
 
 In this paper we introduce SACABench and highlight its features,
-as well as document some of the optimiziation strategies we used to implement the SACA algorithms.
+as well as document some of the optimiziation strategies we used to implement the SACA algorithms. \blindtext
+
+\section{Benchmark Tool}
+
+SACABench is a CMake/C++14 project which contains many different SACA algorithms.
+There are both sequential algorithms and parallel algorithms included and we also include the reference implementations for all of the algorithms, if there is one.
+You are able to run a single, a subset of, or all of the algorithms, depending on your needs.
+Time and memory consumption is automatically measured and can be output as JSON.
+We also include tools to convert the JSON-format to graphs for a visual comparison of the algorithms.
+Most of the graphs in this paper have been generated using SACABench directly\todo{Is that so?}.
+
+\section{SACA Overview}
+
+There are many SACAs that operate using different principles.
+The most na\"ive SACA uses a general purpose string-sorter to sort the suffices of the input text.
+Since a string comparison is $\mathcal O (n)$ in the worst-case, this would give $\mathcal O (n^2 \log n)$ runtime.
+Even though this is a sub-optimal time bound,
+there are several algorithms\footnote{These are Deep-Shallow, ...} in SACABench which don't improve on this,
+but rather use methods to speed up the real-world performance.
+These methods can be classified into the categories \emph{inducing} and \emph{doubling}:
+%
+\paragraph{Inducing} When you know the \emph{rank} of the suffix $i$, that is the position of $i$ in the SA, you also know the rank of the suffix $i-1$, if it is a L-Type.\todo{fixme. introduce L-types beforehand and fix this explaination}
+\paragraph{Doubling} Imagine radix-sort, but with double the block size everytime. \todo{fix}
+
+\bigskip
+
+\blindtext
+
+\section{Optimization Strategies}
+
+\blindtext
+
+\section{Conclusion}
+
+\blindtext
+
+\blindtext
 
 % ###
 % End of extended abstract, switch language to german again
