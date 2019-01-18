@@ -5,16 +5,16 @@
 \selectlanguage{english}
 % ###
 
-This \currentauthor{Marvin Böcker} is just a placeholder text until I know what to write here.
-
 \section{Introduction}
 
-The suffix array is a widely known text index, which can be used for various string operations, like full-text search~\cite{makinen} and construction of the Burrows-Wheeler Transform (BWT)~\cite{BWT}.
+The \currentauthor{Marvin Böcker} \emph{suffix array} (\emph{SA}) is a widely known text index,
+which can be used for various string operations,
+like full-text search~\cite{makinen} and construction of the Burrows-Wheeler Transform (BWT)~\cite{BWT}.
 While the efficient construction is still an active research area,
 divsufsort~\cite{saca:5,saca:5:repo} is the empirically fastest suffix array construction algorithm (SACA) since 2008\todo{wann?},
 even though it has a theoretical complexity of $\mathcal O (n \log n)$,
-while there are a few $\mathcal O(n)$ algorithms available.
-In the last year we (re-)implemented eleven SACAs~\cite{saca:3,saca:11,saca:5,saca:9,saca:1,saca:8,saca:4,saca:7,saca:10,saca:6,saca:2} in modern C++ in order to beat divsufsort from its throne,
+while there are some $\mathcal O(n)$ algorithms available.
+For the last year we (re-)implemented eleven SACAs~\cite{saca:3,saca:11,saca:5,saca:9,saca:1,saca:8,saca:4,saca:7,saca:10,saca:6,saca:2} in modern C++ in order to beat divsufsort from its throne,
 and although our attempts were not successful,
 we created a sophisticated benchmark system for SACA algorithms, \emph{SACABench}, in the process.
 
@@ -48,10 +48,37 @@ These methods can be classified into the categories \emph{inducing} and \emph{do
 \blindtext
 
 \section{Optimization Strategies}
+\subsection{Different bit lengths for the suffix array}
 
-\blindtext
+We implemented our SACAs with an exchangable suffix array index type, that is a different bit length for the indices in the suffix array.
+With our current implementation it is possible to use 32, 40, 48 and 64 bit for the suffix array elements.
+Since our tool supports a different output encoding (32 or 64 bit), we can save memory during construction regardless of the desired output length.
+Keep in mind that since the 40- and 48-bit types are not standardized, their performance is inferior to those of 32- and 64- bit types.
+We measured an approximate 2.5x slowdown compared to the built-in number types.\todo{Nochmal richtig messen?}
+
+\subsection{Cache-efficiency}
+
+The most crucial part of optimizing a SACA is cache-efficiency, that is aiming for time-local and space-local memory access.
+Since the SA is a pseudo-random mutation of numbers, the SA can't be written cache-efficiently.
+
+\subsection{Wordpacking}
+
+To maximize throughput, multiple characters of the input (8 bit each) can be processed as a whole by interpreting them as integer numbers (64 bit, or even up to 512 bit).
+This is done in multiple algorihms\todo{welche?} to improve performance.
+
+\subsection{Binary vs. ternary comparison-based sort}
+
+Since different applications require different algorithms, we implemented multiple versions of quicksort:
+Two of them are introsort~\cite{Musser97} and ternary quicksort~\cite{ternary_quicksort}.
+It has been shown, that the binary sorting procedure is faster, if there are no equal elements in the set to be sorted.\todo{Graph oder Messung?}
+The ternary version is faster when there are~\cite{ternary_quicksort}.
+We therefore chose the best option for the required use-case.
 
 \section{Conclusion}
+
+We introduced SACABench, an extensible framework for comparing suffix array construction algorithms,
+which already contains many implemented SACAs.
+
 
 \blindtext
 
