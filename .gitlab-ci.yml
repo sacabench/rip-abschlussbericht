@@ -1,0 +1,9 @@
+create_pdf:
+    script:
+        - make
+        - echo "Output placed in:"
+        - pwd
+    artifacts:
+        paths:
+        - main.pdf
+        expire_in: 4 month
