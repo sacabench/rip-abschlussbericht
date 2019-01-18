@@ -1,8 +1,27 @@
-\chapter*{Extended Abstract}
+\chapter{Extended Abstract}
 
-In \currentauthor{Marvin Böcker} this work we give some insight into the inner workings of some either widely used or modern suffix array construction algorithms, short SACAs.
-
+% ###
+% Beginning of the extended abstract. We will use english in this chapter.
 \selectlanguage{english}
-\Blindtext
+% ###
 
+This \currentauthor{Marvin Böcker} is just a placeholder text until I know what to write here.
+
+\section{Introduction}
+
+The suffix array is a widely known text index, which can be used for various string operations, like full-text search~\cite{makinen} and construction of the Burrows-Wheeler Transform (BWT)~\cite{BWT}.
+While the efficient construction is still an active research area,
+divsufsort~\cite{saca:5,saca:5:repo} is the empirically fastest suffix array construction algorithm (SACA) since 2008\todo{wann?},
+even though it has a theoretical complexity of $\mathcal O (n \log n)$,
+while there are a few $\mathcal O(n)$ algorithms available.
+In the last year we (re-)implemented eleven SACAs~\cite{saca:3,saca:11,saca:5,saca:9,saca:1,saca:8,saca:4,saca:7,saca:10,saca:6,saca:2} in modern C++ in order to beat divsufsort from its throne,
+and although our attempts were not successful,
+we created a sophisticated and fully-fledged benchmark system for SACA algorithms, \emph{SACABench}, in the process.
+
+In this paper we introduce SACABench and highlight its features,
+as well as document some of the optimiziation strategies we used to implement the SACA algorithms.
+
+% ###
+% End of extended abstract, switch language to german again
 \selectlanguage{ngerman}
+% ###
