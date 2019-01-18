@@ -6,4 +6,4 @@ create_pdf:
     artifacts:
         paths:
         - main.pdf
-        expire_in: 1 week
+        expire_in: 1 month
