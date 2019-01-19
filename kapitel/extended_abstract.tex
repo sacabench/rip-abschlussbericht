@@ -5,6 +5,18 @@
 \selectlanguage{english}
 % ###
 
+{
+\newtheorem*{abstract}{Abstract}
+
+\begin{abstract}
+    Efficient construction of the \emph{suffix array} (SA) is a still ongoing research area.
+    We introduce SACABench, a benchmark system for comparing the runtime and memory consumption of \emph{suffix array construction algorithms} (SACAs).
+    Along with this framework we include the reference implementations for many SACAs, parallel and sequential, as well as our own implementations.
+    Although these are slower than the reference in most cases, they can give an interesting insight into the algorithms, while also being written in modern C++.
+    In our evaluation we compare the performance of these algorithms in single-threaded and multi-threaded environments.
+\end{abstract}
+}
+
 \section{Introduction}
 
 The \currentauthor{Marvin Böcker} \emph{suffix array} (\emph{SA}) is a widely known text index,
