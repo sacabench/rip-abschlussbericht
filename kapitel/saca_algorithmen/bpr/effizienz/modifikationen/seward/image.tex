@@ -1,10 +1,22 @@
-\documentclass{standalone}
+\documentclass[varwidth]{standalone}
 
 \usepackage[table]{xcolor}
+\usepackage{graphicx}
 
 \newcommand{\mc}[2]{\multicolumn{#1}{c}{#2}}
 \input{commands}
 
+
 \begin{document}
-	\input{table}
+    \newcommand{\red}{\cellcolor{red!25}}
+    \renewcommand{\mc}[2]{\multicolumn{#1}{c|}{#2}}
+    \newcommand{\mcl}[2]{\multicolumn{#1}{c"}{#2}}
+    \newcolumntype{"}{@{\hskip\tabcolsep\color{white}\vrule width 0pt\hskip\tabcolsep}}
+    \resizebox{\textwidth}{!}{
+        \input{table1}~\ldots~
+    }
+    \par\vspace{3mm}\par
+    \resizebox{\textwidth}{!}{
+        ~\ldots~\input{table2}
+    }
 \end{document}

@@ -1,10 +1,17 @@
-\documentclass{standalone}
+\documentclass[varwidth]{standalone}
 
 \usepackage[table]{xcolor}
+\usepackage{graphicx}
 
 \newcommand{\mc}[2]{\multicolumn{#1}{c}{#2}}
 \input{commands}
 
 \begin{document}
-	\input{table}
+    \resizebox{\textwidth}{!}{
+        \input{table1}~\ldots~
+    }
+    \par\vspace{1mm}\par
+    \resizebox{\textwidth}{!}{
+        ~\ldots~\input{table2}
+    }
 \end{document}
