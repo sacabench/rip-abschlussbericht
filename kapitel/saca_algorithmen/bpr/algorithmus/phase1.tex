@@ -1,7 +1,7 @@
 \subsubsection{Erste Phase}
 \label{bpr:algorithmus:phase1}
 
-Die erste Phase führt eine Gruppierung der Suffixe nach gemeinsamen Präfixen der Länge \(d\) durch. Die Wahl eines geeigneten Parameters \(d\) wird nicht vom Algorithmus übernommen, es wird allerdings empfohlen, \(d < \log n\) zu wählen \cite{schuermann2005}.\par
+Die erste Phase führt eine Gruppierung der Suffixe nach gemeinsamen Präfixen der Länge \(d\) durch. Die Wahl eines geeigneten Parameters \(d\) wird nicht vom Algorithmus übernommen, es wird allerdings empfohlen, \(d < \log n\) zu wählen \cite{saca:2}.\par
 Um nun alle Suffixe von \inputtext in Level-\(d\)-Buckets zu gruppieren, wird zunächst eine Tabelle \bkt der Länge \((|\Sigma| + 1)^d\) mit Einträgen für alle möglichen Präfixe der Länge \(d\) erstellt, wobei jeder Präfix eindeutig durch den zugehörigen Funktionswert von \coded identifiziert werden kann. In einem sequentiellen Durchlauf des Textes \inputtextplus können dann mithilfe der Eigenschaft aus Gleichung \ref{eq:coded} die Kodierungen der vorkommenden Präfixe effizient berechnet werden. In diesem Durchlauf kann für jeden Präfix \(p\) die zugehörige Anzahl der Vorkommen in \inputtextplus (und damit die spätere Größe des Buckets \(b_p\)) bestimmt werden.\par
 Da die Sortierung der Buckets durch den Schlüssel \coded gegeben ist, können im Anschluss anhand der nun bekannten Bucketgrößen auch die Positionen aller Buckets im Suffixarray festgelegt werden.
 \begin{figure}[ht]

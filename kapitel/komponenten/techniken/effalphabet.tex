@@ -3,7 +3,7 @@
 Sowohl \currentauthor{Hermann Foot} die Laufzeit als auch der Speicherverbrauch einiger der im Framework enthaltenen Algorithmen sind abhängig von der Alphabetgröße des gegebenen Strings. Da das Alphabet allerdings oft mehr Zeichen umfasst als tatsächlich im String vorkommen, kann es sinnvoll sein das vorliegende Alphabet auf die ausschließlich genutzten Zeichen zu reduzieren. Ein solches Alphabet nennen wir effektives Alphabet.\par
 \begin{definition}[Effektives Alphabet]
 	\label{def:effective_alphabet}
-	Sei \(\effective : \Sigma \cup \{\$\} \rightarrow \{0, \ldots, |\Sigma|\}\) eine bijektive Funktion\footnote{\label{differs_from_paper}An dieser Stelle weicht die formale Definition bewusst von der in der zugehörigen Publikation \cite{schuermann2005} ab, um Definitionslücken für erweiterte Strings zu vermeiden.}, sodass
+	Sei \(\effective : \Sigma \cup \{\$\} \rightarrow \{0, \ldots, |\Sigma|\}\) eine bijektive Funktion\footnote{\label{differs_from_paper}An dieser Stelle weicht die formale Definition bewusst von der in der zugehörigen Publikation \cite{saca:2} ab, um Definitionslücken für erweiterte Strings zu vermeiden.}, sodass
 	\begin{enumerate}
 		\item \(\effective(\$) = 0\) \quad und damit \(\forall c \in \Sigma : \effective(\$) < \effective(c)\) und
 		\item \(\forall c_1, c_2 \in \Sigma : c_1 < c_2 \Rightarrow \effective(c_1) < \effective(c_2)\).
