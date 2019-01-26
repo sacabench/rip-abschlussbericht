@@ -665,11 +665,12 @@ def deep_shallow_sort_parallel(T: Text):
     Mark A as sorted.
 \end{minted}
 \caption{parallele Variante des Algorithmus}
-\label{ds:alg:main}
+\label{ds:alg:parallel}
 \end{listing}
 
-# Dieses noindent ist nur erlaubt, weil Aufgrund der Grafik der Absatz nicht richtig begonnen wird.
+% Dieses noindent ist nur erlaubt, weil aufgrund der Grafik der Absatz nicht richtig begonnen wird.
 \noindent Durch das Weglassen des copy-Verfahrens ist es möglich, den Algorithmus sehr simpel zu parallelisieren.
+In \cref{ds:alg:parallel} findet sich der Pseudocode dieser Variante.
 Dabei werden die $\alpha\beta$-Buckets alle zeitgleich sortiert und
 der Induzierschritt über alle $\sigma\alpha$ Buckets, für alle $\sigma$ für die $B_{\sigma\alpha}$ unsortiert ist, weggelassen.
 Eine Synchronisation der Threads ist dann nur für die Verwendung der \texttt{ANCHOR}-Datenstruktur nötig.
