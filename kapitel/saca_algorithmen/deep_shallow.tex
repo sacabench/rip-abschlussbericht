@@ -8,23 +8,28 @@
 
 Der \currentauthor{Marvin Böcker} Deep-Shallow SACA von Manzini und Ferragina aus ihrem Paper von 2004~\cite{saca:4} begann die Limitierung des Speicherverbrauches von SACAs.
 Da das Suffixarray besonders bei großen Texten interessant ist, ist der Speicherbedarf möglichst stark zu begrenzen.
-Das bedeutet, dass zusätzlich zu den $n$ Byte, welche durch den Eingabetext belegt werden und den $4n$ Byte, welche das fertige Suffixarray speichern (unter den Annahmen, dass in der Eingabe nur maximal 256 verschiedene Zeichen vorkommen und der Text die Länge von $2^{32}$ nicht übersteigt) nur wenig Hilfs-Speicherplatz belegt wird.
+Das bedeutet, dass zusätzlich zu den $n$ Byte, welche durch den Eingabetext belegt werden und den $4n$ Byte, welche das fertige Suffixarray speichern
+\footnote{Unter den Annahmen, dass in der Eingabe nur maximal 256 verschiedene Zeichen vorkommen und der Text die Länge von $2^{32}$ nicht übersteigt.}
+nur wenig Hilfs-Speicherplatz belegt wird.
 Insgesamt hat der Speicherbedarf der Suffixarray-Konstruktion also eine untere Schranke von $5n$ Byte.
 \qsufsort (einer der Algorithmen, mit denen im Paper von Manzini und Ferragina vergleichen wird) benutzt beispielsweise $8n$ Byte an Speicher~\cite{saca:4}.
-Allerdings gibt es seit der Veröffentlichung des Papers auch viele Algorithmen mit konstantem oder keinem zusätzlichen Speicherverbrauch, wie beispielsweise SACA-K~\cite{Nong}.
+Allerdings gibt es seit der Veröffentlichung des Papers auch viele Algorithmen mit konstantem oder keinem zusätzlichen Speicherverbrauch, wie beispielsweise SACA-K~\cite{saca:7}.
 
 Im hier vorliegenden Algorithmus kann durch einen Parameter bestimmt werden, wie viel zusätzlicher Speicherplatz gegen ersparte Laufzeit eingetauscht wird.
-Der im Paper verwendete Parameterwert kommt auf einen gesamten Speicherplatzverbrauch von $5.03n$, also bei einem Eingabetext von $100$ MiB auf $400$ MiB Suffix-Array und lediglich 3 MiB Hilfsspeicher.
+Der im Paper verwendete Parameterwert kommt auf einen gesamten Speicherplatzverbrauch von $5.03n$ Byte\footnote{Bei Verwendung von 32-Bit Wörtern für das Suffix-Array.}:
+je $100$ MiB Eingabetext erzeugt er $400$ MiB Suffix-Array und verwendet lediglich 3 MiB Hilfsspeicher.
 
-Ein Nachteil des hier vorgestellten Algorithmus besteht in seiner schlechten Worst-Case-Laufzeit:
+Ein Nachteil des hier vorgestellten Algorithmus besteht in seiner schlechten Worst-Case-Komplexität:
 Er braucht theoretisch maximal $\mathcal O(n^2 \log n)$ Rechenschritte, um das Suffixarray zu konstruieren.
 Allerdings konnten Manzini und Ferragina zeigen, dass das Verfahren in der Praxis dennoch gute Ergebnisse liefert~\cite{saca:4}.
 
 \subsection{Überblick}
 
 Der Deep-Shallow SA Sortieralgorithmus besteht aus drei Teilen: Bucket Sort, Shallow Sort und Deep Sort.
+Außerdem findet nach jedem Shallow Sort ein Induzierschritt statt.
+Diese Teile werden nun erläutert und zuletzt mit einem Beispiel erklärt.
 
-Bucket Sort wird einmalig zu Beginn verwendet, dann wird jeder Bucket mit Shallow Sort sortiert, und sobald die zu sortierenden Suffixe eine vorher festgelegte Größe an LCP haben, wird Deep Sort verwendet.
+Bucket Sort (siehe \cref{section:bucketsort}) wird einmalig zu Beginn verwendet, dann wird jeder Bucket mit Shallow Sort sortiert, und sobald die zu sortierenden Suffixe eine vorher festgelegte Größe an LCP haben, wird Deep Sort verwendet.
 
 \begin{listing}
 \begin{minted}[mathescape=true, escapeinside=||]{python}
@@ -35,44 +40,50 @@ def deep_shallow_sort(T: Text):
   # Sort T into the buckets by comparing only the first two
   # characters of every string. Represent the suffixes by their
   # starting indices in T.
-  B := counting_sort(T)
+  bucket_sort(T)
 
   while (not all buckets are sorted) do:
-    A := find the smallest unsorted bucket.
-    shallow_sort(A, 0)
+    find the smallest unsorted bucket |$B_{\alpha}$|.
+    shallow_sort(|$B_{\alpha}$|, 0)
     Mark A as sorted.
+
+    # Use the copy technique to induce the order
+    # of $B_{\sigma\alpha}$ for every $\sigma \in \Sigma$.
+    for |$\sigma \in \Sigma$| do:
+      copy_technique(|$\sigma$|, |$\alpha$|)
 \end{minted}
 \caption{Einstiegspunkt des Algorithmus}
 \label{ds:alg:main}
 \end{listing}
 
-\subsubsection{Teil 1: Bucket Sorting}
+\subsubsection{Teil 1: Bucket Sort}
 
 Die erste Stufe des Algorithmus erstellt $|\Sigma|^2$ Buckets.
 Diese enthalten jeweils alle Suffixe, die mit den gleichen zwei Buchstaben anfangen.
 Es gibt also für jede Buchstabenkombination $\alpha\beta$ einen Bucket $B_{\alpha\beta}$.
 Allerdings muss nicht jeder Bucket Elemente enthalten.
-Um die Suffixe in die Buckets zu verteilen, wird \textit{Counting Sort} verwendet.
-Dazu werden alle Suffixe zuerst durchlaufen und gezählt, wieviele Elemente in jeden Bucket sortiert werden würden.
-In einem zweiten Durchlauf werden dann die Buckets entsprechend befüllt.
-Außerdem wird jeder Bucket als unsortiert markiert, wenn er mehr als ein Element enthält.
+Es wird jeder Bucket als unsortiert markiert, wenn er mehr als ein Element enthält.
+Es gibt weiterhin Superbuckets $B_\alpha$, welche alle Subbuckets $B_{\alpha\sigma}$ für alle $\sigma \in \Sigma$ enthalten.
+
 Die Buckets liegen sequentiell im Speicher des Suffixarrays, von links nach rechts sortiert.
 Daher erhält jeder Bucket einen festen Speicherbereich, in dem seine Elemente sortiert werden müssen.
 Kein Suffix muss nach diesem Schritt seinen Bucket wechseln.
-
 In Algorithmus \ref{ds:alg:main} wird anhand eines Pseudocode der Einstiegspunkt des Algorithmus erklärt.
-Um den Code einheitlich zu gestalten, sind die Kommentare auf Englisch gehalten.
 
 \subsubsection{Teil 2: Shallow Sort}
 
-Der Hauptteil des Algorithmus wählt immer den kleinsten, nicht-sortierten Bucket aus und sortiert ihn mittels Shallow Sorting.
-Dabei wird Multikey-Quicksort verwendet, welches gut auf Strings funktioniert, welche keine langen gemeinsamen Prefixe haben~\cite{saca:4}.
-Zur Erklärung siehe \cref{section:mkqs}.
-Der normale MKQS-Algorithmus wird so abgewandelt, dass bei einer Vergleichstiefe größer einem Threshold automatisch abgebrochen wird und die verbleibenden Partitionen mit Deep Sort sortiert werden.
+Der Hauptteil des Algorithmus wählt immer den kleinsten,
+nicht-sortierten Bucket aus und sortiert ihn mittels Shallow Sorting.
+Dabei wird Multikey-Quicksort (siehe \cref{section:mkqs}) verwendet,
+welches gut auf Strings funktioniert, welche keine langen gemeinsamen Prefixe haben~\cite{saca:4}.
+Der normale MKQS-Algorithmus wird so abgewandelt,
+dass bei einer Vergleichstiefe größer einem Threshold automatisch abgebrochen wird
+und die verbleibenden Partitionen jeweils mit Deep Sort sortiert werden.
 
 \subsubsection{Teil 3: Deep Sort}
 
-Wird die Rekursion im Shallow Sorting zu tief, bedeutet das, dass im zu sortierenden Bucket viele Strings mit einem gemeinsamen Prefix liegen.
+Wird die Rekursion im Shallow Sorting zu tief, bedeutet das,
+dass im zu sortierenden Bucket viele Strings mit einem gemeinsamen Prefix liegen.
 Daher wird ein Verfahren verwendet, welches diese Strings schnell sortieren kann.
 Genauer gesagt werden drei Verfahren verwendet, je nachdem welches anwendbar ist.
 Diese werden insgesamt Deep-Sorting genannt.
@@ -119,12 +130,14 @@ Diese werden insgesamt Deep-Sorting genannt.
 \label{fg:blindtrie}
 \end{figure}
 
-Das so genannte \textit{Blind Sorting} verwendet einen Blind Trie (siehe Abbildung \ref{fg:blindtrie}), in welchen die Suffixe eingefügt werden.
+Das so genannte \textit{Blind Sorting} verwendet einen Blind Trie (siehe Abbildung \ref{fg:blindtrie}),
+in welchen die Suffixe eingefügt werden.
 Danach ist es einfach, den Trie in lexikografisch korrekter Reihenfolge zu durchlaufen.
-Da der Trie allerdings einen relativ großen Speicherbereich belegt (36 Byte je String~\cite{saca:4}),  wird er nur bis zu $M$ zu sortierende Strings verwendet.
+Da der Trie allerdings einen relativ großen Speicherbereich belegt (36 Byte je String~\cite{saca:4}),
+wird er nur für bis zu $M$ zu sortierende Strings verwendet.
 
 Wenn es mehr als $M$ Strings gibt, die es zu sortieren gilt, wird erneut \textit{Quicksort}~\cite{ternary_quicksort} verwendet, allerdings werden diesmal ganze Suffixe verglichen.
-Die Rekursion beachtet außerdem $M$ und verwendet Blind Sorting, wenn die zu sortierende Menge klein genug ist.
+Die Rekursion verwendet Blind Sorting, wenn die zu sortierende Menge klein genug ist.
 
 \begin{figure}
 \centering
@@ -170,15 +183,19 @@ Siehe zur Erläuterung Abbildung \ref{fg:induced}.
 
 Dieses Sortierverfahren ist auch ohne zusätzlichen Speicherplatz möglich.
 Allerdings ist es dann schwierig, die Positionen der unsortieren Strings im sortierten Bucket zu finden.
-Daher wird der Text in (etwa) gleich große Segmente zerlegt und eine zusätzliche Datenstruktur gespeichert, die zu jedem Segment des Textes für das linkeste bereits sortierte Suffix speichert, in welchem Bucket es liegt, und wo es in diesem Bucket liegt.
+Daher wird der Text in (etwa) gleich große Segmente zerlegt und eine zusätzliche Datenstruktur gespeichert,
+die zu jedem Segment des Textes für das linkeste bereits sortierte Suffix speichert,
+in welchem Bucket es liegt, und wo es in diesem Bucket liegt.
 Dadurch kann effizient überprüft werden, ob Induced Sorting verwendet werden kann.
 
-Die Anzahl der Segmente für Induced Sorting kann durch einen Parameter $d$ eingestellt werden, da sie einen direkten Einfluss auf den Speicherplatzverbrauch des Algorithmus haben.
+Die Anzahl der Segmente für Induced Sorting kann durch einen Parameter $d$ eingestellt werden,
+da sie einen direkten Einfluss auf den Speicherplatzverbrauch des Algorithmus haben.
 Im Paper verwendet wurde $d = 500$, welches zum oben genannten Speicherplatzverbrauch von $5.03n$ Byte führt.
 Je nach Benchmark führen kleinere $d$ Werte (= mehr Speicherverbrauch) zu Verbesserungen der Laufzeit.
 Es liegt am Benutzer, die richtige Balance zwischen Laufzeit und Speicherverbrauch zu finden.
 
-Falls Induced Sorting nicht möglich ist, da kein passender Bucket gefunden wurde, können die anderen beiden Sortierverfahren weiterhin benutzt werden.
+Falls Induced Sorting nicht möglich ist, da kein passender Bucket gefunden wurde,
+können die anderen beiden Sortierverfahren weiterhin benutzt werden.
 
 \subsection{Pseudocode}
 Nachdem die verwendeten Verfahren grob und anschaulich erklärt wurden, wird nun am folgenden Pseudocode der Algorithmus im Detail erläutert.
@@ -277,26 +294,8 @@ Da die ausgehenden Kanten jedes Knoten alphabetisch sortiert sind, sind auch die
 Mit einem Durchlauf des Baumes kann man an den Blättern die korrekte Sortierung ablesen.
 
 Die Verwendung von Blind Sort ist auf ein konstantes $M$ beschränkt, da der Baum $36 M$ Byte an Speicher verbraucht.
-Manzini und Ferragina wählen $M$ so, dass $M = n / 2000$.
+Manzini und Ferragina wählen $M = n / 2000$.
 Dadurch beschränkt sich der Speicher durch den Trie auf $9n/500$ Byte~\cite{saca:4}.
-
-\begin{listing}[!t]
-\begin{minted}{python}
-def bentley_mcilroy_tq(A: Array<SuffixStartPos>):
-  if |A| > 1:
-    p := choose a pivot element
-
-    # Rearrange A so, that every string in T[A[0, left)] is
-    # smaller than p, every string in T[A[left, right)] is equal
-    # to p and every string in T[A[right, |A|)] is greater than p.
-    # This line compares entire suffixes.
-    left, right := partition(A, p)
-
-    deep_sort(A[0, left))
-    deep_sort(A[right, |A|))
-\end{minted}
-\caption{Bentley-McIlroy ternäres Quicksort~\cite{ternary_quicksort} unter Verwendung von Deep Sorting als rekursiver Aufruf}
-\end{listing}
 
 \subsubsection{Ternäres Quicksort}
 Für größere Buckets wird ternäres Quicksort verwendet.
@@ -312,14 +311,19 @@ In diesem Abschnitt wird das Verfahren um einen Algorithmus ergänzt, welcher ei
 
 Induced Sorting benutzt die bereits sortierten Buckets, um zu sortieren.
 In Abbildung \ref{fg:induced} findet sich eine Visualisierung.
-Die Vorraussetzung dafür ist, dass die Strings in A einen gemeinsamen Prefix haben, und dass es einen dazu passenden Bucket gibt.
-Zuerst wird das eigentliche Prinzip erklärt und danach eine Verbesserung eingeführt, die die Performance auf Kosten von zusätzlichem Speicher erhöht.
+Die Vorraussetzung dafür ist, dass die Strings in A einen gemeinsamen Prefix haben,
+und dass es einen dazu passenden Bucket gibt.
+Zuerst wird das eigentliche Prinzip erklärt und danach eine Verbesserung eingeführt,
+die die Performance auf Kosten von zusätzlichem Speicher erhöht.
 
 Um heraus zu finden, ob Induced Sorting verwendet werden kann, wird der LCP berechnet und jeder Bucket, der in Frage kommt, überprüft.
-Wenn im LCP der Strings eine zweistellige Zeichenkette $\alpha\beta$ vorkommt, für die der Bucket $B_{\alpha\beta}$ bereits sortiert wurde, so kann die Sortierung der Strings leicht aus der Ordnung des Buckets hergeleitet werden.
+Wenn im LCP der Strings eine zweistellige Zeichenkette $\alpha\beta$ vorkommt,
+für die der Bucket $B_{\alpha\beta}$ bereits sortiert wurde,
+so kann die Sortierung der Strings leicht aus der Ordnung des Buckets hergeleitet werden.
 Alle Zeichen vor $\alpha\beta$ werden abgeschnitten.
 Die so erhaltenen Strings werden im Bucket gesucht und markiert.
-Dann wird der Bucket in richtiger Reihenfolge durchlaufen und jeder markierte String in dieser Reihenfolge gespeichert.
+Dann wird der Bucket in richtiger Reihenfolge durchlaufen und jeder markierte String
+zurückgerechnet (um die Länge des gemeinsamen Prefix) und in dieser Reihenfolge gespeichert.
 Da der Bucket sortiert war, sind folglich auch die Strings danach sortiert.
 
 \begin{listing}[!t]
@@ -384,15 +388,16 @@ Der Eingabetext wird in etwa gleich große Teile segmentiert.
 Die Segmentgröße ist dabei durch den Parameter $d$ einstellbar.
 Durch $n/d$ ergibt sich die Anzahl der Segmente.
 
-In \texttt{Offset[i]} wird der linkeste (also kleinste) Suffix-Startindex gespeichert, der zu einem Bucket gehört, der bereits als sortiert markiert ist.
-Der Wert ist dabei relativ zum Segmentbeginn.
+In \texttt{Offset[i]} wird der linkeste (also kleinste) Suffix-Startindex je Segment gespeichert,
+der zu einem Bucket gehört, der bereits als sortiert markiert ist.
+Der Wert ist dabei relativ zum jeweiligen Segmentbeginn.
 In \texttt{Anchor[i]} wird dann die Position vom Suffix \texttt{Offset[i]} in seinem Bucket gespeichert.
 In Abbildung \ref{fg:offset} findet sich eine Veranschaulichung der beiden Arrays.
 
 Da man die Startposition von Segment \texttt{i} nicht speichern muss (da jedes Segment $i$ das Intervall $[i\cdot d, (i + 1) \cdot d]$ umfasst), und jedes Segment höchstens $d$ Elemente enthält, ist \texttt{Offset[i]} $< d$.
 Unter der Annahme $d < 2^{16}$ kann man \texttt{Offset[i]} in 2 Byte speichern.
 Da \texttt{Anchor[i]} die Position im Bucket enthält, und der Bucket im Worst-Case alle Suffixe enthält, sind dort die vollen $4$ Byte nötig.
-Daher hat diese Erweiterung einen zusätzlichen Speicherbedarf von $6n/d$ Byte.
+Daher hat diese Erweiterung einen zusätzlichen Speicherbedarf von $6$ Byte je Segment, also insgesamt $6n/d$ Byte.
 
 \begin{listing}
 \begin{minted}{python}
@@ -485,7 +490,7 @@ Wir schneiden die ersten $(1 - 0) = 1$ Zeichen aus unserer String-Menge ab und s
 Da wir bereits ein Element im Bucket kennen, und annehmen, dass die anderen Suffixe nah daran liegen, fällt das Suchen des ersten Elements im Bucket weg.
 Im Ausgangspaper konnten die Autoren eine signifikante Performance-Erhöhung mittels dieses Ansatzes zeigen.
 
-\begin{figure}[!t]
+\begin{figure}[!h]
 \centering
 \begin{tikzpicture}[remember picture]
 \node at (0,0) {\tikz[na] \coordinate[yshift=-2pt] (a);banaba};
@@ -530,7 +535,22 @@ Falls dennoch mehrere Anker zur Auswahl stehen, wird derjenige dusgewählt, der 
 Manzini und Ferragina haben in ihren Benchmarks verschiedene Werte der Segmentgröße $d$ zwischen 500 und 5000 getestet.
 Auf einigen Problemen hat eine Vergrößerung von $d$ keinen merklichen Unterschied in der Laufzeit gebracht.
 Allerdings wurde die Laufzeit auf einigen Dateien dann deutlich schlechter.
-Die Autoren bewerben ihren Algorithmus allerdings mit $5.03n$ Byte Speicherverbrauch, was einem $d = 500$ entspricht.
+Die Autoren bewerben ihren Algorithmus allerdings mit $5.03n$ Byte Speicherverbrauch, was einem $d$ von 500 entspricht.
+
+\subsubsection{Copy-Technik}
+
+Nachdem ein Bucket $B_\alpha$ fertig sortiert wurde, können alle Buckets $B_{\sigma\alpha}$ in einem Schritt sortiert werden.
+Dies basiert auf dem \texttt{copy}-SACA von Seward~\cite{seward2000}.
+Kern dieses Schrittes ist es, dass die relative Ordnung aller Suffixe,
+welche mit $\sigma\alpha$ beginnen, durch die Ordnung aller $\alpha$-Suffixe sortiert werden können.
+
+Um dies effizient durchzuführen, wird zuerst ein Array mit Pointern auf den Anfang jedes $\sigma\alpha$-Buckets erstellt.
+Es genügt nun jedes $i \in B_\alpha$ zu durchlaufen und das Zeichen vor diesem Suffix zu lesen, $T[i - 1]$.
+Sei dieses Zeichen jeweils $\sigma_i$.
+Dieses kann man an die Stelle schreiben, auf die aktuell der Anfangspointer für den $\sigma_i\alpha$-Bucket zeigt.
+Der Pointer wird dann erhöht und das nächste Suffix gelesen.
+Nach diesem Schritt wurden sind alle $B_{\sigma\alpha}$ sortiert und können als solches markiert werden.
+So können sie beim Sortieren von $B_\sigma$ übersprungen werden.
 
 \subsection{Beispiel}
 
@@ -623,25 +643,20 @@ Das gleiche Verfahren wird für das zweite Paar verwendet.
 
 Schlussendlich ist damit der gesamte Text sortiert, da es keine unsortierten Buckets mehr gibt.
 
+
+\subsection{Variante und Parallelität}
+Durch das Weglassen des copy-Verfahrens ist es möglich, den Algorithmus sehr simpel zu parallelisieren.
+Dabei werden die $\alpha\beta$-Buckets alle zeitgleich sortiert und
+der Induzierschritt über alle $\sigma\alpha$ Buckets, für alle $\sigma$ für die $B_{\sigma\alpha}$ unsortiert ist, weggelassen.
+Eine Synchronisation der Threads ist dann nur für die Verwendung der \texttt{ANCHOR}-Datenstruktur nötig.
+Dadurch ergibt sich eine hohe parallele Effizienz.
+Leider hat sich in der Evaluation gezeigt, dass die hohe Komplexität unserer
+Deep-Shallow-Implementierung nicht dadurch ausgeglichen werden kann.
+Die Referenzimplementierung konnte aufgrund ihrer unübersichtlichen C-Implementierung nicht parallelisiert werden,
+da nicht klar erkennbar war, an welchen Stellen auf die gemeinsamen Speicherbereiche zugegriffen wird.
+
 \subsection{Vergleich}
-\begin{figure}[!h]
-\centering
-\includegraphics[width=\textwidth]{kapitel/saca_algorithmen/ds/graph.png}
-\caption{Vergleich der C-Implementierung von Deep-Shallow-Sorting (ds2) mit cache~\cite{seward2000} und qsufsort~\cite{saca:1}. Abbildung von Manzini und Ferragina~\cite{saca:4}.}
-\label{fg:graph}
-\end{figure}
-
 Manzini und Ferragina konnten zeigen, dass Deep-Shallow-Sorting ein zuverlässiger Ansatz ist, der mit anderen Verfahren mithalten kann~\cite{saca:4}.
-Durch das Testen des Algorithmus auf vier verschiedenen (zur Zeit der Veröffentlichung aktuellen) Architekturen, Pentium III, Pentium IV, Athlon XP und PowerPC G4 haben die Autoren gezeigt, dass der Algorithmus nicht nur von einer bestimmten Plattform profitiert.
-Sie vergleichen Deep-Shallow-Sorting mit \qsufsort~\cite{saca:1} und einer speichereffizienteren Variante von \cache~\cite{seward2000}. Siehe dazu Abbildung \ref{fg:graph}.
-Es ist zu erkennen, dass Deep-Shallow-Sorting auf jeder der vier Architekturen und auf jedem getesteten Benchmark besser abschneidet als die anderen Algorithmen.
-Zu beachten ist, dass beide verglichenen Algorithmen einen höheren Speicherbedarf als Deep-Shallow-Sorting haben.
-Sie konnten zeigen, dass Deep-Shallow-Sorting ein praktischer Ansatz ist, welcher mit niedrigerem Platzverbrauch als alle verglichenen Algorithmen in fast allen Problemen eine bessere Laufzeit erreichte.
-
-Im Laufe des ersten Semesters der Projektgruppe war es Deep-Shallow einfach möglich, die meisten Algorithmen in ihrem Speicherverbrauch zu unterbieten.
-Allerdings zeigte er sich schwerfällig, die anderen Algorithmen in ihrer Laufzeit zu schlagen.
-Unsere Implementierung ist immer noch weit von der Referenzimplementierung entfernt, was darauf schließen lässt, dass diese weitere Verbesserungen vornimmt, als das Paper beschreibt.
-
-Im nächsten Semester werden wir versuchen, den Algorithmus durch Multi-Threading zu beschleunigen:
-Die relativ simple Struktur des Algorithmus macht es einfach die Aufgaben auf mehrere Kerne zu verteilen.
-Synchronisierung ist nur für \texttt{OFFSET}/\texttt{ANCHOR} nötig.
+Im Laufe des ersten Semesters der Projektgruppe war es Deep-Shallow einfach möglich,
+die meisten Algorithmen in ihrem Speicherverbrauch zu unterbieten (abgesehen von den Algorithmen, welche keinen zusätzlichen Speicher verbrauchen).
+Allerdings zeigte sich unsere Implementierung schwerfällig, die anderen Algorithmen in ihrer Laufzeit zu schlagen.
