@@ -584,7 +584,10 @@ So können sie beim Sortieren von $B_\sigma$ übersprungen werden.
 \label{ds:beispiel_bt1}
 \end{figure}
 
-Zur Verdeutlichung und Veranschaulichung des Algorithmus wird im folgenden Abschnitt der Algorithmus beispielhaft\footnote{Insbesondere wird der Algorithmus mit Beispiel-Parameterwerten ausgeführt, die in einer echten Anwendung sehr unangebracht wären. Diese Parameter sind $L = 3, d = 7$.} am Eingabetext \glqq caabaccaabacaa\grqq{} ausgeführt.
+Zur Verdeutlichung und Veranschaulichung des Algorithmus wird im folgenden Abschnitt der Algorithmus
+beispielhaft\footnote{Insbesondere wird der Algorithmus mit Beispiel-Parameterwerten ausgeführt,
+die in einer echten Anwendung sehr unangebracht wären. Diese Parameter sind $L = 3, d = 7$. Außerdem wird der copy-Schritt weggelassen, um mehr interessante Fälle zeigen zu können.}
+am Eingabetext \glqq caabaccaabacaa\grqq{} ausgeführt.
 
 \paragraph{Schritt 1} Sortiere alle Suffixe mittels Counting Sort nach dem ersten Zeichen\footnote{Sowohl die Referenzimplementierung als auch unsere Implementierung benutzen Buckets, welche nach den ersten beiden Zeichen sortiert wurden.
 Aus Gründen der Veranschaulichung wird hier allerdings nach nur einem Buchstaben sortiert.} in einen der Buckets.
@@ -645,7 +648,28 @@ Schlussendlich ist damit der gesamte Text sortiert, da es keine unsortierten Buc
 
 
 \subsection{Variante und Parallelität}
-Durch das Weglassen des copy-Verfahrens ist es möglich, den Algorithmus sehr simpel zu parallelisieren.
+
+\begin{listing}[!h]
+\begin{minted}[mathescape=true, escapeinside=||]{python}
+def deep_shallow_sort_parallel(T: Text):
+  Create a bucket for every character pair |$\alpha, \beta \in \Sigma$|.
+  Call them |$B_{\alpha \beta}$|.
+
+  # Sort T into the buckets by comparing only the first two
+  # characters of every string. Represent the suffixes by their
+  # starting indices in T.
+  bucket_sort(T)
+
+  parallel for all buckets |$B_{\alpha\beta}$| do:
+    shallow_sort(|$B_{\alpha\beta}$|, 0)
+    Mark A as sorted.
+\end{minted}
+\caption{parallele Variante des Algorithmus}
+\label{ds:alg:main}
+\end{listing}
+
+# Dieses noindent ist nur erlaubt, weil Aufgrund der Grafik der Absatz nicht richtig begonnen wird.
+\noindent Durch das Weglassen des copy-Verfahrens ist es möglich, den Algorithmus sehr simpel zu parallelisieren.
 Dabei werden die $\alpha\beta$-Buckets alle zeitgleich sortiert und
 der Induzierschritt über alle $\sigma\alpha$ Buckets, für alle $\sigma$ für die $B_{\sigma\alpha}$ unsortiert ist, weggelassen.
 Eine Synchronisation der Threads ist dann nur für die Verwendung der \texttt{ANCHOR}-Datenstruktur nötig.
