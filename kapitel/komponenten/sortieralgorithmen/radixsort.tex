@@ -1,21 +1,61 @@
 \subsection{Radixsort}
 \label{sort:radix}
 
-In \currentauthor{Nico Bertram} diesem Abschnitt behandeln wir das Sortierverfahren \emph{Radixsort}. Dabei handelt es sich im Gegensatz zu den anderen Sortieralgorithmen, die in unserem Framework verwendet werden, nicht um einen vergleichsbasierten Sortieralgorithmus. Es werden stattdessen die einzelnen Stellen der zu sortierenden Elemente $A$ in einer bestimmten Reihenfolge sortiert. Die Stellen der Elemente sind dabei Zeichen aus einem endlichen Alphabet. Da wir die Größe des Alphabets im Voraus kennen, lassen sich die Elemente in Buckets einsortieren. Wenn die maximale Anzahl der Stellen der Elemente $k$ beträgt, erreicht dieser Algorithmus eine Worst-Case Laufzeit von $O(kn)$. Falls $k$ konstant ist, ist die Laufzeit somit linear. \\
-Wir stellen in diesem Abschnitt verschiedene Radixsort-Varianten vor. Zum einen unterscheiden sich diese hinsichtlich der Reihenfolge, in der die Stellen der Elemente betrachtet werden. Es kann bei der Stelle mit der höchsten Wertigkeit (MSD) oder der Stelle mit der niedrigsten Wertigkeit (LSD) begonnen werden. Wenn wir die Elemente nach dem MSD sortieren sind die Elemente nach den Zeichen an der aktuell betrachteten Stelle vorsortiert. Um Elemente mit gleichen Zeichen zu sortieren, müssen die übrigen Stellen rekursiv sortiert werden. Wenn wir die Elemente nach dem LSD sortieren, müssen die Elemente nach der aktuell betrachteten Stelle so in die Buckets einsortiert werden, dass bei gleichem Zeichen an der aktuellen Stelle die bisherige Sortierung erhalten bleibt. Beide Radixsort-Varianten wurden unter anderem auch in \cite{Cormen2009} beschrieben. \\
-Außerdem lässt sich Radixsort mit einem zusätzlichen Hilfsarray oder inplace sortieren. Die Varianten, die ein zusätzliches Hilfsarray benötigen, sind stabile Sortierverfahren. Die inplace Varianten sind instabile Sortierverfahren. \\
-In allen Varianten, die wir hier vorstellen, muss als Eingabeparameter eine \texttt{key\_function} übergeben. Dies ist eine Funktion, die als Eingabe ein Element des Eingabearrays und die aktuelle Stelle erhält, und das Zeichen des Elements an der aktuellen Stelle zurückgibt. Dies ist von Vorteil, wenn die Eingabearrays unterschiedliche Formen besitzen. Es kann sein, dass die Eingabe aus den tatsächlich zu sortierenden Elementen besteht, oder die Eingabe besteht wie im \cref{algorithm:nzSufSort} aus Positionen von Teilstrings im Eingabetext. \\
+In \currentauthor{Nico Bertram} diesem Abschnitt behandeln wir das Sortierverfahren \emph{Radixsort}.
+Dabei handelt es sich im Gegensatz zu den anderen Sortieralgorithmen, die in unserem Framework verwendet werden,
+nicht um einen vergleichsbasierten Sortieralgorithmus.
+Es werden stattdessen die einzelnen Stellen der zu sortierenden Elemente $A$ in einer bestimmten Reihenfolge sortiert.
+Die Stellen der Elemente sind dabei Zeichen aus einem endlichen Alphabet.
+Da wir die Größe des Alphabets im Voraus kennen, lassen sich die Elemente in Buckets einsortieren.
+Wenn die maximale Anzahl der Stellen der Elemente $k$ beträgt,
+erreicht dieser Algorithmus eine Worst-Case Laufzeit von $\mathcal O(kn)$.
+Falls $k$ konstant ist, ist die Laufzeit somit linear.
 
-Die unterschiedlichen Radixsort-Varianten verwenden alle die Hilfsfunktion \emph{Countingsort}. Diese erhält als Eingabe die zu sortierenden Elemente $A$, die aktuelle Stelle $i$ und ein Bucketarray $B$ mit $|B| = |\Sigma|$. \emph{Countingsort} zählt zu jedem Zeichen des Alphabets die Häufigkeit und speichert diese in $B$. Anschließend werden die Elemente von $B$ von links nach rechts aufsummiert, wobei das erste Element die $0$ erhält. Dadurch werden in $B$ die Startpositionen der jeweiligen Buckets berechnet. \\
+Wir stellen in diesem Abschnitt verschiedene Radixsort-Varianten vor.
+Zum einen unterscheiden sich diese hinsichtlich der Reihenfolge,
+in der die Stellen der Elemente betrachtet werden.
+Es kann bei der Stelle mit der höchsten Wertigkeit (MSD) oder der Stelle mit der niedrigsten Wertigkeit (LSD) begonnen werden.
+Wenn wir die Elemente nach dem MSD sortieren sind die Elemente nach den Zeichen an der aktuell betrachteten Stelle vorsortiert.
+Um Elemente mit gleichen Zeichen zu sortieren, müssen die übrigen Stellen rekursiv sortiert werden.
+Wenn wir die Elemente nach dem LSD sortieren,
+müssen die Elemente nach der aktuell betrachteten Stelle so in die Buckets einsortiert werden,
+dass bei gleichem Zeichen an der aktuellen Stelle die bisherige Sortierung erhalten bleibt.
+Beide Radixsort-Varianten wurden unter anderem auch in \cite{Cormen2009} beschrieben.
 
+Außerdem lässt sich Radixsort mit einem zusätzlichen Hilfsarray oder inplace sortieren.
+Die Varianten, die ein zusätzliches Hilfsarray benötigen, sind stabile Sortierverfahren.
+Die inplace Varianten sind instabile Sortierverfahren.
+
+In allen Varianten, die wir hier vorstellen,
+muss als Eingabeparameter eine \texttt{key\_function} übergeben.
+Dies ist eine Funktion, die als Eingabe ein Element des Eingabearrays und die aktuelle Stelle erhält,
+und das Zeichen des Elements an der aktuellen Stelle zurückgibt.
+Dies ist von Vorteil, wenn die Eingabearrays unterschiedliche Formen besitzen.
+Es kann sein, dass die Eingabe aus den tatsächlich zu sortierenden Elementen besteht,
+oder die Eingabe besteht wie im \cref{algorithm:nzSufSort} aus Positionen von Teilstrings im Eingabetext.
+
+Die unterschiedlichen Radixsort-Varianten verwenden alle die Hilfsfunktion \emph{Bucketsort} (siehe \cref{section:bucketsort}).
+Diese erhält als Eingabe die zu sortierenden Elemente $A$, die aktuelle Stelle $i$ und ein Bucketarray
+$B$ mit $|B| = |\Sigma|$. \emph{Bucketsort} zählt zu jedem Zeichen des Alphabets die Häufigkeit
+und speichert diese in $B$.
+Anschließend werden die Elemente von $B$ von links nach rechts aufsummiert,
+wobei das erste Element die $0$ erhält.
+Dadurch werden in $B$ die Startpositionen der jeweiligen Buckets berechnet.
 
 \subsubsection{MSD-Radixsort}
 \label{sort:radix:msd}
 
-Diese Variante sortiert die Elemente beginnend ab dem MSD und verwendet ein zusätzliches Hilfsarray $R$. Zunächst werden mit \emph{Countingsort} in ein Bucketarray $B$ der Größe $|\Sigma|$ die Startpositionen der Buckets berechnet. Anschließend werden die Elemente anhand der Zeichen in die Buckets aufgeteilt. Dazu bestimmen wir mithilfe von $B$ die Position, an der wir das Element in $R$ schreiben müssen und inkrementieren anschließend die entsprechende Position von $B$.
-Nachdem alle Elemente in $R$ geschrieben wurden, werden diese wieder zurück in das Eingabearray kopiert. Falls es Buckets gibt, die mehr als ein Element enthalten, werden diese Buckets rekursiv mit der nächsten Stelle weiter sortiert. \\
+Diese Variante sortiert die Elemente beginnend ab dem MSD und verwendet ein zusätzliches Hilfsarray $R$.
+Zunächst werden mit \emph{Bucketsort} in ein Bucketarray $B$ der Größe $|\Sigma|$ die Startpositionen
+der Buckets berechnet. Anschließend werden die Elemente anhand der Zeichen in die Buckets aufgeteilt.
+Dazu bestimmen wir mithilfe von $B$ die Position, an der wir das Element in $R$ schreiben müssen und
+inkrementieren anschließend die entsprechende Position von $B$.
+Nachdem alle Elemente in $R$ geschrieben wurden, werden diese wieder zurück in das Eingabearray kopiert.
+Falls es Buckets gibt, die mehr als ein Element enthalten, werden diese Buckets rekursiv mit der nächsten
+Stelle weiter sortiert.
 
-Im folgenden Beispiel werden die Elemente $A=\{512, 794, 187, 394, 384\}$ mit MSD-Radixsort sortiert. Dabei sortieren wir die Elemente zunächst nach der ersten Stelle. 
+Im folgenden Beispiel werden die Elemente $A=\{512, 794, 187, 394, 384\}$ mit MSD-Radixsort sortiert.
+Dabei sortieren wir die Elemente zunächst nach der ersten Stelle. 
 
 \begin{table}[H]
 	\centering
@@ -37,17 +77,23 @@ Da das Bucket für das Zeichen $3$ mehr als ein Element enthält wird dieses rek
 	\label{tab:radix:msd:step_2}
 \end{table}
 
-Nun existiert kein Bucket mit mehr als einem Element. Die Eingabe wurde also sortiert. \\
-
-An diesem Beispiel kann man einen Vorteil des MSD-Radixsort erkennen. Man muss nicht jede Stelle betrachten, wenn die Eingabe bereits sortiert ist, und kann bereits vorher abbrechen. Dadurch ist die Laufzeit in der Praxis schneller. Jedoch muss für jeden rekursiven Aufruf das Bucketarray im Stack behalten werden. Bei großen Alphabeten kann das zu großem Speicherverbrauch führen.
-
+Nun existiert kein Bucket mit mehr als einem Element. Die Eingabe wurde also sortiert.
+An diesem Beispiel kann man einen Vorteil des MSD-Radixsort erkennen.
+Man muss nicht jede Stelle betrachten, wenn die Eingabe bereits sortiert ist, und kann bereits vorher abbrechen.
+Dadurch ist die Laufzeit in der Praxis schneller.
+Jedoch muss für jeden rekursiven Aufruf das Bucketarray im Stack behalten werden.
+Bei großen Alphabeten kann das zu großem Speicherverbrauch führen.
 
 \subsubsection{LSD-Radixsort}
 \label{sort:radix:lsd}
 
-In dieser Variante werden die Elemente beginnend ab dem LSD sortiert. Die Sortierung der Elemente anhand der aktuellen Schritte ist analog zum MSD-Radixsort. Wenn wir eine Stelle weitergehen, müssen aber alle Elemente anhand der nächsten Stelle sortiert werden. \\
+In dieser Variante werden die Elemente beginnend ab dem LSD sortiert.
+Die Sortierung der Elemente anhand der aktuellen Schritte ist analog zum MSD-Radixsort.
+Wenn wir eine Stelle weitergehen, müssen aber alle Elemente anhand der nächsten Stelle sortiert werden.
 
-Im folgenden Beispiel sortieren wir erneut die Elemente $A=\{512, 794, 187, 394, 384\}$. Dabei verwenden wir diesmal den LSD-Radixsort. Wir beginnen mit der Sortierung an der letzten Stelle.
+Im folgenden Beispiel sortieren wir erneut die Elemente $A=\{512, 794, 187, 394, 384\}$.
+Dabei verwenden wir diesmal den LSD-Radixsort.
+Wir beginnen mit der Sortierung an der letzten Stelle.
 
 \begin{table}[H]
 	\centering
@@ -58,7 +104,8 @@ Im folgenden Beispiel sortieren wir erneut die Elemente $A=\{512, 794, 187, 394,
 	\label{tab:radix:lsd:step_1}
 \end{table}
 
-Anschließend werden die Elemente nach der zweiten Stelle sortiert. Dabei bleibt die Sortierung des vorherigen Schrittes bei gleichen Zeichen erhalten.
+Anschließend werden die Elemente nach der zweiten Stelle sortiert.
+Dabei bleibt die Sortierung des vorherigen Schrittes bei gleichen Zeichen erhalten.
 
 \begin{table}[H]
 	\centering
@@ -69,7 +116,8 @@ Anschließend werden die Elemente nach der zweiten Stelle sortiert. Dabei bleibt
 	\label{tab:radix:lsd:step_2}
 \end{table}
 
-Als Letztes sortieren wir die Elemente nach dem ersten Zeichen. Anschließend sind die Elemente fertig sortiert.
+Als Letztes sortieren wir die Elemente nach dem ersten Zeichen.
+Anschließend sind die Elemente fertig sortiert.
 
 \begin{table}[H]
 	\centering
@@ -80,25 +128,81 @@ Als Letztes sortieren wir die Elemente nach dem ersten Zeichen. Anschließend si
 	\label{tab:radix:lsd:step_3}
 \end{table}
 
-Im Gegensatz zum MSD-Radixsort reicht es hier aus nur ein Bucketarray im Speicher zu haben. Diese Radixsort-Variante ist also speichereffizienter. Da für die Sortierung jede Stelle berücksichtigt werden muss, ist diese Variante in der Praxis aber langsamer als MSD-Radixsort.
+Im Gegensatz zum MSD-Radixsort reicht es hier aus nur ein Bucketarray im Speicher zu haben.
+Diese Radixsort-Variante ist also speichereffizienter.
+Da für die Sortierung jede Stelle berücksichtigt werden muss,
+ist diese Variante in der Praxis aber langsamer als MSD-Radixsort.
 
 \subsubsection{Inplace MSD-Radixsort}
 \label{sort:radix:inplace}
 
-Der MSD-Radixsort lässt sich so modifizieren, dass kein zusätzliches Hilfsarray benötigt wird \cite{radixsort:inplace}. Statt die Elemente direkt in ihre richtige Buckets zu schreiben, müssen wir durch Vertauschungen die Elemente an die richtige Position bringen. Hier sei angemerkt, dass wir den LSD-Radixsort nicht auf die gleiche Art modifizieren können, da die einzelnen Stellen stabil sortiert werden müssten. Wenn wir Elemente miteinander tauschen würden, wäre diese Stabilität nicht mehr garantiert. \\
-Wenn wir die Elemente im Eingabearray in die richtigen Buckets schreiben, lassen sich die Elemente in zwei Mengen einteilen. Es gibt Elemente, die bereits ins richtige Bucket geschrieben wurden, und Elemente, die noch nicht in das richtige Bucket geschrieben wurden. Wenn wir über die Elemente der Eingabe iterieren, müssen wir nur die Elemente betrachten, die noch nicht in das richtige Bucket geschrieben wurden. Die Anderen müssen wir überspringen. Dazu benötigen wir zwei Bucketarrays $B_{\text{start}}$ und $B_{\text{end}}$. In $B_{\text{start}}$ steht für jedes Zeichen des Alphabets die Startposition des jeweiligen Buckets drin und in $B_{\text{end}}$ steht die erste freie Position des Buckets drin. Da zu Beginn die Startpositionen und ersten freien Positionen eines Buckets zusammenfallen, lassen sich $B_{\text{start}}$ und $B_{\text{end}}$ durch Countingsort berechnen. \\
-Um die Elemente in die Buckets aufzuteilen durchlaufen wir das Eingabearray von links nach rechts. Wenn wir an der Position $i$ sind, schreiben wir $A[i]$ gemäß dem Zeichen $\sigma$ von $A[i]$ an der aktuellen Stelle an die Position $j = B_{\text{end}}[\sigma]$. Falls $i \ne j$ gilt, werden die Elemente an den Positionen $i$ und $j$ getauscht und für den nächsten Schritt bleibt unser $i$ unverändert. Falls $i = j$ gilt, bleibt $A[i]$ an der aktuellen Stelle stehen und unser $i$ muss erhöht werden. Dabei müssen wir darauf achten, dass $i$ immer auf eine Position zeigt, die noch nicht in ein Bucket einsortiert wurde. Wir müssen also $i$ mit der Startposition $k$ des nächsten Buckets in $B_{\text{start}}$ vergleichen. Falls $i+1 < k$, können wir $i$ inkrementieren. Ansonsten müssen wir solange volle Buckets überspringen bis wir $i$ auf eine freie Position setzen können. \\
-Falls es nach der Aufteilung Buckets gibt, die mehr als ein Element enthalten, müssen diese rekursiv für die nächste Stelle sortiert werden. \\
+Der MSD-Radixsort lässt sich so modifizieren, dass kein zusätzliches Hilfsarray benötigt wird \cite{radixsort:inplace}.
+Statt die Elemente direkt in ihre richtige Buckets zu schreiben,
+müssen wir durch Vertauschungen die Elemente an die richtige Position bringen.
+Hier sei angemerkt, dass wir den LSD-Radixsort nicht auf die gleiche Art modifizieren können,
+da die einzelnen Stellen stabil sortiert werden müssten.
+Wenn wir Elemente miteinander tauschen würden, wäre diese Stabilität nicht mehr garantiert.
 
+Wenn wir die Elemente im Eingabearray in die richtigen Buckets schreiben,
+lassen sich die Elemente in zwei Mengen einteilen.
+Es gibt Elemente, die bereits ins richtige Bucket geschrieben wurden,
+und Elemente, die noch nicht in das richtige Bucket geschrieben wurden.
+Wenn wir über die Elemente der Eingabe iterieren, müssen wir nur die Elemente betrachten,
+die noch nicht in das richtige Bucket geschrieben wurden.
+Die Anderen müssen wir überspringen.
+Dazu benötigen wir zwei Bucketarrays $B_{\text{start}}$ und $B_{\text{end}}$.
+In $B_{\text{start}}$ steht für jedes Zeichen des Alphabets die Startposition des jeweiligen Buckets drin
+und in $B_{\text{end}}$ steht die erste freie Position des Buckets drin.
+Da zu Beginn die Startpositionen und ersten freien Positionen eines Buckets zusammenfallen,
+lassen sich $B_{\text{start}}$ und $B_{\text{end}}$ durch Bucketsort berechnen.
+
+Um die Elemente in die Buckets aufzuteilen durchlaufen wir das Eingabearray von links nach rechts.
+Wenn wir an der Position $i$ sind, schreiben wir $A[i]$ gemäß dem Zeichen $\sigma$ von $A[i]$ an der
+aktuellen Stelle an die Position $j = B_{\text{end}}[\sigma]$.
+Falls $i \ne j$ gilt, werden die Elemente an den Positionen $i$ und $j$ getauscht
+und für den nächsten Schritt bleibt unser $i$ unverändert.
+Falls $i = j$ gilt, bleibt $A[i]$ an der aktuellen Stelle stehen und unser $i$ muss erhöht werden.
+Dabei müssen wir darauf achten, dass $i$ immer auf eine Position zeigt,
+die noch nicht in ein Bucket einsortiert wurde.
+Wir müssen also $i$ mit der Startposition $k$ des nächsten Buckets in $B_{\text{start}}$ vergleichen.
+Falls $i+1 < k$, können wir $i$ inkrementieren.
+Ansonsten müssen wir solange volle Buckets überspringen bis wir $i$ auf eine freie Position setzen können.
+
+Falls es nach der Aufteilung Buckets gibt, die mehr als ein Element enthalten,
+müssen diese rekursiv für die nächste Stelle sortiert werden.
 
 \subsubsection{Radixsort für große Alphabete}
 \label{sort:radix:big_alph}
 
-Im Folgenden nehmen wir an, dass wir Elemente sortieren, die aus maximal $3$ Zeichen bestehen. Dieses Vorgehen ließe sich aber auch für längere Elemente verallgemeinern. In unserem Framework haben wir eine Radixsort-Variante entworfen, die sich besonders eignet, wenn die Größe des Alphabets durch die Größe des Eingabearrays beschränkt ist. Also für $n=|A|$ gilt $|\Sigma| \le n$. Die Variante, die wir in \cref{sort:radix:inplace} vorgestellt haben, ist in diesem Fall nicht geeignet, da in jedem Rekursionsschritt ein neues Bucketarray erzeugt wird. Dadurch kann sich ein Speicherverbrauch von $O(3n)$ ergeben. \\
-Wir beschreiben hier wie man die Variante aus \cref{sort:radix:inplace} so modifizieren kann, dass wir genau mit einem Bucketarray $B$ der Größe $n$ auskommen können. Die Idee ist es das Eingabealphabet in jedem rekursiven Schritt so zu verkleinern, dass wir in allen rekursiven Schritten genug Platz in $B$ haben. \\
-Dazu teilen wir das Eingabealphabet in fünf Buckets der Größe $\frac{n}{5}$ auf. Jedes dieser Buckets wird nun wie in \cref{sort:radix:inplace} beschrieben in die Buckets für jedes Zeichen aufgeteilt. Da wir nur noch $\frac{n}{5}$ der Zeichen sortieren müssen, benötigt die Aufteilung für $B_{\text{start}}$ und $B_{\text{end}}$ jeweils nur $\frac{n}{5}$ Speicher. Außerdem benötigen wir nach der Aufteilung nur $B_{\text{start}}$ für die rekursiven Aufrufe. Das heißt es reicht aus für den ersten und zweiten rekursiven Aufruf jeweils $\frac{n}{5}$ Speicher zu verwenden und für den dritten rekursiven Aufruf benötigen wir für $B_{\text{start}}$ und $B_{\text{end}}$ insgesamt $\frac{2n}{5}$ Speicher. Insgesamt passt also für jeden rekursiven Aufruf der verwendete Speicher in $B$. \\
+Im Folgenden nehmen wir an, dass wir Elemente sortieren,
+die aus maximal $3$ Zeichen bestehen. Dieses Vorgehen ließe sich aber auch für längere Elemente verallgemeinern.
+In unserem Framework haben wir eine Radixsort-Variante entworfen, die sich besonders eignet,
+wenn die Größe des Alphabets durch die Größe des Eingabearrays beschränkt ist.
+Also für $n=|A|$ gilt $|\Sigma| \le n$. Die Variante, die wir in \cref{sort:radix:inplace} vorgestellt haben,
+ist in diesem Fall nicht geeignet, da in jedem Rekursionsschritt ein neues Bucketarray erzeugt wird.
+Dadurch kann sich ein Speicherverbrauch von $\mathcal O(3n)$ ergeben.
 
+Wir beschreiben hier wie man die Variante aus \cref{sort:radix:inplace} so modifizieren kann,
+dass wir genau mit einem Bucketarray $B$ der Größe $n$ auskommen können.
+Die Idee ist es das Eingabealphabet in jedem rekursiven Schritt so zu verkleinern,
+dass wir in allen rekursiven Schritten genug Platz in $B$ haben.
+
+Dazu teilen wir das Eingabealphabet in fünf Buckets der Größe $\frac{n}{5}$ auf.
+Jedes dieser Buckets wird nun wie in \cref{sort:radix:inplace} beschrieben in die Buckets für jedes Zeichen aufgeteilt.
+Da wir nur noch $\frac{n}{5}$ der Zeichen sortieren müssen,
+benötigt die Aufteilung für $B_{\text{start}}$ und $B_{\text{end}}$ jeweils nur $\frac{n}{5}$ Speicher.
+Außerdem benötigen wir nach der Aufteilung nur $B_{\text{start}}$ für die rekursiven Aufrufe.
+Das heißt es reicht aus für den ersten und zweiten rekursiven Aufruf jeweils $\frac{n}{5}$ Speicher zu verwenden
+und für den dritten rekursiven Aufruf benötigen wir für $B_{\text{start}}$ und $B_{\text{end}}$
+insgesamt $\frac{2n}{5}$ Speicher. Insgesamt passt also für jeden rekursiven Aufruf der verwendete Speicher in $B$.
 
 \subsubsection{Optimierung}
 
-Bei den MSD-Radixsort-Varianten ist es in der Praxis meistens nicht sinnvoll kleine Buckets weiter mit Radixsort zu sortieren, da viele rekursive Aufrufe mit kleinen Bucketgrößen einen zu großen Overhead erzeugen. In diesen Fällen ist es deutlich schneller ab einer bestimmten Bucketgröße die Buckets mit einem naiven Sortieralgorithmus wie Insertionsort zu sortieren. Dazu muss in diesen Radixsort-Varianten zusätzlich eine \texttt{compare\_function} übergeben werden, die als Eingabe die zu vergleichenden Elemente $i$ und $j$ und die aktuelle Stelle $k$ erhält. Die \texttt{compare\_function} vergleicht dann die Elemente, wobei die Zeichen, die vor der Stelle $k$ vorkommen, abgeschnitten werden.
+Bei den MSD-Radixsort-Varianten ist es in der Praxis meistens nicht sinnvoll kleine Buckets
+weiter mit Radixsort zu sortieren, da viele rekursive Aufrufe mit kleinen Bucketgrößen einen zu großen Overhead erzeugen.
+In diesen Fällen ist es deutlich schneller ab einer bestimmten Bucketgröße die Buckets mit einem
+naiven Sortieralgorithmus wie Insertionsort zu sortieren.
+Dazu muss in diesen Radixsort-Varianten zusätzlich eine \texttt{compare\_function} übergeben werden,
+die als Eingabe die zu vergleichenden Elemente $i$ und $j$ und die aktuelle Stelle $k$ erhält.
+Die \texttt{compare\_function} vergleicht dann die Elemente, wobei die Zeichen, die vor der Stelle $k$ vorkommen,
+abgeschnitten werden.
