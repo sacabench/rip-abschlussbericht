@@ -19,10 +19,7 @@ In diesen Fällen ist die Eingabe bereits sortiert.
 Im Folgenden stellen wir mit Ternary Quicksort eine weitere Variante des Quicksort vor.
 Anschließend beschreiben wir wie möglichst effizient das Pivotelement gewonnen werden kann.
 
-\subsubsection{Ternary Quicksort}
-\label{section:ternary_quicksort}
-
-\begin{listing}[!t]
+\begin{listing}[!h]
     \begin{minted}{python}
     def bentley_mcilroy_tq(A: Array<SuffixStartPos>):
       if |A| > 1:
@@ -39,16 +36,43 @@ Anschließend beschreiben wir wie möglichst effizient das Pivotelement gewonnen
     \caption{Bentley-McIlroy ternäres Quicksort~\cite{ternary_quicksort}}
 \end{listing}    
 
-Der Ternary Quicksort ist eine Variante des Quicksort, die besonders geeignet ist,
+\subsubsection{Ternary Quicksort}
+\label{section:ternary_quicksort}
+
+\noindent
+Ternary Quicksort ist eine Variante des Quicksort, die besonders geeignet ist,
 wenn in der Eingabe mehrere gleiche Elemente vorkommen~\cite{ternary_quicksort}.
 Wir wählen hier wieder ein geeignetes Pivotelement $p$.
-Statt die Eingabe in zwei Bereiche aufzuteilen, teilen wir die Eingabe in drei Bereiche $A_{\text{left}}$, $A_{\text{middle}}$ und $A_{\text{right}}$ auf.
+Statt die Eingabe in zwei Bereiche aufzuteilen, teilen wir die Eingabe in drei Bereiche $A_{\text{left}}$, $A_{\text{middle}}$ und $A_{\text{right}}$ auf (siehe \cref{fg:ternary_partitions}).
 In $A_{\text{left}}$ sind alle Elemente enthalten, die echt kleiner sind als $p$.
 In $A_{\text{middle}}$ sind alle Elemente enthalten, die gleich $p$ sind, und in $A_{\text{right}}$ sind alle Elemente enthalten, die größer als $p$ sind.
 Die Größe dieser Bereiche lässt sich durch Zählen der Elemente bestimmen.
 Anschließend können die Elemente durch Vertauschen in den richtigen Bereich geschrieben werden.
 
 Nachdem wir alle Elemente in die drei Bereiche aufgeteilt haben, müssen $A_{\text{left}}$ und $A_{\text{right}}$ rekursiv sortiert werden.
+
+\begin{figure}[!h]
+	\centering
+	\begin{tikzpicture}
+	\draw (0,0) -- (10,0) -- (10,1) -- (0,1) -- cycle;
+	\draw (3,0) -- (3,1);
+	\draw (8,0) -- (8,1);
+	
+	\node at (1.5, 0.5) {<};
+	\node at (5.5, 0.5) {=};
+	\node at (9, 0.5) {>};
+	
+	\draw[red] (6,0.5) -- (6,2) node[above] {\texttt{p}};
+	
+	\begin{scope}[yshift=-10pt]
+	\draw[decorate, decoration={mirror, brace,amplitude=10pt}] (0.1,0) -- (2.9,0) node[midway, below = 10pt] {$A_\text{left}$};
+	\draw[decorate, decoration={mirror, brace,amplitude=10pt}] (3.1,0) -- (7.9,0) node[midway, below = 10pt] {$A_\text{middle}$};
+	\draw[decorate, decoration={mirror, brace,amplitude=10pt}] (8.1,0) -- (9.9,0) node[midway, below = 10pt] {$A_\text{right}$};
+	\end{scope}
+	\end{tikzpicture}
+	\caption[Partitionen bei ternärem Quicksort]{Partitionen bei ternärem Quicksort. (Abbildung ähnlich in \cite{ternary_quicksort}.)}
+	\label{fg:ternary_partitions}
+\end{figure}
 
 \subsubsection{Auswahl des Pivotelements}
 
