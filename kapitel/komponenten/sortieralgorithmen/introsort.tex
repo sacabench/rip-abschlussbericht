@@ -12,28 +12,27 @@ wenn die Anzahl der Elemente einen Schwellwert $\theta$ unterschreitet.
 \begin{figure}
 	\begin{minted}[escapeinside=||, linenos=true, autogobble]{python}
 		def introsort(A: Array<Integer>, f: Integer, b: Integer):
-		introsort_loop(A, f, b, |$2 \lfloor \log_2{(b-f)}\rfloor$|)
-		insertionsort(A, f, b)
+			introsort_loop(A, f, b, |$2 \lfloor \log_2{(b-f)}\rfloor$|)
+			insertionsort(A, f, b)
 	\end{minted}
 	
 	\begin{minted}[escapeinside=||, mathescape=true, linenos=true, autogobble]{python}
 		def introsort_loop(A: Array<Integer>, f: Integer, b: Integer, 
-		depth_limit: Integer)
-		while b - f > |$\theta$|
-		if depth_limit == 0
-		heapsort(A, f, b)
-		return end
-		depth_limit := depth_limit - 1
-		p := Choose pivot element
-		
-		# Rearrange A such that all elements $\leq$ p are in $A[f\dots i]$
-		# and all elements > p in A$[i\dots b]$
-		i := partition(A, f, b, p)
-		# Recursively sort >-Partition
-		introsort_loop(A, i, b, depth_limit)
-		# Sort left partition ($\leq$) in next iteration
-		b := i
-		
+			depth_limit: Integer)
+			while b - f > |$\theta$|
+				if depth_limit == 0
+					heapsort(A, f, b)
+					return end
+				depth_limit := depth_limit - 1
+				p := Choose pivot element
+				
+				# Rearrange A such that all elements $\leq$ p are in $A[f\dots i]$
+				# and all elements > p in A$[i\dots b]$
+				i := partition(A, f, b, p)
+				# Recursively sort >-Partition
+				introsort_loop(A, i, b, depth_limit)
+				# Sort left partition ($\leq$) in next iteration
+				b := i
 	\end{minted}
 	% Referenz hinzufügen
 	\caption{Introsort mit \glqq $\leq$\grqq- und \glqq >\grqq-Partition.}
