@@ -24,45 +24,45 @@ Betrachten wir den String $\mathsf{T} =  babc\$ $. Ein Suffixarray in 1-Reihenfo
 Dadurch dass wir $h$ in jedem Schritt verdoppeln, reduziert sich unsere obere Schranke für die Anzahl der Vergleiche auf $\mathcal{O}(n\log n)$.
  \subsubsection{Algorithmus}
 Aufbauend auf den Resultaten aus dem vorherigen Abschnitt und dem des Ternary Quicksort, lässt sich nun der qSufSort Algorithmus wie folgt konstruieren.
-Benötigt werden neben dem Ergebnisarray $\mathsf{SA}$ zunächst zwei Hilfsarrays $V$ und $L$ der Länge $n$+1.\\
-Array $V$ speichert für das Suffixarray $\mathsf{SA}$ die Nummern der Gruppen. Die Nummer einer Gruppe ergibt sich aus dem maximalen Index im Suffixarray, den diese Gruppe belegt. Eine Gruppe, die also die Positionen $l$ bis $k$ mit $l \leq k$ in $\mathsf{SA}$ belegt, hat demnach die Gruppennummer $V[l]$=$V[l+1]$=...=$V[k]$=$k$.\\
-Das Hilfsarray $L$ dagegen speichert die dazu gehörigen Gruppenlängen. Um kombinierte sortierte Gruppen von unsortierten besser unterscheiden zu können, wird die Länge erst als negative Länge gespeichert. Für beliebige Gruppengrenzen $l$ und $k$ mit $l \leq k$ in $\mathsf{SA}$ ist also die Gruppenlänge, falls unsortiert, $L[l]$=($k-l+1$), anderenfalls $L[l]$=$-$($k-l+1$). \\
+Benötigt werden neben dem Ergebnisarray $\mathsf{SA}$ zunächst zwei Hilfsarrays $\mathsf{V}$ und $\mathsf{L}$ der Länge $n$+1.\\
+Array $\mathsf{V}$ speichert für das Suffixarray $\mathsf{SA}$ die Nummern der Gruppen. Die Nummer einer Gruppe ergibt sich aus dem maximalen Index im Suffixarray, den diese Gruppe belegt. Eine Gruppe, die also die Positionen $\mathsf{L}$ bis $k$ mit $\mathsf{L} \leq k$ in $\mathsf{SA}$ belegt, hat demnach die Gruppennummer $\mathsf{V}[l]=\mathsf{V}[l+1]=...=\mathsf{V}[k]=k$.\\
+Das Hilfsarray $\mathsf{L}$ dagegen speichert die dazu gehörigen Gruppenlängen. Um kombinierte sortierte Gruppen von unsortierten besser unterscheiden zu können, wird die Länge erst als negative Länge gespeichert. Für beliebige Gruppengrenzen $\mathsf{L}$ und $k$ mit $\mathsf{L} \leq k$ in $\mathsf{SA}$ ist also die Gruppenlänge, falls unsortiert, $\mathsf{L}[l]$=($k-l+1$), anderenfalls $\mathsf{L}[l]$=$-$($k-l+1$). \\
 Der Algorithmus geht wie folgt vor:\\
 
 %\begin{lstlisting}[caption={qSufSort},label=algo,captionpos=t,float,abovecaptionskip=-\medskipamount, mathescape]
 %1. Sortiere Suffixe $S_i$ anhand des ersten Zeichens in $\mathsf{SA}$ ein 
-%2. Berechne $V$ und $L$
+%2. Berechne $\mathsf{V}$ und $\mathsf{L}$
 %3. $h$ = 1
 %4. Do  
 %5.   Sortiere jede unsortierte Gruppe in $I$ mit Hilfe
 %     des ternaeren Quicksort mit V[i+h] als Key
 %6.   Markiere dabei die Grenzen von $A_l$, $A_e$ und $A_g$
 %7.   Erstelle neue Gruppen mit Hilfe der Grenzen
-%8.   Aktualisiere $V$ und $L$
+%8.   Aktualisiere $\mathsf{V}$ und $\mathsf{L}$
 %9.   h=2*h
 %10. Until($\mathsf{SA}$ besteht aus nur einer kombinierten sortierten Gruppe)
 %\end{lstlisting}
 \begin{minted}[escapeinside=||,mathescape=true, frame = single]{text}
 qSufSort(T)
 1. Sortiere Suffixe |$\mathsf{S_i}$| anhand des ersten Zeichens in |$\mathsf{SA}$| ein 
-2. Berechne |$V$| und |$L$|
+2. Berechne |$\mathsf{V}$| und |$\mathsf{L}$|
 3. |$h$ = 1|
 4. Do  
 5.   Sortiere jede unsortierte Gruppe in |$\mathsf{SA}$| mit Hilfe
-     des Ternary Quicksort mit |$V[i+h]$| als Key,
+     des Ternary Quicksort mit |$\mathsf{V}[i+h]$| als Key,
      wobei |$i$| dem Index des Suffixes entspricht
 6.   Markiere dabei die Grenzen von |$A_l$, $A_e$| und |$A_g$|
 7.   Erstelle neue Gruppen mit Hilfe der Grenzen
-8.   Aktualisiere |$V$| und |$L$|
+8.   Aktualisiere |$\mathsf{V}$| und |$\mathsf{L}$|
 9.   |$h=2*h$|
 10. Until(|$\mathsf{SA}$| besteht aus einer kombinierten sortierten Gruppe)
 \end{minted}
 
-In der ersten Zeile sortieren wir zunächst die Suffixe anhand ihres ersten Zeichens in das $\mathsf{SA}$ ein, wodurch dieses dann in 1-Reihenfolge vorliegt. Aufbauend darauf berechnen wir dann initial die Hilfsarrays $L$ und $V$ und setzen die Variable $h$ auf unsere derzeitige $h$-Reihenfolge, also 1.
+In der ersten Zeile sortieren wir zunächst die Suffixe anhand ihres ersten Zeichens in das $\mathsf{SA}$ ein, wodurch dieses dann in 1-Reihenfolge vorliegt. Aufbauend darauf berechnen wir dann initial die Hilfsarrays $\mathsf{L}$ und $\mathsf{V}$ und setzen die Variable $h$ auf unsere derzeitige $h$-Reihenfolge, also 1.
 Die nachfolgende Schleife wiederholen wir dann solange, bis unser Suffixarray nur noch eine kombinierte sortierte Gruppe beinhaltet, also vollständig sortiert ist.
-In dieser sortieren wir dann die einzelnen sortierten Gruppen, deren Startposition und Länge wir schnell mit $V$ und $L$ bestimmen können mit Hilfe des Ternary Quicksort auf Basis der Suffixarray-Position des an $i+h$ startenden Suffixes. Damit versetzen wir das Ergebnisarray $\mathsf{SA}$ nach Lemma \ref{manmyers} in $2h$-Reihenfolge. Dementsprechend setzen wir dann $h$ auf seinen doppelten Wert, nachdem wir in Zeile 7 und 8 die Informationen zu den Gruppen in $L$ und $V$ mit Hilfe der Split-Positionen des Quicksorts aktualisiert haben.\\
+In dieser sortieren wir dann die einzelnen sortierten Gruppen, deren Startposition und Länge wir schnell mit $\mathsf{V}$ und $\mathsf{L}$ bestimmen können mit Hilfe des Ternary Quicksort auf Basis der Suffixarray-Position des an $i+h$ startenden Suffixes. Damit versetzen wir das Ergebnisarray $\mathsf{SA}$ nach Lemma \ref{manmyers} in $2h$-Reihenfolge. Dementsprechend setzen wir dann $h$ auf seinen doppelten Wert, nachdem wir in Zeile 7 und 8 die Informationen zu den Gruppen in $\mathsf{L}$ und $\mathsf{V}$ mit Hilfe der Split-Positionen des Quicksorts aktualisiert haben.\\
 \subsubsection{Laufzeit}
-Die initiale Sortierung in Schritt 1 kann in $\mathcal{O}(n\log n)$ Zeit durchgeführt werden, beispielsweise mit Hilfe des Quicksort-Algorithmus. Die Berechnung der Arrays $V$ und $L$ ist in linearer Zeit mittels eines Scans über das Array $\mathsf{SA}$ möglich, sowohl in den Zeilen 2 und 3 als auch in Zeile 8. Der für die Laufzeit ausschlaggebende Teil ist die in Zeile 4 beginnende Schleife. Wie wir bereits gesehen haben, rufen wir diese höchstens $\mathcal{O}(\log n)$ mal auf. Zwar rufen wir in jedem Durchlauf in Zeile 5 den Quicksort auf, woraus sich intuitiv eine Worst-Case Laufzeit $\mathcal{O}(n\log  n)\cdot \mathcal{O}(\log n)$ = $\mathcal{O}(n(\log n)^2)$ ergeben würde, jedoch können wir diese mittels einer genaueren Analyse deutlich schärfer wählen:\\
+Die initiale Sortierung in Schritt 1 kann in $\mathcal{O}(n\log n)$ Zeit durchgeführt werden, beispielsweise mit Hilfe des Quicksort-Algorithmus. Die Berechnung der Arrays $\mathsf{V}$ und $\mathsf{L}$ ist in linearer Zeit mittels eines Scans über das Array $\mathsf{SA}$ möglich, sowohl in den Zeilen 2 und 3 als auch in Zeile 8. Der für die Laufzeit ausschlaggebende Teil ist die in Zeile 4 beginnende Schleife. Wie wir bereits gesehen haben, rufen wir diese höchstens $\mathcal{O}(\log n)$ mal auf. Zwar rufen wir in jedem Durchlauf in Zeile 5 den Quicksort auf, woraus sich intuitiv eine Worst-Case Laufzeit $\mathcal{O}(n\log  n)\cdot \mathcal{O}(\log n)$ = $\mathcal{O}(n(\log n)^2)$ ergeben würde, jedoch können wir diese mittels einer genaueren Analyse deutlich schärfer wählen:\\
 Als Sortierverfahren wurde sowohl in Zeile 1 als auch in Zeile 5 der Ternary Quicksort gewählt. Der Verlauf der Partitionierungen lässt sich implizit durch einen ternären Baum darstellen (siehe Abb. $\ref{terTree}$).\\
 Die Partitionierung eines Arrays $A$ mit $|A|=n$ lässt sich in $\mathcal{O}(n)$ berechnen. Da für die drei resultierenden Arrays $A_l$, $A_e$ und $A_g$ gilt, dass diese in Summe höchstens genauso lang sind wie $A$, also $n$, können wir auch die Partitionierung der gesamten unter $A$ liegenden Ebene in $\mathcal{O}(n)$ berechnen. Daraus folgt folgendes Lemma:
 \begin{lemma}
@@ -76,7 +76,7 @@ Die Höhe eines auf diese Weise erstellten ternären Baumes ist durch $\mathcal{
 \end{lemma}
 Fassen wir nun beide Lemmas inklusive unserer vorangegangen Überlegungen bezüglich der anderen Zeilen zusammen: 
 \begin{lemma}
-Die Berechnung des Suffix Arrays mit Hilfe des qSufSort-Algorithmus ist in $\mathcal{O}(n\log n)$ möglich.
+Die Berechnung des Suffix Arrays mit Hilfe des qSufSort-Algorithmus ist in $\mathcal{O}(n\log n)$ Zeit möglich.
 \end{lemma}
 \begin{figure}[t]
 \centering
