@@ -15,9 +15,9 @@
 }
 
 \subsection{Beispiel}
-In diesem Abschnitt präsentieren wir den qSufSort, inklusive der im vorherigen Kapitel vorgestellten Verbesserungen, anhand eines Durchlaufs mit dem Eingabestring $T = caabaccaabacaa\$$.\\
+In diesem Abschnitt präsentieren wir den qSufSort, inklusive aller der im vorherigen Kapitel vorgestellten Verbesserungen, anhand eines Durchlaufs mit dem Eingabestring $\mathsf{T} = caabaccaabacaa\$$.\\
 Dazu transformieren wir zunächst den gegebenen String mit Hilfe des in Kapitel \ref{wordpacking} vorgestellten Wordpackings. Dabei gehen wir wie folgt vor: \\
-Im Fall unseres Eingabestrings beträgt die effektive Alphabetgröße $\sigma = 3$. Darauf aufbauend lassen sich folgende Wertigkeiten der Zeichen des Alphabets zuordnen:\\
+Im Fall unseres Eingabestrings beträgt die effektive Alphabetgröße $|\Sigma| = 3$. Darauf aufbauend lassen sich folgende Wertigkeiten der Zeichen des Alphabets zuordnen:\\
 \begin{center}
 
 \begin{tabular}{c | c}
@@ -60,7 +60,9 @@ Aufbauend auf den neu errechneten Wertigkeiten der einzelnen Stellen lässt sich
 \hline
 i & 0 & 1 &2 &3 &4 &5 &6 &7 &8 &9 &10 &11 &12 &13 &14 \\
 \hline
-SA[i] & 14 & 13 &12 &1 &7 & 2 &8 &10 &4 &3 &9 &0 &6 &11 &5 \\
+$\mathsf{SA}[i]$ & 14 & 13 &12 &1 &7 & 2 &8 &10 &4 &3 &9 &0 &6 &11 &5 \\
+\hline
+Wert & 0 & 16 &20 &22 &22 &25 &25 &29 &31 &39 &39 &53 &53 &53 &61 \\
 \hline
 \end{tabular}
 \end{center}
@@ -70,9 +72,9 @@ Aus dem vorliegenden Suffix-Array lässt sich nun das Hilfsarray $V$ wie folgt i
 \hline
 i & 0 & 1 &2 &3 &4 &5 &6 &7 &8 &9 &10 &11 &12 &13 &14 \\
 \hline
-SA[i] & -3 & 13 &12 &1 &7 & 2 &8 &-2 &4 &3 &9 &0 &6 &11 &-1 \\
+$\mathsf{SA}$[i] & -3 & 13 &12 &1 &7 & 2 &8 &-2 &4 &3 &9 &0 &6 &11 &-1 \\
 
-V[SA[i]] & 0 & 1 & 2 & 4 & 4 & 6 & 6 & 7 & 8 & 10 & 10 & 13 & 13 & 13 & 14 \\
+$V$[$\mathsf{SA[i]}$] & 0 & 1 & 2 & 4 & 4 & 6 & 6 & 7 & 8 & 10 & 10 & 13 & 13 & 13 & 14 \\
 \hline
 \end{tabular}
 \end{center}
@@ -85,23 +87,23 @@ Nach der Initialisierung beginnt nun die Prefix-Doubling Phase in der wir in jed
 \hline
 $i$ & 0 & 1 &2 &3 &4 &5 &6 &7 &8 &9 &10 &11 &12 &13 &14 \\
 \hline
-$SA[i]$ & -3 & 13 &12 &1 &7 & 2 &8 &-2 &4 &3 &9 &0 &6 &11 &-1 \\
-$V[SA[i]]$ & 0 & 1 & 2 &  \textcolor{red}{4} & \textcolor{red}{4} & \textcolor{red}{6} & \textcolor{red}{6} & 7 & 8 & \textcolor{red}{10} & \textcolor{red}{10} & \textcolor{red}{13} & \textcolor{red}{13} & \textcolor{red}{13} & 14 \\
+$\mathsf{SA}[i]$ & -3 & 13 &12 &1 &7 & 2 &8 &-2 &4 &3 &9 &0 &6 &11 &-1 \\
+$V[\mathsf{SA}[i]]$ & 0 & 1 & 2 &  \textcolor{red}{4} & \textcolor{red}{4} & \textcolor{red}{6} & \textcolor{red}{6} & 7 & 8 & \textcolor{red}{10} & \textcolor{red}{10} & \textcolor{red}{13} & \textcolor{red}{13} & \textcolor{red}{13} & 14 \\
 \hline
-\tikzmark[xshift=-0.7em,yshift=1.6em]{a} $V[SA[i+h]]$ &  &  &  &  6 & 6 & 10 & 10 &  &  & 8 & 7 & 4 & 4 & 2 &  \\
+\tikzmark[xshift=-0.7em,yshift=1.6em]{a} $V[\mathsf{SA}[i+h]]$ &  &  &  &  6 & 6 & 10 & 10 &  &  & 8 & 7 & 4 & 4 & 2 &  \\
 \hline
-\tikzmark[xshift=-2em,yshift=1.6em]{b} $SA[i]$ & -3 & 13 &12 &1 &7 & 2 &8 &-4 &4 &9 &3 &-1 &0 &6 &-1 \\
-$V[SA[i]]$ & 0 & 1 & 2 &  \textcolor{red}{4} & \textcolor{red}{4} & \textcolor{red}{6} & \textcolor{red}{6} & 7 & 8 & 9 & 10 & 11 & \textcolor{red}{13} & \textcolor{red}{13} & 14 \\
+\tikzmark[xshift=-2em,yshift=1.6em]{b} $\mathsf{SA}[i]$ & -3 & 13 &12 &1 &7 & 2 &8 &-4 &4 &9 &3 &-1 &0 &6 &-1 \\
+$V[\mathsf{SA}[i]]$ & 0 & 1 & 2 &  \textcolor{red}{4} & \textcolor{red}{4} & \textcolor{red}{6} & \textcolor{red}{6} & 7 & 8 & 9 & 10 & 11 & \textcolor{red}{13} & \textcolor{red}{13} & 14 \\
 \hline
-\tikzmark[xshift=-0.7em,yshift=1.6em]{c} $V[SA[i+h]]$ &  &  &  &  10 & 9 & 8 & 7 &  &  &  &  &  & 6 & 6 &  \\
+\tikzmark[xshift=-0.7em,yshift=1.6em]{c} $V[\mathsf{SA}[i+h]]$ &  &  &  &  10 & 9 & 8 & 7 &  &  &  &  &  & 6 & 6 &  \\
 \hline
-\tikzmark[xshift=-2em,yshift=1.6em]{d} $SA[i]$ & -12 & 13 &12 &7 &1 &8 &2 &-4 &4 &9 &3 &-1 &0 &6 &-1 \\
-$V[SA[i]]$ & 0 & 1 & 2 &  3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & \textcolor{red}{13} & \textcolor{red}{13} & 14 \\
+\tikzmark[xshift=-2em,yshift=1.6em]{d} $\mathsf{SA}[i]$ & -12 & 13 &12 &7 &1 &8 &2 &-4 &4 &9 &3 &-1 &0 &6 &-1 \\
+$V[\mathsf{SA}[i]]$ & 0 & 1 & 2 &  3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & \textcolor{red}{13} & \textcolor{red}{13} & 14 \\
 \hline
-\tikzmark[xshift=-0.7em,yshift=1.6em]{e} $V[SA[i+h]]$ &  &  &  &  &  &  &  &  &  &  &  &  & 8 & 7 &  \\
+\tikzmark[xshift=-0.7em,yshift=1.6em]{e} $V[\mathsf{SA}[i+h]]$ &  &  &  &  &  &  &  &  &  &  &  &  & 8 & 7 &  \\
 \hline
-\tikzmark[xshift=-2em,yshift=1.6em]{f} $SA[i]$ & -15 & 13 &12 &7 &1 &8 &2 &-4 &4 &9 &3 &-1 &6 &0 &-1 \\
-$V[SA[i]]$ & 0 & 1 & 2 &  3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 \\
+\tikzmark[xshift=-2em,yshift=1.6em]{f} $\mathsf{SA}[i]$ & -15 & 13 &12 &7 &1 &8 &2 &-4 &4 &9 &3 &-1 &6 &0 &-1 \\
+$V[\mathsf{SA}[i]]$ & 0 & 1 & 2 &  3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 \\
 \hline
 \end{tabular}
 }
@@ -119,7 +121,7 @@ Die in rot markierten Zahlen stellen dabei Einträge unsortierter Gruppen dar.
 Zu Beginn handelt es sich dabei um die Intervalle $[3,4]$ (Suffixe\\ $aabaccaabacaa$ und $aabacaa$), $[5,6]$ (Suffixe $abaccaabacaa$ und $abacaa$), $[9, 10]$ (Suffixe $baccaabacaa$ und $bacaa$) und $[11,13]$ (Suffixe $caabaccaabacaa$, $caabacaa$ und $caa$).
 Wie zu erkennen ist, beginnen alle Suffixe innerhalb einer sortierten Gruppe mit den selben drei Zeichen, wodurch diese durch das Wordpacking in Kombination mit der initialen Sortierung nicht final sortiert werden konnten. \\
 Jede dieser Gruppen versuchen wir nun mit Hilfe der Position des $(i+h)$-ten Suffix im Suffix-Array weiter zu sortieren, wobei zu Beginn $h=1$ gilt. 
-Die Einträge der ersten beiden Gruppen zeigen dabei jeweils auf den selben Rang, wodurch hier eine feinere Sortierung nicht möglich ist. Die Einträge der Gruppe $[9,10]$ dagegen zeigen auf unterschiedliche Ränge, anhand derer wir diese Gruppe fertig sortieren können. Auch in der letzten Gruppe können wir die Sortierung verfeinern, haben allerdings auch wieder zwei gleiche Ränge, wodurch hier eine kleinere, unsortierte Gruppe übrig bleibt. Nach Abarbeiten der unsortierten Gruppen aktualisieren wir die Gruppenlängen in $SA$.\\
+Die Einträge der ersten beiden Gruppen zeigen dabei jeweils auf den selben Rang, wodurch hier eine feinere Sortierung nicht möglich ist. Die Einträge der Gruppe $[9,10]$ dagegen zeigen auf unterschiedliche Ränge, anhand derer wir diese Gruppe fertig sortieren können. Auch in der letzten Gruppe können wir die Sortierung verfeinern, haben allerdings auch wieder zwei gleiche Ränge, wodurch hier eine kleinere, unsortierte Gruppe übrig bleibt. Nach Abarbeiten der unsortierten Gruppen aktualisieren wir die Gruppenlängen in $\mathsf{SA}$.\\
 Für die nächste Iteration verdoppelt wir $h$ auf 2 und wiederholen das Vorgehen für die übrigen unsortierten Gruppen, also $[3,4]$ ,$[5,6]$ und $[12,13]$. Die ersten beiden Gruppen lassen sich nun endgültig sortieren, wohingegen die Einträge der letzten Gruppe wieder auf den selben Rang zeigen.\\
 Nach Aktualisierung der Gruppenlängen verdoppeln wir $h$ erneut und versuchen in der dritten Iteration erneut die Gruppe $[12,13]$ zu sortieren. Diesmal lässt sich diese endgültig sortieren, wodurch nun das gesamte Suffix-Array ausschließlich aus sortierten Gruppen besteht. Nach Aktualisierung der Gruppenlängen terminiert die Prefix Doubling Phase schließlich.\\
 Um nun das finale Suffix-Array zu bekommen, müssen wir das Hilfsarray $V$ invertieren. Dazu können wir eine der in Abschnitt \ref{isa2sa} gezeigten Techniken verwenden. Daraus resultiert folgendes Suffix-Array:
@@ -129,10 +131,10 @@ Um nun das finale Suffix-Array zu bekommen, müssen wir das Hilfsarray $V$ inver
 \hline
 i & 0 & 1 &2 &3 &4 &5 &6 &7 &8 &9 &10 &11 &12 &13 &14 \\
 \hline
-$V[SA[i]]$ & 0 & 1 & 2 &  3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 \\
-$SA[i]$ & 14 & 13 & 12 & 7 & 1 & 8 & 2 & 10 & 4 & 9 & 3 & 11 & 6 & 0 & 5 \\
+$V[\mathsf{SA}]$ & 0 & 1 & 2 &  3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 \\
+$\mathsf{SA}$ & 14 & 13 & 12 & 7 & 1 & 8 & 2 & 10 & 4 & 9 & 3 & 11 & 6 & 0 & 5 \\
 \hline
 \end{tabular}
 \end{center}
 
-Damit terminiert der qSufSort und wir haben in $SA$ das korrekte Suffix-Array gespeichert.
+Damit terminiert der qSufSort und wir haben in $\mathsf{SA}$ das korrekte Suffix-Array gespeichert.
