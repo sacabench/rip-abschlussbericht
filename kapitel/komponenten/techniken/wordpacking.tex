@@ -1,25 +1,13 @@
 \subsection{Wordpacking}
 \label{wordpacking}
-Beim Wordpacking \cite{Manber1993} handelt es sich um eine Technik,
-bei der mittels Transformation der Eingabe mehrere Zeichen mit nur einer Vergleichsoperation betrachtet werden sollen.
-Dabei wird angenommen, dass die Alphabetgröße $\sigma$ durch einen nicht-negativen Integer dargestellt werden kann.
-
-Die Zeichen des Alphabets werden dann durch einen numerischen Wert $x \in \mathbb{N}$
-entsprechend ihrer Wertigkeit im Intervall $[l,k]$, mit $l,k \in \mathbb{N}$, dargestellt,
-wobei das Terminalsymbol $\$$ die Wertigkeit 0 hat.
-Im Falle eines effektiven Alphabets würde dieses Intervall also $[1,\sigma]$ entsprechen.
-Darauf aufbauend berechnen wir den maximalen Wert für $r \in \mathbb{N}$, sodass $(\sigma+1)^r$ in
-ein Maschinenregister passt.
-
-Die Idee ist es nun den ungenutzten Platz innerhalb eines Registers zu nutzen,
-um dort zusätzliche Informationen über die nachfolgenden Zeichen mitzuspeichern
-und dabei den Stellenwert dieses Zeichens mit zu berücksichtigen.
-Dafür transformieren wir die Stellen des gegeben Textes T in den gepackten $T_{packed}$ wie folgt:
+Beim Wordpacking \cite{Manber1993} handelt es sich um eine Technik, bei der mittels Transformation der Eingabe mehrere Zeichen mit nur einer Vergleichsoperation betrachtet werden sollen. Dabei wird angenommen, dass die Alphabetgröße $|\Sigma|$ durch einen nicht-negativen Integer dargestellt werden kann.\\
+Die Zeichen des Alphabets werden dann durch einen numerischen Wert $x \in \mathbb{N}$  entsprechend ihrer Wertigkeit im Intervall $[l,k]$,  mit $l,k \in \mathbb{N}$, dargestellt, wobei das Terminalsymbol $\$$ die Wertigkeit 0 hat. Im Falle eines effektiven Alphabets würde dieses Intervall also $[1,|\Sigma|]$ entsprechen. Darauf aufbauend berechnen wir den maximalen Wert für $r \in \mathbb{N}$, sodass $(|\Sigma|+1)^r$ in ein Maschinenregister passt.\\
+Die Idee ist es nun den ungenutzten Platz innerhalb eines Registers zu nutzen, um dort zusätzliche Informationen über die nachfolgenden Zeichen mitzuspeichern und dabei den Stellenwert dieses Zeichens mit zu berücksichtigen. Dafür transformieren wir die Stellen des gegeben Textes $\mathsf{T}$ in den gepackten $\mathsf{T}_{packed}$ wie folgt:
 \begin{equation}
-T_{packed}[i]= \sum_{j=1}^r x_{i+j-1}\cdot(\sigma+1)^{r-j}, \text{mit }  x_i =0 \text{ für } i\geq n
+\mathsf{T}_{packed}[i]= \sum_{j=1}^r x_{i+j-1}\cdot(|\Sigma|+1)^{r-j}, \text{mit }  x_i =0 \text{ für } i\geq n
 \end{equation}
-Dabei multiplizieren wir jede Integerrepräsentation eines Buchstabens zunächst mit $(\sigma+1)^{r-1}$, dann die darauf folgende Stelle mit $(\sigma+1)^{r-2}$ etc., wobei der Faktor $(\sigma+1)^{r-j}$ mit einer Gewichtung vergleichbar ist. Dadurch erhalten wir für jede Stelle einen Wert, der die Wertigkeit von sich und seinen $r-1$ Nachfolgern repräsentiert. Sehen wir uns dazu ein Beispiel an:\\
-Gegeben sei der String T$ = abac\$$ mit $\sigma=3$. Die Wertigkeiten der Zeichen lassen sich wie folgt darstellen: 
+Dabei multiplizieren wir jede Integerrepräsentation eines Buchstabens zunächst mit $(|\Sigma|+1)^{r-1}$, dann die darauf folgende Stelle mit $(|\Sigma|+1)^{r-2}$ etc., wobei der Faktor $(|\Sigma|+1)^{r-j}$ mit einer Gewichtung vergleichbar ist. Dadurch erhalten wir für jede Stelle einen Wert, der die Wertigkeit von sich und seinen $r-1$ Nachfolgern repräsentiert. Sehen wir uns dazu ein Beispiel an:\\
+Gegeben sei der String $\mathsf{T} = abac\$$ mit $|\Sigma|=3$. Die Wertigkeiten der Zeichen lassen sich wie folgt darstellen: 
 \begin{center}
 \begin{tabular}{c | c}
 Zeichen & Wert \\
@@ -33,31 +21,17 @@ c & 3
 
 Der Einfachheit halber neben wir $r=3$ an. Daraus resultiert folgende Transformation des Textes:
 \begin{flushleft}
-$T_{packed}[0]=$ $w(a)* 4^{2}+w(b)* 4^{1}+w(a)*4^{0}=25$\\
-$T_{packed}[1]=$ $w(b)* 4^{2}+w(a)* 4^{1}+w(c)*4^{0}\hspace{1pt} =39$\\
-$T_{packed}[2]=$ $w(a)* 4^{2}+w(c)* 4^{1}+w(\$)*4^{0}=28$\\
-$T_{packed}[3]=$ $w(c)* 4^{2}+w(\$)*4^{1}\hspace{52pt} =48$\\
-$T_{packed}[4]=$ $w(\$)* 4^{2}\hspace{103pt}=0$
+$\mathsf{T}_{packed}[0]=$ $w(a)* 4^{2}+w(b)* 4^{1}+w(a)*4^{0}=25$\\
+$\mathsf{T}_{packed}[1]=$ $w(b)* 4^{2}+w(a)* 4^{1}+w(c)*4^{0}\hspace{1pt} =39$\\
+$\mathsf{T}_{packed}[2]=$ $w(a)* 4^{2}+w(c)* 4^{1}+w(\$)*4^{0}=28$\\
+$\mathsf{T}_{packed}[3]=$ $w(c)* 4^{2}+w(\$)*4^{1}\hspace{52pt} =48$\\
+$\mathsf{T}_{packed}[4]=$ $w(\$)* 4^{2}\hspace{103pt}=0$
 \end{flushleft}
-Hätten wir vor der Transformation die Stellen 0 und 2 des Textes verglichen,
-wäre das Resultat Gleichheit. Vergleichen wir dagegen die selben Stellen in der transformierten Eingabe,
-können wir anhand der zusätzlichen Informationen über die nachfolgenden Stellen sagen,
-dass das in 0 beginnende Suffixe lexikographisch kleiner ist als das an Stelle 2.
-Dadurch kann beispielsweise ein vergleichsbasierter Sortieralgorithmus mit dem selben Aufwand
-eine genauere Sortierung berechnen.
-
-Das Wordpacking lässt sich zudem beschleunigen, indem bei der Berechnung das Ergebnis
-der vorherigen Stelle mit berücksichtigt wird. Für $i > 0$ lässt sich die Berechnung wie folgt umformulieren:
+Hätten wir vor der Transformation die Stellen 0 und 2 des Textes verglichen, wäre das Resultat Gleichheit. Vergleichen wir dagegen die selben Stellen in der transformierten Eingabe, können wir anhand der zusätzlichen Informationen über die nachfolgenden Stellen sagen, dass das in 0 beginnende Suffixe lexikographisch kleiner ist als das an Stelle 2. Dadurch kann beispielsweise ein vergleichsbasierter Sortieralgorithmus mit dem selben Aufwand eine genauere Sortierung berechnen.\\
+Das Wordpacking lässt sich zudem beschleunigen, indem bei der Berechnung das Ergebnis der vorherigen Stelle mit berücksichtigt wird. Für $i > 0$ lässt sich die Berechnung wie folgt umformulieren:
 \begin{equation}
-T_{packed}[i] := (T_{packed}[i-1] \% (\sigma+1)^{r-1})*(\sigma+1) + x_{i+r}
+\mathsf{T}_{packed}[i] := (\mathsf{T}_{packed}[i-1] \% (|\Sigma|+1)^{r-1})*(|\Sigma|+1) + x_{i+r}
 \end{equation}
-Durch die Modulo-Operation wird der Beitrag der $(i-1)$-ten Stelle aus dem Betrag entfernt.
-Dazu erhöhen wir die Wertigkeit der übrigen Stellen mit der Multiplikation und erhöhen den Betrag
-zudem um den Wert des neu ins Fenster gerückten Zeichens.
-Runden wir darüber hinaus $(\sigma+1)$ auf die nächste Zweierpotenz auf,
-lassen sich die Modulo- und Multiplikationsoperatoren durch schnellere \textit{shift}- und \textit{and}- Operationen ersetzen.
-
-Dieses Verfahren ist vor allem bei vergleichsbasierten Sortierern hilfreich,
-da mit einem Vergleich direkt $r$ Stellen berücksichtigt werden.
-Genutzt wird dieses beispielsweise vom qSufSort (Kapitel 5.1) oder
-vom Prefix Doubling Algorithmus (Kapitel 5.2).
+Durch die Modulo-Operation wird der Beitrag der $(i-1)$-ten Stelle aus dem Beitrag entfernt. Dazu erhöhen wir die Wertigkeit der übrigen Stellen mit der Multiplikation und erhöhen den Beitrag zudem um den Wert des neu ins Fenster gerückten Zeichens.
+Runden wir darüber hinaus $(|\Sigma|+1)$ auf die nächste Zweierpotenz auf, lassen sich die Modulo- und Multiplikationsoperatoren durch schnellere \textit{shift}- und \textit{and}- Operationen ersetzen. \\
+Dieses Verfahren ist vor allem bei vergleichsbasierten Sortierern hilfreich, da mit einem Vergleich direkt $r$ Stellen berücksichtigt werden. Genutzt wird dieses beispielsweise vom qSufSort (Kapitel 5.1) oder vom Prefix Doubling Algorithmus (Kapitel 5.2).
