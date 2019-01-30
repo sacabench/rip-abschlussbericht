@@ -6,22 +6,36 @@
 \def\qsufsort{\texttt{qsufsort}\xspace}
 \def\cache{\texttt{cache}\xspace}
 
-Der \currentauthor{Marvin Böcker} Deep-Shallow SACA von Manzini und Ferragina aus ihrem Paper von 2004~\cite{saca:4} begann die Limitierung des Speicherverbrauches von SACAs.
+Der \currentauthor{Marvin Böcker} Deep-Shallow SACA von Manzini und Ferragina aus ihrem
+Paper von 2004~\cite{saca:4} begann die Limitierung des Speicherverbrauches von SACAs.
 Da das Suffixarray besonders bei großen Texten interessant ist, ist der Speicherbedarf möglichst stark zu begrenzen.
-Das bedeutet, dass zusätzlich zu den $n$ Byte, welche durch den Eingabetext belegt werden und den $4n$ Byte, welche das fertige Suffixarray speichern
-\footnote{Unter den Annahmen, dass in der Eingabe nur maximal 256 verschiedene Zeichen vorkommen und der Text die Länge von $2^{32}$ nicht übersteigt.}
+Das bedeutet, dass zusätzlich zu den $n$ Byte, welche durch den Eingabetext belegt werden
+und den 4 bis 8 $n$ Byte, welche das fertige Suffixarray speichern
+\footnote{Unter den Annahmen, dass in der Eingabe nur maximal 256 verschiedene Zeichen vorkommen.}
 nur wenig Hilfs-Speicherplatz belegt wird.
-Insgesamt hat der Speicherbedarf der Suffixarray-Konstruktion also eine untere Schranke von $5n$ Byte.
-\qsufsort (einer der Algorithmen, mit denen im Paper von Manzini und Ferragina vergleichen wird) benutzt beispielsweise $8n$ Byte an Speicher~\cite{saca:4}.
-Allerdings gibt es seit der Veröffentlichung des Papers auch viele Algorithmen mit konstantem oder keinem zusätzlichen Speicherverbrauch, wie beispielsweise SACA-K~\cite{saca:7}.
+Insgesamt hat der Speicherbedarf der Suffixarray-Konstruktion also eine untere Schranke von
+$5n$ Byte\footnote{Wenn man das Suffixarray mit 32-Bit Zahlen kodiert.
+Bei 40, 48 und 64 Bit Zahlen ist die untere Grenze jeweils höher.}.
+\qsufsort (einer der Algorithmen, mit denen im Paper von Manzini und Ferragina vergleichen wird)
+benutzt beispielsweise zusätzlich $4n$ Byte an Speicher~\cite{saca:4}.
+Allerdings gibt es seit der Veröffentlichung des Papers auch viele Algorithmen mit
+konstantem oder keinem zusätzlichen Speicherverbrauch, wie beispielsweise SACA-K~\cite{saca:7}.
 
-Im hier vorliegenden Algorithmus kann durch einen Parameter bestimmt werden, wie viel zusätzlicher Speicherplatz gegen ersparte Laufzeit eingetauscht wird.
-Der im Paper verwendete Parameterwert kommt auf einen gesamten Speicherplatzverbrauch von $5.03n$ Byte\footnote{Bei Verwendung von 32-Bit Wörtern für das Suffix-Array.}:
-je $100$ MiB Eingabetext erzeugt er $400$ MiB Suffix-Array und verwendet lediglich 3 MiB Hilfsspeicher.
+Im hier vorliegenden Algorithmus kann durch einen Parameter bestimmt werden, wie viel
+zusätzlicher Speicherplatz gegen ersparte Laufzeit eingetauscht wird.
+Der im Paper verwendete Parameterwert kommt auf einen gesamten Speicherplatzverbrauch
+von $5.03n$ Byte\footnote{Bei Verwendung von 32-Bit Wörtern für das Suffix-Array.}:
+je $100$ MiB Eingabetext verwendet er lediglich 3 MiB Hilfsspeicher.
 
 Ein Nachteil des hier vorgestellten Algorithmus besteht in seiner schlechten Worst-Case-Komplexität:
 Er braucht theoretisch maximal $\mathcal O(n^2 \log n)$ Rechenschritte, um das Suffixarray zu konstruieren.
-Allerdings konnten Manzini und Ferragina zeigen, dass das Verfahren in der Praxis dennoch gute Ergebnisse liefert~\cite{saca:4}.
+Allerdings konnten Manzini und Ferragina zeigen, dass das Verfahren in der Praxis dennoch
+gute Ergebnisse liefert~\cite{saca:4}.
+
+Wir stellen hier zwei verschiedene Varianten vor: Die erste Variante (Deep-Shallow mit Big Buckets)
+ist aus dem Paper entnommen und wird im nächsten Teil vorrangig beschrieben.
+Die zweite Variante (Deep-Shallow mit Small Buckets, \cref{ds:zweite}) wurde von uns selbst erdacht und
+ist besser für eine Parallelisierung geeignet. Dafür verzichtet sie jedoch auf jegliches Induzieren. 
 
 \subsection{Überblick}
 
@@ -44,6 +58,8 @@ def deep_shallow_sort(T: Text):
 
   while (not all buckets are sorted) do:
     find the smallest unsorted bucket |$B_{\alpha}$|.
+    
+    # Skip already sorted subbuckets $B_{\alpha\sigma}$ for every $\sigma \in \Sigma$.
     shallow_sort(|$B_{\alpha}$|, 0)
     Mark A as sorted.
 
@@ -563,7 +579,7 @@ So können sie beim Sortieren von $B_\sigma$ übersprungen werden.
 \multicolumn{8}{|c|}{$B_a$} & \multicolumn{2}{c|}{$B_b$} & \multicolumn{4}{c|}{$B_c$} \\
 \hline
 \end{tabular}
-\caption{SA nach Schritt 1: Counting Sort}
+\caption{SA nach Schritt 1: Bucket Sort}
 \label{ds:beispiel1}
 \end{figure}
 
@@ -589,7 +605,7 @@ beispielhaft\footnote{Insbesondere wird der Algorithmus mit Beispiel-Parameterwe
 die in einer echten Anwendung sehr unangebracht wären. Diese Parameter sind $L = 3, d = 7$. Außerdem wird der copy-Schritt weggelassen, um mehr interessante Fälle zeigen zu können.}
 am Eingabetext \glqq caabaccaabacaa\grqq{} ausgeführt.
 
-\paragraph{Schritt 1} Sortiere alle Suffixe mittels Counting Sort nach dem ersten Zeichen\footnote{Sowohl die Referenzimplementierung als auch unsere Implementierung benutzen Buckets, welche nach den ersten beiden Zeichen sortiert wurden.
+\paragraph{Schritt 1} Sortiere alle Suffixe mittels Bucket Sort nach dem ersten Zeichen\footnote{Sowohl die Referenzimplementierung als auch unsere Implementierung benutzen Buckets, welche nach den ersten beiden Zeichen sortiert wurden.
 Aus Gründen der Veranschaulichung wird hier allerdings nach nur einem Buchstaben sortiert.} in einen der Buckets.
 Der Status des Algorithmus nach diesem Schritt ist in \cref{ds:beispiel1} abgebildet.
 
@@ -648,6 +664,7 @@ Schlussendlich ist damit der gesamte Text sortiert, da es keine unsortierten Buc
 
 
 \subsection{Variante und Parallelität}
+\label{ds:zweite}
 
 \begin{listing}[!h]
 \begin{minted}[mathescape=true, escapeinside=||]{python}
@@ -662,14 +679,14 @@ def deep_shallow_sort_parallel(T: Text):
 
   parallel for all buckets |$B_{\alpha\beta}$| do:
     shallow_sort(|$B_{\alpha\beta}$|, 0)
-    Mark A as sorted.
 \end{minted}
 \caption{parallele Variante des Algorithmus}
 \label{ds:alg:parallel}
 \end{listing}
 
 % Dieses noindent ist nur erlaubt, weil aufgrund der Grafik der Absatz nicht richtig begonnen wird.
-\noindent Durch das Weglassen des copy-Verfahrens ist es möglich, den Algorithmus sehr simpel zu parallelisieren.
+\noindent Durch das Weglassen des copy-Verfahrens und des Induced Sortings ist es möglich,
+den Algorithmus sehr simpel zu parallelisieren.
 In \cref{ds:alg:parallel} findet sich der Pseudocode dieser Variante.
 Dabei werden die $\alpha\beta$-Buckets alle zeitgleich sortiert und
 der Induzierschritt über alle $\sigma\alpha$ Buckets, für alle $\sigma$ für die $B_{\sigma\alpha}$ unsortiert ist, weggelassen.
@@ -677,7 +694,7 @@ Eine Synchronisation der Threads ist dann nur für die Verwendung der \texttt{AN
 Dadurch ergibt sich eine hohe parallele Effizienz.
 Leider hat sich in der Evaluation gezeigt, dass die hohe Komplexität unserer
 Deep-Shallow-Implementierung nicht dadurch ausgeglichen werden kann.
-Die Referenzimplementierung konnte aufgrund ihrer unübersichtlichen C-Implementierung nicht parallelisiert werden,
+Die Referenzimplementierung konnte von uns aufgrund ihrer unübersichtlichen C-Implementierung nicht parallelisiert werden,
 da nicht klar erkennbar war, an welchen Stellen auf die gemeinsamen Speicherbereiche zugegriffen wird.
 
 \subsection{Vergleich}
