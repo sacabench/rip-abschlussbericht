@@ -4,6 +4,53 @@
 Mit fortlaufendem Fortschritt in der Entwicklung von General-Purpose-GPUs (GPGPUs), insbesondere innerhalb der letzten Jahre, wurde der Gebrauch von Grafikkarten, als Koprozessor immer populärer. Vor allem wegen der hohen Parallelität, die die Bauweise der Grafikprozessoren ermöglicht, können Berechnungen damit enorm beschleunigt werden. Auch im Bereich der Suffix-Array-Konstruktions-Algorithmen entstanden für dieses Rechenmodell bereits Ansätze. Dazu gehört unter anderem der Prefix Doubling Ansatz von Osipov [TODO], der Skew Ansatz von Deo und Keely [TODO] und ein Hybrid beider Varianten von Wang, Baxter und Owens [TODO]. Im Rahmen unserer Projektgruppe haben wir uns auf ersteren fokussiert und diesen innerhalb des Frameworks implementiert und evaluiert.\\
 In diesem Kapitel werden wir dazu zunächst den Algorithmus von Osipov vorstellen und im Anschluss auf die Parallelisierung und Implementierung, speziell im Bezug auf die GPU, eingehen.
 \subsection{Algorithmus}
-bla bla bla
+Die Idee des Algorithmus von Osipov basiert auf den Prefix Doublern von zum einen Larson und Sadakane [TODO], als auch von Manber und Myer [TODO]. In Bezug auf Parallelität hat Ersterer das Problem, dass die zu sortierenden Gruppen innerhalb einer Iteration unterschiedliche Längen haben können, wodurch unbalancierte Workloads entstehen. Der Algorithmus von Manber und Myer dagegen hat dieses Problem zwar nicht, sortiert dafür aber bereits fertig sortierte Suffixe erneut. Die Idee ist es nun, beide Ansätze zu kombinieren, also global zu sortieren, allerdings nur mit den Suffixen, die noch nicht fertig sortiert wurden oder für die Sortierung noch benötigt werden. Dabei soll folgendes Lemma helfen:
+\begin{lemma}
+Falls in der i-ten Iteration des Manber-Myers Algorithmus gilt, dass
+\begin{itemize}
+\item $\mathsf{S_i}$ ist eine sortierte Gruppe in $\mathsf{SA_{2^k}}$
+\item $i < 2^{k+1}$ oder $\mathsf{S_{i-2^{k+1}}}$ ist eine sortierte Gruppe
+\end{itemize} 
+dann gilt für alle nachfolgenden Iterationen $j>k$ entweder $i<2^i$ oder $\mathsf{S_{i-2^j}}$ ist eine sortierte Gruppe.
+\end{lemma}
+Mit Hilfe dieses Lemmas können wir nun, falls die Bedingungen zutreffen, fertig sortierte Gruppen innerhalb des Sortierschritt nicht weiter beachten.\\
+Es ergibt sich folgender Algorithmus:
+\newpage
+\begin{minted}[escapeinside=||,mathescape=true, frame = single]{text}
+osipov(T)
+1. Sortiere Suffixe |$\mathsf{S_i}$| anhand der ersten vier Zeichens in |$\mathsf{SA_4}$| ein 
+2. Initialisiere |$\mathsf{ISA_4}$| 
+3. Markiere sortierte Gruppen in |$\mathsf{ISA_4}$| durch negieren
+4. |$size = n, h = 4$| 
+5. while(|$size > 0$|)  
+6.   |$s = 0$|
+7.   for(|$0 \leq j < size$|)
+8.      |$i = \mathsf{SA_h}-h$|
+9.      if(|$(i>0) \land (\mathsf{ISA_h}[i]>0)$|)
+10.        triples.add((|$i, \mathsf{ISA_h}[i], \mathsf{ISA_h}[\mathsf{SA_h}[j]]$|))
+11.        |$s++$|
+12.     |$i = \mathsf{SA_h}$|
+13.     if(|$(i>0) \land (\mathsf{ISA_h}[i]>0)$|)
+14.        triples.add((|$i, \mathsf{ISA_h}[i], -\mathsf{ISA_h}[i]$|))
+15.        |$s++$|
+16.   sort(value(|$\mathsf{SA_{2h}},h\text{-rank}$|), key(|$2h\text{-rank}$|))
+17.   |$head = 0$|
+18.   for(|$i \leq j < s $|)
+19.      if(|$2h\text{-rank}[j] \neq 2h\text{-rank}[head]$|)
+20.         |$head = j$|
+21.      else
+22.         if(|$h\text{-rank}[j] \neq h\text{-rank}[head]$|)
+23.            |$2h\text{-rank}[j]= 2h\text{-rank}[j]+j-head$|
+24.            |$head=j$|
+25.         else
+26.            |$2h\text{-rank}[j]= 2h\text{-rank}[head]$|
+27.   for(|$0 \leq i \leq s$|)
+28.      |$\mathsf{ISA_{2h}}[\mathsf{SA_{2h}[i]}]=2h\text{-rank}[\mathsf{SA_{2h}}[i]]$|
+29.   markiere neue sortierte Gruppen in |$\mathsf{ISA_{2h}}$| negativ
+30.   |$size=s, h = 2 \cdot h$| 
+\end{minted}
+Beschreibung bla bla bla
 \subsection{Parallelität und Implementierung}
 bla bla nvidia bla bla
+\subsection{Beispiel}
+bla bla bla 
