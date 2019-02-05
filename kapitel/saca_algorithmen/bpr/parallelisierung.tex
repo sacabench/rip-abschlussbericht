@@ -202,4 +202,5 @@ Jeder Right-to-Left Scan basiert somit auf allen Right-to-Left Scans lexikograph
 \[\forall p:~\forall p^\prime < p:~\rtl{p^\prime} \prec \rtl{p}\]
 Eine ähnliche Abhängigkeit ist für Left-to-Right Scans zu beobachten: Ein Left-To-Right Scan \ltr{p} auf einem Bucket \bucket{p} kann nur dann konfliktfrei durchgeführt werden, wenn zuvor der zugehörige Right-To-Left Scan auf \bucket{p} sowie alle Left-to-Right Scans auf \ltr{p^\prime} mit \(p^\prime < p\) beendet sind:
 \[\forall p:~\forall p^\prime < p:~\ltr{p^\prime} \prec \ltr{p} \wedge \ltr{p^\prime} \prec \ltr{p}\]\par
-Aus beiden Abhängigkeiten folgt als einzige Möglichkeit zur Parallelisierung der Schritte eine parallele Bearbeitung von maximal zwei Schritten:
+Aus beiden Abhängigkeiten folgt eine nicht parallelisierbare Sequenz von Schritten. Eine parallele Bearbeitung eines einzelnen Scans ist darüber hinaus auch nicht möglich, da jede Schreibposition von den zuvor gelesenen Elementen abhängt.\par\medskip
+Eine Parallelisierung der Copy-Phase kann erfolgen, wenn diese statt mit der Tiefe 2 nur mit der Tiefe 1 durchgeführt wird. Die dadurch entstehende Laufzeit für zusätzlichen Sortieraufwand ist jedoch höher als die durch parallele Verarbeitung eingesparte Laufzeit der Copy-Phase.
