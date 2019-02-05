@@ -5,6 +5,7 @@ Die Implementierung des \bpr Algorithmus für das \sacabench Framework erfolgte 
 Erst im Anschluss daran fand ein direkter Vergleich der beiden Implementierungen statt, der einige algorithmische Unterschiede in der Umsetzung von Teilfunktionen offenbarte. Teilweise konnte die Laufzeit durch Anpassung derartiger Codestellen an das Original verringert werden, während sich in anderen Funktionen die neu implementierte Variante als effizienter herausstellte. In allen Fällen wurde dann jeweils die schnellere Methode beibehalten. Die wichtigsten dadurch entstandenen Unterschiede zwischen der Referenzimplementierung und derer der Projektgruppe werden in diesem Kapitel aufgeführt.
 
 \paragraph{Seward's copy}
+\label{bpr:seward}
 Beide Varianten des Algorithmus verwenden die von Seward \cite{seward2000} beschriebene Copy-Technik, um aus bereits sortierten Einträgen die Reihenfolge von bis dahin unsortierten Suffixen abzuleiten. 
 \begin{figure}[ht]
 	\resizebox{\textwidth}{!}{
