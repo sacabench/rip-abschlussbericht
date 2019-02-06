@@ -22,34 +22,36 @@ osipov(T)
 2. Initialisiere |$\mathsf{ISA_4}$| 
 3. Markiere sortierte Gruppen in |$\mathsf{ISA_4}$| durch negieren
 4. |$size = n, h = 4$| 
-5. while(|$size > 0$|)  
+5. while|$(size > 0)$|  
 6.   |$s = 0$|
-7.   for(|$0 \leq j < size$|)
+7.   for|$(0 \leq j < size)$|)
 8.      |$i = \mathsf{SA_h}-h$|
-9.      if(|$(i>0) \land (\mathsf{ISA_h}[i]>0)$|)
-10.        triples.add((|$i, \mathsf{ISA_h}[i], \mathsf{ISA_h}[\mathsf{SA_h}[j]]$|))
+9.      if|$((i>0) \land (\mathsf{ISA_h}[i]>0))$|
+10.        triples.add|$((i, \mathsf{ISA_h}[i], \mathsf{ISA_h}[\mathsf{SA_h}[j]]))$|
 11.        |$s++$|
 12.     |$i = \mathsf{SA_h}$|
-13.     if(|$(i>0) \land (\mathsf{ISA_h}[i]>0)$|)
-14.        triples.add((|$i, \mathsf{ISA_h}[i], -\mathsf{ISA_h}[i]$|))
+13.     if|$((\mathsf{ISA_h}[i]<0) \land (i-2h\geq 0) \land (\mathsf{ISA_h}[i-2h \geq 0))$|
+14.        triples.add|$((i, \mathsf{ISA_h}[i], -\mathsf{ISA_h}[i]))$|
 15.        |$s++$|
-16.   sort(value(|$\mathsf{SA_{2h}},h\text{-rank}$|), key(|$2h\text{-rank}$|))
+16.   sort$($value|$(\mathsf{SA_{2h}},h\text{-rank})$|, key|$(2h\text{-rank}))$|
 17.   |$head = 0$|
-18.   for(|$i \leq j < s $|)
-19.      if(|$2h\text{-rank}[j] \neq 2h\text{-rank}[head]$|)
+18.   for|$(i \leq j < s )$|
+19.      if|$(2h\text{-rank}[j] \neq 2h\text{-rank}[head])$|
 20.         |$head = j$|
 21.      else
-22.         if(|$h\text{-rank}[j] \neq h\text{-rank}[head]$|)
+22.         if|$(h\text{-rank}[j] \neq h\text{-rank}[head])$|
 23.            |$2h\text{-rank}[j]= 2h\text{-rank}[j]+j-head$|
 24.            |$head=j$|
 25.         else
 26.            |$2h\text{-rank}[j]= 2h\text{-rank}[head]$|
-27.   for(|$0 \leq i \leq s$|)
+27.   for|$(0 \leq i \leq s)$|
 28.      |$\mathsf{ISA_{2h}}[\mathsf{SA_{2h}[i]}]=2h\text{-rank}[\mathsf{SA_{2h}}[i]]$|
 29.   markiere neue sortierte Gruppen in |$\mathsf{ISA_{2h}}$| negativ
 30.   |$size=s, h = 2 \cdot h$| 
 \end{minted}
-Beschreibung bla bla bla
+
+In der ersten Zeile werden die Suffixe anhand ihrer ersten vier Zeichen sortiert und die daraus resultierende Reihenfolge in $\mathsf{SA_4}$ gespeichert. Darauf aufbauend wird das $\mathsf{ISA_4}$ konstruiert, darin bereits fertig sortierte Elemente mit einem Flag markiert und die Variablen $size$ und $h$ initialisiert. Die folgende Schleife wird solange wiederholt, bis alle Elemente sortierte Gruppen darstellen.  
+
 \subsection{Parallelität und Implementierung}
 bla bla nvidia bla bla
 \subsection{Beispiel}
