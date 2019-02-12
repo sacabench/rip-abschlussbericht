@@ -1,11 +1,53 @@
 \section{GPU Prefix Doubler}
 \label{algorithm:gpuprefix}
 
-Mit fortlaufendem Fortschritt in der Entwicklung von General-Purpose-GPUs (GPGPUs), insbesondere innerhalb der letzten Jahre, wurde der Gebrauch von Grafikkarten, als Koprozessor immer populärer. Vor allem wegen der hohen Parallelität, die die Bauweise der Grafikprozessoren ermöglicht, können Berechnungen damit enorm beschleunigt werden. Auch im Bereich der Suffix-Array-Konstruktions-Algorithmen entstanden für dieses Rechenmodell bereits Ansätze. Dazu gehört unter anderem der Prefix Doubling Ansatz von Osipov [TODO], der Skew Ansatz von Deo und Keely [TODO] und ein Hybrid beider Varianten von Wang, Baxter und Owens [TODO]. Im Rahmen unserer Projektgruppe haben wir uns auf ersteren fokussiert und diesen innerhalb des Frameworks implementiert und evaluiert.\\
-In diesem Kapitel werden wir dazu zunächst den Algorithmus von Osipov vorstellen und im Anschluss auf die Parallelisierung und Implementierung, speziell im Bezug auf die GPU, eingehen.
+Mit fortlaufendem Fortschritt in der Entwicklung von General-Purpose-GPUs (GPGPUs), insbesondere innerhalb der letzten Jahre, wurde der Gebrauch von Grafikkarten als Koprozessor für grafikunabhängige Algorithmen immer populärer. Dabei ermöglicht die Bauweise der Grafikprozessoren eine hohe Parallelität und beschleunigt die Berechnungen enorm. Entwicklungsumgebungen wie das NVIDIA CUDA Toolkit werden fortlaufend weiterentwickelt und integrieren vor allem für allgemeine GPU-Berechnungen immer mehr Möglichkeiten. Zusätzlich bieten Libraries wie \textit{Thrust} und \textit{CUB} bereits eine Unterstützung allgemeiner Algorithmen auf der Grafikkarte wie Radixsort oder Präfixsummen an.
+
+Auch im Bereich der Suffix-Array-Konstruktions-Algorithmen entstanden für dieses Rechenmodell bereits Ansätze. Dazu gehört unter anderem der Prefix Doubling Ansatz von Osipov [TODO], der Skew Ansatz von Deo und Keely [TODO] und ein Hybrid beider Varianten von Wang, Baxter und Owens [TODO]. Im Rahmen unserer Projektgruppe haben wir uns auf ersteren fokussiert und diesen innerhalb des Frameworks implementiert und evaluiert.\\
+In diesem Kapitel werden wir dazu zunächst den sequentiellen Algorithmus von Osipov vorstellen und an einem Beispiel erläutern, bevor wir auf die Ideen der Parallelisierung und deren Implementierungen, speziell im Bezug auf die GPU, eingehen.
 \subsection{Algorithmus}
-Die Idee des Algorithmus von Osipov basiert auf den Prefix Doublern von zum einen Larson und Sadakane [TODO], als auch von Manber und Myer [TODO]. In Bezug auf Parallelität hat Ersterer das Problem, dass die zu sortierenden Gruppen innerhalb einer Iteration unterschiedliche Längen haben können, wodurch unbalancierte Workloads entstehen. Der Algorithmus von Manber und Myer dagegen hat dieses Problem zwar nicht, sortiert dafür aber bereits fertig sortierte Suffixe erneut. Die Idee ist es nun, beide Ansätze zu kombinieren, also global zu sortieren, allerdings nur mit den Suffixen, die noch nicht fertig sortiert wurden oder für die Sortierung noch benötigt werden. Dabei soll folgendes Lemma helfen:
-\begin{lemma}
+\begin{listing}
+\begin{minted}[escapeinside=||,mathescape=true, frame = single]{text}
+osipov(T)
+# Tupel = (|$\mathsf{SA_{2h}}$, $h$-rank, $2h$|-rank)
+1. Sortiere Suffixe |$\mathsf{S_i}$| anhand der ersten vier Zeichen in |$\mathsf{SA_4}$| ein 
+2. Initialisiere |$\mathsf{ISA_4}$| 
+3. Markiere sortierte Gruppen in |$\mathsf{ISA_4}$| durch Negieren
+4. |$size = n, h = 4$| 
+5. while|$(size > 0)$|  
+6.   |$s = 0$|
+7.   for|$(0 \leq j < size)$|)
+8.      |$i = \mathsf{SA_h[j]}-h$|
+9.      if|$((i>0) \land (\mathsf{ISA_h}[i]>0))$|
+10.        triples.add|$((i, \mathsf{ISA_h}[i], \mathsf{ISA_h}[\mathsf{SA_h}[j]]))$|
+11.        |$s$|++
+12.     |$i = \mathsf{SA_h[j]}$|
+13.     if|$((\mathsf{ISA_h}[i]<0) \land (i-2h\geq 0) \land (\mathsf{ISA_h}[i-2h \geq 0))$|
+14.        triples.add|$((i, \mathsf{ISA_h}[i], -\mathsf{ISA_h}[i]))$|
+15.        |$s$|++
+16.   sort|$($\text{value}$(\mathsf{SA_{2h}},2h\text{-rank})$|, key|$(h\text{-rank}))$|
+17.   |$head = 0$|
+18.   for|$(i \leq j < s )$|
+19.      if|$(h\text{-rank}[j] > h\text{-rank}[head])$|
+20.         |$head = j$|
+21.      else
+22.         if|$(2h\text{-rank}[j] \neq 2h\text{-rank}[head])$|
+23.            |$h\text{-rank}[j]= h\text{-rank}[head]+j-head$|
+24.            |$head=j$|
+25.         else
+26.            |$h\text{-rank}[j]= h\text{-rank}[head]$|
+27.   for|$(0 \leq i \leq s)$|
+28.      |$\mathsf{ISA_{2h}}[\mathsf{SA_{2h}}[i]]=h\text{-rank}[\mathsf{SA_{2h}}[i]]$|
+29.   Markiere neue sortierte Gruppen in |$\mathsf{ISA_{2h}}$| durch Negieren
+30.   |$size=s, h = 2 \cdot h$| 
+31. Berechne |$\mathsf{SA}\ \text{aus}\ \mathsf{ISA_h}$|
+\end{minted}
+\caption{Der sequentielle Prefix Doubling Algorithmus von Osipov.}
+\label{alg:osipov}
+\end{listing}
+
+Die Idee des Algorithmus von Osipov basiert sowohl auf den Prefix Doublern von Larson und Sadakane [TODO], als auch von Manber und Myer [TODO]. In Bezug auf Parallelität hat Ersterer das Problem, dass die zu sortierenden Gruppen innerhalb einer Iteration unterschiedliche Längen haben können, wodurch unbalancierte Workloads entstehen. Der Algorithmus von Manber und Myer dagegen hat dieses Problem zwar nicht, sortiert dafür aber bereits fertig sortierte Suffixe erneut. Die Idee ist es nun, beide Ansätze zu kombinieren, also global zu sortieren, allerdings nur mit den Suffixen, die noch nicht fertig sortiert wurden oder für die Sortierung noch benötigt werden. Dabei soll folgendes Lemma helfen:
+\begin{lemma}\label{lem:sort-gruppe}
 Falls in der i-ten Iteration des Manber-Myers Algorithmus gilt, dass
 \begin{itemize}
 \item $\mathsf{S_i}$ ist eine sortierte Gruppe in $\mathsf{SA_{2^k}}$
@@ -13,46 +55,26 @@ Falls in der i-ten Iteration des Manber-Myers Algorithmus gilt, dass
 \end{itemize} 
 dann gilt für alle nachfolgenden Iterationen $j>k$ entweder $i<2^i$ oder $\mathsf{S_{i-2^j}}$ ist eine sortierte Gruppe.
 \end{lemma}
-Mit Hilfe dieses Lemmas können wir nun, falls die Bedingungen zutreffen, fertig sortierte Gruppen innerhalb des Sortierschritt nicht weiter beachten.\\
-Es ergibt sich folgender Algorithmus:
-\newpage
-\begin{minted}[escapeinside=||,mathescape=true, frame = single]{text}
-osipov(T)
-1. Sortiere Suffixe |$\mathsf{S_i}$| anhand der ersten vier Zeichens in |$\mathsf{SA_4}$| ein 
-2. Initialisiere |$\mathsf{ISA_4}$| 
-3. Markiere sortierte Gruppen in |$\mathsf{ISA_4}$| durch negieren
-4. |$size = n, h = 4$| 
-5. while|$(size > 0)$|  
-6.   |$s = 0$|
-7.   for|$(0 \leq j < size)$|)
-8.      |$i = \mathsf{SA_h}-h$|
-9.      if|$((i>0) \land (\mathsf{ISA_h}[i]>0))$|
-10.        triples.add|$((i, \mathsf{ISA_h}[i], \mathsf{ISA_h}[\mathsf{SA_h}[j]]))$|
-11.        |$s++$|
-12.     |$i = \mathsf{SA_h}$|
-13.     if|$((\mathsf{ISA_h}[i]<0) \land (i-2h\geq 0) \land (\mathsf{ISA_h}[i-2h \geq 0))$|
-14.        triples.add|$((i, \mathsf{ISA_h}[i], -\mathsf{ISA_h}[i]))$|
-15.        |$s++$|
-16.   sort$($value|$(\mathsf{SA_{2h}},h\text{-rank})$|, key|$(2h\text{-rank}))$|
-17.   |$head = 0$|
-18.   for|$(i \leq j < s )$|
-19.      if|$(2h\text{-rank}[j] \neq 2h\text{-rank}[head])$|
-20.         |$head = j$|
-21.      else
-22.         if|$(h\text{-rank}[j] \neq h\text{-rank}[head])$|
-23.            |$2h\text{-rank}[j]= 2h\text{-rank}[j]+j-head$|
-24.            |$head=j$|
-25.         else
-26.            |$2h\text{-rank}[j]= 2h\text{-rank}[head]$|
-27.   for|$(0 \leq i \leq s)$|
-28.      |$\mathsf{ISA_{2h}}[\mathsf{SA_{2h}[i]}]=2h\text{-rank}[\mathsf{SA_{2h}}[i]]$|
-29.   markiere neue sortierte Gruppen in |$\mathsf{ISA_{2h}}$| negativ
-30.   |$size=s, h = 2 \cdot h$| 
-\end{minted}
+% Beispiel?
+Es besagt, dass sortierte Gruppen, welche im nächsten Schritt eine bereits sortierte Gruppe sortieren würden, nicht mehr betrachtet werden müssen. Dies ist möglich, da durch die Verdopplung der betrachteten Suffixlänge das hintere der beiden Suffixe immer wieder Gruppen sortieren würde, welche bereits durch seinen Vorgänger sortiert wurden.
+Mit Hilfe dieses Lemmas können wir nun, falls die Bedingungen zutreffen, fertig sortierte Gruppen innerhalb des Sortierschritt nicht weiter beachten, um redundante Arbeit zu vermeiden.\\
 
-In der ersten Zeile werden die Suffixe anhand ihrer ersten vier Zeichen sortiert und die daraus resultierende Reihenfolge in $\mathsf{SA_4}$ gespeichert. Darauf aufbauend wird das $\mathsf{ISA_4}$ konstruiert, darin bereits fertig sortierte Elemente mit einem Flag markiert und die Variablen $size$ und $h$ initialisiert. Die folgende Schleife wird solange wiederholt, bis alle Elemente sortierte Gruppen darstellen.  
+In Algorithmus \ref{alg:osipov} können wir den Ablauf des Prefix Doublers von Osipov sehen. In der ersten Zeile werden die Suffixe anhand ihrer ersten vier Zeichen sortiert und die daraus resultierende Reihenfolge in $\mathsf{SA_4}$ gespeichert. Darauf aufbauend wird das $\mathsf{ISA_4}$ konstruiert, darin bereits fertig sortierte Elemente mit einem Flag markiert und die Variablen $size$ und $h$ initialisiert. Die folgende Schleife wird solange wiederholt, bis alle Elemente sortierte Gruppen darstellen. Nach der finalen Sortierung müssen wir noch das finale $\mathsf{SA}$ aus dem finalen $\mathsf{ISA}$ erzeugen.
 
+Für die Sortierung eines Schleifendurchlaufes müssen wir zunächst die benötigten Tupel erzeugen. Dafür prüfen wir in Z.~9, ob wir das Suffix $S_i$ mit dem Suffix $\mathsf{S_j}$ induzieren können, d.~h.\ $i = \mathsf{SA_h[j]}-h$ ist ein gültiger Index und wir haben $\mathsf{S_i}$ noch nicht endgültig sortiert. Ist dieser Fall gegeben, erzeugen wir in Z.~10 \ das Tupel aus dem Suffxindex $i$, seinem $h$-Rang $\mathsf{ISA_h}[i]$ sowie seinem $2h$-Rang $\mathsf{ISA_h[SA_h[j]]}$, welcher dem Rang des Suffixes $\mathsf{S_j}$ entspricht. Als nächstes prüfen wir, ob unser Suffix $\mathsf{S_j}$ für die folgenden Iteration weiterhin benötigt wird (s.~Lemma \ref{lem:sort-gruppe}). Ist dies der Fall, so erzeugen wir das Tupel in Z.~14 aus dem Index, dem Rang und dem negierten Rang des Suffixes $\mathsf{S_j}$. Für jedes erzeugte Tupel erhöhen wir $s$ um eins. $s$ entspricht somit der Anzahl an Tupeln und damit der Anzahl an Suffixen in $\mathsf{SA_{2h}}$.
+
+Um die neuen Ränge bestimmen zu können, müssen wir unsere Tupel zunächst stabil sortieren (Z.~16). Als Sortierschlüssel wählen wir hierbei den $h$-Rang. Daraufhin durchlaufen wir jedes Suffix in $\mathsf{SA_{2h}}$ und berechnen den neuen Rang. Ist der Rang des aktuell betrachteten Suffixes $\mathsf{S_j}$ größer als der Rang des aktuellen Kopfes, haben wir eine neue Gruppe gefunden (Z.~19) und setzen den Kopf auf den Anfang der neuen Gruppe. Andernfalls prüfen wir, ob das betrachtete Suffix $j$ einen anderen $2h$-Rang hat als der aktuelle Kopf. In diesem Fall haben wir eine neue Gruppe durch die aktuelle Iteration und die Suffixlänge $2h$ erhalten und können diese Suffixe zum ersten Mal eindeutig voneinander unterscheiden. Dafür setzen wir den Rang auf den Rang des Kopfes und addieren die Differenz der Positionen in $\mathsf{SA_{2h}}$ zwischen Suffix $j$ und dem Kopf drauf. Sollten sowohl die $h$- als auch die $2h$-Ränge identisch sein, können wir die Suffixe noch nicht eindeutig unterscheiden und wir übergeben $\mathsf{S_j}$ den Rang des Kopfes (Z.~26), da sich dessen Rang durch eine neue Gruppe in dieser Iteration verändert haben könnte (s.~Z.~22--24).
+
+Zum Abschluss der Iteration müssen wir die neuen Ränge in $\mathsf{ISA_{2h}}$ schreiben (Z.~27f.) und alle neuen, vollständig sortierten Gruppen mittels Negierung markieren (Z.~29). Die neue Größe für die nächste Iteration entspricht der Anzahl Tupel dieser Iteration und $h$ wird für den nächsten Schleifendurchlauf verdoppelt (Z.~30).
+
+% Beispiel für kompletten Algorithmus
 \subsection{Parallelität und Implementierung}
 bla bla nvidia bla bla
+
+\subsubsection{Sortierte Gruppen markieren}
+
+\subsubsection{Tupel erzeugen}
+
+\subsubsection{Ränge aktualisieren}
 \subsection{Beispiel}
 bla bla bla 
