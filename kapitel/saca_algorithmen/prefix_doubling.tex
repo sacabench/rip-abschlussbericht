@@ -10,9 +10,9 @@ Dieser Abschnitt präsentiert den in \cite{saca:11} beschriebenen \textbf{Doubli
 
 Wir definieren $[i, j] = \{i, \dots, j\}$ und $[i, j) = [i, j - 1]$ als Kurzschreibweise für Integer-Intervalle. Für jeden String $T$ der Länge $m$ mit beliebigen Alphabet lässt sich ein äquivalenter String $T'$ mit $\Sigma = [1, m]$ bilden, indem alle vorkommenden Zeichen aufsteigend sortiert, Duplikate entfernt, und die verbleibenden Zeichen durch einen aufsteigenden Zähler ersetzt werden. Wir weisen $\$$ den besonderen Integer Rang und Alphabeteintrag $0$ zu.
 
-Ein so \textbf{umbenannter} String hat die Eigenschaft, dass die Ordnung über dem neuen Alphabet identisch zu der über dem ursprünglichen ist, und sich somit darauf dasselbe Suffix Array ergibt. Ein dazu ähnliches Verfahren, \textbf{lexikographische Umbenennung}, wird Kern der vorgestellten Algorithmen sein, und beruht darauf ganze (Teil-)Strings eines Textes durch aufsteigende Zähler zu ersetzen.
+Ein so \textbf{umbenannter} String hat die Eigenschaft, dass die Ordnung über dem neuen Alphabet identisch zu der über dem ursprünglichen ist, und sich somit darauf dasselbe Suffix-Array ergibt. Ein dazu ähnliches Verfahren, \textbf{lexikographische Umbenennung}, wird Kern der vorgestellten Algorithmen sein, und beruht darauf ganze (Teil-)Strings eines Textes durch aufsteigende Zähler zu ersetzen.
 
-$\textbf{Lcp}(i, j)$ bezeichnet die längste gemeinsamen Präfix Länge (\textbf{longest common prefix}) zwischen $SA[i]$ und $SA[j]$, und ist $0$ wenn $i, j \notin [0, n)$ oder die beiden Suffixe keinen gemeinsamen Präfix haben. Für jedes $S_i$ definieren wir $\textbf{dps}(i) = 1 + \max\{\text{lcp}(i - 1, i), \text{lcp}(i, i + 1)\}$ als charakteristische Präfixlänge (\textbf{distinguishing prefix size}). Es lassen sich damit die folgenden Kenngrößen eines Suffix Arrays definieren:
+$\textbf{Lcp}(i, j)$ bezeichnet die längste gemeinsamen Präfix Länge (\textbf{longest common prefix}) zwischen $SA[i]$ und $SA[j]$, und ist $0$ wenn $i, j \notin [0, n)$ oder die beiden Suffixe keinen gemeinsamen Präfix haben. Für jedes $S_i$ definieren wir $\textbf{dps}(i) = 1 + \max\{\text{lcp}(i - 1, i), \text{lcp}(i, i + 1)\}$ als charakteristische Präfixlänge (\textbf{distinguishing prefix size}). Es lassen sich damit die folgenden Kenngrößen eines Suffix-Arrays definieren:
 \begin{gather*}
 \text{maxlcp} := \max_{i \in [0, n)} \text{lcp}(i, i + 1) 
 \qquad\qquad
@@ -75,9 +75,9 @@ def name(S):
 \end{minted}
 \end{listing}
 
-Um ein Suffix Array für $T$ zu bestimmen, müssen alle $S_i$ lexikographisch sortiert werden. Wir stellen fest, dass hierfür jeweils nur ein Präfix von bis zu $\text{dps}(i)$ Zeichen von $S_i$ betrachtet werden muss. Wir betrachten zunächst als Grundlage \texttt{doubling()} in Algorithmus \ref{algo:doubling:code:doubling}.
+Um ein Suffix-Array für $T$ zu bestimmen, müssen alle $S_i$ lexikographisch sortiert werden. Wir stellen fest, dass hierfür jeweils nur ein Präfix von bis zu $\text{dps}(i)$ Zeichen von $S_i$ betrachtet werden muss. Wir betrachten zunächst als Grundlage \texttt{doubling()} in Algorithmus \ref{algo:doubling:code:doubling}.
 
-Wir bauen auf dem in \cref{sec:ansatz:doubler} beschriebenen Doubling Ansatz auf. Die grundsätzliche Idee ist es, für jedes $T_i$ nur ein Präfix von $2^k$ Zeichen zu betrachten und lexikographisch zu sortieren, und dies ggf. mit aufsteigenden $k$ zu wiederholen. Falls alle betrachteten $T[i, i + 2^k)$ Strings paarweise verschieden sind, ergibt sich aus den sortierten $i$ Werten das gesuchte Suffix Array. 
+Wir bauen auf dem in \cref{sec:ansatz:doubler} beschriebenen Doubling Ansatz auf. Die grundsätzliche Idee ist es, für jedes $T_i$ nur ein Präfix von $2^k$ Zeichen zu betrachten und lexikographisch zu sortieren, und dies ggf. mit aufsteigenden $k$ zu wiederholen. Falls alle betrachteten $T[i, i + 2^k)$ Strings paarweise verschieden sind, ergibt sich aus den sortierten $i$ Werten das gesuchte Suffix-Array. 
 
 % Der Prozess wird iterativ durchgeführt, und beginnt bei $k = 1$. Falls nach einer Sortierung individuelle Präfixe mehr als einmal vorkommen, sprich nicht \textit{eindeutig} sind, wird der Vorgang mit $k + 1$ wiederholt.
 
@@ -221,12 +221,12 @@ Die $P$ Sequenz wird anschließend gemäß $(i \mod 2^k, i \div 2^k)$ sortiert (
 
 $P$ wird nun ähnlich zur Eingabezeichenfolge betrachtet, indem aus benachbarten Namen $d$ und $d'$ Tuple $((d, d'), i)$ gebildete werden, und diese als Sequenz $S$ für die nächste Iteration genutzt werden (\textit{pair} im Beispiel).
 
-Da immer nur zwei Namen für benachbarte Teilstrings zu neuen Namen zusammengefasst werden, und der Algorithmus mit allen Zeichen und Textpositionen der Eingabe beginnt, verdoppelt sich somit in jeder Iteration die Länge der repräsentierten Präfixe des Suffix Arrays. Da die Ordnung der darunterliegenden Strings in den neuen Namen erhalten bleibt, lässt sich aus $S$ Sequenzen von späteren Iterationen das korrekte Suffix Array auslesen, sobald alle Elemente in ihnen eindeutig sind. Und da in jeder Iteration immer nur Paare von Namen betrachtete werden, steigen die Sortierkosten von $S$ nicht mit jeder Iteration.
+Da immer nur zwei Namen für benachbarte Teilstrings zu neuen Namen zusammengefasst werden, und der Algorithmus mit allen Zeichen und Textpositionen der Eingabe beginnt, verdoppelt sich somit in jeder Iteration die Länge der repräsentierten Präfixe des Suffix-Arrays. Da die Ordnung der darunterliegenden Strings in den neuen Namen erhalten bleibt, lässt sich aus $S$ Sequenzen von späteren Iterationen das korrekte Suffix-Array auslesen, sobald alle Elemente in ihnen eindeutig sind. Und da in jeder Iteration immer nur Paare von Namen betrachtete werden, steigen die Sortierkosten von $S$ nicht mit jeder Iteration.
 
 Wir gehen nun davon aus, dass $S$ und $P$ in externen Speicher liegen.  Gemäß unserer Definition zu I/O Komplexität, führt der Algorithmus pro Iteration einen Konstante Anzahl von \textit{Scanning} und \textit{Sort} Operation über $n$ Elemente durch, und hat eine obere Iterationsschranke beim Logarithmus des längsten gemeinsamen Präfixes. Es gilt somit:
 
 \begin{theorem}
-Der Doubling Algorithmus berechnet ein Suffix Array in\\ $\mathcal{O}(\text{sort}(n) \ceil*{\log \text{maxlcp}})$ I/O Operationen.
+Der Doubling Algorithmus berechnet ein Suffix-Array in\\ $\mathcal{O}(\text{sort}(n) \ceil*{\log \text{maxlcp}})$ I/O Operationen.
 \end{theorem}
 
 \subsection{Pipelining}
@@ -245,7 +245,7 @@ Wir betrachten nun die I/Os für die Pipeline Variante des Algorithmus. Zunächs
 Insgesamt wurden somit innerhalb der Iterationen alle \textit{Scan}-Operationen von $S$ und $P$ eliminiert, und nur die Hälfte der I/Os von \textit{Sort}-Operationen beibehalten, womit sich insgesamt eine Reduzierung auf $(3 + 3 + 2 + 2)n/DB = 10n/DB$ I/Os ergibt. Dies erlaubt eine genauere Spezifizierung der I/O Komplexität des Algorithmus:
 
 \begin{theorem}
-Der Doubling Algorithmus mit Pipelining berechnet ein Suffix Array in\\ $\text{sort}(5n) \ceil*{\log \text{maxlcp}} +  \mathcal{O}(\text{sort}(n))$ I/O Operationen.
+Der Doubling Algorithmus mit Pipelining berechnet ein Suffix-Array in\\ $\text{sort}(5n) \ceil*{\log \text{maxlcp}} +  \mathcal{O}(\text{sort}(n))$ I/O Operationen.
 \end{theorem}
 
 Der $\mathcal{O}(\text{sort}(n))$ Anteil steht hierbei für alle einmalig durchzuführende Berechnung vor Beginn, und nach Verlassen der Schleife.
@@ -313,14 +313,14 @@ Ein Problem hierbei ist, dass sich durch das entfernen von Elementen aus $S$ die
 
 Es dürfen außerdem nicht alle einzigartigen $c_i^k$ direkt aus $S$ entfernt werden, da sie gegebenenfalls noch mit benachbarten Namen gepaart werden müssen. Hierzu betrachten wir die Situation für $c_i^{k+1}$, und unterschieden zwei Fälle: Falls einer der vorherigen Namen $c_{i - 2^k}^k$ oder $c_{i - 2^{k+1}}^k$ einzigartig ist, gilt dies auch für ihre Zusammenführung in $c_{i - 2^{k+1}}^{k+1}$. Somit ist $c_i^{k+1}$ nicht notwendig um $c_{i - 2^{k+1}}^{k+2}$ als einzigartig zu identifizieren, und kann aus $S$ entfernt werden. Wir bezeichnen dies als \textit{Fully Discarded}. Ansonsten ist $c_{i - 2^{k+1}}^{k+1}$ nicht einzigartig, und wir benötigen $c_i^{k+1}$ um $c_{i - 2^{k+1}}^{k+2}$ zu bestimmen. Wir entfernen $c_i^k$ weiterhin aus $S$, aber übernehmen es zunächst noch als $d = c_i^{k+1}$ in die Liste der sortierten $(d, i)$ Paare der nächsten Iteration. Wir bezeichnen dies als \textit{Partially Discarded}.
 
-Alle Tuple, die vollständig aus $S$ entfernt wurden, werden in einer zusätzlichen Sequenz $F$ gesammelt, und der Algorithmus endet sobald $S$ leer ist. Wenn dies der Fall ist, enthält $F$ einen eindeutigen Namen für jede Textposition, und es lässt sich nach einer finalen lexikografische Sortierung das Suffix Array auslesen. Siehe hierzu \texttt{doubling\_discarding()} in Algorithmus \ref{algo:doubling:code:discarding}.
+Alle Tuple, die vollständig aus $S$ entfernt wurden, werden in einer zusätzlichen Sequenz $F$ gesammelt, und der Algorithmus endet sobald $S$ leer ist. Wenn dies der Fall ist, enthält $F$ einen eindeutigen Namen für jede Textposition, und es lässt sich nach einer finalen lexikografische Sortierung das Suffix-Array auslesen. Siehe hierzu \texttt{doubling\_discarding()} in Algorithmus \ref{algo:doubling:code:discarding}.
 
 Wir betrachten nun wieder die I/O Komplexität. Der naive Doubling Algorithmus sortiert und verdoppelt solange alle Präfixe, bis sie Paarweise verschieden sind. Jeder einzelne Präfix durchläuft somit immer genau $\log \text{maxlcp}$ Iterationen. Mit Discarding hingegen wird ein einzigartiger Präfix so früh wie möglich aus der Iteration entfernt. Somit gilt für alle $S_i$, das ein Präfix maximal $\text{dps}(i)$ Iterationen durchläuft.
 
 Wir stellen auch fest, dass Discarding kompatible mit Pipelining ist. Der Algorithmus nutzt zwar mehr (externe) Sequenzen von Tupeln, aber es werden weiterhin in $k$ Iterationen jeweils nur die zwei \textit{Sort} Operationen des Basisalgorithmus angewandt, und alle weiteren Operationen scannen die einzelnen Elemente jeweils nur in einem Durchlauf. Dies ermöglicht somit das direkt weiterleiten von Zwischenergebnissen in Form von Pipelining, und führt zu folgender Analyse der Gesamtkomplexität:
 
 \begin{theorem}
-Der Doubling Algorithmus mit Pipelining und Discarding berechnet ein Suffix Array in\\ $\text{sort}(5n) \ceil*{\log \text{dps}} +  \mathcal{O}(\text{sort}(n))$ I/O Operationen.
+Der Doubling Algorithmus mit Pipelining und Discarding berechnet ein Suffix-Array in\\ $\text{sort}(5n) \ceil*{\log \text{dps}} +  \mathcal{O}(\text{sort}(n))$ I/O Operationen.
 \end{theorem}
 
 \subsection{A-Tupling}
@@ -374,17 +374,17 @@ Werten wir dies für unterschiedliche Werte von $a$ aus, so ist $a = 5$ optimal 
 Die Nutzung von $a$-Tupling ist vollständig Kompatible mit Discarding und Pipelining, somit lassen sich die folgenden I/O Komplexitäten direkt ableiten:
 
 \begin{theorem}
-Der Doubling Algorithmus mit Pipelining und $a$-Tupling berechnet ein Suffix Array in $\text{sort}(\frac{a + 3}{\log a}n) \ceil*{\log \text{maxlcp}} +  \mathcal{O}(\text{sort}(n))$ I/O Operationen.
+Der Doubling Algorithmus mit Pipelining und $a$-Tupling berechnet ein Suffix-Array in $\text{sort}(\frac{a + 3}{\log a}n) \ceil*{\log \text{maxlcp}} +  \mathcal{O}(\text{sort}(n))$ I/O Operationen.
 \end{theorem}
 
 \begin{theorem}
-Der Doubling Algorithmus mit Pipelining, $a$-Tupling und Discarding berechnet ein Suffix Array in $\text{sort}(\frac{a + 3}{\log a}n) \ceil*{\log \text{dps}} +  \mathcal{O}(\text{sort}(n))$ I/O Operationen.
+Der Doubling Algorithmus mit Pipelining, $a$-Tupling und Discarding berechnet ein Suffix-Array in $\text{sort}(\frac{a + 3}{\log a}n) \ceil*{\log \text{dps}} +  \mathcal{O}(\text{sort}(n))$ I/O Operationen.
 \end{theorem}
 
 \subsection{Zusammenfassung und Ausblick}
 \label{algo:doubling:sec:summary}
 
-In den vorhergehenden Abschnitten haben wir den Doubling Algorithmus betrachtet, und die darauf aufbauenden Modifikationen Pipelining, Discarding und $a$-Tupling. Jede dieser drei Varianten verbessert die I/O Komplexität des Basisalgorithmus, und lässt sich mit den anderen Kombinieren, wodurch sich ein guter externen Suffix Array Algorithmus definieren lässt, der alle ineinander vereint.
+In den vorhergehenden Abschnitten haben wir den Doubling Algorithmus betrachtet, und die darauf aufbauenden Modifikationen Pipelining, Discarding und $a$-Tupling. Jede dieser drei Varianten verbessert die I/O Komplexität des Basisalgorithmus, und lässt sich mit den anderen Kombinieren, wodurch sich ein guter externen Suffix-Array Algorithmus definieren lässt, der alle ineinander vereint.
 
 Das Pipelining beschreibt insbesondere eine allgemeine Technik, die auch für viele andere Algorithmen auf externen Speicher nützlich ist. Ebenso existieren weiterführende Algorithmen, die auf Präfix Doubling Aufbauen. Ein Beispiel hierfür ist der DCD3 und DCX Algorithmus \cite{saca:11}. Siehe auch \cref{algorithm:dc3}.
 
