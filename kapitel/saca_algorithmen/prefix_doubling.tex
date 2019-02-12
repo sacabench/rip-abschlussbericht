@@ -2,13 +2,13 @@
 
 \subsection{Einleitung}
 
-Viele \currentauthor{Marvin Löbel} der Algorithmen, mit denen Suffix Arrays berechnet werden, eignen sich nicht dafür auf externen Speicher zu arbeiten, da sie zu viele I/O Operationen durchführen würden. Dies macht sie unbrauchbare für große Datenmengen, die nicht vollständig im Hauptspeicher verarbeiten zu werden können.
+Viele \currentauthor{Marvin Löbel} der Algorithmen, mit denen Suffix-Arrays berechnet werden, eignen sich nicht dafür, auf externen Speicher zu arbeiten, da sie zu viele I/O-Operationen durchführen würden. Dies macht sie unbrauchbar für große Datenmengen, die nicht vollständig im Hauptspeicher verarbeitet werden können.
 
-Dieser Abschnitt präsentiert den in \cite{Dementiev2008} beschriebenen \textbf{Doubling} Algorithmus und seine verschiedenen Varianten. Er hat die Eigenschaft, möglichst effizient bezüglich der I/O Komplexität zu sein.
+Dieser Abschnitt präsentiert den in \cite{saca:11} beschriebenen \textbf{Doubling} Algorithmus und seine verschiedenen Varianten. Er hat die Eigenschaft, möglichst effizient bezüglich der I/O-Komplexität zu sein.
 
 \subsection{Grundlagen}
 
-Wir definieren $[i, j] = \{i, \dots, j\}$ und $[i, j) = [i, j - 1]$ als Kurzschreibweise für Integer Intervalle. Für jeden String $T$ der Länge $m$ mit beliebigen Alphabet lässt sich ein äquivalenter String $T'$ mit $\Sigma = [1, m]$ bilden, indem alle vorkommenden Zeichen aufsteigend sortiert, Duplikate entfernt, und die verbleibenden Zeichen durch einen aufsteigenden Zähler ersetzt werden. Wir weisen $\$$ den besonderen Integer Rang und Alphabeteintrag $0$ zu.
+Wir definieren $[i, j] = \{i, \dots, j\}$ und $[i, j) = [i, j - 1]$ als Kurzschreibweise für Integer-Intervalle. Für jeden String $T$ der Länge $m$ mit beliebigen Alphabet lässt sich ein äquivalenter String $T'$ mit $\Sigma = [1, m]$ bilden, indem alle vorkommenden Zeichen aufsteigend sortiert, Duplikate entfernt, und die verbleibenden Zeichen durch einen aufsteigenden Zähler ersetzt werden. Wir weisen $\$$ den besonderen Integer Rang und Alphabeteintrag $0$ zu.
 
 Ein so \textbf{umbenannter} String hat die Eigenschaft, dass die Ordnung über dem neuen Alphabet identisch zu der über dem ursprünglichen ist, und sich somit darauf dasselbe Suffix Array ergibt. Ein dazu ähnliches Verfahren, \textbf{lexikographische Umbenennung}, wird Kern der vorgestellten Algorithmen sein, und beruht darauf ganze (Teil-)Strings eines Textes durch aufsteigende Zähler zu ersetzen.
 
@@ -35,7 +35,7 @@ In nachfolgenden Abschnitten werden wir anschließend systematisch Modifikatione
 
 Abschnitt \ref{algo:doubling:sec:discarding} beschreibt eine simple Methode, bereits bestimmte Suffixe aus nachfolgenden Iterationen des Doubling Algorithmus zu entfernen (\textit{Discarding}). Dies verbessert die I/O Komplexität gegenüber Doubling zu $\mathcal{O}(\text{sort}(n \log \text{dps}))$, und ist besser als vorherige Discarding Ansätze mit einer Komplexität von $\mathcal{O}(\text{sort}(n \log \text{dps})) + \text{scan}(n \log \text{maxlcp})$ \cite{Crauser2002}.
 
-Abschnitt \ref{algo:doubling:sec:tupling} beschreibt eine Laufzeitverbesserung um einen Konstanten Faktor, bei dem Strings der Länge $a^k$ in $k$ Iterationen sortiert werden (\textit{$a$-Tupling}). Es stellen sich hierbei $a = 4$ und $a = 5$ als beste Ergebnisse heraus.
+Abschnitt \ref{algo:doubling:sec:tupling} beschreibt eine Laufzeitverbesserung um einen konstanten Faktor, bei dem Strings der Länge $a^k$ in $k$ Iterationen sortiert werden (\textit{$a$-Tupling}). Es stellen sich hierbei $a = 4$ und $a = 5$ als beste Ergebnisse heraus.
 
 Abschnitt \ref{algo:doubling:sec:summary} fasst die einzelnen Varianten zusammen, und gibt einen Überblick darüber welchen Nutzen sie für andere Algorithmen haben können.
 
@@ -77,7 +77,7 @@ def name(S):
 
 Um ein Suffix Array für $T$ zu bestimmen, müssen alle $S_i$ lexikographisch sortiert werden. Wir stellen fest, dass hierfür jeweils nur ein Präfix von bis zu $\text{dps}(i)$ Zeichen von $S_i$ betrachtet werden muss. Wir betrachten zunächst als Grundlage \texttt{doubling()} in Algorithmus \ref{algo:doubling:code:doubling}.
 
-Wir bauen auf dem in \cref{sec:ansatz:doubler} beschriebenen Doubling Ansatz auf. Die grundsätzliche Idee ist es, für jedes $T_i$ nur einen Präfix von $2^k$ Zeichen zu betrachten und lexikographisch zu sortieren, und dies ggf. mit inkrementierenden $k$ zu wiederholen. Falls alle betrachteten $T[i, i + 2^k)$ Strings paarweise verschieden sind, ergibt sich aus den sortierten $i$ Werten das gesuchte Suffix Array. 
+Wir bauen auf dem in \cref{sec:ansatz:doubler} beschriebenen Doubling Ansatz auf. Die grundsätzliche Idee ist es, für jedes $T_i$ nur ein Präfix von $2^k$ Zeichen zu betrachten und lexikographisch zu sortieren, und dies ggf. mit aufsteigenden $k$ zu wiederholen. Falls alle betrachteten $T[i, i + 2^k)$ Strings paarweise verschieden sind, ergibt sich aus den sortierten $i$ Werten das gesuchte Suffix Array. 
 
 % Der Prozess wird iterativ durchgeführt, und beginnt bei $k = 1$. Falls nach einer Sortierung individuelle Präfixe mehr als einmal vorkommen, sprich nicht \textit{eindeutig} sind, wird der Vorgang mit $k + 1$ wiederholt.
 
@@ -386,7 +386,7 @@ Der Doubling Algorithmus mit Pipelining, $a$-Tupling und Discarding berechnet ei
 
 In den vorhergehenden Abschnitten haben wir den Doubling Algorithmus betrachtet, und die darauf aufbauenden Modifikationen Pipelining, Discarding und $a$-Tupling. Jede dieser drei Varianten verbessert die I/O Komplexität des Basisalgorithmus, und lässt sich mit den anderen Kombinieren, wodurch sich ein guter externen Suffix Array Algorithmus definieren lässt, der alle ineinander vereint.
 
-Das Pipelining beschreibt insbesondere eine allgemeine Technik, die auch für viele andere Algorithmen auf externen Speicher nützlich ist. Ebenso existieren weiterführende Algorithmen, die auf Präfix Doubling Aufbauen. Ein Beispiel hierfür ist der DCD3 und DCX Algorithmus \cite{Dementiev2008}. Siehe auch \cref{algorithm:dc3}.
+Das Pipelining beschreibt insbesondere eine allgemeine Technik, die auch für viele andere Algorithmen auf externen Speicher nützlich ist. Ebenso existieren weiterführende Algorithmen, die auf Präfix Doubling Aufbauen. Ein Beispiel hierfür ist der DCD3 und DCX Algorithmus \cite{saca:11}. Siehe auch \cref{algorithm:dc3}.
 
 \subsection{Implementierung}
 \subsubsection{Adaption}
