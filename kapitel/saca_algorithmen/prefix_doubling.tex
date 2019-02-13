@@ -381,20 +381,19 @@ In den vorhergehenden Abschnitten haben wir den Doubling Algorithmus betrachtet,
 Das Pipelining beschreibt insbesondere eine allgemeine Technik, die auch für viele andere Algorithmen auf externen Speicher nützlich ist. Ebenso existieren weiterführende Algorithmen, die auf Präfix Doubling Aufbauen. Ein Beispiel hierfür ist der DC3 und DCX Algorithmus \cite{saca:11}. Siehe auch \cref{algorithm:dc3}.
 
 \subsection{Implementierung}
-\subsubsection{Adaption}
-Die Implementierung als Teil des Benchmarking-Frameworks erfolgt aus Gründen der Vergleichbarkeit nicht im externen Speicher. Stadtessen sind die in den Algorithmen benutzen $P$, $S$, $U$ und $F$ Arrays grundsätzlich mit der vom Framework bereitgestellten \texttt{container} Klasse implementiert.
+Die Implementierung als Teil des Benchmarking-Frameworks erfolgt aus Gründen der Vergleichbarkeit nicht im externen Speicher. Stattdessen sind die in den Algorithmen benutzen $P$, $S$, $U$ und $F$ Arrays grundsätzlich mit der vom Framework bereitgestellten \texttt{container} Klasse implementiert.
 
 Dies hat auch Auswirkungen auf den Sortieralgorithmus und die Anwendbarkeit des Pipelinings. Da nun davon ausgegangen wird, dass jedes Array immer in den Hauptspeicher passt, ist man somit nicht mehr auf einen effizienten externen Mergesort angewiesen, und kann einen beliebigen in-Memory Sortierer benutzen. 
 
-Dies verhindert jedoch ein direktes anwenden des Pipelining Ansatzes im vorgestellen Sinne, da die Sortierschritte in den Algorithmen nicht mehr als Stream-akzeptierenden bzw erzeugend betrachtet werden können. Aufgrund des Fehlens von IO-Operationen auf externen Speicher hat dies allerdings auch geringere Auswirkungen. Im nachfolgenden Paragraph \textbf{Optimierungen} nutzen wir stattdessen die Pipelining Idee dafür, den Speicherverbrauch der Arrays stark zu senken.
+Dies verhindert jedoch ein direktes anwenden des Pipelining Ansatzes im vorgestellen Sinne, da die Sortierschritte in den Algorithmen nicht mehr als Stream-akzeptierenden bzw erzeugend betrachtet werden können. Aufgrund des Fehlens von IO-Operationen auf externen Speicher hat dies allerdings auch geringere Auswirkungen. In \cref{algo:doubling:sec:usedoptimizations} nutzen wir stattdessen die Pipelining Idee dafür, den Speicherverbrauch der Arrays stark zu senken.
 
 \subsubsection{Umsetzung}
 
-Die Implementierung besteht aus der Klasse \texttt{prefix\_doubling\_impl}, die über dem benutzen \texttt{sa\_index} Typ und der Tupelgröße \texttt{a} gemäß des A-Tuplings templatisiert ist.
+Die Implementierung besteht aus einer C++ Klasse, die über dem benutzen \texttt{sa\_index} Typ und der Tupelgröße \texttt{a} gemäß des A-Tuplings templatisiert ist.
 
-Diese stellt die statischen Memberfunktionen \texttt{doubling()} und \texttt{doubling\_discarding()} bereit, die den normalen Doubling-Algorithmus bzw seine Discarding Variante abhängig von \texttt{a} Implementieren.
+Diese stellt die statischen Memberfunktionen \texttt{doubling()} und\linebreak \texttt{doubling\_discarding()} bereit, die den normalen Doubling-Algorithmus bzw seine Discarding Variante abhängig von \texttt{a} Implementieren.
 
-Sie nutzen dabei das vom Framework vorgeschriebenen Interface, bei dem die Eingabe als ein \texttt{string\_span} repräsentiert wird, der auf einen Bereich im Speicher zeigt, und das Ausgabe S.A. als ein \texttt{util::span<sa\_index>} repräsentiert wird, in das geschrieben werden muss.
+Sie nutzen dabei das vom Framework vorgegebene Interface, bei dem die Eingabe als ein \texttt{string\_span} repräsentiert wird, der auf einen Bereich im Speicher zeigt, und das Ausgabe S.A. als ein \texttt{util::span<sa\_index>} repräsentiert wird, in das geschrieben werden muss.
 
 Die Arrays enthalten Tupel der Form  $(c, i)$ und $((c_1, \dots, c_a), i)$, wobei $c$ ein Prefixname ist, und $i$ ein Textindex. Da sowohl Namen als auch Indexe in $[0, n)$ liegen, passen alle Werte in eine Variable vom Typ \texttt{sa\_index} (siehe \cref{sec:code-structure}). Die Implementierung repräsentiert deshalb alle Tupel als Arrays fester Länge \texttt{std::array<sa\_index, 2>} bzw. \texttt{std::array<sa\_index, a + 1>}.
 
@@ -512,12 +511,18 @@ Sei $w = \texttt{sizeof(sa\_index)}$. Bei einer direkten Umsetzung der Algorithm
 \end{tikzpicture}
 \end{figure}
 
-\subsubsection{Optimierungen}
+\subsection{Beispiel}
+
+Wir stellen nun die Funktionsweise des Discarding Algorithmus ohne Optimierungen anhand des Beispieltextes \texttt{caabaccaabacaa\$} vor:
+
+\input{kapitel/saca_algorithmen/prefix_doubling/prefix_doubling_example}
+
+\subsection{Optimierungen}
 \label{algo:doubling:sec:usedoptimizations}
 
 Es wurden eine Reihe von Optimierungen durchgeführt, um den Speicherverbrauch und die Laufzeitperformance der anfänglichen Implementierung zu verbessern:
 
-\paragraph{Arrayüberlagerung beim Doubling} Die ausschlaggebendste Speicheroptimierung basiert auf der Beobachtung, dass die Algorithmen nie gleichzeitig auf alle Elemente der benutzen Arrays zugreifen müssen.
+\subsubsection{Arrayüberlagerung beim Doubling} Die ausschlaggebendste Speicheroptimierung basiert auf der Beobachtung, dass die Algorithmen nie gleichzeitig auf alle Elemente der benutzen Arrays zugreifen müssen.
 
 Betrachten wir hierzu zunächst $P$ und $S$ des einfachen Doubling Algorithmus~\ref{algo:doubling:code:doubling}. Aus den Überlegungen zum Pipelining wissen wir, dass das Erzeugen der umbenannten Tupel in Zeile 5 online während er Iteration über die Elemente von $S$ geschehen kann. Dasselbe gilt umgekehrt für die Paarbildung in Zeile 11--14, bei der wir für das $i$-te Paar nur jeweils den $i$-ten und $i+1$-ten Eintrag aus $P$ benötigen. 
 
@@ -583,7 +588,7 @@ x% Komponents
 \end{tikzpicture}
 \end{figure}
 
-\paragraph{Arrayüberlagerung beim Discarding} Die vorherige Optimierung lässt sich zunächst direkt auf die $S$ und $U$ Arrays der Discaring Variante \ref{algo:doubling:code:discarding} anwenden, um den Speicherverbrauch auf $(a+5)nw$ Bytes zu senken.
+\subsubsection{Arrayüberlagerung beim Discarding} Die vorherige Optimierung lässt sich zunächst direkt auf die $S$ und $U$ Arrays der Discaring Variante \ref{algo:doubling:code:discarding} anwenden, um den Speicherverbrauch auf $(a+5)nw$ Bytes zu senken.
 
 Wir können jedoch noch weiter gehen. Hierzu schauen wir uns an, wie genau die Arrays $P$ und $F$ benutzt werden. In den Zeilen 14--26 wird für jeden Eintrag den wir aus $U$ entfernen entweder ein Element zu $F$, $P$, oder $S$ hinzugefügt. Es gilt somit zu jeden Zeitpunkt $|S| + |U| + |F| + |P| = n$. Dies gilt ebenso in den Zeilen 8--12 und 31, da die beteiligten Arrays immer um die selbe Anzahl von Elementen erweitert und verringert werden.
 
@@ -682,13 +687,13 @@ x% Komponents
 \end{tikzpicture}
 \end{figure}
 
-\paragraph{Wordpacking}
+\subsubsection{Wordpacking}
 
 Sowohl Doubling und Discarding erstellen eine initiale Version des $S$ Arrays, indem benachbarte Zeichen der Eingabe in den Tupeln $(c_1, \dots, c_a)$ als Namen benutzt werden. Da die Zeichen der Eingabe jedoch maximal ein Byte belegen, und \texttt{sa\_index} aus $\ge 4$ Bytes besteht, enthält jeder $c_x$ in der ersten Iteration $\ge 3$ Nullbytes.
 
 Die Idee des Wordpacking ist es, den Wertebereich der Namen $c_x$ voll auszunutzen indem man sie aus der Konkatenation von benachbarten Eingabebytes bildet. Die Namenstupel aus $S$ repräsentieren somit nicht mehr $a$ benachbarte Zeichen, sondern $aw$. Da gilt $w \ge 4$, erlaubt uns dies in der Regel die ersten Iterationen der Algorithmen zu Überspringen. Da diese gerade beim Discarding auch die aufwändigsten sind, reduziert dies die Rechenzeit um einen signifikanten Anteil.
 
-\paragraph{Schnellerer Sortierschlüssel}
+\subsubsection{Schnellerer Sortierschlüssel}
 
 Alle Varianten der Algorithmen enthalten in der $k$-ten Iteration einen Sortierschritt, der Tupel $(c, i)$ gemäß des Sortierschlüssels $(i \mod 2^k, i \div 2^k)$ sortiert. Experimente basierend auf Profiling des kompilierten C++ Codes ergaben folgende Erkenntnisse:
 
@@ -713,7 +718,7 @@ Dies ermöglicht es uns die Rechenoperationen auf $\mathcal{O}(n)$ zu senken, in
 \item Die anschließende Paarbildungs- bzw. Discarding-Phase transformiert die sortierten $(c, i_{rot})$ Tupel zurück zu den ursprünglichen $(c, i)$ Tupeln und verarbeitet sie dann normal weiter.
 \end{itemize}
 
-\paragraph{In-place Merging}
+\subsubsection{In-place Merging}
 
 Der Discarding Algorithmus \ref{algo:doubling:code:doubling} führt in Zeile 10 einen Merge-Schritt zwischen den $P$ und $U$ Arrays durch, nachdem $U$ gemäß des Sortierschlüssels für $k$ sortiert wurde. 
 
@@ -723,7 +728,7 @@ Als Optimierung wurde deshalb an dieser Stelle ein In-Place Merge Algorithmus im
 
 Diese werden als zusätzliches Array der Länge $|U| + |P|$ mit Platz für $a - 1$ Elemente pro Position interpretiert, und genutzt um die $(c, i)$ Tupel von $P$ und dem sortierten $U$ in $\mathcal{O}( |U| + |P|)$ zu vereinigen. Für $a=2$ sind dabei zwei Scans notwendig, da nicht beide Komponenten der Tupel gleichzeitig an eine freie Stelle kopiert werden können.
 
-\paragraph{Schnellerer Sortieralgorithmus}
+\subsubsection{Schnellerer Sortieralgorithmus}
 
 Da unsere Implementierung nur im Arbeitsspeicher arbeitet, sind wir nicht an einen bestimmtem extern arbeitenden Sortieralgorithmus gebunden, weshalb es uns frei steht einen Sortierer zu nutzen der das beste Laufzeitverhalten zeigt.
 
@@ -738,10 +743,3 @@ Da der Ausgabe \texttt{span} zu einer Allokation von mindestens $n \log n$ Bits 
 %\todo{Beispiel Grafik?}
 
 Dies würde jedoch die Implementierung wesentlich komplexer machen, da die Komponenten eines Tupels nun über mehrere disjunkte \texttt{span}s verteilt wären. Da das Interface der Sortierer-Implementierungen darauf beruht, nur vollständige Elemente eines Arrays zu sortieren, wäre somit also auch eine Anpassung der benutzen Sortieralgorithmen notwendig.
-
-\subsection{Beispiel}
-
-Wir stellen nun die Funktionsweise des Discarding Algorithmus ohne Optimierungen anhand des Beispieltextes \texttt{caabaccaabacaa\$} vor:
-
-\input{kapitel/saca_algorithmen/prefix_doubling/prefix_doubling_example}
-
