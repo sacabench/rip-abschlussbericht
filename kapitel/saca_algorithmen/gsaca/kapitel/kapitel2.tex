@@ -5,26 +5,34 @@
 Bevor der konkrete Algorithmus präsentiert  wird, wird in diesem Kapitel das allgemeine Vorgehen beschrieben. 
 Das Suffix Array für ein gegebenes Wort wird in zwei Phasen konstruiert.\\
 
-Phase 1: Einteilung der Buchstaben in Gruppen und Bestimmung von sogenannten Gruppenkontexten für jede Gruppe. 
+In der ersten Phase werden die Buchstaben in Gruppen eingeteilt und die sogenannten Gruppenkontexte bestimmt.
 Ein Gruppenkontext ist ein Teilstring des originalen Wortes, so dass dieser Teilstring der Präfix eines Suffixes ist. 
 Dieser Präfix umfasst den Beginn des Suffixes bis zu der Stelle, an der der Rest des Suffixes selbst ein Gruppenkontext ist. 
-Für das Wort Banane haben wir beispielsweise die beiden Suffixe Banane und anane. 
-Wie im Beispiel zu sehen sein wird, ist der berechnete Gruppenkontext von anane anane selbst. 
-Da der Gruppenkontext von Banane der Präfix bis zum nächsten Gruppenkontext ist, und anane der Gruppenkontext von anane ist, ist der Gruppenkontext von Banane nur B. 
-Zusätzlich zu der Einteilung in Gruppen werden diese Gruppen lexikografisch nach ihren Gruppenkontexten sortiert. 
-Am Anfang wird eine Tabelle mit den Buchstaben des Wortes, den Indices, den Kontexten und den Gruppen als Zeilen gebildet. 
-Dann werden die initialen Gruppenkontexte aus den einzelnen Buchstaben des Wortes in lexikografischer Ordnung erstellt, beginnend mit dem Terminationssymbol \$. 
-Die initialen Gruppen sind die Indices der Buchstaben des Gruppenkontextes im Wort. 
-Anschließend werden für jede Gruppe in lexikographisch absteigender Reihenfolge die Buchstaben an den Indices dieser Gruppen im Wort betrachtet und deren direkte Vorgängergruppe im Wort bestimmt. 
-Es wird ein \prevpointer, also ein Zeiger auf den Index des Vorgängers von dem gerade betrachteten Index, gespeichert und der Kontext der Vorgängergruppe um den gerade betrachteten Kontext erweitert. 
-Bei dem Fall, dass nicht alle Buchstaben aus dieser Gruppe Vorgänger der initial betrachteten Gruppe sind, sondern nur ein Teil von der Vorgängergruppe getroffen wurde, findet nur bei dem getroffenen Teil der Vorgängergruppe eine Kontexterweiterung statt. 
-In diesem Fall muss die Vorgängergruppe aufgeteilt werden und eine neue Gruppe, bestehend aus der Teilgruppe mit erweitertem Kontext, wird direkt nach der Teilgruppe ohne Kontexterweiterung hinzugefügt. \\
+Alle Präfixe, welche aus den gleichen Zeichen bestehen, bilden dann eine Gruppe, welche die Startindices des entsprechenden Gruppenkontext im Wort enthält.
 
-Phase 2: Die zuvor in Phase 1 berechnete Gruppenstruktur wird genutzt, um das finale Suffix Array zu erstellen. 
-Hierzu werden die Gruppen in lexikografisch aufsteigender Reihenfolge durchlaufen.
-Als erstes wird eine Tabelle gebildet mit den Buchstaben, den Indices, den Gruppen aus Phase 1 und den Startpositionen der Suffixe nach ihrer aktuellen Gruppe geordnet als Zeilen. 
-Die Liste der Startpositionen SA ist zunächst leer für alle Indices.
-Danach wird SA[1] auf das Zeichen der ersten Gruppe (normalerweise das Terminationssymbol \$) gesetzt.
-Anschließend wird über SA iteriert. 
+Für das Wort Banane haben wir beispielsweise die beiden Suffixe Banane und anane. 
+Wie im Beispiel zu sehen sein wird, ist der berechnete Gruppenkontext des letztgenannten Suffixes anane selbst. 
+Da der Gruppenkontext von Banane der Präfix bis zum nächsten Gruppenkontext ist, und anane der Gruppenkontext von anane ist, umfasst der Gruppenkontext von Banane nur den Buchstaben B. 
+Die Gruppe des Gruppenkontextes B umfasst die Startindices aller Vorkommen dieses Gruppenkontextes.
+In diesem Fall besteht diese Gruppe also nur aus dem Index 1.
+
+Die initialen Gruppenkontexte sind die einzelnen Buchstaben des Wortes in lexikografischer Reihenfolge, beginnend mit dem Terminationssymbol \$.
+Hieraus ergeben sich die anfänglichen Gruppen als Mengen der Indices der Vorkommen des entsprechenden Buchstabens im Wort.
+Anschließend bearbeitet der Algorithmus die Gruppen in lexikografisch absteigender Reihenfolge. 
+Dazu wird für jeden Buchstaben der Gruppe das direkte vorherige Zeichen im Wort betrachtet.
+Die Gruppe, zu der dieses vorherige Zeichen gehört, wird als Vorgängergruppe bezeichnet.
+Der Gruppenkontext dieser Vorgängergruppe wird nun um den Kontext der aktuell vom Algorithmus bearbeiteten Gruppe erweitert.
+Dies bedeutet, dass der Gruppenkontext der Vorgängergruppe ersetzt wird durch die Konkatenation aus dem vorherigen Kontext der Vorgängergruppe und dem Kontext der aktuellen Gruppe.
+Zusätzlich wird ein sogenannten \prevpointer gespeichert.
+Dies ist ein Zeiger von einem Buchstaben zu dem Beginn des Gruppenkontext des direkt vorherigen Zeichens beginnt.
+Es kann vorkommen, dass nicht alle Buchstaben der Vorgängergruppe im Wort direkt vor den Buchstaben der aktuell durch den Algorithmus bearbeiteten Gruppe liegen.
+Falls nur ein Teil von der Vorgängergruppe getroffen wurde, findet nur bei dem getroffenen Teil der Vorgängergruppe eine Kontexterweiterung statt und sie wird in zwei Gruppen aufgeteilt.
+Die erste Gruppe ist die Teilgruppe mit erweitertem Kontext, sie wird als Nachfolger der Teilgruppe ohne Kontexterweiterung hinzugefügt. 
+Durch dieses Vorgehen werden iterativ alle Gruppen bearbeitet, deren Kontexte erweitert und gegebenenfalls in neue Gruppen aufgeteilt.\\
+
+In der zweiten Phase wird die zuvor in Phase 1 berechnete Gruppenstruktur genutzt, um das finale Suffix Array zu erstellen. 
+Hierzu werden die Gruppen durchlaufen, diesmal allerdings in lexikografisch aufsteigender Reihenfolge.
+Zu Beginn ist \sa leer für alle Indices, bis auf die erste Stelle, an der der Index des Terminationssymbols \$ steht.
+Anschließend wird über \sa iteriert.
 Dazu wird in jedem Durchlauf das Zeichen des originalen Wortes an der Position, die in SA gespeichert ist, gesucht und das vorherige Zeichen betrachtet. 
 Dann wird die Kette der \prevpointer ausgehend von diesem Zeichen durchlaufen, bis diese leer ist und die Indices der gefundenen Zeichen in SA gespeichert. 
