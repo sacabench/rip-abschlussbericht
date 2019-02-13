@@ -2,11 +2,11 @@
 
 \subsection{Einleitung}
 
-In \currentauthor{Rosa Pink} diesem Abschnitt wird ein Algorithmus, oder vielmehr eine Sammlung aus Algorithmen, vorgestellt, die in \glqq An Efficient, Versatile Approach to Suffix Sorting\grqq \cite{Maniscalco} beschrieben sind. Dabei liegt der Fokus nicht auf der exakten Wiedergabe des Papers, sondern auf weiterführenden Beispielen und Erläuterungen, sowie einer Erweiterung des dort bereits angegebenen Pseudocodes. Zudem wird auf die Implementierung im Rahmen der Projektgruppe eingegangen und ein Beispiel angehängt, das zum besseren Verständnis beitragen sollte.\\
+In \currentauthor{Rosa Pink} diesem Abschnitt wird ein Algorithmus, oder vielmehr eine Sammlung aus Algorithmen, vorgestellt, die in \glqq An Efficient, Versatile Approach to Suffix Sorting\grqq von Maniscalco et al. \cite{Maniscalco} beschrieben sind. Dabei liegt der Fokus nicht auf der exakten Wiedergabe des Papers, sondern auf weiterführenden Beispielen und Erläuterungen, sowie einer Erweiterung des dort bereits angegebenen Pseudocodes. Zudem wird auf die Implementierung im Rahmen der Projektgruppe eingegangen und ein Beispiel angehängt, das zum besseren Verständnis beitragen sollte. In einem weiteren Unterkapitel wird auf Möglichkeiten der naiven Parallelisierung eingegangen.\\
 
-Bei der Entwicklung dieses Algorithmus' wurden von Maniscalco et al. drei Ziele verfolgt:\\
-1. \textbf{Kurze Laufzeit} - der Algorithmus soll mit anderen SACAs mithalten können. Er soll außerdem besonders schnell die Burrows-Wheeler Transformation \cite{BWT} berechnen können, die zur verlustfreien Kompression von Texten verwendet werden kann.\\
-2. \textbf{Wenig Platzverbrauch} im Arbeitsspeicher - Für Suffix Arrays existiert der Begriff \textit{lightweight} (leichtgewichtig), eingeführt von Manzini und Ferragina \cite{saca:4}. Er wird für SACAs verwendet, die nur einen Platzverbrauch von unter 6$n$ Bytes bei einer Länge des Eingabe-Strings von $n$ Zeichen haben. Dieser Platz wird für das Suffix Array (4$n$ Byte) und zusätzlichen Arbeitsplatz verwendet.\\
+Bei der Entwicklung dieses Algorithmus wurden von Maniscalco et al. drei Ziele verfolgt:\\
+1. \textbf{Kurze Laufzeit} - der Algorithmus soll mit anderen SACAs mithalten können. Er soll außerdem besonders schnell die Burrows-Wheeler Transformation~\cite{BWT} berechnen können, die zur verlustfreien Kompression von Texten verwendet werden kann.\\
+2. \textbf{Wenig Platzverbrauch} im Arbeitsspeicher - Für Suffix Arrays existiert der Begriff \textit{lightweight} (leichtgewichtig), eingeführt von Manzini und Ferragina \cite{saca:4}. Er wird für SACAs verwendet, die nur einen Platzverbrauch von unter 6$n$ Bytes bei einer Länge des Eingabe-Strings von $n$ Zeichen haben. Dieser Platz wird für das Suffix Array (4$n$ Byte für $n < 2^{32}$) und zusätzlichen Arbeitsplatz verwendet.\\
 3. \textbf{Sensitivität bezüglich dem Alphabet} - der Algorithmus sollte auch für große Alphabete $\Sigma$ funktionieren. Viele SACAs beschränken sich auf $|\Sigma| \leq 256$, damit auch $|\Sigma|^2$ noch eine händelbare Größe darstellt. In einigen Situationen ist das Alphabet jedoch größer, zB. für wortbasierte Burrows-Wheeler Transformation ist das Alphabet zwischen 20.000 bis 100.000 Zeichen groß, und asiatische Zeitungen oder Bücher enthalten üblicherweise über 10.000 verschiedene Zeichen \cite{asianAlphabets}.\\
 Es werden (in Kapitel \ref{mainPart}) vier verschiedene Techniken eingeführt, deren Kombination schlussendlich den Kern des Algorithmus bildet:
 \begin{enumerate}
@@ -73,7 +73,7 @@ repeat:
   
  until chainStack = @$\emptyset$@			
 \end{minted}
-\caption{$u$-Chain Bucket-Sort}
+\caption{$u$-Chain Bucket-Sort.}
 \label{uChain}
 \end{listing}
 
@@ -86,7 +86,7 @@ Dieser Ansatz allein, eines auf direkten Vergleichen basierenden Bucket-Sorting,
 \subsubsection{Induziertes Sortieren}
 
 In diesem Abschnitt wird die Grundidee des Induzierten Sortieren erläutert. Grob gesagt gibt es viele Suffixe, deren Ränge abhängig sind von den Rängen anderer Suffixe, und diese Abhängigkeit kann zum schnelleren Sortieren genutzt werden.
-Man sagt, Suffix $i$ aus einer $u$-Chain der Länge $l$ lässt sich \textit{induziert} sortieren, wenn der Rang für Suffix $i+l$ bereits bekannt ist.
+Man sagt, Suffix $i$ aus einer $u$-Chain der Länge \ell lässt sich \textit{induziert} sortieren, wenn der Rang für Suffix $i+l$ bereits bekannt ist.
 Es kann beobachtet werden, dass solche induziert sortierbaren Suffixe lexikographisch vor den anderen Suffixen kommen: sie haben offensichtlich selbst lexikographisch kleinere Sub-Suffixe, als andere Suffixe mit dem selben Präfix $u$.
 Bei der Verfeinerung der $u$-Chains werden nun nur noch nicht-induziert sortierbare Suffixe in Sub-Chains platziert, während die induziert sortierbaren Suffixe anders sortiert werden. Die Reihenfolge dieser induziert sortierbaren Suffixe lässt sich mittels vergleichsbasiertem Sortieren bestimmen, indem der Rang von Suffix $i+l$ als Sortierschlüssel genutzt wird. Sobald die Menge $M$ ($|M| = m$) der induziert sortierbaren Suffixe nach den Sortierschlüsseln sortiert wurde, werden diesen Suffixen die nächsten $m$ Ränge zugewiesen. Diese Art des Sortierens für Suffixe nennen wir (hier) \textit{Induziertes Sortieren}.\\
 
@@ -114,7 +114,7 @@ repeat:
   				
  until chainStack = @$\emptyset$@
 \end{minted}
-\caption{Induziertes Sortieren}
+\caption{Induziertes Sortieren.}
 \label{indSort}
 \end{listing}
 
@@ -162,7 +162,7 @@ repeat:
       return
   		
 \end{minted}
-\caption{Erweitertes Induziertes Sortieren}
+\caption{Erweitertes Induziertes Sortieren.}
 \label{erwIndSort}
 \end{listing}
 
@@ -173,7 +173,7 @@ Für Datensätze, bei denen Typ S Suffixe häufiger sind, kann man den Ansatz op
 
 \subsubsection{Erkennen und Behandeln von Wiederholungen}
 
-In diesem Abschnitt wird die letzte und wohl komplizierteste Erweiterung des mSufSort erklärt: Der Umgang mit Wiederholungen im Input-Array. Dazu muss man zunächst wissen, dass es für vergleichsbasiertes Sortieren, wie es beim Bucket-Sort verwendet wird, sehr ungünstig ist, wenn sich Sequenzen wiederholen, wie zB.: "abcabcabc". Für eine $abc$-Chain hätte man hier drei aufeinanderfolgende Einträge, jedoch beim Verfeinern immer noch zwei mal die Sequenz $abca$. Je länger diese Wiederholungssequenz, desto ungünstiger (da immer öfter weitere Verfeinerung zu Sub-Chains nötig wird).
+In diesem Abschnitt wird die letzte und wohl komplizierteste Erweiterung des mSufSort erklärt: Der Umgang mit Wiederholungen im Input-Array. Dazu muss man zunächst wissen, dass es für vergleichsbasiertes Sortieren, wie es beim Bucket-Sort verwendet wird, sehr ungünstig ist, wenn sich Sequenzen wiederholen, wie zB.: \glqq abcabcabc\grqq{}. Für eine $abc$-Chain hätte man hier drei aufeinanderfolgende Einträge, jedoch beim Verfeinern immer noch zwei mal die Sequenz $abca$. Je länger diese Wiederholungssequenz, desto ungünstiger (da immer öfter weitere Verfeinerung zu Sub-Chains nötig wird).
 Auf der anderen Seite hat man mit den $u$-Chains schon ein mächtiges Tool, mit dem sich eben solche Sequenzen erkennen lassen, und kann dann die Wiederholungen aus den Verfeinerungen ausschließen und anders sortieren.\\
 Wir definieren eine Wiederholungssequenz $S_{i,u}$ als Sequenz, die bei Index $i$ (von rechts) beginnt, und jeweils den String $u$ der Länge $l$ direkt hintereinander enthält:
 T$[i..i+l]=$T$[i+l+1..i+2l]=...$
@@ -185,14 +185,14 @@ T$[i]$ & a & b & c & a & b & c & a & b & c & \$\\
 \end{tabular}
 \end{center}
 entspricht einer Wiederholungssequenz $S_{7,abc} = abc^3$.
-Wichtig - Folgendes ist dagegen keine Wiederholungssequenz:
+Wichtig -- Folgendes ist dagegen keine Wiederholungssequenz:
 \begin{center}
 \begin{tabular}{c c c c c c c c c c c}
 $i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9\\
 T$[i]$ & a & b & d & a & b & c & a & b & a & \$\\
 \end{tabular}
 \end{center}
-Hier kommen zwar die Buchstabenkombinationen "ab" oft vor, aber es sind Lücken zwischen den $u$-Strings, mit unterschiedlichen Zeichen.
+Hier kommen zwar die Buchstabenkombinationen \glqq ab\grqq{} oft vor, aber es sind Lücken zwischen den $u$-Strings, mit unterschiedlichen Zeichen.
 Man unterscheidet bei einer Wiederholungssequenz zwischen der sogenannten \textit{terminierenden} Position und den {nicht-terminierenden} Positionen. Die terminierende Position entspricht genau dem $i$ zu $S_{i,u}$, also dem rechtesten Beginn des wiederholt auftretenden Substrings $u$. Alle weiteren Positionen $j$, wobei $j = i-r\cdot |u|$, die den Beginn weiterer Substrings $u$, die weiter links liegen, anzeigen, sind nicht-terminierend.\\
 Diese Unterscheidung wird getroffen, weil sich alle nicht-terminierenden Positionen direkt anhand der Ränge der terminierenden Positionen bestimmen lassen. Es gilt für Wiederholungssequenzen $S_{i, u}$ (mit $|u|=l$), deren terminierende Position, Suffix $i$, sich induktiv sortieren lässt, dass \inputtext[i..n] $<$ \inputtext[i-l..n] $< ... <$ \inputtext[i-l(|S|-1)..n].
 Die Ränge der nicht-terminierenden Positionen werden also aufsteigend, beginnend bei der terminierenden Position, von rechts nach links vergeben.
@@ -226,7 +226,7 @@ $i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9\\
 \end{center}
 
 Schon dieser Fall ist komplexer. Die Ränge für $S_{6,ab}$ können direkt zugewiesen werden, da \$ vorher gerankt wurde. Dadurch, dass dann nur noch eine terminierende Position, Suffix $2$, in der Sub-Chain enthalten ist, wird schließlich diese Wiederholungssequenz gerankt, beginnend bei Suffix $0$.
-Was aber ist in dem Fall, wenn zwei Wiederholungssequenzen sich induziert sortieren lassen? In diesem Fall werden die Ränge der nicht-terminierenden Positionen \textit{interleaved} (englisch für "in einander verzahnt"). Das bedeutet, dass die Ränge der nicht-terminierten Positionen abwechselnd für alle induziert sortierbaren Wiederholungssequenzen vergeben werden, und zwar entsprechend der Reihenfolge der Ränge der terminierten Positionen. Am Beispiel zweier Wiederholungssequenzen $S_{i,u}$ und $S_{j,u}$: Sei Suffix $i$ < Suffix $j$. Dann folgt: $rank(i-l) < rank(j-l) < rank(i-2l) < rank(j-2l) < ...$ und so weiter, bis zur letzten nicht-terminierten Position aus Suffix $j$.\\
+Was aber ist in dem Fall, wenn zwei Wiederholungssequenzen sich induziert sortieren lassen? In diesem Fall werden die Ränge der nicht-terminierenden Positionen \textit{interleaved} (englisch für \glqq in einander verzahnt\grqq{}). Das bedeutet, dass die Ränge der nicht-terminierten Positionen abwechselnd für alle induziert sortierbaren Wiederholungssequenzen vergeben werden, und zwar entsprechend der Reihenfolge der Ränge der terminierten Positionen. Am Beispiel zweier Wiederholungssequenzen $S_{i,u}$ und $S_{j,u}$: Sei Suffix $i$ < Suffix $j$. Dann folgt: $rank(i-l) < rank(j-l) < rank(i-2l) < rank(j-2l) < ...$ und so weiter, bis zur letzten nicht-terminierten Position aus Suffix $j$.\\
 Es bleibt der Fall, wenn mehrere Wiederholungssequenzen der selben $u$-Chain sich nicht per Induktion sortieren lassen. Dies ist der komplizierteste Fall. Hier wird nämlich zunächst eine Liste aus allen nicht-terminierenden Positionen der Wiederholungssequenzen, $C$, auf den Chainstack gelegt. Die terminierenden Positionen werden in Sub-Chains eingeordnet. Solange sich allerdings eine Liste $C$ auf dem Stack befindet, werden keine Ränge zugewiesen, sondern es wird eine Liste $Q$ gefüllt, indem jedes Suffix, das sonst gerankt werden würde, ans Ende der Liste gehängt wird. Sobald $C$ dann oben auf dem Stack liegt, wird die Reihenfolge der terminierenden Positionen aus $Q$ genutzt, um die Suffixe aus $C$ zu sortieren. Dabei wird ebenfalls interleaved, wie bei den induziert sortierbaren Wiederholungssequenzen - entsprechend anders herum. Maniscalco und Puglisi schreiben, um $C$ und $Q$ zu implementieren, werde nur konstanter zusätzlicher Speicherplatz benötigt, um Beginn und Ende der Listen zu speichern, während die eigentlichen Verlinkungen wieder im \isa gespeichert sind. Der Pseudocode (Algorithmus \ref{wiedSeq}) dient nur der besseren Einordnung in den gesamten Algorithmus, da die Wiederholungserkennung (und -behandlung) an verschiedene Stellen verteilt wird.
 
 \begin{listing}[htp]
@@ -280,7 +280,7 @@ repeat:
         if activeVLists = @$\emptyset$@:
           return
 \end{minted}
-\caption{Wiederholungserkennung und -behandlung}
+\caption{Wiederholungserkennung und -behandlung.}
 \label{wiedSeq}
 \end{listing}
 
@@ -288,7 +288,7 @@ repeat:
 \subsection{Weitere Details} \label{Details}
 
 In diesem Kapitel finden sich alle wichtigen Details, die sich keinem speziellen Konzept zuordnen ließen, wie zum Beispiel dem grundlegenden Sortierverfahren, das an einigen Stellen (insbesondere Bucket-Sort) seine Anwendung findet. Aber auch ein paar erweiternde Ideen, zB. zur Steigerung der Effizienz des Bucket-Sort, werden hier vorgestellt.
-Es ist jedoch keine vollständige Wiedergabe des Kapitels 5 über "Entwicklungs- und Implementierungsdetails" aus \cite{Maniscalco}.
+Es ist jedoch keine vollständige Wiedergabe des Kapitels 5 über \glqq Entwicklungs- und Implementierungsdetails\grqq{} aus \cite{Maniscalco}.
 
 \subsubsection{Sortierverfahren}
 
@@ -300,13 +300,13 @@ Es macht Sinn, das Alphabet wenn möglich kompakter darzustellen. Dazu wird es u
 
 \subsubsection{Erweiterung für Bucket-Sort}
 
-Das Bucket-Sort lässt sich verbessern, indem statt nur einem Symbol jeweils zwei Symbole (sogenannte \textit{Bigramme}) auf einmal betrachtet werden (siehe auch: \ref{section:effalphabet}). Für kleine Alphabete mit $|\Sigma| \leq 256$ ist $|\Sigma|$ noch klein genug. Nicht nur werde durch das Kombinieren zweier Zeichen String-Sortieren beschleunigt, sondern es sei so auch möglich mehr Suffixe per Induktion zu sortieren (siehe nächsten Abschnitt).
+Das Bucket-Sort lässt sich verbessern, indem statt nur einem Symbol jeweils zwei Symbole (sogenannte \textit{Bigramme}) auf einmal betrachtet werden (siehe auch Abschnitt \ref{section:effalphabet}). Für kleine Alphabete mit $|\Sigma| \leq 256$ ist $|\Sigma|$ noch klein genug. Nicht nur werde durch das Kombinieren zweier Zeichen String-Sortieren beschleunigt, sondern es sei so auch möglich mehr Suffixe per Induktion zu sortieren (siehe nächsten Abschnitt).
 
 \subsection{Erweiterung für (normales) Induziertes Sortieren}
 
-Während dem Induzierten Sortieren werden Index des per Induktion zu sortierenden Suffix und der zugehörige Sortierschlüssel laut Pseudocode annotiert. Dazu werden Index und Schlüssel direkt nebeneinander in einem eigenen, dynamischen Array gespeichert, so Maniscalco und Puglisi. Dadurch werden unnötige Cache-Misses vermieden, was den Algorithmus beschleunigt. Allerdings wird dafür Speicherplatz benötigt, und zwar 8$m$ Byte für $m$ Suffixe die gerade per Induktion sortiert werden sollen. In der Praxis sei $m$ deutlich kleiner als $n$, insbesondere nachdem das Alphabet kompakter gemacht wurde.
+Während dem Induzierten Sortieren werden Index des per Induktion zu sortierenden Suffix und der zugehörige Sortierschlüssel laut Pseudocode annotiert. Dazu werden Index und Schlüssel direkt nebeneinander in einem eigenen, dynamischen Array gespeichert, so Maniscalco und Puglisi. Dadurch werden unnötige Cache-Misses vermieden, was den Algorithmus beschleunigt. Allerdings wird dafür Speicherplatz benötigt, und zwar 8$m$ Byte für $m$ Suffixe die gerade per Induktion sortiert werden sollen. In der Praxis sollte $m$ deutlich kleiner als $n$ sein, insbesondere nachdem das Alphabet kompakter gemacht wurde.
 Für den Fall, dass diese 8$m$ Byte problematisch werden könnten, schlagen Maniscalco und Puglisi zwei Alternativen vor; im einen Fall wird nur der Index des per Induktion zu sortierenden Suffixes gespeichert (mit 4$m$ Byte Speicherplatz). Der andere Fall ist etwas komplexer, benötigt aber nur 2$n$+o($n$) Bits Speicher. Diese Methode wurde nicht tatsächlich in die Implementierung aufgenommen.\\
-Durch das Betrachten von zwei Zeichen auf einmal kann nun während eine Chain mit Länge des gemeinsamen Präfix $l$ bearbeitet wird in drei Typen von Suffixen unterschieden werden: Suffix $i$ ist von Typ A, wenn der Rang von Suffix $i+l-1$ bekannt ist. Es ist von Typ B, wenn der Rang von Suffix $i+l$ bekannt ist - und von Typ C ansonsten. Lexikographisch sind nun Typ A Suffixe kleiner als Typ B Suffixe, und diese wiederum kleiner als Typ C Suffixe. Es kann nun zuerst die Reihenfolge der Typ A Suffixe mittels Induziertem Sortieren bestimmt werden. Danach bestimmt man auf die selbe Art die Reihenfolge der Typ B Suffixe. Tatsächlich lässt sich dies in einem einzigen Aufruf kombinieren, indem als Sortierschlüssel für Typ B Suffixe nicht $i+l$ sondern $-(i+l)$ verwendet wird.
+Durch das Betrachten von zwei Zeichen auf einmal kann nun während eine Chain mit Länge des gemeinsamen Präfix \ell bearbeitet wird in drei Typen von Suffixen unterschieden werden: Suffix $i$ ist von Typ A, wenn der Rang von Suffix $i+l-1$ bekannt ist. Es ist von Typ B, wenn der Rang von Suffix $i+l$ bekannt ist -- und von Typ C ansonsten. Lexikographisch sind nun Typ A Suffixe kleiner als Typ B Suffixe, und diese wiederum kleiner als Typ C Suffixe. Es kann nun zuerst die Reihenfolge der Typ A Suffixe mittels Induziertem Sortieren bestimmt werden. Danach bestimmt man auf die selbe Art die Reihenfolge der Typ B Suffixe. Tatsächlich lässt sich dies in einem einzigen Aufruf kombinieren, indem als Sortierschlüssel für Typ B Suffixe nicht $i+l$ sondern $-(i+l)$ verwendet wird.
 
 \subsection{Eigene Implementierung und Ausblick}
 In unserer Implementierung des mSufSort haben wir $u$-Chain Bucket-Sort, Induziertes Sortieren und Erweitertes Induziertes Sortieren umgesetzt. Viele kleinere Ungenauigkeiten in der Beschreibung mussten dafür zunächst geklärt werden, zum Beispiel die verwendeten Datenstrukturen betreffend.
@@ -314,7 +314,7 @@ Die Erkennung und Behandlung von Wiederholungen soll im nächsten Semester noch 
 Die größte Herausforderung bei der Implementierung ist wohl der Umgang mit den einfach verlinkten Listen, die unter Anderem (aber nicht nur) für $u$-Chains verwendet werden. Diese selbstgebaute Datenstruktur ist sehr fehleranfällig, da komplexe Operationen benötigt werden, zB. Einfügen noch während über die Liste iteriert wird.\\
 
 Sämtliche hier beschriebene Optimierungen, bis auf die Verwendung eines effektiven Alphabets, wurden noch nicht implementiert, dafür wurde allerdings bei der initialen Befüllung des Chainstacks ein Trick angewandt. 
-Statt diese nämlich über eine $u$-Chain Verfeinerung mittels Introsort (auf einer Eingabelänge von O($n$)!) zu lösen, wurde ein Array der Größe O($\Sigma$) eingeführt. Dieses enthält immer das rechteste Element einer $u$-Chain zum Zeitpunkt der Bearbeitung, dh. nach einem kompletten Scan von links nach rechts enthält es in sortierter Reihenfolge alle Elemente, die so direkt auf den Chainstack geschrieben werden können.
+Statt diese nämlich über eine $u$-Chain Verfeinerung mittels Introsort (auf einer Eingabelänge von O($n$)) zu lösen, wurde ein Array der Größe O($|\Sigma|$) eingeführt. Dieses enthält immer das rechteste Element einer $u$-Chain zum Zeitpunkt der Bearbeitung, dh. nach einem kompletten Scan von links nach rechts enthält es in sortierter Reihenfolge alle Elemente, die so direkt auf den Chainstack geschrieben werden können.
 Dadurch konnte der Speicherverbrauch im Vergleich zur Referenzimplementierung noch deutlich gesenkt werden. Erst für Alphabete, deren Größe die Anzahl der Typ S-Suffixe übersteigt, lohnt diese Optimierung nicht.\\
 
 Eine weitere Optimierung könnte, solange keine Wiederholungserkennung benötigt wird, noch darin bestehen, die Sortieroperation für $u$-Chains zu vereinfachen, indem diese nicht mehr konsequent geordnet verlinkt werden, sondern auch chaotisch gelinkt werden darf. Dies würde eine Wiederholungserkennung, wie im Originalpaper beschrieben, unmöglich machen, aber sicher einige Laufzeit einsparen.\\
@@ -328,8 +328,8 @@ Zur Zeit verwenden wir den naiven Inplace Ansatz zur Umwandlung des \isa zu \sa 
 
 Dieser Ansatz zur Sortierung von Suffixen legt den Fokus nicht auf die Erzeugung des Suffix Arrays, sondern es wird statt dessen das Inverse Suffix Array gebildet, aus dem sich direkt effizient die Burrows-Wheeler-Transformation (eine Anwendung für SACAs) ableiten lässt.
 Dadurch unterscheidet sich dieser SACA ganz grundlegend von den meisten anderen Algorithmen, die direkt Suffix-Indizes verschieben, statt Ränge zu berechnen.\\
-Insgesamt kann man dabei eigentlich dennoch nicht von einem Ansatz sprechen, dieser Algorithmus vereint vier verschiedene Konzepte in einem, man könnte sogar sagen fünf (mit dem Zusammenfassen zu Zeichenpaaren, Kapitel \ref{Details}). Dadurch wird er leider etwas unübersichtlich. Auch die Mehrfachnutzung des \isa als Platz für diverse andere Datenstrukturen (verlinkte Listen) ist für eine bessere Verständlichkeit - sowie einfache Implementierung - nicht hilfreich. Aufgrund zahlreicher solcher Tricks wird die Eingabegröße beschränkt auf $n < 2^{31}$ (durch negative Ränge), und bei Anwendung des empfohlenen, da schnellsten, Verfahrens zur Erzeugung des Suffix Arrays, sogar auf $n < 2^{30}$, unter Umständen sogar auf $n < 2^{29}$. Das sind nur noch $\frac{1}{8}$ der ursprünglichen (und üblichen) $2^{32}$ Zeichen.\\
-Auf der anderen Seite kann mSufSort mit anderen SACAs, wie zB. Deep-Shallow \cite{saca:4}, was Laufzeit und Speicherverbrauch angeht, mithalten, wie Experimente von Maniscalco und Puglisi zeigen konnten. Eine formale Laufzeitanalyse liegt zwar nicht vor, aber die Autoren schreiben, sie vermuten eine Schranke von $\Theta(n^2 log(n))$. Sie geben einen Speicherverbrauch von "etwas mehr als" 4$n$ + $zn$ Byte an. Der tatsächliche Speicherverbrauch in den Experimenten liegt bei etwa 5-6$n$ Byte, wobei beachtet werden muss, dass dies nur der Fall ist, wenn bei der Konstruktion des Suffix Array der Eingabe-String überschrieben werden darf. Andernfalls muss mit Abstrichen in der tatsächlichen Laufzeit oder einem deutlichen Wachstum des benötigten Speicherplatzes gerechnet werden. Allgemein liegt bei dem Algorithmus eine Trade-Off Situation zwischen Speicherplatz und Laufzeit vor. Mit mehr Speicherplatz ließen sich unter anderem einige Konzepte deutlich Cache-freundlicher umsetzen.
+Insgesamt kann man dabei eigentlich dennoch nicht von einem Ansatz sprechen, dieser Algorithmus vereint vier verschiedene Konzepte in einem, man könnte sogar sagen fünf (mit dem Zusammenfassen zu Zeichenpaaren, Kapitel \ref{Details}). Dadurch wird er leider etwas unübersichtlich. Auch die Mehrfachnutzung des \isa als Platz für diverse andere Datenstrukturen (verlinkte Listen) ist für eine bessere Verständlichkeit -- sowie einfache Implementierung -- nicht hilfreich. Aufgrund zahlreicher solcher Tricks wird die Eingabegröße beschränkt auf $n < 2^{31}$ (durch negative Ränge), und bei Anwendung des empfohlenen, da schnellsten, Verfahrens zur Erzeugung des Suffix Arrays, sogar auf $n < 2^{30}$, unter Umständen sogar auf $n < 2^{29}$. Das sind nur noch $\frac{1}{8}$ der ursprünglichen (und üblichen) $2^{32}$ Zeichen.\\
+Auf der anderen Seite kann mSufSort mit anderen SACAs, wie zB. Deep-Shallow~\cite{saca:4}, was Laufzeit und Speicherverbrauch angeht, mithalten, wie Experimente von Maniscalco und Puglisi zeigen konnten. Eine formale Laufzeitanalyse liegt zwar nicht vor, aber die Autoren schreiben, sie vermuten eine Schranke von $\Theta(n^2 log(n))$. Sie geben einen Speicherverbrauch von \glqq etwas mehr als\grqq{} 4$n$ + $zn$ Byte an. Der tatsächliche Speicherverbrauch in den Experimenten liegt bei etwa 5-6$n$ Byte, wobei beachtet werden muss, dass dies nur der Fall ist, wenn bei der Konstruktion des Suffix-Array der Eingabe-String überschrieben werden darf. Andernfalls muss mit Abstrichen in der tatsächlichen Laufzeit oder einem deutlichen Wachstum des benötigten Speicherplatzes gerechnet werden. Allgemein liegt bei dem Algorithmus eine Trade-Off Situation zwischen Speicherplatz und Laufzeit vor. Mit mehr Speicherplatz ließen sich unter anderem einige Konzepte deutlich Cache-freundlicher umsetzen.
 Der Algorithmus mSufSort scheint außerdem recht robust gegenüber dem Auftreten von Wiederholungen in der Eingabe zu sein. Ein weiterer Vorteil kann darin gesehen werden, dass es möglich ist, den Algorithmus (mit einigen Anpassungen!) auch für große Alphabete mit $|\Sigma| > 256$ zu nutzen.\\
 Der ursprüngliche Algorithmus, wie er hier beschrieben wurde, wurde inzwischen erweitert, es existiert nun auch eine parallelisierte Version von Maniscalco (unter \url{https://github.com/michaelmaniscalco/msufsort}).
 
@@ -387,11 +387,11 @@ Prüfe, ob \isa am Index davor V ist: Ja. Speichere 11 in $M_{ca}$.\\
 Hole nächstes Tupel vom Chain-Stack: (10,1) und bearbeite $a$-Chain:\\
 
 \paragraph{$u$-Chain Verfeinerung}
-Bei Index 10: Bilde Sub-Chain mit 'ac' (weil Eintrag kein Singleton, und Index $h+l$ = 11 noch nicht gerankt).\\
-Folge Chain: $h$ = 8. Bilde Sub-Chain mit 'ab' und erkenne Beginn einer Wiederholungssequenz.\\
+Bei Index 10: Bilde Sub-Chain mit \glqq ac\grqq{} (weil Eintrag kein Singleton, und Index $h+l$ = 11 noch nicht gerankt).\\
+Folge Chain: $h$ = 8. Bilde Sub-Chain mit \glqq ab\grqq{} und erkenne Beginn einer Wiederholungssequenz.\\
 Folge Chain: $h$ = 7. Speichere 7 in $C$ (merke dabei Kopf der Sequenz, 8).\\
-Folge Chain: $h$ = 4. Bilde Sub-Chain 'ac'.\\
-Folge Chain: $h$ = 2. Bilde Sub-Chain 'ab' und erkenne Beginn einer Wiederholungssequenz.\\
+Folge Chain: $h$ = 4. Bilde Sub-Chain \glqq ac\grqq{}.\\
+Folge Chain: $h$ = 2. Bilde Sub-Chain \glqq ab\grqq{} und erkenne Beginn einer Wiederholungssequenz.\\
 Folge Chain: $h$ = 1. Speichere 1 in $C$ (mit Verweis auf 2).\\
 Ende der Chain erreicht, $C$ nicht-leer: Lege $C$ auf den Stack.\\
 Sortiere und pushe Sub-Chains auf den\\
@@ -407,15 +407,15 @@ $i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14\\
 
 Bearbeite das nächste Tupel auf dem ChainStack: (8, 2).\\
 Bilde Sub-Chain 'aba': (8, 3).\\
-Folge Chain: $h$ = 2. Bilde Sub-Chain 'aba' (verlinke).\\
+Folge Chain: $h$ = 2. Bilde Sub-Chain \glqq aba\grqq{} (verlinke).\\
 Ende der Chain erreicht: Sortiere und pushe Sub-Chains.\\
 Fahre fort mit Sub-Chain-Verfeinerung bis $l = 5$ und\\
-\textbf{chainStack:} \begin{itemize} \item (8, 5) - 'abaca' \item (2, 5) - 'abacc' \item (10, 2) - 'ac' \end{itemize}
+\textbf{chainStack:} \begin{itemize} \item (8, 5) - \glqq abaca\grqq{} \item (2, 5) - \glqq abacc\grqq{} \item (10, 2) - \glqq ac\grqq{} \end{itemize}
 Weil $C$ auf dem Stack liegt, füge 8 (Singleton) ans Ende von Liste $Q$ (speichere wieder in ISA Verlinkungen, nur Head und Tail extra).\\
 Füge dann 2 ans Ende von $Q$.\\
-Bearbeite 'ac'-Chain (10, 2).\\
+Bearbeite \glqq ac\grqq{}-Chain (10, 2).\\
 Füge 10 in $Q$ ein, da per Induktion sortiert (ISA[10+2]=-2 < 0)\\
-Folge weiter Chain: $h$ = 4. Bilde Sub-Chain 'acc' (4, 3).\\
+Folge weiter Chain: $h$ = 4. Bilde Sub-Chain \glqq acc\grqq{} (4, 3).\\
 Füge 4 in $Q$ ein (Singleton).\\
 \textbf{Q}: 8, 2, 10, 4\\
 $C$ liegt oben auf dem Stack: Ranke $C$ und $Q$ miteinander.\\
@@ -460,3 +460,8 @@ $i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14\\
 \subsubsection{Umwandlung zum SA}
 Hier durchgeführt: Zyklisches Vertauschen, bis Zyklus-Ende (nächster Eintrag im \isa bereits positiv), dann von links nach rechts nächsten Zyklus suchen usw. bis alle Einträge positiv. Ergebnis siehe oben.
 
+\subsection{Implementierte sequentielle und parallele Versionen}
+In diesem Abschnitt wird ein Überblick über die in SACABench implementierten Versionen gegeben.
+Eine einfache, erste Variante ohne Wiederholungserkennung wurde erweitert um die halbe Wiederholungserkennung (für induziert sortierbare Wiederholungssequenzen). Zudem wurde eine Variante implementiert, in der statt üblicher Sortieralgorithmen wie Introsort das hier entwickelte Scansort (ein Bucketsort in linearer Laufzeit) verwendet wird. Dies ist zwar sehr speichereffizient, ist aber für die Laufzeit (vermutlich aufgrund von Cache-Problematiken bei größeren Alphabeten) schlechter.
+Für alle drei sequentiellen Varianten ist auch eine parallele Variante enthalten, bei der jeweils die Sortierer durch ihre parallelen Gegenstücke ersetzt wurden. Für die einfachste Variante bedeutet das, dass bei der Bucket-Verfeinerung und beim induzierten Sortieren ips4o \cite{axtmann2017} verwendet wird. In der Variante mit Wiederholungserkennung wird im Bucket-Verfeinerungsschritt ein stabiler Sortierer benötigt, daher wird hier ein stabiler paralleler Mergesort verwendet. Für die Scan-Variante entfällt der Verfeinerungssortierschritt bzw. lässt sich nicht naiv parallelisieren, und das induzierte Sortieren übernimmt auch hier ips4o.
+Eine weitere, hier nicht umgesetzte Möglichkeit zur Parallelisierung ergibt sich daraus, dass die initialen $u$-Chains alle unabhängig voneinander vorbereitet werden können, dh. sie können alle weiter verfeinert werden. Nur der Schritt des induzierten Sortierens muss warten, was allerdings nicht problematisch ist, da vorher bekannt ist, welche Suffixe sich später induziert sortieren lassen.
