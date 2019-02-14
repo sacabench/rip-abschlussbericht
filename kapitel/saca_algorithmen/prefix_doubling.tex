@@ -43,8 +43,6 @@ Abschnitt \ref{algo:doubling:sec:summary} fasst die einzelnen Varianten zusammen
 %captionpos=t,float,abovecaptionskip=-\medskipamount
 \label{algo:doubling:sec:doubling}
 \begin{listing}[htp]
-\caption{Doubling} 
-\label{algo:doubling:code:doubling}
 \begin{minted}[escapeinside=@@,numbers=left]{python}
 def doubling(T):
   S = [((T[i], T[i + 1]), i) for i in @$[0, n)$@]
@@ -73,6 +71,8 @@ def name(S):
     append (r, i) to result
   return result
 \end{minted}
+\caption{Doubling} 
+\label{algo:doubling:code:doubling}
 \end{listing}
 
 \todo{Integrate into Grundlagen?} Um ein Suffix-Array für $\inputtext$ zu bestimmen, müssen alle Suffixe $\suffix i$ lexikographisch sortiert werden. Wir stellen fest, dass hierfür jeweils nur ein Präfix von bis zu $\text{dps}(i)$ Zeichen von $\suffix i$ betrachtet werden muss. 
@@ -80,8 +80,6 @@ def name(S):
 Wir bauen auf dem in \cref{sec:ansatz:doubler} beschriebenen Doubling Ansatz auf, gemäß dem wir alle $\inputtext_i$ iterativ anhand eines Präfixes von $2^k$ Zeichen sortieren. Wir vergleichen die $\inputtext{}[i, i + 2^k)$ Strings jedoch nicht Zeichenweise, da dies den Rechenaufwand mit jedem Iterationsschritt verdoppeln würde. Stattdessen arbeitet der Algorithmus auf einer Sequenz $S$ von Tupeln $((c, c'), i)$, bei der $c$ und $c'$ eindeutige \textbf{Namen} für $\inputtext{}[i, i + 2^{k-1})$ und $\inputtext{}[i + 2^{k-1}, i + 2^k)$ sind. Eine naive Implementierung dieses Ansatzes findet sich in \texttt{doubling()} in Algorithmus \ref{algo:doubling:code:doubling}.
 
 \begin{figure}
-\caption{\texttt{doubling()} für $\inputtext{}$ = \textit{abracadabra} und $k = 1$}
-\label{algo:doubling:fig:doubling}
 \begin{tikzpicture}[cell/.style={rectangle,draw=black},
 space/.style={minimum height=1.5em,matrix of nodes,row sep=-\pgflinewidth,column sep=-\pgflinewidth,column 1/.style={font=\ttfamily}},text depth=0.5ex,text height=2ex,nodes in empty cells]
 
@@ -203,6 +201,8 @@ a&b&r&a&c&a&d&a&b&r&a&\$ \\
 \tbc{8}{9}{2}{1.5em}
 \tbc{10}{11}{10}{1.5em}
 \end{tikzpicture}
+\caption{\texttt{doubling()} für $\inputtext{}$ = \textit{abracadabra} und $k = 1$}
+\label{algo:doubling:fig:doubling}
 \end{figure}
 
 Wir betrachten hierfür das Beispiel in Abbildung \ref{algo:doubling:fig:doubling}. Zu beginn der ersten Iteration entsprechen $c$ und $c'$ benachbarten Zeichen im Eingabestring. $S$ wird gemäß der $(c, c')$ Tuple lexikografisch sortiert (erster \textit{sort} Schritt im Beispiel), und anschließend gemäß ihrer neuen Position in $S$ \textbf{lexikographisch Umbenannt} (\textit{name} im Beispiel).
@@ -247,8 +247,6 @@ Der $\mathcal{O}(\text{sort}(n))$ Anteil steht hierbei für alle einmalig durchz
 
 \begin{listing}[htp]
 %captionpos=t,float,abovecaptionskip=-\medskipamount
-\caption{Doubling+Discarding} 
-\label{algo:doubling:code:discarding}
 \begin{minted}[escapeinside=@@,numbers=left]{python}
 def doubling_discarding(T):
   S = [((T[i], T[i + 1]), i) for i in @$[0, n)$@]
@@ -297,6 +295,8 @@ def name2(S):
     q = q + 1
   return result
 \end{minted}
+\caption{Doubling+Discarding} 
+\label{algo:doubling:code:discarding}
 \end{listing}
 
 Für die nächste Verbesserung des Algorithmus beobachten wir folgendes. Sei $c_i^k$ der lexikographische Name für ein $\inputtext{}[i, i + 2^k)$ in Iteration $k$. Falls $c_i^k$ einzigartig in $S$ ist, ist auch der zugehörige Teilstring ein einzigartiger Präfix. Es gilt somit $c_i^k = c_i^h$ für alle $h > k$, da die zusätzlichen Zeichen in $\inputtext{}[i, i + 2^h)$ nichts mehr an der lexikografischen Sortierung, und somit der Position in $S$ ändern würden. Die Idee des \textbf{Discardings} ist es nun, in jeder Iteration Tuple mit einzigartigen Namen aus $S$ zu entfernen, um somit nachfolgende I/Os zu verringern. 
@@ -319,8 +319,6 @@ Der Doubling Algorithmus mit Pipelining und Discarding berechnet ein Suffix-Arra
 \label{algo:doubling:sec:tupling}
 \begin{listing}[htp]
 %captionpos=t,float,abovecaptionskip=-\medskipamount
-\caption{A-Tupling} 
-\label{algo:doubling:code:atupling}
 \begin{minted}[escapeinside=@@,numbers=left]{python}
 def a_tupling(T):
   S = [((T[i], T[i + 1], @\dots@, T[i + a - 1]), i) for i in @$[0, n)$@]
@@ -342,6 +340,8 @@ def a_tupling(T):
         l = @$i^\prime$@
       append (T, i) to S
 \end{minted}
+\caption{A-Tupling} 
+\label{algo:doubling:code:atupling}
 \end{listing}
 
 Als letzte Verbesserung lässt sich der Doubling Algorithmus schließlich darauf generalisieren, in jeder Iteration lexikografischen Namen für $a^k$ Zeichen, anstatt $2^k$, zu bestimmen. Hierzu werden jeweils $a$ benachbarte Namen in einem Tupel gesammelt. Algorithmus \ref{algo:doubling:code:atupling} zeigt den so modifizierten Code ohne Discarding oder Pipelining.
@@ -349,8 +349,6 @@ Als letzte Verbesserung lässt sich der Doubling Algorithmus schließlich darauf
 Dies wirkt sich in zwei Aspekten auf die I/O-Komplexität aus. Anstatt $\text{sort}(5n)$ Sortieroperationen pro Iteration, erhöhen sich die Kosten auf $\text{sort}((a+3)n)$. Andererseits verringert sich die Anzahl der Iterationen auf $\log_a n$. Setzt man beide Werte in Relation zueinander, so erhält man einen Faktor von $\frac{a + 3}{\log a}$ für die gesamten I/O-Kosten des Algorithmus. 
 
 \begin{table}
-\caption{I/O-Anforderungen für verschiedenen Varianten von A-Tupling}
-\label{algo:doubling:tab:tab1}
 \centering
 \begin{tabular}{cccccc}
 \toprule
@@ -359,6 +357,8 @@ $a$ & 2 & 3 & 4 & 5 & 6 \\
 $(a+3) / \log a$ & $5,0$ & $3,78$ & $3,50$ & $3,45$ & $3,56$ \\ 
 \bottomrule
 \end{tabular} 
+\caption{I/O-Anforderungen für verschiedenen Varianten von A-Tupling}
+\label{algo:doubling:tab:tab1}
 \end{table}
 
 Werten wir dies für unterschiedliche Werte von $a$ aus, so ist $a = 5$ optimal (Siehe Tabelle \ref{algo:doubling:tab:tab1}). In der Praxis eignet sich jedoch $a = 4$ mehr, da die I/O-Kosten nur $1,5\%$ schlechter sind, und sich der Wert als Zweierpotenz besser für Berechnungen und Implementierung eignet.
@@ -403,8 +403,6 @@ Sei $w = \texttt{sizeof(sa\_index)}$. Bei einer direkten Umsetzung der Algorithm
 \def\pdew{26}
 
 \begin{figure}
-\caption{Doubling Speicherlayout}
-\label{fig:doubling:opt:basic}
 \begin{tikzpicture}[yscale=-1,xscale=\textwidth/(\pdew cm + 1cm)]
 
 % Arrays
@@ -444,11 +442,11 @@ Sei $w = \texttt{sizeof(sa\_index)}$. Bei einer direkten Umsetzung der Algorithm
   (\pdew,0) -- node[right=7pt] {$w$} (\pdew,1);
 
 \end{tikzpicture}
+\caption{Doubling Speicherlayout}
+\label{fig:doubling:opt:basic}
 \end{figure}
 
 \begin{figure}
-\caption{Discarding Speicherlayout}
-\label{fig:doubling:opt:discard}
 \begin{tikzpicture}[yscale=-1,xscale=\textwidth/(\pdew cm + 1cm)]
 
 % Arrays
@@ -509,6 +507,8 @@ Sei $w = \texttt{sizeof(sa\_index)}$. Bei einer direkten Umsetzung der Algorithm
   (\pdew,0) -- node[right=7pt] {$w$} (\pdew,1);
 
 \end{tikzpicture}
+\caption{Discarding Speicherlayout}
+\label{fig:doubling:opt:discard}
 \end{figure}
 
 \subsection{Beispiel}
@@ -531,8 +531,6 @@ Wir beobachteten außerdem, dass sich die Tupel $(c, i) \in P$ vollständig als 
 Wir repräsentieren $P$ und $S$ nun nicht mehr durch zwei getrennte Arrays der Länge $(a + 1)nw$ für $S$ und $2nw$ für $P$, sondern nutzen ein einzelnes Array $SP$ der Größe $(a + 1)nw$  bei dem ein Eintrag \textit{entweder} ein Tupel $(c, i) \in P$ \textit{oder} ein Tupel $((c_1, \dots, c_a), i) \in S$ enthält. Die Umbenennung bzw. Paarbildung im Algorithmus iteriert somit durch ein Array aus anfänglich $S$ bzw. $P$ Elementen, und ersetzt dabei sequentiell jeden Eintrag durch das errechnete $P$ bzw. $S$ Element. Siehe \cref{fig:doubling:opt:lagerung}.
 
 \begin{figure}
-\caption{Doubling Speicherlayout bei Arrayüberlagerung}
-\label{fig:doubling:opt:lagerung}
 \begin{tikzpicture}[yscale=-1,xscale=\textwidth/(\pdew cm + 1cm)]
 
 \def\pdegap{0.5}
@@ -586,6 +584,8 @@ x% Komponents
 \node[single arrow, draw=black, fill=gray!50, minimum height=40] at(midbelow) {$c \leftarrow name(c_1, \dots, c_a)$};
 
 \end{tikzpicture}
+\caption{Doubling Speicherlayout bei Arrayüberlagerung}
+\label{fig:doubling:opt:lagerung}
 \end{figure}
 
 \subsubsection{Arrayüberlagerung beim Discarding} Die vorherige Optimierung lässt sich zunächst direkt auf die $S$ und $U$ Arrays der Discaring Variante \ref{algo:doubling:code:discarding} anwenden, um den Speicherverbrauch auf $(a+5)nw$ Bytes zu senken.
@@ -617,8 +617,6 @@ Daraus folgt folgendes Layout von $SUPF$:
 Siehe \cref{fig:doubling:opt:discardlagerung} für ein Beispiel für den Zustand von $SUPF$ während Zeile 14--26 des Algorithmus. Diese Optimierung ermöglicht uns den Speicherverbrauch von Discarding auf den selben Wert $(a + 1)nw$ wie für das normale Doubling zu reduzieren.
 
 \begin{figure}
-\caption{Discarding Speicherlayout bei Arrayüberlagerung}
-\label{fig:doubling:opt:discardlagerung}
 \begin{tikzpicture}[yscale=-1,xscale=\textwidth/(\pdew cm + 1cm)]
 
 \def\pdegap{0.5}
@@ -685,6 +683,8 @@ x% Komponents
 \node[single arrow, draw=black, fill=gray!50, minimum height=30] at(9,3.5) {};
 
 \end{tikzpicture}
+\caption{Discarding Speicherlayout bei Arrayüberlagerung}
+\label{fig:doubling:opt:discardlagerung}
 \end{figure}
 
 \subsubsection{Wordpacking}
