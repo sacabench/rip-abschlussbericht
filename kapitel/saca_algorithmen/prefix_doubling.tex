@@ -8,7 +8,7 @@ Dieser Abschnitt präsentiert den in \cite{saca:11} beschriebenen \textbf{Doubli
 
 \subsection{Grundlagen}
 
-Wir definieren $[i, j] = \{i, \dots, j\}$ und $[i, j) = [i, j - 1]$ als Kurzschreibweise für Integer-Intervalle. Für jeden String $T$ der Länge $m$ mit beliebigen Alphabet lässt sich ein äquivalenter String $T'$ mit $\Sigma = [1, m]$ bilden, indem alle vorkommenden Zeichen aufsteigend sortiert, Duplikate entfernt, und die verbleibenden Zeichen durch einen aufsteigenden Zähler ersetzt werden. Wir weisen $\$$ den besonderen Integer Rang und Alphabeteintrag $0$ zu.
+Wir definieren $[i, j] = \{i, \dots, j\}$ und $[i, j) = [i, j - 1]$ als Kurzschreibweise für Integer-Intervalle. Für jeden String $\inputtext$ der Länge $m$ mit beliebigen Alphabet lässt sich ein äquivalenter String $\inputtext'$ mit $\Sigma = [1, m]$ bilden, indem alle vorkommenden Zeichen aufsteigend sortiert, Duplikate entfernt, und die verbleibenden Zeichen durch einen aufsteigenden Zähler ersetzt werden. Wir weisen $\$$ den besonderen Integer Rang und Alphabeteintrag $0$ zu.
 
 Ein so \textbf{umbenannter} String hat die Eigenschaft, dass die Ordnung über dem neuen Alphabet identisch zu der über dem ursprünglichen ist, und sich somit darauf dasselbe Suffix-Array ergibt. Ein dazu ähnliches Verfahren, \textbf{lexikographische Umbenennung}, wird Kern der vorgestellten Algorithmen sein, und beruht darauf ganze (Teil-)Strings eines Textes durch aufsteigende Zähler zu ersetzen.
 
@@ -19,7 +19,7 @@ $\textbf{Lcp}(i, j)$ bezeichnet die längste gemeinsamen Präfix Länge (\textbf
 \log \text{dps} := \frac{1}{n} \sum_{i \in [0, n)} \log(\text{dps}(i))
 \end{gather*}
 
-Für die Analyse der Zugriffsoperationen auf externe Speicher betrachten wir das I/O Model \cite{Vitter1994}. Darin besteht ein Computersystem aus $M$ Wörtern schnellen Hauptspeichers, und langsameren externen Speicher der sich über I/O Operation in Blockgrößen $B$ über $D$ Platten erstreckt. Für Eingaben der Länge $n$ nehmen wir eine Wortbreite von $\geq \ceil*{\log n}$ Bits an. Wir definieren folgende Kurzschreibweisen:
+Für die Analyse der Zugriffsoperationen auf externe Speicher betrachten wir das I/O-Model \cite{Vitter1994}. Darin besteht ein Computersystem aus $M$ Wörtern schnellen Hauptspeichers, und langsameren externen Speicher der sich über I/O-Operationen in Blockgrößen $B$ über $D$ Platten erstreckt. Für Eingaben der Länge $n$ nehmen wir eine Wortbreite von $\geq \ceil*{\log n}$ Bits an. Wir definieren folgende Kurzschreibweisen:
 \begin{itemize}
 \item $\text{scan}(x) = \ceil*{x/DB}$ für sequentielles lesen oder schreiben von $x$ Wörtern in externen Speicher.
 \item $\text{sort}(x) = \frac{2x}{DB}\ceil*{\log_{M/B}\frac{x}{M}}$ für das I/O-effiziente sortieren von $x$ Wörtern unter Zuhilfenahme von externen Speicher.
@@ -29,11 +29,11 @@ Wir geben alle Algorithmen in Pseudocode an, der an Python angelegt ist.
 
 \subsection{Überblick}
 
-Wir betrachten zunächst in Abschnitt \ref{algo:doubling:sec:doubling} den Doubling Algorithmus \cite{Arge1997}\cite{Crauser2002}. Dieser hat eine I/O Komplexität von $\mathcal{O}(\text{sort}(n \log \text{maxlcp}))$, und erlaubt es Strings der Länge $2^k$ in $k$ Iteration zu sortieren.
+Wir betrachten zunächst in Abschnitt \ref{algo:doubling:sec:doubling} den Doubling Algorithmus \cite{Arge1997}\cite{Crauser2002}. Dieser hat eine I/O-Komplexität von $\mathcal{O}(\text{sort}(n \log \text{maxlcp}))$, und erlaubt es Strings der Länge $2^k$ in $k$ Iteration zu sortieren.
 
-In nachfolgenden Abschnitten werden wir anschließend systematisch Modifikationen einführen, die den Algorithmus bezüglich I/O Komplexität und Rechenaufwand verbessern. Wir beginnen in Abschnitt \ref{algo:doubling:sec:pipelining} mit dem Konzept des \textit{Pipelining}s, welches auf externen Algorithmen in der Regel eine I/O Reduzierung um den Faktor 2 ermöglicht.
+In nachfolgenden Abschnitten werden wir anschließend systematisch Modifikationen einführen, die den Algorithmus bezüglich I/O-Komplexität und Rechenaufwand verbessern. Wir beginnen in Abschnitt \ref{algo:doubling:sec:pipelining} mit dem Konzept des \textit{Pipelining}s, welches auf externen Algorithmen in der Regel eine I/O-Reduzierung um den Faktor 2 ermöglicht.
 
-Abschnitt \ref{algo:doubling:sec:discarding} beschreibt eine simple Methode, bereits bestimmte Suffixe aus nachfolgenden Iterationen des Doubling Algorithmus zu entfernen (\textit{Discarding}). Dies verbessert die I/O Komplexität gegenüber Doubling zu $\mathcal{O}(\text{sort}(n \log \text{dps}))$, und ist besser als vorherige Discarding Ansätze mit einer Komplexität von $\mathcal{O}(\text{sort}(n \log \text{dps})) + \text{scan}(n \log \text{maxlcp})$ \cite{Crauser2002}.
+Abschnitt \ref{algo:doubling:sec:discarding} beschreibt eine simple Methode, bereits bestimmte Suffixe aus nachfolgenden Iterationen des Doubling Algorithmus zu entfernen (\textit{Discarding}). Dies verbessert die I/O-Komplexität gegenüber Doubling zu $\mathcal{O}(\text{sort}(n \log \text{dps}))$, und ist besser als vorherige Discarding Ansätze mit einer Komplexität von $\mathcal{O}(\text{sort}(n \log \text{dps})) + \text{scan}(n \log \text{maxlcp})$ \cite{Crauser2002}.
 
 Abschnitt \ref{algo:doubling:sec:tupling} beschreibt eine Laufzeitverbesserung um einen konstanten Faktor, bei dem Strings der Länge $a^k$ in $k$ Iterationen sortiert werden (\textit{$a$-Tupling}). Es stellen sich hierbei $a = 4$ und $a = 5$ als beste Ergebnisse heraus.
 
@@ -215,10 +215,10 @@ $P$ wird nun ähnlich zur Eingabezeichenfolge betrachtet, indem aus benachbarten
 
 Da immer nur zwei Namen für benachbarte Teilstrings zu neuen Namen zusammengefasst werden, und der Algorithmus mit allen Zeichen und Textpositionen der Eingabe beginnt, verdoppelt sich somit in jeder Iteration die Länge der repräsentierten Präfixe des Suffix-Arrays. Da die Ordnung der darunterliegenden Strings in den neuen Namen erhalten bleibt, lässt sich aus $S$ Sequenzen von späteren Iterationen das korrekte Suffix-Array auslesen, sobald alle Elemente in ihnen eindeutig sind. Und da in jeder Iteration immer nur Paare von Namen betrachtete werden, steigen die Sortierkosten von $S$ nicht mit jeder Iteration.
 
-Wir gehen nun davon aus, dass $S$ und $P$ in externen Speicher liegen.  Gemäß unserer Definition zu I/O Komplexität, führt der Algorithmus pro Iteration einen Konstante Anzahl von \textit{Scanning} und \textit{Sort} Operation über $n$ Elemente durch, und hat eine obere Iterationsschranke beim Logarithmus des längsten gemeinsamen Präfixes. Es gilt somit:
+Wir gehen nun davon aus, dass $S$ und $P$ in externen Speicher liegen.  Gemäß unserer Definition zu I/O-Komplexität, führt der Algorithmus pro Iteration einen Konstante Anzahl von \textit{Scanning} und \textit{Sort} Operation über $n$ Elemente durch, und hat eine obere Iterationsschranke beim Logarithmus des längsten gemeinsamen Präfixes. Es gilt somit:
 
 \begin{theorem}
-Der Doubling Algorithmus berechnet ein Suffix-Array in\\ $\mathcal{O}(\text{sort}(n) \ceil*{\log \text{maxlcp}})$ I/O Operationen.
+Der Doubling Algorithmus berechnet ein Suffix-Array in\\ $\mathcal{O}(\text{sort}(n) \ceil*{\log \text{maxlcp}})$ I/O-Operationen.
 \end{theorem}
 
 \subsection{Pipelining}
@@ -228,16 +228,16 @@ Als erste signifikante Verbesserung des Doubling Algorithmus beobachten wir, das
 
 Wir betrachten hierzu wieder Algorithmus \ref{algo:doubling:code:doubling}. Anstatt die Tuple in Zeile (2) zunächst vollständig in $S$ zu schreiben, können sie direkt an die Sortierfunktion in Zeile (4) übergeben werden. Ebenso können die so sortierten Tuple direkt in die Benennungsfunktion in Zeile (5), und von dort direkt in die Sortierfunktion in Zeile (8) geleitet werden, da sich die Benennungsfunktion nur jeweils das vorherige Tuple merken muss. Dasselbe gilt für die Paarbildung in den Zeilen (10)--(14), in der auch nur jeweils zwei nachfolgende Elemente betrachten werden müssen. Die in Zeile (12) und (14) bestimmten Tuple können schließlich wie in Zeile (2) direkt in die Sortierfunktion (4) der nächsten Iteration geleitet werden.
 
-Wir analysieren diese Modifikation nun genauer in Hinblick auf die I/O Komplexität. Wir nehmen zunächst an, dass sich eine Sequenz aus $m$ Wörtern mit einem geeigneten Sortieralgorithmus in $\approx 4m/DB$ I/O Operationen, und mit zwei Durchläufen sortieren lässt, falls $x \ll M^2/DB$ und $M \gg DB$ \cite{Aggarwal1988}. Die folgende Analyse ist dabei \cite{saca:11} entnommen.
+Wir analysieren diese Modifikation nun genauer in Hinblick auf die I/O-Komplexität. Wir nehmen zunächst an, dass sich eine Sequenz aus $m$ Wörtern mit einem geeigneten Sortieralgorithmus in $\approx 4m/DB$ I/O-Operationen, und mit zwei Durchläufen sortieren lässt, falls $x \ll M^2/DB$ und $M \gg DB$ \cite{Aggarwal1988}. Die folgende Analyse ist dabei \cite{saca:11} entnommen.
 
 Ohne Pipelining benötigt die Sortierung von $n$ Triple in Zeile (4) somit $12m/DB$ I/Os, und das lesen der Triple und schreiben der Paare in Zeile (5) $5m/DB$ I/Os. Der Test auf Eindeutigkeit in Zeile (6) kann während der Benennung durchgeführt werden, und benötigt keine zusätzlichen I/Os. Das sortieren der Tuple in Zeile (8) kostet $8m/DB$ I/Os, und das lesen der Paare und schreiben der Triple in Zeilen (10)--(14) wiederum  $5m/DB$ I/Os. Insgesamt erhalten wir somit Kosten von $(12 + 5 + 8 +5)n/DB = 30n/DB$ I/Os.
 
 Wir betrachten nun die I/Os für die Pipeline Variante des Algorithmus. Zunächst können die $S$ Tuple direkt in die erste Phase des Sortieralgorithmus (Zeile (4)) geleitet werden, welche dabei mit $3n/DB$ I/Os in externen Speicher schreibt. Die zweite Phase liest die Triple sortiert in ebenfalls $3n/DB$ I/Os aus, und leitet sie ohne weiteren I/Os durch die Benennungsfunktion und in die erste Phase der Sortierung in Zeile (8). Diese schreibt mit $2n/DB$ I/Os, und liest sie in der zweiten Phase mit $2n/DB$ I/Os sortiert aus, leitet sie ohne zusätzliche I/Os durch die Paarbildung, und übergibt sie an die erste Phase der $S$ Sortierung der nächsten Iteration. 
 
-Insgesamt wurden somit innerhalb der Iterationen alle \textit{Scan}-Operationen von $S$ und $P$ eliminiert, und nur die Hälfte der I/Os von \textit{Sort}-Operationen beibehalten, womit sich insgesamt eine Reduzierung auf $(3 + 3 + 2 + 2)n/DB = 10n/DB$ I/Os ergibt. Dies erlaubt eine genauere Spezifizierung der I/O Komplexität des Algorithmus:
+Insgesamt wurden somit innerhalb der Iterationen alle \textit{Scan}-Operationen von $S$ und $P$ eliminiert, und nur die Hälfte der I/Os von \textit{Sort}-Operationen beibehalten, womit sich insgesamt eine Reduzierung auf $(3 + 3 + 2 + 2)n/DB = 10n/DB$ I/Os ergibt. Dies erlaubt eine genauere Spezifizierung der I/O-Komplexität des Algorithmus:
 
 \begin{theorem}
-Der Doubling Algorithmus mit Pipelining berechnet ein Suffix-Array in\\ $\text{sort}(5n) \ceil*{\log \text{maxlcp}} +  \mathcal{O}(\text{sort}(n))$ I/O Operationen.
+Der Doubling Algorithmus mit Pipelining berechnet ein Suffix-Array in\\ $\text{sort}(5n) \ceil*{\log \text{maxlcp}} +  \mathcal{O}(\text{sort}(n))$ I/O-Operationen.
 \end{theorem}
 
 Der $\mathcal{O}(\text{sort}(n))$ Anteil steht hierbei für alle einmalig durchzuführende Berechnung vor Beginn, und nach Verlassen der Schleife.
@@ -307,12 +307,12 @@ Es dürfen außerdem nicht alle einzigartigen $c_i^k$ direkt aus $S$ entfernt we
 
 Alle Tuple, die vollständig aus $S$ entfernt wurden, werden in einer zusätzlichen Sequenz $F$ gesammelt, und der Algorithmus endet sobald $S$ leer ist. Wenn dies der Fall ist, enthält $F$ einen eindeutigen Namen für jede Textposition, und es lässt sich nach einer finalen lexikografische Sortierung das Suffix-Array auslesen. Siehe hierzu \texttt{doubling\_discarding()} in Algorithmus \ref{algo:doubling:code:discarding}.
 
-Wir betrachten nun wieder die I/O Komplexität. Der naive Doubling Algorithmus sortiert und verdoppelt solange alle Präfixe, bis sie Paarweise verschieden sind. Jeder einzelne Präfix durchläuft somit immer genau $\log \text{maxlcp}$ Iterationen. Mit Discarding hingegen wird ein einzigartiger Präfix so früh wie möglich aus der Iteration entfernt. Somit gilt für alle $\suffix i$, das ein Präfix maximal $\text{dps}(i)$ Iterationen durchläuft.
+Wir betrachten nun wieder die I/O-Komplexität. Der naive Doubling Algorithmus sortiert und verdoppelt solange alle Präfixe, bis sie Paarweise verschieden sind. Jeder einzelne Präfix durchläuft somit immer genau $\log \text{maxlcp}$ Iterationen. Mit Discarding hingegen wird ein einzigartiger Präfix so früh wie möglich aus der Iteration entfernt. Somit gilt für alle $\suffix i$, das ein Präfix maximal $\text{dps}(i)$ Iterationen durchläuft.
 
 Wir stellen auch fest, dass Discarding kompatible mit Pipelining ist. Der Algorithmus nutzt zwar mehr (externe) Sequenzen von Tupeln, aber es werden weiterhin in $k$ Iterationen jeweils nur die zwei \textit{Sort} Operationen des Basisalgorithmus angewandt, und alle weiteren Operationen scannen die einzelnen Elemente jeweils nur in einem Durchlauf. Dies ermöglicht somit das direkt weiterleiten von Zwischenergebnissen in Form von Pipelining, und führt zu folgender Analyse der Gesamtkomplexität:
 
 \begin{theorem}
-Der Doubling Algorithmus mit Pipelining und Discarding berechnet ein Suffix-Array in\\ $\text{sort}(5n) \ceil*{\log \text{dps}} +  \mathcal{O}(\text{sort}(n))$ I/O Operationen.
+Der Doubling Algorithmus mit Pipelining und Discarding berechnet ein Suffix-Array in\\ $\text{sort}(5n) \ceil*{\log \text{dps}} +  \mathcal{O}(\text{sort}(n))$ I/O-Operationen.
 \end{theorem}
 
 \subsection{A-Tupling}
@@ -346,10 +346,10 @@ def a_tupling(T):
 
 Als letzte Verbesserung lässt sich der Doubling Algorithmus schließlich darauf generalisieren, in jeder Iteration lexikografischen Namen für $a^k$ Zeichen, anstatt $2^k$, zu bestimmen. Hierzu werden jeweils $a$ benachbarte Namen in einem Tupel gesammelt. Algorithmus \ref{algo:doubling:code:atupling} zeigt den so modifizierten Code ohne Discarding oder Pipelining.
 
-Dies wirkt sich in zwei Aspekten auf die I/O Komplexität aus. Anstatt $\text{sort}(5n)$ Sortieroperationen pro Iteration, erhöhen sich die Kosten auf $\text{sort}((a+3)n)$. Andererseits verringert sich die Anzahl der Iterationen auf $\log_a n$. Setzt man beide Werte in Relation zueinander, so erhält man einen Faktor von $\frac{a + 3}{\log a}$ für die gesamten I/O Kosten des Algorithmus. 
+Dies wirkt sich in zwei Aspekten auf die I/O-Komplexität aus. Anstatt $\text{sort}(5n)$ Sortieroperationen pro Iteration, erhöhen sich die Kosten auf $\text{sort}((a+3)n)$. Andererseits verringert sich die Anzahl der Iterationen auf $\log_a n$. Setzt man beide Werte in Relation zueinander, so erhält man einen Faktor von $\frac{a + 3}{\log a}$ für die gesamten I/O-Kosten des Algorithmus. 
 
 \begin{table}
-\caption{I/O Anforderungen für verschiedenen Varianten von A-Tupling}
+\caption{I/O-Anforderungen für verschiedenen Varianten von A-Tupling}
 \label{algo:doubling:tab:tab1}
 \centering
 \begin{tabular}{cccccc}
@@ -361,22 +361,22 @@ $(a+3) / \log a$ & $5,0$ & $3,78$ & $3,50$ & $3,45$ & $3,56$ \\
 \end{tabular} 
 \end{table}
 
-Werten wir dies für unterschiedliche Werte von $a$ aus, so ist $a = 5$ optimal (Siehe Tabelle \ref{algo:doubling:tab:tab1}). In der Praxis eignet sich jedoch $a = 4$ mehr, da die I/O Kosten nur $1,5\%$ schlechter sind, und sich der Wert als Zweierpotenz besser für Berechnungen und Implementierung eignet.
+Werten wir dies für unterschiedliche Werte von $a$ aus, so ist $a = 5$ optimal (Siehe Tabelle \ref{algo:doubling:tab:tab1}). In der Praxis eignet sich jedoch $a = 4$ mehr, da die I/O-Kosten nur $1,5\%$ schlechter sind, und sich der Wert als Zweierpotenz besser für Berechnungen und Implementierung eignet.
 
 Der $a$-Tupling Ansatz lässt sich ohne signifikante Anpassungen in der Discarding und Pipelining Variante verwenden, womit sich die folgenden I/O-Komplexitäten direkt ableiten lassen:
 
 \begin{theorem}
-Der Doubling Algorithmus mit Pipelining und $a$-Tupling berechnet ein Suffix-Array in $\text{sort}(\frac{a + 3}{\log a}n) \ceil*{\log \text{maxlcp}} +  \mathcal{O}(\text{sort}(n))$ I/O Operationen.
+Der Doubling Algorithmus mit Pipelining und $a$-Tupling berechnet ein Suffix-Array in $\text{sort}(\frac{a + 3}{\log a}n) \ceil*{\log \text{maxlcp}} +  \mathcal{O}(\text{sort}(n))$ I/O-Operationen.
 \end{theorem}
 
 \begin{theorem}
-Der Doubling Algorithmus mit Pipelining, $a$-Tupling und Discarding berechnet ein Suffix-Array in $\text{sort}(\frac{a + 3}{\log a}n) \ceil*{\log \text{dps}} +  \mathcal{O}(\text{sort}(n))$ I/O Operationen.
+Der Doubling Algorithmus mit Pipelining, $a$-Tupling und Discarding berechnet ein Suffix-Array in $\text{sort}(\frac{a + 3}{\log a}n) \ceil*{\log \text{dps}} +  \mathcal{O}(\text{sort}(n))$ I/O-Operationen.
 \end{theorem}
 
 \subsection{Zusammenfassung und Ausblick}
 \label{algo:doubling:sec:summary}
 
-In den vorhergehenden Abschnitten haben wir den Doubling Algorithmus betrachtet, und die darauf aufbauenden Modifikationen Pipelining, Discarding und $a$-Tupling. Jede dieser drei Varianten verbessert die I/O Komplexität des Basisalgorithmus, und lässt sich mit den anderen Kombinieren, wodurch sich ein guter externen Suffix-Array Algorithmus definieren lässt, der alle ineinander vereint.
+In den vorhergehenden Abschnitten haben wir den Doubling Algorithmus betrachtet, und die darauf aufbauenden Modifikationen Pipelining, Discarding und $a$-Tupling. Jede dieser drei Varianten verbessert die I/O-Komplexität des Basisalgorithmus, und lässt sich mit den anderen Kombinieren, wodurch sich ein guter externen Suffix-Array Algorithmus definieren lässt, der alle ineinander vereint.
 
 Das Pipelining beschreibt insbesondere eine allgemeine Technik, die auch für viele andere Algorithmen auf externen Speicher nützlich ist. Ebenso existieren weiterführende Algorithmen, die auf Präfix Doubling Aufbauen. Ein Beispiel hierfür ist der DC3 und DCX Algorithmus \cite{saca:11}. Siehe auch \cref{algorithm:dc3}.
 
