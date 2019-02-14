@@ -12,7 +12,7 @@ Wir definieren $[i, j] = \{i, \dots, j\}$ und $[i, j) = [i, j - 1]$ als Kurzschr
 
 Ein so \textbf{umbenannter} String hat die Eigenschaft, dass die Ordnung über dem neuen Alphabet identisch zu der über dem ursprünglichen ist, und sich somit darauf dasselbe Suffix-Array ergibt. Ein dazu ähnliches Verfahren, \textbf{lexikographische Umbenennung}, wird Kern der vorgestellten Algorithmen sein, und beruht darauf ganze (Teil-)Strings eines Textes durch aufsteigende Zähler zu ersetzen.
 
-$\textbf{Lcp}(i, j)$ bezeichnet die längste gemeinsamen Präfix Länge (\textbf{longest common prefix}) zwischen $SA[i]$ und $SA[j]$, und ist $0$ wenn $i, j \notin [0, n)$ oder die beiden Suffixe keinen gemeinsamen Präfix haben. Für jedes $S_i$ definieren wir $\textbf{dps}(i) = 1 + \max\{\text{lcp}(i - 1, i), \text{lcp}(i, i + 1)\}$ als charakteristische Präfixlänge (\textbf{distinguishing prefix size}). Es lassen sich damit die folgenden Kenngrößen eines Suffix-Arrays definieren:
+$\textbf{Lcp}(i, j)$ bezeichnet die längste gemeinsamen Präfix Länge (\textbf{longest common prefix}) zwischen $\sa[i]$ und $\sa[j]$, und ist $0$ wenn $i, j \notin [0, n)$ oder die beiden Suffixe keinen gemeinsamen Präfix haben. Für jedes $\suffix i$ definieren wir $\textbf{dps}(i) = 1 + \max\{\text{lcp}(i - 1, i), \text{lcp}(i, i + 1)\}$ als charakteristische Präfixlänge (\textbf{distinguishing prefix size}). Es lassen sich damit die folgenden Kenngrößen eines Suffix-Arrays definieren:
 \begin{gather*}
 \text{maxlcp} := \max_{i \in [0, n)} \text{lcp}(i, i + 1) 
 \qquad\qquad
@@ -75,7 +75,7 @@ def name(S):
 \end{minted}
 \end{listing}
 
-\todo{Integrate into Grundlagen?} Um ein Suffix-Array für $T$ zu bestimmen, müssen alle Suffixe $S_i$ lexikographisch sortiert werden. Wir stellen fest, dass hierfür jeweils nur ein Präfix von bis zu $\text{dps}(i)$ Zeichen von $S_i$ betrachtet werden muss. 
+\todo{Integrate into Grundlagen?} Um ein Suffix-Array für $T$ zu bestimmen, müssen alle Suffixe $\suffix i$ lexikographisch sortiert werden. Wir stellen fest, dass hierfür jeweils nur ein Präfix von bis zu $\text{dps}(i)$ Zeichen von $\suffix i$ betrachtet werden muss. 
 
 Wir bauen auf dem in \cref{sec:ansatz:doubler} beschriebenen Doubling Ansatz auf, gemäß dem wir alle $T_i$ iterativ anhand eines Präfixes von $2^k$ Zeichen sortieren. Wir vergleichen die $T[i, i + 2^k)$ Strings jedoch nicht Zeichenweise, da dies den Rechenaufwand mit jedem Iterationsschritt verdoppeln würde. Stattdessen arbeitet der Algorithmus auf einer Sequenz $S$ von Tupeln $((c, c'), i)$, bei der $c$ und $c'$ eindeutige \textbf{Namen} für $T[i, i + 2^{k-1})$ und $T[i + 2^{k-1}, i + 2^k)$ sind. Eine naive Implementierung dieses Ansatzes findet sich in \texttt{doubling()} in Algorithmus \ref{algo:doubling:code:doubling}.
 
@@ -307,7 +307,7 @@ Es dürfen außerdem nicht alle einzigartigen $c_i^k$ direkt aus $S$ entfernt we
 
 Alle Tuple, die vollständig aus $S$ entfernt wurden, werden in einer zusätzlichen Sequenz $F$ gesammelt, und der Algorithmus endet sobald $S$ leer ist. Wenn dies der Fall ist, enthält $F$ einen eindeutigen Namen für jede Textposition, und es lässt sich nach einer finalen lexikografische Sortierung das Suffix-Array auslesen. Siehe hierzu \texttt{doubling\_discarding()} in Algorithmus \ref{algo:doubling:code:discarding}.
 
-Wir betrachten nun wieder die I/O Komplexität. Der naive Doubling Algorithmus sortiert und verdoppelt solange alle Präfixe, bis sie Paarweise verschieden sind. Jeder einzelne Präfix durchläuft somit immer genau $\log \text{maxlcp}$ Iterationen. Mit Discarding hingegen wird ein einzigartiger Präfix so früh wie möglich aus der Iteration entfernt. Somit gilt für alle $S_i$, das ein Präfix maximal $\text{dps}(i)$ Iterationen durchläuft.
+Wir betrachten nun wieder die I/O Komplexität. Der naive Doubling Algorithmus sortiert und verdoppelt solange alle Präfixe, bis sie Paarweise verschieden sind. Jeder einzelne Präfix durchläuft somit immer genau $\log \text{maxlcp}$ Iterationen. Mit Discarding hingegen wird ein einzigartiger Präfix so früh wie möglich aus der Iteration entfernt. Somit gilt für alle $\suffix i$, das ein Präfix maximal $\text{dps}(i)$ Iterationen durchläuft.
 
 Wir stellen auch fest, dass Discarding kompatible mit Pipelining ist. Der Algorithmus nutzt zwar mehr (externe) Sequenzen von Tupeln, aber es werden weiterhin in $k$ Iterationen jeweils nur die zwei \textit{Sort} Operationen des Basisalgorithmus angewandt, und alle weiteren Operationen scannen die einzelnen Elemente jeweils nur in einem Durchlauf. Dies ermöglicht somit das direkt weiterleiten von Zwischenergebnissen in Form von Pipelining, und führt zu folgender Analyse der Gesamtkomplexität:
 
@@ -393,7 +393,7 @@ Die Implementierung besteht aus einer C++ Klasse, die über dem benutzen \texttt
 
 Diese stellt die statischen Memberfunktionen \texttt{doubling()} und\linebreak \texttt{doubling\_discarding()} bereit, die den normalen Doubling-Algorithmus bzw seine Discarding Variante abhängig von \texttt{a} Implementieren.
 
-Sie nutzen dabei das vom Framework vorgegebene Interface, bei dem die Eingabe als ein \texttt{string\_span} repräsentiert wird, der auf einen Bereich im Speicher zeigt, und das Ausgabe S.A. als ein \texttt{util::span<sa\_index>} repräsentiert wird, in das geschrieben werden muss.
+Sie nutzen dabei das vom Framework vorgegebene Interface, bei dem die Eingabe als ein \texttt{string\_span} repräsentiert wird, der auf einen Bereich im Speicher zeigt, und das Ausgabe \sa als ein \texttt{util::span<sa\_index>} repräsentiert wird, in das geschrieben werden muss.
 
 Die Arrays enthalten Tupel der Form  $(c, i)$ und $((c_1, \dots, c_a), i)$, wobei $c$ ein Prefixname ist, und $i$ ein Textindex. Da sowohl Namen als auch Indexe in $[0, n)$ liegen, passen alle Werte in eine Variable vom Typ \texttt{sa\_index} (siehe \cref{sec:code-structure}). Die Implementierung repräsentiert deshalb alle Tupel als Arrays fester Länge \texttt{std::array<sa\_index, 2>} bzw. \texttt{std::array<sa\_index, a + 1>}.
 
