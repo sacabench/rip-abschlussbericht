@@ -33,7 +33,7 @@ Wir betrachten zunächst in Abschnitt \ref{algo:doubling:sec:doubling} den Doubl
 
 In nachfolgenden Abschnitten werden wir anschließend systematisch Modifikationen einführen, die den Algorithmus bezüglich I/O-Komplexität und Rechenaufwand verbessern. Wir beginnen in Abschnitt \ref{algo:doubling:sec:pipelining} mit dem Konzept des \textit{Pipelining}s, welches auf externen Algorithmen in der Regel eine I/O-Reduzierung um den Faktor 2 ermöglicht.
 
-Abschnitt \ref{algo:doubling:sec:discarding} beschreibt eine simple Methode, bereits bestimmte Suffixe aus nachfolgenden Iterationen des Doubling Algorithmus zu entfernen (\textit{Discarding}). Dies verbessert die I/O-Komplexität gegenüber Doubling zu $\mathcal{O}(\text{sort}(n \log \text{dps}))$, und ist besser als vorherige Discarding Ansätze mit einer Komplexität von $\mathcal{O}(\text{sort}(n \log \text{dps})) + \text{scan}(n \log \text{maxlcp})$ \cite{Crauser2002}.
+Abschnitt \ref{algo:doubling:sec:discarding} beschreibt eine simple Methode, bereits bestimmte Suffixe aus nachfolgenden Iterationen des Doubling Algorithmus zu entfernen (\textit{Discarding}). Dies verbessert die I/O-Komplexität gegenüber Doubling zu\newline $\mathcal{O}(\text{sort}(n \log \text{dps}))$, und ist besser als vorherige Discarding Ansätze mit einer Komplexität von $\mathcal{O}(\text{sort}(n \log \text{dps})) + \text{scan}(n \log \text{maxlcp})$ \cite{Crauser2002}.
 
 Abschnitt \ref{algo:doubling:sec:tupling} beschreibt eine Laufzeitverbesserung um einen konstanten Faktor, bei dem Strings der Länge $a^k$ in $k$ Iterationen sortiert werden (\textit{$a$-Tupling}). Es stellen sich hierbei $a = 4$ und $a = 5$ als beste Ergebnisse heraus.
 
@@ -75,12 +75,12 @@ def name(S):
 \end{minted}
 \end{listing}
 
-\todo{Integrate into Grundlagen?} Um ein Suffix-Array für $T$ zu bestimmen, müssen alle Suffixe $\suffix i$ lexikographisch sortiert werden. Wir stellen fest, dass hierfür jeweils nur ein Präfix von bis zu $\text{dps}(i)$ Zeichen von $\suffix i$ betrachtet werden muss. 
+\todo{Integrate into Grundlagen?} Um ein Suffix-Array für $\inputtext$ zu bestimmen, müssen alle Suffixe $\suffix i$ lexikographisch sortiert werden. Wir stellen fest, dass hierfür jeweils nur ein Präfix von bis zu $\text{dps}(i)$ Zeichen von $\suffix i$ betrachtet werden muss. 
 
-Wir bauen auf dem in \cref{sec:ansatz:doubler} beschriebenen Doubling Ansatz auf, gemäß dem wir alle $T_i$ iterativ anhand eines Präfixes von $2^k$ Zeichen sortieren. Wir vergleichen die $T[i, i + 2^k)$ Strings jedoch nicht Zeichenweise, da dies den Rechenaufwand mit jedem Iterationsschritt verdoppeln würde. Stattdessen arbeitet der Algorithmus auf einer Sequenz $S$ von Tupeln $((c, c'), i)$, bei der $c$ und $c'$ eindeutige \textbf{Namen} für $T[i, i + 2^{k-1})$ und $T[i + 2^{k-1}, i + 2^k)$ sind. Eine naive Implementierung dieses Ansatzes findet sich in \texttt{doubling()} in Algorithmus \ref{algo:doubling:code:doubling}.
+Wir bauen auf dem in \cref{sec:ansatz:doubler} beschriebenen Doubling Ansatz auf, gemäß dem wir alle $\inputtext_i$ iterativ anhand eines Präfixes von $2^k$ Zeichen sortieren. Wir vergleichen die $\inputtext{}[i, i + 2^k)$ Strings jedoch nicht Zeichenweise, da dies den Rechenaufwand mit jedem Iterationsschritt verdoppeln würde. Stattdessen arbeitet der Algorithmus auf einer Sequenz $S$ von Tupeln $((c, c'), i)$, bei der $c$ und $c'$ eindeutige \textbf{Namen} für $\inputtext{}[i, i + 2^{k-1})$ und $\inputtext{}[i + 2^{k-1}, i + 2^k)$ sind. Eine naive Implementierung dieses Ansatzes findet sich in \texttt{doubling()} in Algorithmus \ref{algo:doubling:code:doubling}.
 
 \begin{figure}
-\caption{\texttt{doubling()} für $T$ = \textit{abracadabra} und $k = 1$}
+\caption{\texttt{doubling()} für $\inputtext{}$ = \textit{abracadabra} und $k = 1$}
 \label{algo:doubling:fig:doubling}
 \begin{tikzpicture}[cell/.style={rectangle,draw=black},
 space/.style={minimum height=1.5em,matrix of nodes,row sep=-\pgflinewidth,column sep=-\pgflinewidth,column 1/.style={font=\ttfamily}},text depth=0.5ex,text height=2ex,nodes in empty cells]
@@ -207,15 +207,15 @@ a&b&r&a&c&a&d&a&b&r&a&\$ \\
 
 Wir betrachten hierfür das Beispiel in Abbildung \ref{algo:doubling:fig:doubling}. Zu beginn der ersten Iteration entsprechen $c$ und $c'$ benachbarten Zeichen im Eingabestring. $S$ wird gemäß der $(c, c')$ Tuple lexikografisch sortiert (erster \textit{sort} Schritt im Beispiel), und anschließend gemäß ihrer neuen Position in $S$ \textbf{lexikographisch Umbenannt} (\textit{name} im Beispiel).
 
-Die Umbenennung erfolgt, indem die Tuple durch Zeichen $d$ aus $[1, n]$ ersetzt werden, die der selben aufsteigende Ordnung folgen. Siehe hierzu die \texttt{name()} Funktion in Algorithmus \ref{algo:doubling:code:doubling}. Die erhaltenen Tuple $(d, i)$ werden in eine Sequenz $P$ eingefügt, und haben die Eigenschaft, dass $d$ jeweils ein eindeutiger Name für die Zeichenfolge $T[i, i + 2^k)$ ist. Dies lässt sich gut an der Abbildung veranschaulichen, in der die Namen $d$ aller $(d, i) \in P^k$ zusätzlich an ihren Textpositionen $i$ unter der Eingabe $T$ eingezeichnet sind. So haben zum Beispiel die Länge-2 Teilstrings an Postion 2 und 9 beide den Namen 10.
+Die Umbenennung erfolgt, indem die Tuple durch Zeichen $d$ aus $[1, n]$ ersetzt werden, die der selben aufsteigende Ordnung folgen. Siehe hierzu die \texttt{name()} Funktion in Algorithmus \ref{algo:doubling:code:doubling}. Die erhaltenen Tuple $(d, i)$ werden in eine Sequenz $P$ eingefügt, und haben die Eigenschaft, dass $d$ jeweils ein eindeutiger Name für die Zeichenfolge $\inputtext{}[i, i + 2^k)$ ist. Dies lässt sich gut an der Abbildung veranschaulichen, in der die Namen $d$ aller $(d, i) \in P^k$ zusätzlich an ihren Textpositionen $i$ unter der Eingabe $\inputtext{}$ eingezeichnet sind. So haben zum Beispiel die Länge-2 Teilstrings an Postion 2 und 9 beide den Namen 10.
 
-Die $P$ Sequenz wird anschließend gemäß $(i \mod 2^k, i \div 2^k)$ sortiert (zweiter \textit{sort} Schritt im Beispiel). Dies führt dazu, dass Namen für direkt benachbarte Teilstrings in $P$ nebeneinander liegen, und Namen für überlappende Teilstrings in separaten Abschnitten von $P$ liegen. Dies wird in der Abbildung durch die schwarze Trennlinie im zweiten $p^k$ Array deutlich.
+Die $P$ Sequenz wird anschließend gemäß des Tupels $(i \mod 2^k, i \div 2^k)$ lexikografisch sortiert (zweiter \textit{sort} Schritt im Beispiel). Dies führt dazu, dass Namen für direkt benachbarte Teilstrings in $P$ nebeneinander liegen, und Namen für überlappende Teilstrings in separaten Abschnitten von $P$ liegen. Dies wird in der Abbildung durch die schwarze Trennlinie im zweiten $P^k$ Array deutlich.
 
 $P$ wird nun ähnlich zur Eingabezeichenfolge betrachtet, indem aus benachbarten Namen $d$ und $d'$ Tuple $((d, d'), i)$ gebildete werden, und diese als Sequenz $S$ für die nächste Iteration genutzt werden (\textit{pair} im Beispiel).
 
 Da immer nur zwei Namen für benachbarte Teilstrings zu neuen Namen zusammengefasst werden, und der Algorithmus mit allen Zeichen und Textpositionen der Eingabe beginnt, verdoppelt sich somit in jeder Iteration die Länge der repräsentierten Präfixe des Suffix-Arrays. Da die Ordnung der darunterliegenden Strings in den neuen Namen erhalten bleibt, lässt sich aus $S$ Sequenzen von späteren Iterationen das korrekte Suffix-Array auslesen, sobald alle Elemente in ihnen eindeutig sind. Und da in jeder Iteration immer nur Paare von Namen betrachtete werden, steigen die Sortierkosten von $S$ nicht mit jeder Iteration.
 
-Wir gehen nun davon aus, dass $S$ und $P$ in externen Speicher liegen.  Gemäß unserer Definition zu I/O-Komplexität, führt der Algorithmus pro Iteration einen Konstante Anzahl von \textit{Scanning} und \textit{Sort} Operation über $n$ Elemente durch, und hat eine obere Iterationsschranke beim Logarithmus des längsten gemeinsamen Präfixes. Es gilt somit:
+Wir gehen nun davon aus, dass $S$ und $P$ in externen Speicher liegen. Gemäß unserer Definition zur I/O-Komplexität, führt der Algorithmus pro Iteration einen Konstante Anzahl von \textit{Scanning} und \textit{Sort} Operation über $n$ Elemente durch, und hat eine obere Iterationsschranke beim Logarithmus des längsten gemeinsamen Präfixes. Es gilt somit:
 
 \begin{theorem}
 Der Doubling Algorithmus berechnet ein Suffix-Array in\\ $\mathcal{O}(\text{sort}(n) \ceil*{\log \text{maxlcp}})$ I/O-Operationen.
@@ -224,7 +224,7 @@ Der Doubling Algorithmus berechnet ein Suffix-Array in\\ $\mathcal{O}(\text{sort
 \subsection{Pipelining}
 \label{algo:doubling:sec:pipelining}
 
-Als erste signifikante Verbesserung des Doubling Algorithmus beobachten wir, dass sich manche Operation auf $P$ und $S$ beschleunigen lassen, indem sie temporäre Daten, anstatt sie erst in eine Sequenz zu schreiben, und anschließend wieder auszulesen, direkt aneinander weitergeben (\textbf{Pipelining}). 
+Als erste signifikante Verbesserung des Doubling Algorithmus beobachten wir, dass sich manche Operation auf $P$ und $S$ beschleunigen lassen, indem sie temporäre Daten, anstatt sie erst in eine Sequenz zu schreiben und anschließend wieder auszulesen, direkt aneinander weitergeben (\textbf{Pipelining}). 
 
 Wir betrachten hierzu wieder Algorithmus \ref{algo:doubling:code:doubling}. Anstatt die Tuple in Zeile (2) zunächst vollständig in $S$ zu schreiben, können sie direkt an die Sortierfunktion in Zeile (4) übergeben werden. Ebenso können die so sortierten Tuple direkt in die Benennungsfunktion in Zeile (5), und von dort direkt in die Sortierfunktion in Zeile (8) geleitet werden, da sich die Benennungsfunktion nur jeweils das vorherige Tuple merken muss. Dasselbe gilt für die Paarbildung in den Zeilen (10)--(14), in der auch nur jeweils zwei nachfolgende Elemente betrachten werden müssen. Die in Zeile (12) und (14) bestimmten Tuple können schließlich wie in Zeile (2) direkt in die Sortierfunktion (4) der nächsten Iteration geleitet werden.
 
@@ -299,7 +299,7 @@ def name2(S):
 \end{minted}
 \end{listing}
 
-Für die nächste Verbesserung des Algorithmus beobachten wir folgendes. Sei $c_i^k$ der lexikographische Name für ein $T[i, i + 2^k)$ in Iteration $k$. Falls $c_i^k$ einzigartig in $S$ ist, ist auch der zugehörige Teilstring ein einzigartiger Präfix. Es gilt somit $c_i^k = c_i^h$ für alle $h > k$, da die zusätzlichen Zeichen in $T[i, i + 2^h)$ nichts mehr an der lexikografischen Sortierung, und somit der Position in $S$ ändern würden. Die Idee des \textbf{Discardings} ist es nun, in jeder Iteration Tuple mit einzigartigen Namen aus $S$ zu entfernen, um somit nachfolgende I/Os zu verringern. 
+Für die nächste Verbesserung des Algorithmus beobachten wir folgendes. Sei $c_i^k$ der lexikographische Name für ein $\inputtext{}[i, i + 2^k)$ in Iteration $k$. Falls $c_i^k$ einzigartig in $S$ ist, ist auch der zugehörige Teilstring ein einzigartiger Präfix. Es gilt somit $c_i^k = c_i^h$ für alle $h > k$, da die zusätzlichen Zeichen in $\inputtext{}[i, i + 2^h)$ nichts mehr an der lexikografischen Sortierung, und somit der Position in $S$ ändern würden. Die Idee des \textbf{Discardings} ist es nun, in jeder Iteration Tuple mit einzigartigen Namen aus $S$ zu entfernen, um somit nachfolgende I/Os zu verringern. 
 
 Ein Problem hierbei ist, dass sich durch das entfernen von Elementen aus $S$ die Benennungsfunktion \texttt{name()} anders verhalten würde, da ein Name durch die Anzahl vorheriger Tuple bestimmt wird. Dies macht eine neue Funktion \texttt{name2()} erforderlich, die bei der Benennung von allen $(c, c') \in S$ Namen relativ zum numerischen Wert von $c$ bildet. Siehe Algorithmus \ref{algo:doubling:code:discarding} für eine entsprechende Implementierung.
 
@@ -312,7 +312,7 @@ Wir betrachten nun wieder die I/O-Komplexität. Der naive Doubling Algorithmus s
 Wir stellen auch fest, dass Discarding kompatible mit Pipelining ist. Der Algorithmus nutzt zwar mehr (externe) Sequenzen von Tupeln, aber es werden weiterhin in $k$ Iterationen jeweils nur die zwei \textit{Sort} Operationen des Basisalgorithmus angewandt, und alle weiteren Operationen scannen die einzelnen Elemente jeweils nur in einem Durchlauf. Dies ermöglicht somit das direkt weiterleiten von Zwischenergebnissen in Form von Pipelining, und führt zu folgender Analyse der Gesamtkomplexität:
 
 \begin{theorem}
-Der Doubling Algorithmus mit Pipelining und Discarding berechnet ein Suffix-Array in\\ $\text{sort}(5n) \ceil*{\log \text{dps}} +  \mathcal{O}(\text{sort}(n))$ I/O-Operationen.
+Der Doubling Algorithmus mit Pipelining und Discarding berechnet ein Suffix-Array in $\text{sort}(5n) \ceil*{\log \text{dps}} +  \mathcal{O}(\text{sort}(n))$ I/O-Operationen.
 \end{theorem}
 
 \subsection{A-Tupling}
@@ -385,13 +385,13 @@ Die Implementierung als Teil des Benchmarking-Frameworks erfolgt aus Gründen de
 
 Dies hat auch Auswirkungen auf den Sortieralgorithmus und die Anwendbarkeit des Pipelinings. Da nun davon ausgegangen wird, dass jedes Array immer in den Hauptspeicher passt, ist man somit nicht mehr auf einen effizienten externen Mergesort angewiesen, und kann einen beliebigen in-Memory Sortierer benutzen. 
 
-Dies verhindert jedoch ein direktes anwenden des Pipelining Ansatzes im vorgestellen Sinne, da die Sortierschritte in den Algorithmen nicht mehr als Stream-akzeptierenden bzw erzeugend betrachtet werden können. Aufgrund des Fehlens von IO-Operationen auf externen Speicher hat dies allerdings auch geringere Auswirkungen. In \cref{algo:doubling:sec:usedoptimizations} nutzen wir stattdessen die Pipelining Idee dafür, den Speicherverbrauch der Arrays stark zu senken.
+Dies verhindert jedoch ein direktes anwenden des Pipelining Ansatzes im vorgestellen Sinne, da die Sortierschritte in den Algorithmen nicht mehr als Stream-akzeptierenden bzw. erzeugend betrachtet werden können. Aufgrund des Fehlens von IO-Operationen auf externen Speicher hat dies allerdings auch geringere Auswirkungen. In \cref{algo:doubling:sec:usedoptimizations} nutzen wir stattdessen die Pipelining Idee dafür, den Speicherverbrauch der Arrays stark zu senken.
 
 \subsubsection{Umsetzung}
 
 Die Implementierung besteht aus einer C++ Klasse, die über dem benutzen \texttt{sa\_index} Typ und der Tupelgröße \texttt{a} gemäß des A-Tuplings templatisiert ist.
 
-Diese stellt die statischen Memberfunktionen \texttt{doubling()} und\linebreak \texttt{doubling\_discarding()} bereit, die den normalen Doubling-Algorithmus bzw seine Discarding Variante abhängig von \texttt{a} Implementieren.
+Diese stellt die statischen Memberfunktionen \texttt{doubling()} und\linebreak \texttt{doubling\_discarding()} bereit, die den normalen Doubling-Algorithmus bzw. seine Discarding Variante abhängig von \texttt{a} Implementieren.
 
 Sie nutzen dabei das vom Framework vorgegebene Interface, bei dem die Eingabe als ein \texttt{string\_span} repräsentiert wird, der auf einen Bereich im Speicher zeigt, und das Ausgabe \sa als ein \texttt{util::span<sa\_index>} repräsentiert wird, in das geschrieben werden muss.
 
@@ -730,7 +730,7 @@ Diese werden als zusätzliches Array der Länge $|U| + |P|$ mit Platz für $a - 
 
 \subsubsection{Schnellerer Sortieralgorithmus}
 
-Da unsere Implementierung nur im Arbeitsspeicher arbeitet, sind wir nicht an einen bestimmtem extern arbeitenden Sortieralgorithmus gebunden, weshalb es uns frei steht einen Sortierer zu nutzen der das beste Laufzeitverhalten zeigt.
+Da unsere Implementierung nur im Arbeitsspeicher arbeitet, sind wir nicht an einen bestimmten extern arbeitenden Sortieralgorithmus gebunden, weshalb es uns frei steht einen Sortierer zu nutzen der das beste Laufzeitverhalten zeigt.
 
 Wir haben hierzu den Discarding Algorithmus mit allen im Framework verfügbaren Sortierern auf einer Reihe von Testdaten angewandt, um dem sich empirisch am besten verhaltenen Algorithmus zu wählen. Es stellte sich hierbei der externe \texttt{ips4o} \todo{Referenz zu ips3o Kapitel} Algorithmus als mit Abstand bester Algorithmus heraus.
 
