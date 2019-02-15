@@ -1,0 +1,130 @@
+% \chapter{Messergebnisse}
+% \label{ergebnisse}
+% Wir \currentauthor{Marvin Löbel} evaluieren die Performance der individuellen Implementierungen, indem wir sie mit verschiedenen \textit{Testdaten} auf einem gemeinsamen \textit{Messsystem} ausführen.
+
+% \section{Messsystem}
+
+% \begin{table}
+% \caption{Messsystem}
+% \label{messung:tab:system}
+% \resizebox{\textwidth}{!}{
+% \begin{tabular}{ll}
+% \toprule
+% Betriebssystem       & GNU/Linux \\
+% Kernel               & Linux \\
+% Kernel Release       & 4.13.0-46-generic \\
+% Kernel Version       & \#51-Ubuntu SMP Tue Jun 12 12:36:29 UTC 2018 \\
+% \midrule
+% Architecture:        & x86\_64 \\
+% CPU op-mode(s):      & 32-bit, 64-bit \\
+% Byte Order:          & Little Endian \\
+% CPU(s):              & 4 \\
+% On-line CPU(s) list: & 0-3 \\
+% Thread(s) per core:  & 1 \\
+% Core(s) per socket:  & 4 \\
+% Socket(s):           & 1 \\
+% NUMA node(s):        & 1 \\
+% Vendor ID:           & GenuineIntel \\
+% CPU family:          & 6 \\
+% Model:               & 30 \\
+% Model name:          & Intel(R) Core(TM) i5 CPU         760  @ 2.80GHz \\
+% Stepping:            & 5 \\
+% CPU MHz:             & 3032.557 \\
+% CPU max MHz:         & 2801,0000 \\
+% CPU min MHz:         & 1200,0000 \\
+% BogoMIPS:            & 5617.49 \\
+% Virtualization:      & VT-x \\
+% L1d cache:           & 32K \\
+% L1i cache:           & 32K \\
+% L2 cache:            & 256K \\
+% L3 cache:            & 8192K \\
+% NUMA node0 CPU(s):   & 0-3 \\
+% \midrule
+% Speichergröße        & 8GiB \\
+% Speichermodul 0      & 4GiB DIMM DDR Synchronous 1333 MHz (0,8 ns) \\
+% Speichermodul 1      & DIMM [empty] \\
+% Speichermodul 2      & 4GiB DIMM DDR Synchronous 1333 MHz (0,8 ns) \\
+% Speichermodul 3      & DIMM [empty] \\
+% \bottomrule
+% \end{tabular}
+% }
+% \end{table}
+
+% Die Messung wurde auf dem in \cref{messung:tab:system} beschrieben System durchgeführt. Die Daten wurden durch die Linux Befehle \texttt{uname}, \texttt{lscpu} und \texttt{lshw -short} ermittelt.
+
+% \section{Testdaten}
+
+% \begin{table}
+% \caption{Testdaten}
+% \label{messung:tab:testdaten}
+% \resizebox{\textwidth}{!}{
+% \begin{tabular}{lL{6cm}}
+% \toprule
+% 	Testdatei                             & Beschreibung \\
+% \midrule
+%     \texttt{pc\_dblp.xml}          & \multirow{5}{*}{Pizza\&Chili Korpus~\cite{testdaten:pizzachilli2007}. } \\
+%     \texttt{pc\_dna}               & \\
+%     \texttt{pc\_english}           & \\
+%     \texttt{pc\_proteins}          & \\
+%     \texttt{pc\_sources}           & \\
+% \midrule
+%     \texttt{pcr\_cere}             & \multirow{4}{6cm}{Pizza\&Chili Repetitive Korpus~\cite{testdaten:pizzachilli2007}.\\Echte Texte. } \\
+%     \texttt{pcr\_para}  & \\
+%     \texttt{pcr\_einstein.en.txt}            & \\
+%     \texttt{pcr\_kernel}           & \\
+%     \midrule
+%     \texttt{pcr\_fib41}             & \multirow{3}{6cm}{Pizza\&Chili Repetitive Corpus~\cite{testdaten:pizzachilli2007}.\\ Künstliche Texte. }\\
+%     \texttt{pcr\_rs.13}            & \\
+%     \texttt{pcr\_tm29}             & \\
+% \midrule
+%     \texttt{tagme\_wiki-disamb30}  & Wiki-Disamb30 aus dem TAGME Dateset~\cite{testdaten:tagme}. \\
+% \midrule
+%     \texttt{wiki\_all\_vital.txt}  & Klartextauszug der \textit{Most-Vital} Wikipedia Artikel~\cite{testdaten:wiki}.\\
+% \midrule
+%     \texttt{cc\_commoncrawl.ascii} & Zufälliger Klartextauszug von ASCII Seiten aus Commoncrawl~\cite{testdaten:commoncrawl}. \\
+% \bottomrule
+% \end{tabular}
+% }
+% \end{table}
+
+% Die Testdaten in \cref{messung:tab:testdaten} werden durch das \texttt{make datasets} Target des Buildsystems bereitgestellt, und haben alle eine Größe von mindestens 200MiB.
+
+% % TAGME Datasets is a collection of datasets that contain short text fragments drawn from Wikipedia snapshot of Novembre 6, 2009. Fragments are composed by about 30 words, and they contains about 20 non-stopword on average. We gathered fragments of 2 types: Wiki-Disamb30, a list of 2M fragments each containing one ambiguous anchor.
+
+% \section{Algorithmen}
+
+% Die Messung erfolgt mit zwei verschiedenen Arten von Algorithmen. Zum einen mit den von der Projektgruppe vorgenommenen Implementierungen, und zum anderen mit den Referenzimplementierungen der originalen Paper, falls vorhanden. Letztere sind mit dem Namenszusatz \textit{ref} gekennzeichnet.
+
+% \section{Messverfahren}
+
+% Wir messen die Performance der Algorithmen wie folgt: Sei $k$ eine Prefixlänge der Eingabe $input$, $outfile$ ein eindeutiger Pfad pro $k$ und Eingabe, und $r$ eine Anzahl von Messwiederholungen. Für jede Testdatei $input$ wird \texttt{sacabench batch $input$} mit den Optionen \texttt{-{}-check}, \texttt{-{}-prefix $k$}, \texttt{-{}-repetitions $r$} und \texttt{-{}-benchmark $outfile$} aufgerufen. Abhängig von $input$ werden außerdem einige der im Benchmarktool implementierten Algorithmen mit \texttt{-{}-blacklist ...} von der Messung ausgeschlossen, falls sie auf der Eingabe zu hohe Laufzeiten haben.
+
+% %Run ['../build/sacabench/sacabench', 'batch', '--check', '--force', '--prefix', '10M', '--benchmark', 'measures/pcr_tm29.json', '--blacklist', 'Naiv', '--blacklist', 'Doubling', '../external/datasets/downloads/pcr_tm29']
+
+% Dieses Verfahren ist in dem Python Skript \texttt{zbmessung/benchmark.py} implementiert, und die Messung erfolgte für $k$ = 200MiB und $r = 3$. Da $k$ kleiner als 4GiB ist, wird die Länge des internen \texttt{sa\_index} Types automatisch auf 32Bit gesetzt, womit der Speicherverbrauch jedes Algorithmus bei mindesten 1000MiB liegt (1 Byte Text + 4 Byte Suffix Array).
+
+% \section{Ergebnisse}
+
+% \input{kapitel/7_messeergebnisse/table.tex}
+
+% %Die folgenden Tabellen enthalten alle gesammelten Messergebnisse. Sie sind als eine Reihe von 2D-Tabellen
+
+% \section{Evaluation Laufzeit}
+
+% Die Ergebnisse zur Laufzeit lassen sich abhängig von der Eingabe grob in drei verschiedenen Klassen einteilen:
+
+% In normalen Texten wie dem Pizza\&Chili Korpus, Commoncrawl und Wikipedia besitzen in der Regel die Referenzimplementierung vom DivSufSort und beiden Implementierungen vom Bucket-Pointer-Refinement die besten Laufzeiten. Demgegenüber stehen DC3-Lite, NzSufSort, sowie unser DivSufSort und die Referenzimplementierung von DC3 mit den langsamsten Laufzeiten.
+
+% In Texten mit einigen Repetitionen wie dem  Pizza\&Chili repetitiven Korpus von echten Texten zeigt sich ein ähnliches Bild, allerdings löst hier die Referenzimplementierung des SAIS-Lite unsere BPR Implementierung bei den besten Laufzeiten ab. Auch zeigt sich hier ein noch langsameres Laufzeitverhalten bei beiden Deep-Shallow Implementierungen, DivSufSort, sowie dem naiven Algorithmus.
+
+% Texte mit vielen Repetitiven wie dem Pizza\&Chili repetitiven Korpus von künstlichen Texten scheinen einen Extremfall darzustellen. Zum einen wird der Referenz DivSufSort in der Laufzeit von beiden GSACA Implementierungen und der Referenzimplementierung des SAIS-Lite geschlagen. Zum anderen zeigen einige der Algorithmen so schlechte Laufzeiten, dass sie teilweise vollständig aus der Messung ausgenommen werden mussten. Hierzu zählen die Deep-Shallow Implementierungen, der naive Algorithmus, DivSufSort und Doubling+Discarding.
+
+% Im Vergleich sind die Laufzeiten der Referenzimplementierungen meistens noch besser als die von uns durchgeführten Implementierungen. Einige schlagen jedoch bereits die Referenz, wie zB. BPR und DC3.
+
+% \section{Evaluation Speicherverbrauch}
+
+% Der Speicherverbrauch scheint größtenteils unabhängig von der Art der Eingabe zu sein. Implementierungen die keinen oder kaum extra Speicher benötigen haben somit den niedrigsten Verbrauch. Hierzu zählen der naive Algorithmus, die SACA-K Implementierungen und der Referenz DivSufSort. Umgekehrt liegt der höchste Speicherverbrauch in den Referenzimplementierungen des BPR und DC3, sowie in der Discarding Variante mit $A=4$ vor.
+
+% Der Speicherverbrauch unserer Implementierungen sieht im Vergleich zu den Referenzimplementierungen besser aus als noch bei den Laufzeiten. So liegt er bei BPR, DC3, MSufSort und SACA-K deutlich niedriger, und ist beim Deep-Shallow zumindest gleichauf. Die Unterschiede sind hierbei teilweise architekturell begründet. So benutzt zB. die Referenzimplementierung des BPRs immer 64Bit Integer für Suffix Array Einträge.
+
+% \newpage
