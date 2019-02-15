@@ -1,10 +1,10 @@
 \subsection{Multikey-Quicksort}
 \label{section:mkqs}
 Der \currentauthor{Oliver Magiera und Marvin Böcker} Multikey-Quicksort von
-Bentley und Sedgewick basiert auf dem ternären Quicksort und sortiert Strings eines Arrays \textbf{A}
-zeichenweise \cite{multikey_quicksort}. Das Funktionsargument \textit{d} beschreibt,
+Bentley und Sedgewick basiert auf dem ternären Quicksort und sortiert Strings eines Arrays \textsf{A}
+zeichenweise \cite{multikey_quicksort}. Das Funktionsargument $d$ beschreibt,
 welches Zeichen momentan verglichen werden soll. Initial ist dieser Parameter 0,
-um das erste Zeichen von den Strings in \textbf{A} zu vergleichen.
+um das erste Zeichen von den Strings in \textsf{A} zu vergleichen.
 Wenn dieses Zeichen kleiner oder größer ist,
 kann der String in die \glqq <\grqq- bzw \glqq >\grqq-Partition sortiert werden.
 
@@ -37,7 +37,7 @@ Abbildung \ref{fg:ternary_partitions} stellt die Partitionierung eines Sortiersc
 Der Pseudocode \ref{alg:mkqs} skizziert die Vorgehensweise des MK-QS Algorithmus.
 Es wird erst ein Pivotelement $p$ bestimmt, welches zur Partitionierung benötigt wird.
 Dabei werden alle Elemente kleiner als das Pivot in $[0, i)$ einsortiert,
-alle gleich dem Pivotelement in $[i, j)$ und schließlich alle größeren Elemente in $[j, |A|)$.
+alle gleich dem Pivotelement in $[i, j)$ und schließlich alle größeren Elemente in $[j, |\textsf{A}|)$.
 Zunächst wird die \glqq <\grqq-Partition nach dem $d$-ten Zeichen rekursiv weiter sortiert,
 bevor für die \glqq =\grqq-Partition zum Sortieren das $d+1$-te Zeichen verwendet wird.
 Zuletzt wird die Rekursion für die \glqq >\grqq-Partition durchgeführt.
