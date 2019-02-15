@@ -1,31 +1,13 @@
 \subsection{Multikey-Quicksort}
 \label{section:mkqs}
-Der \currentauthor{Oliver Magiera und Marvin Böcker} Multikey-Quicksort von Bentley und Sedgewick basiert auf dem ternären Quicksort und sortiert Strings eines Arrays \textbf{A} zeichenweise \cite{multikey_quicksort}. Das Funktionsargument \textit{d} beschreibt, welches Zeichen momentan verglichen werden soll. Initial ist dieser Parameter 0, um das erste Zeichen von den Strings in \textbf{A} zu vergleichen.
-Wenn dieses Zeichen kleiner oder größer ist, kann der String in die \glqq <\grqq- bzw \glqq >\grqq-Partition sortiert werden.
+Der \currentauthor{Oliver Magiera und Marvin Böcker} Multikey-Quicksort von
+Bentley und Sedgewick basiert auf dem ternären Quicksort und sortiert Strings eines Arrays \textbf{A}
+zeichenweise \cite{multikey_quicksort}. Das Funktionsargument \textit{d} beschreibt,
+welches Zeichen momentan verglichen werden soll. Initial ist dieser Parameter 0,
+um das erste Zeichen von den Strings in \textbf{A} zu vergleichen.
+Wenn dieses Zeichen kleiner oder größer ist,
+kann der String in die \glqq <\grqq- bzw \glqq >\grqq-Partition sortiert werden.
 
-\begin{figure}
-	\centering
-	\begin{tikzpicture}
-	\draw (0,0) -- (10,0) -- (10,1) -- (0,1) -- cycle;
-	\draw (3,0) -- (3,1);
-	\draw (8,0) -- (8,1);
-	
-	\node at (1.5, 0.5) {<};
-	\node at (5.5, 0.5) {=};
-	\node at (9, 0.5) {>};
-	
-	\draw[red] (6,0.5) -- (6,2) node[above] {\texttt{p}};
-	
-	\begin{scope}[yshift=-10pt]
-	\draw[decorate, decoration={mirror, brace,amplitude=10pt}] (0.1,0) -- (2.9,0) node[midway, below = 10pt] {\texttt{A[..i]}};
-	\draw[decorate, decoration={mirror, brace,amplitude=10pt}] (3.1,0) -- (7.9,0) node[midway, below = 10pt] {\texttt{A[i..j]}};
-	\draw[decorate, decoration={mirror, brace,amplitude=10pt}] (8.1,0) -- (9.9,0) node[midway, below = 10pt] {\texttt{A[j..]}};
-	\end{scope}
-	\end{tikzpicture}
-	\caption[Partitionen bei ternärem Quicksort]{Partitionen bei ternärem Quicksort. Es werden so lange Elemente getauscht, bis die drei Partitionen hergestellt wurden: Bis zu einem Index \texttt{i} sind alle Elemente kleiner als das Pivotelement \texttt{p}, und ab einem Index \texttt{j} sind alle Elemente größer. Dazwischen sind alle Elemente gleich dem Pivot. Zur Sortierung wird dabei die lexikografische Ordnung für das $d$-te Zeichen betrachtet (Abbildung ähnlich in \cite{ternary_quicksort}.)}
-	\label{fg:ternary_partitions}
-\end{figure}
-%
 \begin{figure}
 	\begin{minted}[mathescape=true,escapeinside=||]{python}
 def mkqs(A: Array<SuffixStartPos>, d: Integer):
@@ -48,9 +30,15 @@ def mkqs(A: Array<SuffixStartPos>, d: Integer):
 	\label{alg:mkqs}
 \end{figure}
 
-% An Referenzen in Zwischenbericht anpassen.
-Bei Gleichheit hingegen muss das nächste Zeichen betrachtet werden, um die Strings eindeutig zu sortieren, während für die \glqq <\grqq- bzw. \glqq >\grqq-Partitionen nach dem aktuellen Zeichen genauer sortiert wird. Abbildung \ref{fg:ternary_partitions} stellt die Partitionierung eines Sortierschritts bei Pivotelement $p$ an.
+Bei Gleichheit hingegen muss das nächste Zeichen betrachtet werden, um die Strings eindeutig zu sortieren,
+während für die \glqq <\grqq- bzw. \glqq >\grqq-Partitionen nach dem aktuellen Zeichen genauer sortiert wird.
+Abbildung \ref{fg:ternary_partitions} stellt die Partitionierung eines Sortierschritts bei Pivotelement $p$ an.
 
-Der Pseudocode \ref{alg:mkqs} skizziert die Vorgehensweise des MK-QS Algorithmus. Es wird erst ein Pivotelement $p$ bestimmt, welches zur Partitionierung benötigt wird. Dabei werden alle Elemente kleiner als das Pivot in $[0, i)$ einsortiert, alle gleich dem Pivotelement in $[i, j)$ und schließlich alle größeren Elemente in $[j, |A|)$.
-Zunächst wird die \glqq <\grqq-Partition nach dem $d$-ten Zeichen rekursiv weiter sortiert, bevor für die \glqq =\grqq-Partition zum Sortieren das $d+1$-te Zeichen verwendet wird. Zuletzt wird die Rekursion für die \glqq >\grqq-Partition durchgeführt.
+Der Pseudocode \ref{alg:mkqs} skizziert die Vorgehensweise des MK-QS Algorithmus.
+Es wird erst ein Pivotelement $p$ bestimmt, welches zur Partitionierung benötigt wird.
+Dabei werden alle Elemente kleiner als das Pivot in $[0, i)$ einsortiert,
+alle gleich dem Pivotelement in $[i, j)$ und schließlich alle größeren Elemente in $[j, |A|)$.
+Zunächst wird die \glqq <\grqq-Partition nach dem $d$-ten Zeichen rekursiv weiter sortiert,
+bevor für die \glqq =\grqq-Partition zum Sortieren das $d+1$-te Zeichen verwendet wird.
+Zuletzt wird die Rekursion für die \glqq >\grqq-Partition durchgeführt.
 
