@@ -10,10 +10,14 @@
 
 \begin{abstract}
     Efficient construction of the \emph{suffix array} (SA) is a still ongoing research area.
-    We introduce SACABench, a benchmark system for comparing the runtime and memory consumption of \emph{suffix array construction algorithms} (SACAs).
-    Along with this framework we include the reference implementations for many SACAs, parallel and sequential, as well as our own implementations.
-    Although these are slower than the reference in most cases, they can give an interesting insight into the algorithms, while also being written in modern C++.
-    In our evaluation we compare the performance of these algorithms in single-threaded and multi-threaded environments.
+    We introduce SACABench, a benchmark system for comparing the runtime
+    and memory consumption of \emph{suffix array construction algorithms} (SACAs).
+    Along with this framework we include the reference implementations for many SACAs,
+    parallel and sequential, as well as our own implementations.
+    Although they are slower than their reference implementations in most cases,
+    they can be helpful to understand the algorithms because they are written in modern C++.
+    In our evaluation we compare the performance of these algorithms
+    in single-threaded and multi-threaded environments.
 \end{abstract}
 }
 
@@ -22,33 +26,70 @@
 The \currentauthor{Marvin Böcker} \emph{suffix array} (\emph{SA}) is a widely known text index,
 which can be used for various string operations,
 like full-text search~\cite{makinen} and construction of the Burrows-Wheeler Transform (BWT)~\cite{BWT}.
+It is a permutation of all indices $1 \dots n$ of a text of length $n$ such
+that the $i$th suffix of the text has lexicographic rank $\sa[i]$.
+
 While the efficient construction is still an active research area,
-divsufsort~\cite{saca:5,saca:5:repo} is the empirically fastest suffix array construction algorithm (SACA) since 2008\todo{wann?},
+divsufsort~\cite{saca:5,saca:5:repo} is the empirically fastest
+suffix array construction algorithm (SACA) since 2008\todo{wann?},
 even though it has a theoretical complexity of $\mathcal O (n \log n)$,
 while there are some $\mathcal O(n)$ algorithms available.
-For the last year we (re-)implemented eleven SACAs~\cite{saca:3,saca:11,saca:5,saca:9,saca:1,saca:8,saca:4,saca:7,saca:10,saca:6,saca:2} in modern C++ in order to beat divsufsort from its throne,
-and although our attempts were not successful,
-we created a sophisticated benchmark system for SACA algorithms, \emph{SACABench}, in the process.
+
+For the last year we (re-)implemented eleven SACAs~\cite{saca:3,saca:11,saca:5,saca:9,saca:1,saca:8,saca:4,saca:7,saca:10,saca:6,saca:2}
+in modern C++ in order to create faster and more memory efficient implementations,
+and although our attempts were mostly not successful,
+we created a sophisticated benchmark framework for SACA algorithms, \emph{SACABench}, in the process.
 
 In this paper we introduce SACABench and highlight its features,
-as well as document some of the optimiziation strategies we used to implement the SACA algorithms. \blindtext
+as well as document some of the optimiziation strategies we used to implement the SACA algorithms.
 
 \section{Benchmark Tool}
 
 SACABench is a CMake/C++14 project which contains many different SACA algorithms.
-There are both sequential algorithms and parallel algorithms included and we also include the reference implementations for all of the algorithms, if there is one.
+There are both sequential algorithms and parallel algorithms included
+and we also include the reference implementations for all of the algorithms, if one exists.
 You are able to run a single, a subset of, or all of the algorithms, depending on your needs.
 Time and memory consumption is automatically measured and can be output as JSON.
 We also include tools to convert the JSON-format to graphs for a visual comparison of the algorithms.
 Most of the graphs in this paper have been generated using SACABench directly\todo{Is that so?}.
 
+This is the most important aspect of our framework:
+the possibility to easily run many SACAs on the same input text on the same hardware
+in order to measure and compare them fairly.
+
+\subsection{Running a single algorithm}
+
+You can evaluate a single algorithm with the command \termfont{sacabench construct},
+which will run the specified algorithm on the given input file.
+While the algorithm is running, its memory consumption is measured via the tudostat library\todo{Ist das relevant?}.
+You can also enable checking of the resulting suffix array with a fast suffix array checker~\cite{saca:11} by
+using the \termfont{-c} or \termfont{-q} flag.
+
+After the algorithm is finished, you will find a JSON file containing detailed information about
+the run of the SACA, seperated into SACA-specific phases.
+This file can be converted to a plot on the tudostat website (see \cref{tudostat_phases} as an example).
+
+\subsection{Comparing multiple algorithms}
+
+In order to compare different algorithms with each other, you can run a set of algorithms on a given input file.
+This is achieved by using the \termfont{sacabench batch} command.
+By default all included algorithms are run, but you can either deselect certain
+algorithm with the \termfont{--blacklist <saca name>} flag or run only certain
+algorithms by using the \termfont{--whitelist <saca name>} command.
+
+The selected algorithms are run sequentially on the input text and their memory consumption
+and construction times measured.
+At the end a JSON file will be produced which contains the measured data.
+We also supply tools to convert the JSON file into several types of plots, like bar plots, strong- and weak-scaling plots.
+These plots can be used to compare the algorithms fairly.
+
 \section{SACA Overview}
 
 There are many SACAs that operate using different principles.
-The most na\"ive SACA uses a general purpose string-sorter to sort the suffices of the input text.
+The most na\"ive SACA uses a general purpose sorting algorithm to sort the suffices of the input text.
 Since a string comparison is $\mathcal O (n)$ in the worst-case, this would give $\mathcal O (n^2 \log n)$ runtime.
 Even though this is a sub-optimal time bound,
-there are several algorithms\footnote{These are Deep-Shallow, ...} in SACABench which don't improve on this,
+there are several algorithms\footnote{e.g. Deep-Shallow, mSufSort, ...} in SACABench which don't improve on this
 but rather use methods to speed up the real-world performance.
 These methods can be classified into the categories \emph{inducing} and \emph{doubling}:
 %
@@ -57,7 +98,11 @@ These methods can be classified into the categories \emph{inducing} and \emph{do
 
 \bigskip
 
-\blindtext
+There are also some recursive algorithms:
+%
+\paragraph{Recursive} Sort a partial suffix array first, then induce order of all suffixes.
+
+\bigskip
 
 \section{Optimization Strategies}
 \subsection{Different bit lengths for the suffix array}
@@ -82,19 +127,19 @@ This is done in multiple algorihms\todo{welche?} to improve performance.
 
 Since different applications require different algorithms, we implemented multiple versions of quicksort:
 Two of them are introsort~\cite{Musser97} and ternary quicksort~\cite{ternary_quicksort}.
-It has been shown, that the binary sorting procedure is faster, if there are no equal elements in the set to be sorted.\todo{Graph oder Messung?}
-The ternary version is faster when there are~\cite{ternary_quicksort}.
+It has been shown that the binary sorting procedure is faster,
+if there are no equal elements in the set to be sorted.\todo{Graph oder Messung?};
+the ternary version is faster when there are~\cite{ternary_quicksort}.
 We therefore chose the best option for the required use-case.
+
+\section{Evaluation}
+
+Wartend auf Flo
 
 \section{Conclusion}
 
 We introduced SACABench, an extensible framework for comparing suffix array construction algorithms,
 which already contains many implemented SACAs.
-
-
-\blindtext
-
-\blindtext
 
 % ###
 % End of extended abstract, switch language to german again
