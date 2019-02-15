@@ -21,3 +21,30 @@ Der Eingabe-String beginnt bei \inputtext[0].
 Das Suffix-Array, kurz \sa, bezeichnet ein Array, in dem in lexikographischer Reihenfolge
 die Suffix-Indizes (Positionen des Anfangsbuchstabens) gespeichert sind.
 Das bedeutet, \sa[j] = $i$ genau dann, wenn $\mathsf{T}[i,n)$ das $j$-te Suffix von \inputtext in Lexorder ist.
+
+%\section{Notationen und Definitionen}
+%\label{definitions}
+%Sei \currentauthor{Christopher Poeplau} $T$ ein Text mit Zeichenanzahl $\vert T \vert = n$
+%\begin{itemize}
+%    \item $\Sigma (T)$ := Alphabet von $T$
+%    \item Ein Substring von $T[i, j) = T[i]...T[j-1]$
+%    \item $T$ wird durch das lexikografisch kleinste Zeichen, dem $\$$ terminiert (engl. sentinel)
+%\end{itemize} 
+%\bigskip
+%Suffix $S_i=T[i,n)$ als das in $i$ beginnende Suffix in $T$. 
+%\begin{itemize}
+%    \item Das Suffix ist ein S(hort)-Type-Suffix $\iff S_i<S_{i+1}$
+%    \item Das Suffix ist ein L(arge)-Type-Suffix $\iff S_i>S_{i+1}$
+%    \item $Type('\$') := S$
+%    \item Ein Zeichen $T[i]$ ist S-Type $\iff Type(S_i) = S$
+%    \item Ein Zeichen $T[i]$ ist L-Type $\iff Type(S_i) = L$
+%\end{itemize}
+%
+%\subsection{Leftmost S-Type}
+%Ein Zeichen $T[i]$ des Strings $T$ ist genau dann LMS, wenn $Type(T[i-1])=L$, also das Vorgängerzeichen vom Typ $L$ ist. Gleichzeitig ist ein Suffix $T[i, n)$ ein LMS-Suffix, wenn $T[i]$ LMS ist.\\
+%Ein Substring $T[i, j]$, $i\neq j$, ist LMS, wenn $Type(T[i])=S$ und $Type(T[j])=S$. Zudem darf in diesem Substring kein weiteres LMS-Zeichen vorhanden sein. Insbesondere ist $T[j]$ dadurch exklusiv und gehört nicht zu dem Substring. \\
+%Für die Gleichheit zweier LMS-Substrings gilt das folgende: \\
+%Seien $T_1$ und $T_2$ LMS-Substrings.
+%\begin{center}
+%    $S_1=S_2 \iff \vert S_1 \vert = \vert S_2 \vert $ $\wedge$ $S_1$ besitzt dieselben Zeichen wie $S_2$ in derselben Reihenfolge
+%\end{center}

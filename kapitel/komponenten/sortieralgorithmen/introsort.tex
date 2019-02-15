@@ -10,37 +10,35 @@ Eine weitere Optimierung liegt in der Verwendung von Insertionsort,
 wenn die Anzahl der Elemente einen Schwellwert $\theta$ unterschreitet.
 
 \begin{figure}
-	\begin{minted}[escapeinside=||, linenos=true, autogobble]{python}
-		def introsort(A: Array<Integer>, f: Integer, b: Integer):
-		introsort_loop(A, f, b, |$2 \lfloor \log_2{(b-f)}\rfloor$|)
-		insertionsort(A, f, b)
-	\end{minted}
-	
-	\begin{minted}[escapeinside=||, mathescape=true, linenos=true, autogobble]{python}
-		def introsort_loop(A: Array<Integer>, f: Integer, b: Integer, 
-		depth_limit: Integer)
-		while b - f > |$\theta$|
-		if depth_limit == 0
-		heapsort(A, f, b)
-		return end
-		depth_limit := depth_limit - 1
-		p := Choose pivot element
-		
-		# Rearrange A such that all elements $\leq$ p are in $A[f\dots i]$
-		# and all elements > p in A$[i\dots b]$
-		i := partition(A, f, b, p)
-		# Recursively sort >-Partition
-		introsort_loop(A, i, b, depth_limit)
-		# Sort left partition ($\leq$) in next iteration
-		b := i
-		
-	\end{minted}
-	% Referenz hinzufügen
-	\caption{Introsort mit \glqq $\leq$\grqq- und \glqq >\grqq-Partition.}
-	\label{alg:introsort}
+\begin{minted}[escapeinside=||, linenos=true, autogobble]{python}
+def introsort(A: Array<Integer>, f: Integer, b: Integer):
+  introsort_loop(A, f, b, |$2 \lfloor \log_2{(b-f)}\rfloor$|)
+  insertionsort(A, f, b)
+\end{minted}
+
+\begin{minted}[escapeinside=||, mathescape=true, linenos=true, autogobble]{python}
+def introsort_loop(A: Array<Integer>, f: Integer, b: Integer, depth_limit: Integer)
+  while b - f > |$\theta$|
+    if depth_limit == 0
+      heapsort(A, f, b)
+      return end
+    depth_limit := depth_limit - 1
+    p := Choose pivot element
+
+    # Rearrange A such that all elements $\leq$ p are in $A[f\dots i]$
+    # and all elements > p in A$[i\dots b]$
+    i := partition(A, f, b, p)
+    # Recursively sort >-Partition
+    introsort_loop(A, i, b, depth_limit)
+    # Sort left partition ($\leq$) in next iteration
+    b := i
+
+\end{minted}
+\caption{Introsort mit \glqq $\leq$\grqq- und \glqq >\grqq-Partition.}
+\label{alg:introsort}
 \end{figure}
 
-Der Pseudocode in \ref{alg:introsort} beschreibt den Ablauf des Algorithmus.
+Der Pseudocode in \ref{alg:introsort} beschreibt den Ablauf des Algorithmus\todo{referenz hinzufügen}.
 Dabei befindet sich in \texttt{introsort\_loop} die eigentliche Funktion: In Zeile 3 wird geprüft,
 ob die Größe des (Teil-)Arrays den Schwellwert unterschreitet. Ist dies der Fall, bricht die Rekursion ab.
 Andernfalls muss geprüft werden, ob die maximale Tiefe bereits erreicht wurde.
