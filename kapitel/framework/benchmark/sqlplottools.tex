@@ -5,13 +5,14 @@
 Wird \texttt{sacabench construct} zur Analyse eines einzelnen Algorithmus und dessen Phasen oder \texttt{sacabench batch} zum Vergleich mehrerer Algorithmen untereinander mit zusätzlicher Option \texttt{--automation} ausgeführt, werden die erhaltenen Daten direkt in einer PDF-Datei aufgearbeitet und präsentiert.
 Hierzu wird zunächst in der Datei \texttt{sacabench.cpp} eine Konfigurations-Datei mit Metainformationen über die durchgeführte Messung erstellt.
 Diese beinhaltet Informationen zum Computersystem, auf dem die Analyse ausgeführt wird und zu dem Text, welcher als Input für die Algorithmen verwendet wurde.
-Zum System werden die Anzahl der CPUs, die Anzahl an Threasds pro Socket, das Model und das verwendete Betriebssystem erfasst.
+Zum System werden die Anzahl der CPUs, die Anzahl an Threads pro Socket, das Model und das verwendete Betriebssystem erfasst.
 Bezüglich des Textes enthält die Konfigurations-Datei name des Textes, Prefix und Anzahl der Wiederholungen.
 Diese Datei wird im JSON-Format in dem Unterordner sqlplot des Ordners zbmessungen gespeichert, welcher ebenfalls ein Skript names automation.sh beinhaltet.
 
 Im Anschluss an das Benchmarktool wird dieses Skript ausgeführt.
 Hierdurch wird zunächst ein temporärer Ordner vom System des Nutzers erzeugt, in den der Ordner sqlplot kopiert wird.
-Neben der zuvor erstellten Konfigurations-Datei beinhaltet dieser Ordner auch zwei Latex-Dateien, welche als Vorlagen für die zu erstellende PDF-Datei dienen, ein Python-Skript names json\_to\_result\_converter.py und ein Makefile, welches spätere Abläufe koordiniert.
+Neben der zuvor erstellten Konfigurations-Datei beinhaltet dieser Ordner auch zwei Latex-Dateien, welche als Vorlagen für die zu erstellende PDF-Datei dienen, ein Python-Skript names \\
+json\_to\_result\_converter.py und ein Makefile, welches spätere Abläufe koordiniert.
 Zusätzlich wird die JSON-Datei, welche bei der Messung durch das Benchmarktool erstellt wurde, in den Ordner sqlplot im temporären Ordner kopiert.
 Nun sind alle benötigten Vorbereitungen getroffen und das Makefile im Unterordner sqlplot im temporären Ordner wird durch das Skript ausgeführt.
 
