@@ -10,14 +10,14 @@ Nehmen wir an, die Menge die sortiert werden soll, ist bereits ein Array von dis
 Array mit den Zahlen von 0 bis $n-1$ (bzw $n$, wenn das Sentinel mitsortiert werden soll) gefüllt wird.}
 In der Vergleichsfunktion vergleichen wir dann die Suffixe aus dem Text, die am entsprechenden Index starten.
 In Abbildung 1 findet sich Pseudocode für eine simple Vergleichsfunktion,
-welche die gesamten Suffixe naiv miteinander vergleichst.
+welche die gesamten Suffixe naiv miteinander vergleicht.
 
 \begin{figure}[!h]
 \begin{minted}[mathescape=true,escapeinside=||]{python}
 def compare(i, j):
-    if |$\mathsf{T}[i]$| == |$\mathsf{T}[j]$|:
+    if |$\inputtext[i]$| == |$\inputtext[j]$|:
         return compare(i + 1, j + 1)
-    return |$\mathsf{T}[i]$| < |\inputtext[j]|
+    return |$\inputtext[i]$| < |\inputtext[j]|
 \end{minted}
 \caption{Pseudocode einer naiven Suffixvergleichsfunktion}
 \end{figure}
