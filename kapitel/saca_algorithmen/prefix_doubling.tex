@@ -8,24 +8,17 @@ Dieses Kapitel präsentiert den in \cite{saca:11} beschriebenen \textbf{Doubling
 
 \subsection{Grundlagen}
 
-Wir definieren $[i, j] = \{i, \dots, j\}$ und $[i, j) = [i, j - 1]$ als Kurzschreibweise für Integer-Intervalle. Für jeden String $\inputtext$ der Länge $m$ mit beliebigen Alphabet lässt sich ein äquivalenter String $\inputtext'$ mit $\Sigma = [1, m]$ bilden, indem alle vorkommenden Zeichen aufsteigend sortiert, Duplikate entfernt, und die verbleibenden Zeichen durch einen aufsteigenden Zähler ersetzt werden. Wir weisen $\$$ den besonderen Integer Rang und Alphabeteintrag $0$ zu.\todo{grundlagen chapter}
+Wir bauen zunächst auf den Prefix-Doubling-Definitionen in \cref{sec:ansatz:doubler} auf. 
+
+Für jeden String $\inputtext$ der Länge $m$ mit beliebigen Alphabet lässt sich ein äquivalenter String $\inputtext'$ mit $\Sigma = [1, m]$ bilden, indem alle vorkommenden Zeichen aufsteigend sortiert, Duplikate entfernt, und die verbleibenden Zeichen durch einen aufsteigenden Zähler ersetzt werden. 
 
 Ein so \textbf{umbenannter} String hat die Eigenschaft, dass die Ordnung über dem neuen Alphabet identisch zu der über dem ursprünglichen ist, und sich somit darauf dasselbe Suffix-Array ergibt. Ein dazu ähnliches Verfahren, \textbf{lexikographische Umbenennung}, wird Kern der vorgestellten Algorithmen sein, und beruht darauf ganze (Teil-)Strings eines Textes durch aufsteigende Zähler zu ersetzen.
-
-$\textbf{Lcp}(i, j)$ bezeichnet die längste gemeinsamen Präfix Länge (\textbf{longest common prefix}) zwischen $\sa[i]$ und $\sa[j]$, und ist $0$ wenn $i, j \notin [0, n)$ oder die beiden Suffixe keinen gemeinsamen Präfix haben. Für jedes $\suffix i$ definieren wir $\textbf{dps}(i) = 1 + \max\{\text{lcp}(i - 1, i), \text{lcp}(i, i + 1)\}$ als charakteristische Präfixlänge (\textbf{distinguishing prefix size}). Es lassen sich damit die folgenden Kenngrößen eines Suffix-Arrays definieren:
-\begin{gather*}
-\text{maxlcp} := \max_{i \in [0, n)} \text{lcp}(i, i + 1) 
-\qquad\qquad
-\log \text{dps} := \frac{1}{n} \sum_{i \in [0, n)} \log(\text{dps}(i))
-\end{gather*}
 
 Für die Analyse der Zugriffsoperationen auf externen Speicher betrachten wir das I/O-Model \cite{Vitter1994}. Darin besteht ein Computersystem aus $M$ Wörtern schnellen Hauptspeichers, und langsameren externen Speicher der sich über I/O-Operationen in Blockgrößen $B$ über $D$ Platten erstreckt. Für Eingaben der Länge $n$ nehmen wir eine Wortbreite von $\geq \ceil*{\log n}$ Bits an. Wir definieren folgende Kurzschreibweisen:
 \begin{itemize}
 \item $\text{scan}(x) = \ceil*{x/DB}$ für sequentielles lesen oder schreiben von $x$ Wörtern in externen Speicher.
 \item $\text{sort}(x) = \frac{2x}{DB}\ceil*{\log_{M/B}\frac{x}{M}}$ für das I/O-effiziente sortieren von $x$ Wörtern unter Zuhilfenahme von externen Speicher.
 \end{itemize}
-
-Wir geben alle Algorithmen in Pseudocode an, der an Python angelegt ist.
 
 \subsection{Überblick}
 
@@ -75,9 +68,7 @@ def name(S):
 \label{algo:doubling:code:doubling}
 \end{listing}
 
-\todo{Integrate into Grundlagen?} Um ein Suffix-Array für $\inputtext$ zu bestimmen, müssen alle Suffixe $\suffix i$ lexikographisch sortiert werden. Wir stellen fest, dass hierfür jeweils nur ein Präfix von bis zu $\text{dps}(i)$ Zeichen von $\suffix i$ betrachtet werden muss. 
-
-Wir bauen auf dem in \cref{sec:ansatz:doubler} beschriebenen Doubling-Ansatz auf, gemäß dem wir alle $\inputtext_i$ iterativ anhand eines Präfixes von $2^k$ Zeichen sortieren. Wir vergleichen die $\inputtext{}[i, i + 2^k)$ Strings jedoch nicht Zeichenweise, da dies den Rechenaufwand mit jedem Iterationsschritt verdoppeln würde. Stattdessen arbeitet der Algorithmus auf einer Sequenz $S$ von Tupeln $((c, c'), i)$, bei der $c$ und $c'$ eindeutige \textbf{Namen} für $\inputtext{}[i, i + 2^{k-1})$ und $\inputtext{}[i + 2^{k-1}, i + 2^k)$ sind. Eine naive Implementierung dieses Ansatzes findet sich unter \texttt{doubling()} in Algorithmus \ref{algo:doubling:code:doubling}.
+Wie in \cref{sec:ansatz:doubler} beschrieben, sortieren wir alle $\inputtext_i$ anhand eines Präfixes von $2^k$ Zeichen. Wir vergleichen die $\inputtext{}[i, i + 2^k)$ Strings jedoch nicht Zeichenweise, da dies den Rechenaufwand mit jedem Iterationsschritt verdoppeln würde. Stattdessen arbeitet der Algorithmus auf einer Sequenz $S$ von Tupeln $((c, c'), i)$, bei der $c$ und $c'$ eindeutige \textbf{Namen} für $\inputtext{}[i, i + 2^{k-1})$ und $\inputtext{}[i + 2^{k-1}, i + 2^k)$ sind. Eine naive Implementierung dieses Ansatzes findet sich unter \texttt{doubling()} in Algorithmus \ref{algo:doubling:code:doubling}.
 
 \begin{figure}
 \begin{tikzpicture}[cell/.style={rectangle,draw=black},
