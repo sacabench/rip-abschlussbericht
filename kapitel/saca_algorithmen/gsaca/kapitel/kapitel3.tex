@@ -3,6 +3,7 @@
 \label{gsaca:chapter3}
 %
 Nachdem im vorherigen Kapitel das Vorgehen beschrieben wurde, wird in diesem Kapitel das Suffix Array für das kurze Beispielwort Banane konstruiert.
+Dazu wird der Algorithmus schrittweise durchlaufen und die jeweiligen Zustände in tabellarischer Form visualisiert.
 
 \subsection*{Phase 1:}
 In der ersten Phase werden die Gruppen und Gruppenkontexte für das Wort Banane erstellt. 
@@ -10,7 +11,10 @@ Dies geschieht in insgesamt vier Iterationen.\\
 
 Iteration 1:\\
 Schritt 1: Das Wort Banane besteht aus vier verschiedenen Buchstaben (a, b, e, n), zusammen mit dem Terminationssymbol \$ sind somit am Beginn der ersten Iteration fünf Gruppen vorhanden. 
-In der in Tabelle \ref{fig_banane_1_1} dargestellten Tabelle sind in der oberen Hälfte die initialen Gruppen und Gruppenkontexte dargestellt und in der unteren Hälfte das Wort zusammen mit den Indices der Buchstaben. 
+Die Tabelle \ref{fig_banane_1_1} zeigt den Ausgangszustand.
+In ihr sind in der oberen Hälfte die initialen Gruppen und Gruppenkontexte dargestellt und in der unteren Hälfte das Wort zusammen mit den Indices der Buchstaben. 
+Die initialen Gruppenkontexte sind die einzelnen Buchstaben.
+Diese bstimmen auch die anfänglichen Gruppen, welche die Indices der Buchstaben im Wort beinhalten.
 Der Algorithmus beginnt, indem der lexikographisch letzte Gruppenkontext betrachtet wird. 
 In diesem Fall ist das der Buchstabe n, welcher an den Indices 3 und 5 in dem Wort vorkommt. 
 Die entsprechenden Zellen der Tabelle sind grün hervorgehoben. \\
@@ -50,7 +54,27 @@ Das Ergebnis dieser Iteration und der gesamten Phase 1 ist in Tabelle \ref{fig_b
 Am Ende dieser Phase hat man somit 6 Gruppenkontexte: \$, anane, ane, b, e und n. 
 Zusätzlich wurden für alle Buchstaben des Wortes die \prevpointer erzeugt und gespeichert. 
 Die entstandenen Pointer-Ketten lassen sich in Abbildung \ref{fig_banane_prev_pointer} sehen. 
-Auf diesem Ergebnis aufbauend wird in Phase 2 das finale Suffix Array berechnet werden.\\
+Auf diesem Ergebnis aufbauend wird in Phase 2 das finale Suffix Array berechnet werden.
+\newpage		% start new page to align tables on top of next page
+
+%%%%%%%%%%% Phase 1 %%%%%%%%%%%%%%%
+\input{kapitel/saca_algorithmen/gsaca/tables/phase1-iteration1}
+\input{kapitel/saca_algorithmen/gsaca/tables/phase1-iteration2}
+\newpage 		% start new page to remove space between tables
+\input{kapitel/saca_algorithmen/gsaca/tables/phase1-iteration3}
+\input{kapitel/saca_algorithmen/gsaca/tables/phase1-iteration4}
+
+\begin{figure}[!b]
+	\begin{minipage}[H]{10cm}
+		\centering
+		\includegraphics[width=10cm]{kapitel/saca_algorithmen/gsaca/images/Banane-prev-pointer}
+	\end{minipage}
+	\caption[Konstruktion des Suffix Arrays für das Wort Banane: \prevpointer]{Konstruktion des Suffix Arrays für das Wort Banane: \prevpointer. Die Zahlen geben die Nummer der Iteration an, in welcher der \prevpointer berechnet wurde.}
+\label{fig_banane_prev_pointer}
+\end{figure}
+\newpage		% add new page to move the next section down
+\newpage		% add new page to move the next section down
+\newpage		% add new page to move the next section down
 
 \subsection*{Phase 2:}
 In der zweiten Phase wird das Suffix Array mithilfe der zuvor erstellten Gruppen und Gruppenkontexte sowie der \prevpointer konstruiert. 
@@ -108,27 +132,15 @@ Diese Unterschiede werden bei der Berechnung des Suffix Arrays für das Wort \te
 Je mehr Gruppen mit mehr als einem Index existieren, umso häufiger kann die Reihenfolge der Indices innerhalb dieser Gruppe gewechselt werden. 
 Im Beispiel zum Wort Banane gab es jedoch nur eine Gruppe mit mehr als einem Index. 
 In dieser Gruppe mit dem Buchstaben n fand keine Veränderung durch diese Schritte statt.\\
-
-%%%%%%%%%%% Phase 1 %%%%%%%%%%%%%%%
-\input{kapitel/saca_algorithmen/gsaca/tables/phase1-iteration1}
-\input{kapitel/saca_algorithmen/gsaca/tables/phase1-iteration2}
-\input{kapitel/saca_algorithmen/gsaca/tables/phase1-iteration3}
-\input{kapitel/saca_algorithmen/gsaca/tables/phase1-iteration4}
-
-\begin{figure}
-	\begin{minipage}[H]{10cm}
-		\centering
-		\includegraphics[width=10cm]{kapitel/saca_algorithmen/gsaca/images/Banane-prev-pointer}
-	\end{minipage}
-	\caption[Konstruktion des Suffix Arrays für das Wort Banane: \prevpointer]{Konstruktion des Suffix Arrays für das Wort Banane: \prevpointer. Die Zahlen geben die Nummer der Iteration an, in welcher der \prevpointer berechnet wurde.}
-\label{fig_banane_prev_pointer}
-\end{figure}
+\newpage
 
 %%%%%%%%%%% Phase 2 %%%%%%%%%%%%%%%
 \input{kapitel/saca_algorithmen/gsaca/tables/phase2-iteration1}
 \input{kapitel/saca_algorithmen/gsaca/tables/phase2-iteration2}
+\newpage 		% start new page to remove space between tables
 \input{kapitel/saca_algorithmen/gsaca/tables/phase2-iteration3}
 \input{kapitel/saca_algorithmen/gsaca/tables/phase2-iteration4}
+\newpage 		% start new page to remove space between tables
 \input{kapitel/saca_algorithmen/gsaca/tables/phase2-iteration5}
 
 %%%%%%%%%%% Ergebnis %%%%%%%%%%%%%%%
