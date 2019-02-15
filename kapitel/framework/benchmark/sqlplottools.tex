@@ -2,35 +2,30 @@
 \label{framework:bechmark:sqlplottools}
 
 \currentauthor{David Piper und Florian Grieskamp}
-Wird \texttt{sacabench construct} zur Analyse eines einzelnen Algorithmus und dessen Phasen oder \texttt{sacabench batch} zum Vergleich mehrerer Algorithmen untereinander mit zusätzlicher Option \texttt{--automation} ausgeführt, werden die erhaltenen Daten direkt in einer PDF-Datei aufgearbeitet und präsentiert.
-Hierzu wird zunächst in der Datei \texttt{sacabench.cpp} eine Konfigurations-Datei mit Metainformationen über die durchgeführte Messung erstellt.
-Diese beinhaltet Informationen zum Computersystem, auf dem die Analyse ausgeführt wird und zu dem Text, welcher als Input für die Algorithmen verwendet wurde.
-Zum System werden die Anzahl der CPUs, die Anzahl an Threads pro Socket, das Model und das verwendete Betriebssystem erfasst.
-Bezüglich des Textes enthält die Konfigurations-Datei name des Textes, Prefix und Anzahl der Wiederholungen.
-Diese Datei wird im JSON-Format in dem Unterordner sqlplot des Ordners zbmessungen gespeichert, welcher ebenfalls ein Skript names automation.sh beinhaltet.
-
+Wird \texttt{sacabench construct} zur Analyse eines einzelnen Algorithmus und dessen Phasen oder \texttt{sacabench batch} zum Vergleich mehrerer Algorithmen untereinander mit zusätzlicher Option \texttt{--automation} ausgeführt, werden die erhaltenen Messdaten direkt in einer PDF-Datei aufgearbeitet.
+Hierzu wird zunächst vom \texttt{sacabench} Haupttool eine Konfigurations-Datei mit Metainformationen über die durchgeführte Messung erstellt.
+Diese beinhaltet Informationen zum System, auf dem die Analyse ausgeführt wird und zu dem Text, welcher als Input für die Algorithmen verwendet wurde.
+Zum System werden die Anzahl der CPUs, die Anzahl an Threads pro Socket, das Modell und das verwendete Betriebssystem erfasst.
+Bezüglich des Textes enthält die Konfigurationsdatei den Dateinamen des Textes, Präfixgröße und Anzahl der Wiederholungen der Messung.
+Diese Datei wird im JSON-Format im Verzeichnis \texttt{zbmessung/sqlplot} gespeichert, welches ebenfalls ein Skript names automation.sh beinhaltet.\par
 Im Anschluss an das Benchmarktool wird dieses Skript ausgeführt.
-Hierdurch wird zunächst ein temporärer Ordner vom System des Nutzers erzeugt, in den der Ordner sqlplot kopiert wird.
-Neben der zuvor erstellten Konfigurations-Datei beinhaltet dieser Ordner auch zwei Latex-Dateien, welche als Vorlagen für die zu erstellende PDF-Datei dienen, ein Python-Skript names \\
-json\_to\_result\_converter.py und ein Makefile, welches spätere Abläufe koordiniert.
-Zusätzlich wird die JSON-Datei, welche bei der Messung durch das Benchmarktool erstellt wurde, in den Ordner sqlplot im temporären Ordner kopiert.
-Nun sind alle benötigten Vorbereitungen getroffen und das Makefile im Unterordner sqlplot im temporären Ordner wird durch das Skript ausgeführt.
-
-Das Makefile führt das Python-Skript json\_to\_result\_converter.py aus, welches als erstes eine Result-Datei erstellt.
-Dies ist eine Datei, welche von SqlPlotTools verarbeitet werden kann.
-Sie enthält die Daten aus der Konfigurations-Datei und der JSON-Datei, welche die Ergebnisse der Messung beinhaltet.
-Da abhängig davon, ob \texttt{construct} oder \texttt{batch} aufgerufen wurde, unterschiedliche Daten im PDF benötigt werden, werden zwei unterschiedliche Result-Dateien erstellt.
-Die eine Result-Datei enthält Daten für die genauere Analyse der unterschiedlichen Phasen eines einzelnen Algorithmus nach \texttt{construct} und die andere beinhaltet Daten für den Vergleich mehrerer Algoirhtmen untereinander nach \texttt{batch}.
-Zusätzlich generiert das Python-Skript die Latex-Dateien, welche mit den Daten befüllt werden. 
-Hierzu werden die beiden Latex-Vorlagen im Unterordner templates genutzt.
-Nachdem all diese Dateien generiert wurden, klont das Makefile das SqlPlotTools-Repository von GitHub in den temporären Ordner und baue dort das Projekt.
-Jede durch das Python-Skript erstellte Latex-Datei wird durch einen Aufruf des SqlPlotTools mit Daten befüllt.
+Hierdurch wird zunächst ein temporäres Verzeichnis erzeugt, welches zur Generierung der fertigen PDF-Dateien dient.
+Neben der zuvor erstellten Konfigurations-Datei beinhaltet dieses Verzeichnis auch zwei LaTeX-Dateien, welche als Vorlagen für die zu erstellende PDF-Datei dienen, das für die Konvertierung des Datenformats benötigte Python-Skript \texttt{json\_to\_result\_converter.py} und ein Makefile, welches spätere Abläufe koordiniert.
+Zusätzlich wird die JSON-Datei, welche bei der Messung durch das Benchmarktool erstellt wurde, in das temporäre Verzeichnis kopiert.
+Damit sind alle benötigten Vorbereitungen getroffen und das Makefile im Unterverzeichnis \texttt{sqlplot} wird durch das Skript ausgeführt.\par\smallskip
+Das Makefile führt das Python-Skript \texttt{json\_to\_result\_converter.py} aus, welches als erstes die Messergebnisse unter Berücksichtigung der Metadaten in ein \texttt{RESULT}-Format konvertiert.
+Dieses beinhaltet die Daten in einem für \emph{SqlPlotTools} \cite{sqlplottools} lesbaren Format.
+Da abhängig davon, ob \texttt{construct} oder \texttt{batch} aufgerufen wurde, unterschiedliche Daten im PDF benötigt werden, werden zwei unterschiedliche Result-Dateien erstellt:
+Eine Datei enthält Daten für die genauere Analyse der unterschiedlichen Phasen aller Algorithmen und die andere Datei beinhaltet die Messwerte für gesamte Algoirhtmen.
+Die Daten der einzelnen Phasen werden für die von \texttt{sacabench construct} erzeugten Diagramme benötigt, während die Messwerte der gesamten Algorithmen in den von \texttt{sacabench batch} erzeugten Diagrammen visualisiert werden.
+Zusätzlich generiert das Python-Skript die LaTeX-Dateien, aus denen im Anschluss die fertigen PDF-Dateien erzeugt werden. 
+Hierzu werden die beiden LaTeX-Vorlagen im Unterordner \texttt{templates} genutzt.
+Nachdem all diese Dateien generiert wurden, klont das Makefile (sofern noch nicht im Verzeichnis \texttt{zbmessung/sqlplot} vorhanden) das SqlPlotTools-Repository von GitHub \cite{sqlplottools} in den temporären Ordner und baut dort das Projekt.
+Jede durch das Python-Skript erstellte LaTeX-Datei wird durch einen Aufruf des SqlPlotTools mit den für die Plots benötigten Daten befüllt.
 Dieser Aufruf wird ebenfalls von dem Makefile ausgelöst. 
-Daraufhin können die Latex-Dateien gesetzt werden, wodurch die fertige PDF-Datei mit den neuen Messdaten entsteht. 
-
-Jetzt übernimmt wieder das Skript automation.sh und kopiert die generierte PDF-Datei an ihren Zielort.
-Zuletzt wird der temporäre Ordner wieder gelöscht.
-
+Daraufhin können die LaTeX-Dateien gesetzt werden, wodurch die fertige PDF-Datei mit den neuen Messdaten entsteht.\par\smallskip
+Im Anschluss kopiert das Skript \texttt{automation.sh} die generierte PDF-Datei in ihr Zielverzeichnis.
+Zuletzt wird das temporäre Verzeichnis wieder vom System entfernt.
 \newcommand{\comment}[1]{}
 \comment{
 In sacabench.cpp:
@@ -50,11 +45,11 @@ Im temporären Ordner durch das Makefile:
 1. Das Python-Skript json\_to\_result\_converter.py erstellt Result-Dateien, die von SqlPlotTools verarbeitet werden können. 
 Diese enthalten die Daten aus der durch sacabench.cpp erstellten Config-Datei und der durch das Benchmark erstellten und durch automation.sh kopierten JSON-Datei mit den Messergebnissen.
 Dazu werden zwei verschiedene Result-Dateien erstellt, eine mit Daten für den Vergleich mehrerer Algoirhtmen untereinander nach batch, und eine mit Daten für die genauere Analyse der einzelnen Phasen eines einzelnen Algorithmus nach construct.
-Dieses Python-Skript generiert neben den Result-Dateien auch die Latex-Dateien, welche durch SqlPlotTools mit den Daten aus der Result-Datei befüllt werden.
-Im Unterordner templates befinden sich zwei Latex-Dateien, eine für das Ergebnis eines construct-Aufrufs und eine für das Ergebnis eines batch-Aufrufs.
-Abhänig vom Befülle die im Ordner templates befindlichen Latex-Dateien (je nach Ausführung) mit den Ergebnissen der Abfragen aus SqlPlotTools.
+Dieses Python-Skript generiert neben den Result-Dateien auch die LaTeX-Dateien, welche durch SqlPlotTools mit den Daten aus der Result-Datei befüllt werden.
+Im Unterordner templates befinden sich zwei LaTeX-Dateien, eine für das Ergebnis eines construct-Aufrufs und eine für das Ergebnis eines batch-Aufrufs.
+Abhänig vom Befülle die im Ordner templates befindlichen LaTeX-Dateien (je nach Ausführung) mit den Ergebnissen der Abfragen aus SqlPlotTools.
 2. Klone SqlPlotTools von GitHub und baue das Projekt.
-3. Jede durch das Python-Skript erstellte Latex-Datei wird durch einen Aufruf des SqlPlotTools mit Daten befüllt.
+3. Jede durch das Python-Skript erstellte LaTeX-Datei wird durch einen Aufruf des SqlPlotTools mit Daten befüllt.
 Dieser Aufruf wird ebenfalls von dem Makefile ausgelöst. 
-4. Nachdem nun die Latex-Dateien generiert und mit den Daten befüllt sind, werden sie gesetzt.
+4. Nachdem nun die LaTeX-Dateien generiert und mit den Daten befüllt sind, werden sie gesetzt.
 }
