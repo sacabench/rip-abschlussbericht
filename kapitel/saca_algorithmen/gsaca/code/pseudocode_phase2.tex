@@ -1,0 +1,26 @@
+\begin{figure}
+\begin{minted}[escapeinside=@@, mathescape=true, linenos=true, autogobble]{python}
+def phase_2():
+	SA[1] = @$n$@ 
+	for @$i$@ = 1 up to @$n$@ do
+		@$j$@ = SA[@$i$@] - 1 
+		while @$j$@ @$\neq$@ 0 do
+			# number of suffixes placed in lower groups
+			@$sr$@ =  |@\{@ @$s$@ @$\in$@ [1 ... @$n$@] | group(@$s$@) < group(@$j$@) @\}@|
+			if SA[@$sr$@ + 1] @$\neq$@ nil then 
+				break
+			SA[@$sr$@ + 1] = @$j$@
+			# remove @$j$@ from its current group
+			oldGroup = group(@$j$@)
+			group(@$j$@).remove(j)
+			# put @$j$@ it in a new group 
+			newGroup = Group()
+			newGroup.add(j)
+			# place newGroup as immediate predecessor of oldGroup
+			insertPosition = groups.position(oldGroup) - 1
+			groups.insert(newGroup, insertPosition)
+			@$j$@ = prev(@$j$@)
+\end{minted}
+\caption[Algorithmus zur Konstruktion eines Suffix Arrays für einen gegebenen nullterminierten String $S$ der Länge $n$]{Algorithmus zur Konstruktion eines Suffix Arrays für einen gegebenen nullterminierten String $S$ der Länge $n$}
+\label{saca:3:code}
+\end{figure}

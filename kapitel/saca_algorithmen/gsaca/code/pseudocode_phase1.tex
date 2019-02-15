@@ -1,0 +1,25 @@
+\begin{figure}
+\begin{minted}[escapeinside=@@, mathescape=true, linenos=true, autogobble, obeytabs=true, tabsize=2]{python}
+def phase_1():
+	# Order all suffixes into groups according to their first character
+	groups = setupGroups()
+	groups.sortByContext()
+	for group in groups.reversed():
+		for char in group:
+			prev(char) = max(@\{@ @$j$@ @$\in$@ [1 ... char] | group(@$j$@) < group(char) @\}@ @$\cup$@ @\{@0@\}@)
+		# prevoisSuffixes is the set of previous suffixes from $group$
+		prevoisSuffixes = @\{ $j$ $\in$ [1 ... $n$] | prev(char) = $j$ for any char $\in$ group \}@
+
+		# each subset $P_{l}$ contains suffixes whose number of prev pointers
+		# from group pointing to them is equal to l
+		listOfSubsets = prevoisSuffixes.splitIntoSubsets()
+		for subset = listOfSubsets.count down to 1:
+			# split each subset into new subsets, 
+			# such that suffixes of same group are gathered in the same subset
+			listOfSubgroups = subset.sortByGroup()
+			for subgrop = 1 up to listOfSubgroups.count do
+				remove suffixes of @$P_{lq}$@ from their group and put them into a new group placed as immediate successor of their old group.
+\end{minted}
+\caption[Algorithmus zur Konstruktion eines Suffix Arrays für einen gegebenen nullterminierten String $S$ der Länge $n$]{Algorithmus zur Konstruktion eines Suffix Arrays für einen gegebenen nullterminierten String $S$ der Länge $n$}
+\label{saca:3:code}
+\end{figure}
