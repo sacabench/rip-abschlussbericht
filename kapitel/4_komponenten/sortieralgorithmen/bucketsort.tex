@@ -12,21 +12,21 @@ Der Algorithmus besteht aus drei iterativ durchgeführten Schritten, die hier er
 \paragraph{Schritt 1}
 Es wird zunächst ein Hilfsarray (\cref{bucketsort:bkt}) angelegt, in dem zu jedem möglichen Schlüssel (hier Präfixe über \(\Sigma^2\)) dessen Häufigkeit in der Eingabe vermerkt wird. Dies geschieht anhand eines sequentiellen Scans der Eingabesequenz. Diese Anzahl legt die Größe des jeweiligen Buckets fest. In einem Scan des Hilfsarrays kann dann In-Place die kumulative Summe der Größen bestimmt werden, durch welche die Grenzen zwischen den Buckets festgelegt werden.
 \begin{figure}[ht]
-    \includegraphics[width=\textwidth]{kapitel/komponenten/sortieralgorithmen/bucketsort/step_01/bkt/image.pdf}
+    \includegraphics[width=\textwidth]{kapitel/4_komponenten/sortieralgorithmen/bucketsort/step_01/bkt/image.pdf}
     \caption{Bestimmung der Bucketgrößen und Startpositionen}
     \label{bucketsort:bkt}
 \end{figure}
 \paragraph{Schritt 2}
 Um die Elemente sortieren zu können, wird ein zweites Array in der Länge der Eingabesequenz angelegt. Dieses Array ist auf Basis der zuvor berechneten Grenzen (imaginär) in Buckets eingeteilt (\cref{bucketsort:empty_buckets}).
 \begin{figure}[ht]
-    \includegraphics[width=\textwidth]{kapitel/komponenten/sortieralgorithmen/bucketsort/step_02/empty_buckets/image.pdf}
+    \includegraphics[width=\textwidth]{kapitel/4_komponenten/sortieralgorithmen/bucketsort/step_02/empty_buckets/image.pdf}
     \caption{Buckets ohne einsortierte Suffixe}
     \label{bucketsort:empty_buckets}
 \end{figure}
 In einem Scan der Eingabesequenz wird dann iterativ für jedes Element der zugehörige Schlüssel berechnet, um anhand der Tabelle aus \cref{bucketsort:bkt} die Position im Ausgabearray zu bestimmen. Nach dem Einfügen an dieser Position wird die Grenze des jeweiligen Buckets entsprechend angepasst, um bereits eingefügte Elemente im Nachhinein nicht mit neuen Elementen zu überschreiben.\par
 Nach Abschluss dieses Schritts liegen die vorsortierten Elemente der Eingabesequenz in korrekter Reihenfolge bezüglich des gewählten Sortierschlüssels im Ausgabearray (\cref{bucketsort:buckets}).
 \begin{figure}[ht]
-    \includegraphics[width=\textwidth]{kapitel/komponenten/sortieralgorithmen/bucketsort/step_02/buckets/image.pdf}
+    \includegraphics[width=\textwidth]{kapitel/4_komponenten/sortieralgorithmen/bucketsort/step_02/buckets/image.pdf}
     \caption{Buckets mit einsortierten Suffixen}
     \label{bucketsort:buckets}
 \end{figure}
