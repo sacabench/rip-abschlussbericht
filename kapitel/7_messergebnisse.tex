@@ -5,8 +5,6 @@ Wir \currentauthor{Marvin Löbel} evaluieren die Performance der individuellen I
 \section{Messsystem}
 
 \begin{table}
-\caption{Messsystem}
-\label{messung:tab:system}
 \resizebox{\textwidth}{!}{
 \begin{tabular}{ll}
 \toprule
@@ -45,6 +43,8 @@ Speichergröße        & 64GiB \\
 \bottomrule
 \end{tabular}
 }
+\caption{Messsystem}
+\label{messung:tab:system}
 \end{table}
 
 Die Messung wurde auf dem in \cref{messung:tab:system} beschrieben System durchgeführt. Die Daten wurden durch die Linux Befehle \texttt{uname}, \texttt{lscpu} und \texttt{free} ermittelt.
@@ -52,8 +52,6 @@ Die Messung wurde auf dem in \cref{messung:tab:system} beschrieben System durchg
 \section{Testdaten}
 
 \begin{table}
-\caption{Testdaten}
-\label{messung:tab:testdaten}
 \resizebox{\textwidth}{!}{
 \begin{tabular}{lL{6cm}}
 \toprule
@@ -82,6 +80,8 @@ Die Messung wurde auf dem in \cref{messung:tab:system} beschrieben System durchg
 \bottomrule
 \end{tabular}
 }
+\caption{Testdaten}
+\label{messung:tab:testdaten}
 \end{table}
 
 Die Testdaten in \cref{messung:tab:testdaten} werden durch das \texttt{make datasets} Target des Buildsystems bereitgestellt, und haben alle eine Größe von mindestens 200MiB.
