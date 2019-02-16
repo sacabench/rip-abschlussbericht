@@ -2,10 +2,8 @@
 
 Wir Überprüfen zunächst, ob alle Testdaten von allen Implementierungen
 korrekt verarbeitet werden konnten. Die Messergebnisse enthalten hierfür von \texttt{-{}-check} erzeugte Informationen und können in \cref{messung:tab:sa-chk} eingesehen werden.
-        
+
 \begin{table}
-\caption{\sa Korrektheit}
-\label{messung:tab:sa-chk}
 \resizebox{\textwidth}{!}{
 \begin{tabular}{lrrrrrrrrrrrrrrr}
 \toprule
@@ -41,16 +39,16 @@ korrekt verarbeitet werden konnten. Die Messergebnisse enthalten hierfür von \t
 \bottomrule
 \end{tabular}
 }
+\caption{\sa Korrektheit}
+\label{messung:tab:sa-chk}
 \end{table}
 
 \subsection{Laufzeit}
 
 Wir betrachten nun in \cref{messung:tab:duration} die mediane Laufzeit, die jeder Algorithmus für die jeweiligen Testdaten erreicht hat.
 Pro Eingabe sind jeweils die besten drei Algorithmen mit Grün markiert, und die schlechtesten drei mit Rot.
-        
+
 \begin{table}
-\caption{Laufzeit in Minuten}
-\label{messung:tab:duration}
 \resizebox{\textwidth}{!}{
 \begin{tabular}{lrrrrrrrrrrrrrrr}
 \toprule
@@ -86,16 +84,16 @@ Pro Eingabe sind jeweils die besten drei Algorithmen mit Grün markiert, und die
 \bottomrule
 \end{tabular}
 }
+\caption{Laufzeit in Minuten}
+\label{messung:tab:duration}
 \end{table}
 
 \subsection{Speicherpeak}
 
 \Cref{messung:tab:mem} entnehmen wir den mediane Speicherverbrauch. Der Wert setzt sich zusammen aus der Allokation für den Eingabetext inklusive der vom Algorithmus benötigten extra Sentinel Bytes, die Allokation für das Ausgabe \sa und dem vom Algorithmus selbst benötigten Speichers.
 Pro Eingabe sind erneut die besten drei Algorithmen mit Grün markiert, und die schlechtesten drei mit Rot.
-        
+
 \begin{table}
-\caption{Speicherpeak in GiB}
-\label{messung:tab:mem}
 \resizebox{\textwidth}{!}{
 \begin{tabular}{lrrrrrrrrrrrrrrr}
 \toprule
@@ -131,5 +129,6 @@ Pro Eingabe sind erneut die besten drei Algorithmen mit Grün markiert, und die 
 \bottomrule
 \end{tabular}
 }
+\caption{Speicherpeak in GiB}
+\label{messung:tab:mem}
 \end{table}
-
