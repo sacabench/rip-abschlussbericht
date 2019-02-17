@@ -1,0 +1,25 @@
+\begin{figure}
+\begin{minted}[escapeinside=@@, mathescape=true, linenos=true, autogobble, obeytabs=true, tabsize=2]{python}
+def phase_2():
+	SA[1] = @$n$@ 
+	for @$i$@ = 1 up to @$n$@:
+		@$j$@ = SA[@$i$@] - 1 
+		while @$j$@ @$\neq$@ 0:
+			# number of suffixes placed in lower groups
+			@$sr$@ =  |@\{@ @$s$@ @$\in$@ [1 ... @$n$@] | group(@$s$@) < group(@$j$@) @\}@|
+			if SA[@$sr$@ + 1] @$\neq$@ nil: 
+				break
+			SA[@$sr$@ + 1] = @$j$@
+			# remove $j$ from its current group and put it into a new group
+			oldGroup = group(@$j$@)
+			group(@$j$@).remove(j)
+			newGroup = Group()
+			newGroup.add(j)
+			# place newGroup as immediate predecessor of oldGroup
+			insertPosition = groups.indexOf(oldGroup) - 1
+			groups.insert(newGroup, insertPosition)
+			@$j$@ = prev(@$j$@)
+\end{minted}
+\caption[Phase 2 von GSACA]{Phase 2 von GSACA}
+\label{saca:3:code_2}
+\end{figure}
