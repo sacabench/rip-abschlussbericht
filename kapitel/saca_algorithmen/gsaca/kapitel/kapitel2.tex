@@ -3,17 +3,24 @@
 \label{gsaca:chapter2}
 %
 Bevor der konkrete Algorithmus präsentiert  wird, wird in diesem Kapitel das allgemeine Vorgehen beschrieben. 
-Das Suffix-Array für ein gegebenes Wort wird in zwei Phasen konstruiert.\\
+Das Suffix-Array für ein gegebenes Wort wird in zwei Phasen konstruiert.
+Folgende Definitionen werden hierfür benötigt:
 
-In der ersten Phase werden die Buchstaben in Gruppen eingeteilt und die sogenannten Gruppenkontexte bestimmt.
-Ein Gruppenkontext ist ein Teilstring des originalen Wortes, so dass dieser Teilstring der Präfix eines Suffixes ist. 
-Dieser Präfix umfasst den Beginn des Suffixes bis zu der Stelle, an der der Rest des Suffixes selbst ein Gruppenkontext ist. 
-Alle Präfixe, welche aus den gleichen Zeichen bestehen, bilden dann eine Gruppe, welche die Startindices des entsprechenden Gruppenkontext im Wort enthält.
+\begin{definition}\textbf{$\widehat{i}$}\\
+Für einen String S der Länge n sei i ein Index zwischen 1 und n. Dann bezeichent $\widehat{i}$ den Index des nächsten lexikografisch kleineren Suffix.
+\end{definition}
 
-Für das Wort Banane haben wir beispielsweise die beiden Suffixe Banane und anane. 
-Wie im Beispiel zu sehen sein wird, ist der berechnete Gruppenkontext des letztgenannten Suffixes anane selbst. 
-Da der Gruppenkontext von Banane der Präfix bis zum nächsten Gruppenkontext ist, und anane der Gruppenkontext von anane ist, umfasst der Gruppenkontext von Banane nur den Buchstaben B. 
-Die Gruppe des Gruppenkontextes B umfasst die Startindices aller Vorkommen dieses Gruppenkontextes.
+\begin{definition}\textbf{Gruppenkontext}\\
+Sei S ein String. Dann ist der Substring S[i..$\widehat{i}$] ein Gruppenkontext, also der Präfix eines Suffixes bis zum Beginn des nachfolgenden lexikografisch kleineren Suffixes.
+\end{definition}
+
+\begin{definition}\textbf{Gruppe}\\
+Sei S ein String und C ein Gruppenkontext. Dann bezeichnet die zu C gehörtende Gruppe die Menge der Startindices aller Vorkommen von C im String S.
+\end{definition}
+
+Für das Wort Banane haben wir beispielsweise die beiden Suffixe \textit{Banane} und \textit{anane}.  
+Da der Gruppenkontext vom Suffix \textit{Banane} der Präfix bis zum nächsten lexikografisch kleineren Suffix ist, umfasst der Gruppenkontext von \textit{Banane} nur den Buchstaben \textit{B}. 
+Die Gruppe des Gruppenkontextes \textit{B} umfasst die Startindices aller Vorkommen dieses Gruppenkontextes.
 In diesem Fall besteht diese Gruppe also nur aus dem Index 1.
 
 Die initialen Gruppenkontexte sind die einzelnen Buchstaben des Wortes in lexikografischer Reihenfolge, beginnend mit dem Terminalsymbol \$.
