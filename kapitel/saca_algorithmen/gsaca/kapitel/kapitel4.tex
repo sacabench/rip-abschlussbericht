@@ -22,8 +22,8 @@ Dazu wird jedes Suffix dieser Teilmengen aus seiner ursprünglichen Gruppe entfe
 \input{kapitel/saca_algorithmen/gsaca/code/pseudocode_phase1}
 \newpage
 
-Abbildung \ref{saca:3:code_2} zeigt den Pseudocode zu Phase 2 von GSACA, in der das Suffix Array aus den zuvor gebildeten Gruppen konstruiert wird.
-Hierzu wird zunächst das letzte Zeichen des Wortes, also das Terminationssymbol \$, als erstes Element der Liste SA gespeichert. 
+Abbildung \ref{saca:3:code_2} zeigt den Pseudocode zu Phase 2 von GSACA, in der das Suffix-Array aus den zuvor gebildeten Gruppen konstruiert wird.
+Hierzu wird zunächst das letzte Zeichen des Wortes, also das Terminalsymbol \$, als erstes Element der Liste SA gespeichert. 
 Anschließend werden die Elemente dieser Liste in einer for-Schleife durchlaufen.
 Auch wenn zu Beginn nur ein einziges Element in der Liste enthalten ist, wird jeder Durchlauf weitere Elemente hinzufügen.
 In jeder Iteration ein das nächste Zeichen in SA bearbeitet und zu diesem Zeichen wird der Vorgänger im Wort betrachtet. 

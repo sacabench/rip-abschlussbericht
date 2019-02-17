@@ -10,51 +10,52 @@ In der ersten Phase werden die Gruppen und Gruppenkontexte für das Wort Banane 
 Dies geschieht in insgesamt vier Iterationen.\\
 
 Iteration 1:\\
-Schritt 1: Das Wort Banane besteht aus vier verschiedenen Buchstaben (a, b, e, n), zusammen mit dem Terminationssymbol \$ sind somit am Beginn der ersten Iteration fünf Gruppen vorhanden. 
+Schritt 1: Das Wort Banane besteht aus vier verschiedenen Buchstaben (\textit{a}, \textit{b}, \textit{e}, \textit{n}), zusammen mit dem Terminalsymbol \textit{\$} sind somit am Beginn der ersten Iteration fünf Gruppen vorhanden. 
 Die Tabelle \ref{fig_banane_1_1} zeigt den Ausgangszustand.
 In ihr sind in der oberen Hälfte die initialen Gruppen und Gruppenkontexte dargestellt und in der unteren Hälfte das Wort zusammen mit den Indices der Buchstaben. 
 Die initialen Gruppenkontexte sind die einzelnen Buchstaben.
-Diese bstimmen auch die anfänglichen Gruppen, welche die Indices der Buchstaben im Wort beinhalten.
+Diese bestimmen auch die anfänglichen Gruppen, welche die Indices der Buchstaben im Wort beinhalten.
 Der Algorithmus beginnt, indem der lexikographisch letzte Gruppenkontext betrachtet wird. 
-In diesem Fall ist das der Buchstabe n, welcher an den Indices 3 und 5 in dem Wort vorkommt. 
+In diesem Fall ist das der Buchstabe \textit{n}, welcher an den Indices 3 und 5 in dem Wort vorkommt. 
 Die entsprechenden Zellen der Tabelle sind grün hervorgehoben. \\
 Schritt 2: Dann werden die Vorkommen der aktuell betrachteten Gruppe im Wort untersucht. 
-In dieser ersten Iteration ist es das Vorkommen von dem Zei\-chen n an den Positionen 3 und 5. \\
+In dieser ersten Iteration ist es das Vorkommen von dem Zei\-chen \textit{n} an den Positionen 3 und 5. \\
 Schritt 3: Danach werden die direkten Vorgänger im Wort untersucht. 
-In diesem Schritt ist das der Buchstabe a an den Positionen 2 und 4. 
+In diesem Schritt ist das der Buchstabe \textit{a} an den Positionen 2 und 4. 
 Diese Indices sind zusammen mit den Buchstaben an den entsprechenden Positionen in der Tabelle rot hinterlegt. \\
-Schritt 4: Im letzten Schritt dieser Iteration wird der Gruppenkontext der im vorherigen Schritt markierten Buchstaben betrachtet und um den Kontext der initial in dieser Iteration betrachteten Gruppe erweitert. 
-Da alle Vorkommen der Gruppe a Vorgänger von der Gruppe n waren, findet diese Kontexterweiterung bei allen Elementen statt. 
-Somit wird aus der Gruppe a die Gruppe an. Das finale Ergebnis zeigt die Änderungen vor gelben Hintergrund an.\\
+Schritt 4: Im letzten Schritt dieser Iteration wird der Gruppenkontext der im vorherigen Schritt markierten Buchstaben betrachtet.
+Dieser wird um den Kontext der Gruppe \textit{n} erweitert. 
+Da alle Vorkommen der Gruppe \textit{a} Vorgänger von der Gruppe \textit{n} waren, findet diese Kontexterweiterung bei allen Elementen statt. 
+Somit wird aus der Gruppe \textit{a} die Gruppe \textit{an}. Das finale Ergebnis zeigt die Änderungen vor gelben Hintergrund an.\\
 
 Iteration 2:\\
 Schritt 1: In der zweiten Iteration, deren Schritte in Tabelle \ref{gsaca:fig_banane_1_2} verdeutlicht werden, wird die nächste Gruppe bezüglich der lexikographisch absteigenden Ordnung betrachtet. 
-Dies ist die Gruppe mit Kontext e.\\
-Schritt 2: Der Buchstabe e kommt nur an Index 6 im Wort vor.\\
+Dies ist die Gruppe mit Kontext \textit{e}.\\
+Schritt 2: Der Buchstabe \textit{e} kommt nur an Index 6 im Wort vor.\\
 Schritt 3: Für diesen Index wird die Vorgängergruppe gesucht. 
-Diese ist die Gruppe an, die im vorherigen Schritt gebildet wurde.\\
+Diese ist die Gruppe \textit{an}, die im vorherigen Schritt gebildet wurde.\\
 Schritt 4: Anders als in der vorherigen Iteration werden in diesem Durchlauf nicht alle Vorkommen der Vorgängergruppe getroffen. 
 Damit muss diese Gruppe in zwei neue Gruppen aufgeteilt werden. 
-Der erste Teil der Gruppe bleibt an und der zweite Teil wird um den Kontext von e erweitert. 
+Der erste Teil der Gruppe bleibt \textit{an} und der zweite Teil wird um den Kontext von \textit{e} erweitert. 
 Da die Gruppe mit dem erweiterten Kontext lexikographisch größer ist, wird sie zum neuen Nachfolger der Teilgruppe ohne Kontexterweiterung.\\
 
 Iteration 3:\\
-Schritt 1: Als nächstes wird die Gruppe b betrachtet. 
+Schritt 1: Als nächstes wird die Gruppe \textit{b} betrachtet. 
 Die Zwischenergebnisse dieser Iteration sind in Tabelle \ref{fig_banane_1_3} zu sehen.\\
 Schritt 2: Diese Gruppe hat keinen Vorgänger im betrachteten Wort. 
 Daher endet diese Iteration ohne Änderungen an den Kontextgruppen.\\
 
 Iteration 4: \\
-Schritt 1: Es wird die nächste Gruppe betrachtet. Dies ist die Gruppe mit Kontext ane.\\
+Schritt 1: Es wird die nächste Gruppe betrachtet. Dies ist die Gruppe mit Kontext \textit{ane}.\\
 Schritt 2: Diese Gruppe umfasst die Indices 4 bis 6 im Wort Banane.\\
-Schritt 3: Der Vorgänger dieser Gruppe ist die Gruppe an.\\
+Schritt 3: Der Vorgänger dieser Gruppe ist die Gruppe \textit{an}.\\
 Schritt 4: Wie in der ersten Iteration wird die gesamte Vorgängergruppe getroffen. 
-Diese wird um den Kontext der Gruppe ane erweitert. 
+Diese wird um den Kontext der Gruppe \textit{ane} erweitert. 
 Das Ergebnis dieser Iteration und der gesamten Phase 1 ist in Tabelle \ref{fig_banane_1_4} gezeigt. 
-Am Ende dieser Phase hat man somit 6 Gruppenkontexte: \$, anane, ane, b, e und n. 
+Am Ende dieser Phase hat man somit 6 Gruppenkontexte: \textit{\$}, \textit{anane}, \textit{ane}, \textit{b}, \textit{e} und \textit{n}. 
 Zusätzlich wurden für alle Buchstaben des Wortes die \prevpointer erzeugt und gespeichert. 
 Die entstandenen Pointer-Ketten lassen sich in Abbildung \ref{fig_banane_prev_pointer} sehen. 
-Auf diesem Ergebnis aufbauend wird in Phase 2 das finale Suffix Array berechnet werden.
+Auf diesem Ergebnis aufbauend wird in Phase 2 das finale Suffix-Array berechnet werden.
 \newpage		% start new page to align tables on top of next page
 
 %%%%%%%%%%% Phase 1 %%%%%%%%%%%%%%%
@@ -69,7 +70,7 @@ Auf diesem Ergebnis aufbauend wird in Phase 2 das finale Suffix Array berechnet 
 		\centering
 		\includegraphics[width=10cm]{kapitel/saca_algorithmen/gsaca/images/Banane-prev-pointer}
 	\end{minipage}
-	\caption[Konstruktion des Suffix Arrays für das Wort Banane: \prevpointer]{Konstruktion des Suffix Arrays für das Wort Banane: \prevpointer. Die Zahlen geben die Nummer der Iteration an, in welcher der \prevpointer berechnet wurde.}
+	\caption[Konstruktion des Suffix-Arrays für das Wort Banane: \prevpointer]{Konstruktion des Suffix-Arrays für das Wort Banane: \prevpointer. Die Zahlen geben die Nummer der Iteration an, in welcher der \prevpointer berechnet wurde.}
 \label{fig_banane_prev_pointer}
 \end{figure}
 \newpage		% add new page to move the next section down
@@ -77,58 +78,60 @@ Auf diesem Ergebnis aufbauend wird in Phase 2 das finale Suffix Array berechnet 
 \newpage		% add new page to move the next section down
 
 \subsection*{Phase 2:}
-In der zweiten Phase wird das Suffix Array mithilfe der zuvor erstellten Gruppen und Gruppenkontexte sowie der \prevpointer konstruiert. 
+In der zweiten Phase wird das Suffix-Array mithilfe der zuvor erstellten Gruppen und Gruppenkontexte sowie der \prevpointer konstruiert. 
 In diesem Beispiel werden hierfür 5 Iterationen durchlaufen.\\
 
 Iteration 1:\\
-Schritt 1: Die Phase 2 arbeitet auf einer anderen Tabelle als Phase 1. 
+Schritt 1: Die Abläufe der Phase 2 können an einer ähnlichen Tabelle visualisiert werden, wie dies bei Phase 1 der Fall war.
 Die untere Hälfte der Tabelle enthält, genau wie die in Phase 1, das betrachtete Wort Banane und die Indices der Buchstaben. 
 Die obere Hälfte besteht aus den Gruppen und Gruppenkontexten, wie sie aus Phase 1 übernommen wurden und aus der Liste SA. 
 Diese enthält den Index des ersten Buchstaben des Suffixes.
-Wie zuvor beschrieben werden in dieser Phase die Werte von SA von links nach rechts durchlaufen, beginnend mit der ersten Gruppe, in diesem Beispiel also mit der Gruppe \$ an Index 7. 
+Wie zuvor beschrieben, werden in dieser Phase die Werte von SA von links nach rechts durchlaufen, beginnend mit der ersten Gruppe, in diesem Beispiel also mit der Gruppe \textit{\$} an Index 7. 
 Die Tabelle und die einzelnen Schritte dieser Iteration sind in Tabelle \ref{fig_banane_2_1} gezeigt. 
 Die aktuell betrachtete Gruppe ist durch grünen Hintergrund gekennzeichnet. \\
-Schritt 2: Es wird das Zeichen \$ an Position 7 im Wort Banane betrachtet. 
+Schritt 2: Es wird das Zeichen \textit{\$} an Position 7 im Wort Banane betrachtet. 
 Auch die aktuell bearbeitete Position ist durch grüne Farbe hervorgehoben. \\
 Schritt 3: Um das nächste Element von SA zu bestimmen wird der direkte Vorgänger dieses Zeichens untersucht. 
 Dabei bezieht sich diese Iteration also auf das Element 6, welches in der Zelle mit blauem Hintergrund zu sehen ist. \\
 Schritt 4: Von diesem Element ausgehend werden die \prevpointer aus Phase 1 durchlaufen bis das letzte Element dieser Liste gefunden ist. 
-Das Vorgängerelement von dem Zeichen e an Index 6, also das Zeichen, auf das der \prevpointer von e zeigt, ist das Zeichen a an Index 4. 
-Dieses wiederum hat einen \prevpointer auf das Zeichen a an Index 2. Die betrachteten Indices, die in der Tabelle rot hinterlegt sind, werden in die Liste SA übertragen. 
+Das Vorgängerelement von dem Zeichen \textit{e} an Index 6, also das Zeichen, auf das der \prevpointer von \textit{e} zeigt, ist das Zeichen \textit{a} an Index 4. 
+Dieses wiederum hat einen \prevpointer auf das Zeichen \textit{a} an Index 2. 
+Die betrachteten Indices, die in der Tabelle rot hinterlegt sind, werden in die Liste SA übertragen. 
 Somit enthält diese am Ende der ersten Iteration drei weitere Indices, welche durch gelben Hintergrund hervorgehoben sind. \\
 
 Iteration 2:\\
 Schritt 1: In diesem Durchlauf wird das zweite Element in SA betrachtet, dies ist Index 2.\\
 Schritt 2: Es wird dieser Index im Wort betrachtet.\\
-Schritt 3: Der Vorgänger des Buchstaben a an Index 2 ist das Zeichen b an Index 1. 
-Da b kein vorheriges Element hat, der \prevpointer also auf kein Element zeigt, endet diese Iteration hier. 
-Der Index von Zeichen b wird in SA eingetragen. Das Ergebnis lässt sich in Tabelle \ref{fig_banane_2_2} sehen.\\
+Schritt 3: Der Vorgänger des Buchstaben \textit{a} an Index 2 ist das Zeichen \textit{b} an Index 1. 
+Da \textit{b} kein vorheriges Element hat, der \prevpointer also auf kein Element zeigt, endet diese Iteration hier. 
+Der Index von Zeichen \textit{b} wird in SA eingetragen. Das Ergebnis lässt sich in Tabelle \ref{fig_banane_2_2} sehen.\\
 
 Iteration 3: \\
 Schritt 1: Als nächstes wird das dritte Element von SA untersucht. 
 Aus der Tabelle \ref{fig_banane_2_3} lässt sich erkennen, dass dies das Element an Index 4 ist.\\
-Schritt 2: Das Zeichen an dem betrachteten Index ist a.\\
-Schritt 3: Der Vorgänger von a an Index 4 ist n an Index 3.\\
-Schritt 4: Der \prevpointer von n an Index 3 zeigt auf das a an Index 2. 
+Schritt 2: Das Zeichen an dem betrachteten Index ist \textit{a}.\\
+Schritt 3: Der Vorgänger von \textit{a} an Index 4 ist \textit{n} an Index 3.\\
+Schritt 4: Der \prevpointer von \textit{n} an Index 3 zeigt auf das \textit{a} an Index 2. 
 Der Index 2 ist bereits in SA enthalten, Index 3 aber noch nicht, daher wird dieser in die Liste aufgenommen.\\
 
 Iteration 4: \\
 Wie sich in der Tabellen \ref{fig_banane_2_4} sehen lässt, wird das Zeichen an Index 1 betrachtet. 
-Dies ist das Zeichen b, welches kein Element hat, auf das sein \prevpointer zeigt. 
+Dies ist das Zeichen \textit{b}, welches kein Element hat, auf das sein \prevpointer zeigt. 
 Somit endet diese Iteration ohne Änderung der Tabelle.\\
 
 Iteration 5: \\
 Schritt 1: In dieser Iteration wird das Element an Index 6 untersucht.\\
-Schritt 2: Das Zeichen an Index 6 im Wort ist e.\\
-Schritt 3: Es wird der Vorgänger von diesem Zeichen betrachtet. Die Tabelle zu dieser Iteration, Tabelle \ref{fig_banane_2_5}, zeigt, dass dies das Zeichen n an Index 5 ist.\\
-Schritt 4: Dieses Zeichen hat einen Zeiger auf das Vorgängerelement a an Index 4. 
-Wie in einer vorherigen Iteration hat dieses a einen Zeiger auf das Zeichen a an Index 2. 
+Schritt 2: Das Zeichen an Index 6 im Wort ist \textit{e}.\\
+Schritt 3: Es wird der Vorgänger von diesem Zeichen betrachtet. 
+Die Tabelle zu dieser Iteration, Tabelle \ref{fig_banane_2_5}, zeigt, dass dies das Zeichen \textit{n} an Index 5 ist.\\
+Schritt 4: Dieses Zeichen hat einen Zeiger auf das Vorgängerelement \textit{a} an Index 4. 
+Wie in einer vorherigen Iteration hat dieses \textit{a} einen Zeiger auf das Zeichen \textit{a} an Index 2. 
 Da die Zeichen an Index 4 und 2 bereits in der Liste SA enthalten sind, wird in diesem Schritt nur der Index 5 zu dieser Liste hinzugefügt. 
 Somit ist die Liste vollständig gefüllt.\\
 
 In diesem einfachen und kurzen Beispiel weicht die Liste der Gruppen, welche das Ergebnis von Phase 2 ist, nicht von der Liste SA ab.
 Dies ist jedoch nicht immer der Fall, vor allem in längeren und komplexeren Beispielen unterscheiden sich diese teilweise. 
-Diese Unterschiede werden bei der Berechnung des Suffix Arrays für das Wort \textit{caabaccaabacaa} in Kapitel \ref{gsaca:chapter6} deutlich. 
+Diese Unterschiede werden bei der Berechnung des Suffix-Arrays für das Wort \textit{caabaccaabacaa} in Kapitel \ref{gsaca:chapter6} deutlich. 
 Je mehr Gruppen mit mehr als einem Index existieren, umso häufiger kann die Reihenfolge der Indices innerhalb dieser Gruppe gewechselt werden. 
 Im Beispiel zum Wort Banane gab es jedoch nur eine Gruppe mit mehr als einem Index. 
 In dieser Gruppe mit dem Buchstaben n fand keine Veränderung durch diese Schritte statt.\\
