@@ -9,17 +9,24 @@ def phase_1():
 			prev(char) = max(@\{@ @$j$@ @$\in$@ [1 ... char] | group(@$j$@) < group(char) @\}@ @$\cup$@ @\{@0@\}@)
 		# prevoisSuffixes is the set of previous suffixes from $group$
 		prevoisSuffixes = @\{ $j$ $\in$ [1 ... $n$] | prev(char) = $j$ for any char $\in$ group \}@
-
-		# each subset $P_{l}$ contains suffixes whose number of prev pointers
+		# each subset $prevoisSuffixes_{l}$ contains suffixes whose number of prev pointers
 		# from group pointing to them is equal to l
 		listOfSubsets = prevoisSuffixes.splitIntoSubsets()
-		for subset = listOfSubsets.count down to 1:
+		for subset in listOfSubsets.reversed:
 			# split each subset into new subsets, 
 			# such that suffixes of same group are gathered in the same subset
 			listOfSubgroups = subset.sortByGroup()
-			for subgrop = 1 up to listOfSubgroups.count do
-				remove suffixes of @$P_{lq}$@ from their group and put them into a new group placed as immediate successor of their old group.
+			for subGroup in listOfSubgroups:
+				# create new group, to which all suffixes of subGroup will be added to
+				newGroup = Group()
+				for suffix in subGroup:
+					# remove suffixes of subGroup from their group and put them into new group
+					subGroup.remove(suffix)
+					newGroup.append(suffix)
+					# place new group as immediate successor of their old group
+					insertPosition = listOfSubgroups.indexOf(subGroup) + 1
+					groups.insert(newGroup, insertPosition)
 \end{minted}
-\caption[Algorithmus zur Konstruktion eines Suffix Arrays für einen gegebenen nullterminierten String $S$ der Länge $n$]{Algorithmus zur Konstruktion eines Suffix Arrays für einen gegebenen nullterminierten String $S$ der Länge $n$}
-\label{saca:3:code}
+\caption[Phase 1 von GSACA]{Phase 1 von GSACA}
+\label{saca:3:code_1}
 \end{figure}
