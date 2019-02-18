@@ -46,7 +46,7 @@ osipov(T)
 \label{alg:osipov}
 \end{listing}
 
-Die Idee des Algorithmus von Osipov basiert sowohl auf den Prefix Doublern von Larson und Sadakane [TODO], als auch von Manber und Myer [TODO]. In Bezug auf Parallelität hat Ersterer das Problem, dass die zu sortierenden Gruppen innerhalb einer Iteration unterschiedliche Längen haben können, wodurch unbalancierte Workloads entstehen. Der Algorithmus von Manber und Myer dagegen hat dieses Problem zwar nicht, sortiert dafür aber bereits fertig sortierte Suffixe erneut. Die Idee ist es nun, beide Ansätze zu kombinieren, also global zu sortieren, allerdings nur mit den Suffixen, die noch nicht fertig sortiert wurden oder für die Sortierung noch benötigt werden. Dabei soll folgendes Lemma helfen:
+Die Idee des Algorithmus von Osipov basiert sowohl auf den Prefix Doublern von Larson und Sadakane [TODO], als auch von Manber und Myers [TODO]. In Bezug auf Parallelität hat Ersterer das Problem, dass die zu sortierenden Gruppen innerhalb einer Iteration unterschiedliche Längen haben können, wodurch unbalancierte Workloads entstehen. Der Algorithmus von Manber und Myer dagegen hat dieses Problem zwar nicht, sortiert dafür aber bereits fertig sortierte Suffixe erneut. Die Idee ist es nun, beide Ansätze zu kombinieren, also global zu sortieren, allerdings nur mit den Suffixen, die noch nicht fertig sortiert wurden oder für die Sortierung noch benötigt werden. Dabei soll folgendes Lemma helfen:
 \begin{lemma}\label{lem:sort-gruppe}
 Falls in der i-ten Iteration des Manber-Myers Algorithmus gilt, dass
 \begin{itemize}
