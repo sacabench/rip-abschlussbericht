@@ -12,11 +12,11 @@ Dafür ziehen wir das Beispiel \inputtext = caabaccaabacaa\$ ran.
 	\end{tabular}
 \end{table}
 
-Aus den ersten zwei Phasen sind die jeweiligen Reihenfolgen der Suffixe \suffix{i}, wobei $i$ ein Element aus dem Difference Cover \(D\) $=$ \{1, 2\} ist und \suffix{j}, wobei $j$ ein Element aus dem Difference Cover \(D\) $=$ \{1, 2\} ist:
+Aus den ersten zwei Phasen sind die jeweiligen Reihenfolgen der Suffixe \suffix{i}, wobei $i$ ein Element aus dem Difference Cover \(D\) $=$ \{1, 2\} ist, und \suffix{j}, wobei $j$ kein Element aus dem Difference Cover \(D\) $=$ \{1, 2\} ist, bekannt:
 $\sa_{0} = [12, 9, 3, 6, 0]$ und $\sa_{12} = [14, 13, 7, 1, 8, 2, 10, 4, 11, 5]$.
 Das Mergen dieser beiden Mengen in diesem Verfahren unterteilen wir in drei Schritte. Zuerst wird die Menge $\sa_{12}$ in die zwei Mengen $\sa_1$, $\sa_2$ aufgeteilt und anschließend alle Mengen zu einer Menge $\sa_{012} = \sa_0 \circ \sa_1 \circ \sa_2$ konkateniert:
 
 $\sa_{012} = [12, 9, 3, 6, 0, 13, 7, 1, 10, 4, 14, 8, 2, 11, 5]$.
-Diese Menge wird im zweiten Schritt dieses Verfahrens stabil nach den ersten drei Zeichen mit dem parallelen Standard-Sortieralgorithmus der C++-Bibliothek sortiert:
+Diese Menge wird im zweiten Schritt dieses Verfahrens stabil nach den ersten drei Zeichen mit dem pa\-ral\-lel\-en Standard-Sortieralgorithmus der C++-Bibliothek sortiert:
 
 $\sa_{012} = [14, 13, 12, 7, 1, 8, 2, 10, 4, 9, 3, 6, 0, 11, 5]$. Zuletzt können die nun noch gleichen Triplets miteinander verglichen werden. Die Triplets \inputtext[7,9] und \inputtext[1,3] beinhalten jeweils die gleichen Triplets. Daher müssen wir die Ränge der Suffixe \suffix{8} und \suffix{2} miteinander vergleichen und erhalten dadurch, dass \suffix{7} < \suffix{1}. Unter anderem sind auch die Triplets \inputtext[6,8], \inputtext[0,2] und \inputtext[11,13] gleich. Auch hier werden dann die Ränge untereinander verglichen und erhalten, dass \suffix{11} < \suffix{6} < \suffix{0}. Somit muss die Reihenfolge dieser drei Indizes in $\sa_{012}$ getauscht werden. Die Vergleiche der jeweils gleichen Triplets können unabhängig voneinander durchgeführt werden, sodass sich dieser Schritt gut parallelisieren lässt. Die vorhandenen Threads können sich die Bereiche der gleichen Triplets aufteilen, sodass diese gleichzeitig verglichen und die zugehörigen Indizes gegebenenfalls vertauscht werden. Am Ende des Verfahren erhalten wir das korrekte Suffix-Array $\sa = [14, 13, 12, 7, 1, 8, 2, 10, 4, 9, 3, 11, 6, 0, 5]$.
