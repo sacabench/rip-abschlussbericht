@@ -1,6 +1,0 @@
-\subsection{Doubler}
-\label{sec:ansatz:doubler}
-Der \currentauthor{Oliver Magiera und Marvin Löbel} erste besprochene Ansatz behandelt das Doubling, auch Prefix-Doubling genannt.
-Die grundsätzliche Idee ist es, für jedes $T_i$ nur einen Präfix von $2^k$ Zeichen zu betrachten und lexikographisch zu sortieren. Falls alle betrachteten $T[i, i + 2^k)$ Strings paarweise verschieden sind, ergibt sich aus den sortierten $i$ Werten das gesuchte Suffix Array. 
-
-Der Prozess wird iterativ durchgeführt, und beginnt bei $k = 1$. Falls nach einer Sortierung individuelle Präfixe mehr als einmal vorkommen, sprich nicht \textit{eindeutig} sind, wird der Vorgang mit $k + 1$ wiederholt. Erst wenn alle Suffixe eindeutig sortiert sind, endet das Prefix-Doubling.
