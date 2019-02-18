@@ -68,26 +68,7 @@ Um die neuen Ränge bestimmen zu können, müssen wir unsere Tupel zunächst sta
 Zum Abschluss der Iteration müssen wir die neuen Ränge in $\mathsf{ISA_{2h}}$ schreiben (Z.~27f.) und alle neuen, vollständig sortierten Gruppen mittels Negierung markieren (Z.~29). Die neue Größe für die nächste Iteration entspricht der Anzahl Tupel dieser Iteration und $h$ wird für den nächsten Schleifendurchlauf verdoppelt (Z.~30).
 
 % Beispiel für kompletten Algorithmus
-\subsection{Parallelität und Implementierung}
-Im folgenden Abschnitt erläutern wir, wie drei Schritte des Algorithmus, das Markieren sortierter Gruppen, die Erzeugung der Tupel sowie das Aktualisieren der Ränge, parallelisiert werden können. Dabei gehen wir auch kurz auf die Implementierung in Nvidia Cuda ein.
-Für die Parallelisierung wird ein zusätzliches Hilfsarray für Zwischenberechnungen benötigt, welches wir mit $\mathsf{aux}$ bezeichnen.
-
-\subsubsection{Sortierte Gruppen markieren}
-Für die Markierung von sortierten Gruppen müssen wir ein Suffix sowohl mit seinem Vorgänger als auch mit seinem Nachfolger vergleichen. Dafür setzen wir in einem ersten Durchlauf für jeden Index im Hilfsarray $\mathsf{aux}$ eine 1, wenn sich der Rang zum Rang des Vorgängers unterscheidet. Da der erste Index keinen Vorgänger besitzt, setzen wir für diesen immer eine 1. Im zweiten Durchlauf können wir den Wert in $\mathsf{aux}$ für Suffix $j$ mit dem Wert seines Nachfolgers $j+1$ abgleichen. Unterscheiden sich diese beiden Werte, so negieren wir den Rang des Suffixes $j$. Für den letzten Suffix müssen wir nur den Wert in $\mathsf{aux}$ betrachten, da dieser keinen Nachfolger besitzt.
-Die Operationen beider Durchläufe können parallel ausgeführt werden, weshalb wir diese beiden Durchläufe naiv auf zwei eigenständige Kernel-Methode ausgelagert haben.
-
-\subsubsection{Tupel erzeugen}
-Die Erzeugung der Tupel wird in drei Schritte aufgeteilt: Zunächst prüfen wir, für welche Indizes Tupel erstellt werden müssen. Dafür schreiben wir in unser Hilfsarray $\mathsf{aux}$ an Stelle $j$ die Anzahl der erzeugten Tupel, wobei bis zu zwei Tupel (induzierter Suffix, Suffix an Stelle $j$) erzeugt werden können. Wurde $\mathsf{aux}$ komplett befüllt, berechnen wir die exklusive Präfixsumme über alle betrachteten Suffixe dieser Iteration. Der neue Wert in $\mathsf{aux}$ gibt nun an, an welcher Stelle wir die durch Suffix $j$ generierten Tupel einfügen. Im letzten Schritt können wir nun die Tupel parallel erzeugen und an die entsprechende Position einfügen. 
-Für die Tupel verwalten wir zur einfacheren Nutzung drei Arrays: eines für den Index, eines für den $h$-Rang und das dritte Array für den $2h$-Rang. Um die Anzahl der erzeugten Tupel zu bestimmen, benötigen wir den letzten Index in $\mathsf{aux}$. Da die Anzahl der durch den letzten Suffix erzeugten Tupel durch die Präfixsummenoperation überschrieben wird, berechnet sich die Gesamtzahl der Tupel aus dem Wert des letzten Indizes vor der Präfixsumme und dem Wert nach der Präfixsumme.
-
-Da wir für den leichteren Zugriff auf die Ränge $h$- und $2h$-Ränge separat speichern, müssten wir ein Value-Paar aus Index und $2h$-Rang für alle Tupel generieren, da der Radixsort-Aufruf der CUB-Library nur Key-Value-Paare (und einzelne Werte) sortieren kann. Wir haben uns stattdessen dafür entschieden, die $2h$-Ränge erst nach dem Radixsort in sortierter Reihenfolge zu erzeugen, da diese Ränge erst für das Aktualisieren der Ränge benötigt werden. Wir haben für das Befüllen des Hilfsarrays und für die Erzeugung der Tupel nach der Präfixsumme zwei unabhängige Kernel-Methoden geschrieben, da die Präfixsumme einen eigenen Kernel innerhalb der CUB-Library darstellt und der Aufruf von Kernel-Methoden nur durch Host-Methoden (von der CPU aus) möglich ist. 
-
-\subsubsection{Ränge aktualisieren}
-
 \subsection{Beispiel}
-Im folgenden gehen wir auf das bekannte Beispiel \glqq caabaccaabacaa\$\grqq ein, um die Funktionsweise des Prefix Doublers nach Osipov zu veranschaulichen. Um möglichst viele Schritte bzw.\ Verzweigungen darzustellen, setzen wir die initiale Länge der Suffixe auf $h=2$ statt auf $4$.
-
-
 % Please add the following required packages to your document preamble:
 % \usepackage{multirow}
 \begin{table}[]
@@ -104,10 +85,14 @@ $\mathsf{ISA}${[}$\mathsf{SA}${[}j{]}{]}                                        
 \end{table}
 
 
+Im Folgenden gehen wir auf das bekannte Beispiel \glqq caabaccaabacaa\$\grqq ein, um die Funktionsweise des Prefix Doublers nach Osipov zu veranschaulichen. Um möglichst viele Schritte bzw.\ Verzweigungen darzustellen, setzen wir die initiale Länge der Suffixe auf $h=2$ statt auf $4$.
+
+Zunächst sortieren wir unsere Suffixe nach den ersten 2 Zeichen und erzeugen basierend darauf das initiale $\mathsf{ISA}_2$. Die Ränge bereits sortierter Gruppen werden negiert, so wie bei den Suffixen mit Index $14, 13 ~\text{und}~ 5$ zu sehen. Die Ergebnisse dieser drei Schritte sind in Tabelle \ref{tab:osipov-init} dargestellt. Als nächstes betrachten wir die erste Iteration unserer Schleife. 
+
 \begin{table}[]
 \begin{tabular}{|l|l|l|l|l|}
 \hline
-$j$ & $i = \mathsf{SA}[j] - h$ & $i > 0 \wedge \mathsf{ISA}_h[i] > 0$ & $i' = \mathsf{SA}[j]$ & \begin{tabular}[c]{@{}l@{}}$\mathsf{ISA}_h[i'] < 0 \wedge (i' - 2h) \geq 0$ \\ $\wedge ~\mathsf{ISA}_h[i' - 2h] \geq 0$\end{tabular} \\ \hline
+$j$ & $i = \mathsf{SA}[j] - h$ & $i > 0 \wedge \mathsf{ISA}_h[i] > 0$ & $i' = \mathsf{SA}[j]$ & \begin{tabular}[c]{@{}l@{}}$\mathsf{ISA}_h[i'] < 0$\\ $\wedge (i' - 2h) \geq 0$ \\ $\wedge ~\mathsf{ISA}_h[i' - 2h] \geq 0$\end{tabular} \\ \hline
 0   & 12              & $\top \wedge \top = \top$   & 14           & $\top \wedge \top \wedge \top = \top$                                                                                             \\ \hline
 1   & 11              & $\top \wedge \top = \top$   & 13           & $\top \wedge \top \wedge \top = \top$                                                                                             \\ \hline
 2   & -1              & $\bot$                      & 1            & $\bot$                                                                                                                            \\ \hline
@@ -128,6 +113,8 @@ $j$ & $i = \mathsf{SA}[j] - h$ & $i > 0 \wedge \mathsf{ISA}_h[i] > 0$ & $i' = \m
 \label{tab:osipov-tupel-cond}
 \end{table}
 
+Zu Beginn einer jeden Iteration müssen wir unsere Tupel erzeugen. Dafür schauen wir uns zunächst an, welche Tupel wir überhaupt erzeugen müssen. Tabelle \ref{tab:osipov-tupel-cond} listet den Index $j$ der inneren Schleife, den zu induzierenden Suffixindex $\mathsf{SA}[j]-h$ und die Bedingung zur Erzeugung des Tupels. Dabei muss $i>0$ einen gültigen Index induzieren und das Suffix darf noch nicht eindeutig sortiert sein ($\mathsf{ISA}_h[i] > 0$). Ebenso haben wir den Suffixindex $\mathsf{SA}[j]$ sowie die entsprechende Bedingung notiert. Die Bedingung entspricht hierbei der Negierung von Lemma \ref{lem:sort-gruppe}. Die Bedingungen sind als Lazy Evaluation dargestellt, d.~h.\ sobald ein Wert $\mathsf{false}$ ist, schreiben wir die Auswertung der weiteren Teilbedingungen nicht auf. In der ersten Iteration werden alle Suffixe außer $S_0 ~\text{und}~ S_1$ zum Induzieren anderer Suffixe verwendet. Die Suffixe mit Index $14, 13 ~\text{und}~ 5$ werden nicht induziert. Wir erzeugen durch die zweite Bedingung dennoch Tupel mit ihnen, da wir sie möglicherweise für die nächste Iteration zum weiteren Sortieren benötigen.
+
 \begin{table}[]
 \begin{tabular}{|l|l|l|}
 \hline
@@ -146,10 +133,13 @@ $(7,2,9)$      & 10 & $(3,9,-14)$                           \\ \hline
 $(4,7,11)$     & 11 & $(11,11,-1)$                          \\ \hline
 $(9,9,11)$     & 12 & $(0,11,5)$                            \\ \hline
 $(3,9,-14)$    & 13 & $(6,11,5)$                            \\ \hline
+$(5,14,-14)$   & 14 & $(5,14,-14)$                          \\ \hline
 \end{tabular}
 \caption{Die erzeugten Tupel in der Reihenfolge von Tabelle \ref{tab:osipov-tupel-cond} sowie die sortierte Reihenfolge (nach der 2. Komponente im Tupel, dem $h$-Rang) und dem entsprechenden Tupelindex $j$.}
 \label{tab:osipov-tupel-sort}
 \end{table}
+
+Die erzeugten Tupel und die daraus resultierende Sortierung sind in Tabelle \ref{tab:osipov-tupel-sort} dargestellt. Dort sehen wir für die Suffixindizes $14, 13 ~\text{sowie}~ 5$, dass ihnen ihren $\mathsf{ISA}_2$ Wert als $2h$-Rang und dessen Negierung als $h$-Rang zugewiesen wurden. Wichtig hierbei ist, dass für die zweite Komponente, den $h$-Rang, nur positive Werte gespeichert werden, damit die folgende Sortierung die Reihenfolge bereits sortierter Suffixe nicht verändert. Die dritte Komponente dient bei den drei bereits sortierten Suffixen nur als Platzhalter. Bei den übrigen Suffixen dient dieser Wert als finale Unterscheidungsmöglichkeit für die neue Sortierung. Da dabei auf Ungleichheit geprüft wird, stellen negative Werte wie für die Suffixindizes $3, 11$ oder $12$, kein Problem dar. Nach der Erzeugung und Sortierung der Tupel können wir im nächsten Schritt die neuen Ränge berechnen.
 
 \iffalse
 % Please add the following required packages to your document preamble:
@@ -158,7 +148,7 @@ $(3,9,-14)$    & 13 & $(6,11,5)$                            \\ \hline
 \begin{table}[]
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
-Indizes                                                    & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[j] >$\\ $h\text{-rank}[head]$\end{tabular}                                      & \begin{tabular}[c]{@{}c@{}}$2h\text{-rank}[j] \neq$\\ $2h\text{-rank}[head]$\end{tabular}                                      & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[j]$\\ $=h\text{-rank}[head]$\\ $+ j - head$ \\ (neue Gruppe)\end{tabular} & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[j]=$\\ $h\text{-rank}[head]$\\ (Rang \\ übernehmen)\end{tabular} & \begin{tabular}[c]{@{}c@{}}$head$ \\ (neuer Wert)\end{tabular} \\ \hline
+Indizes                                                    & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[j] >$\\ $h\text{-rank}[head]$\end{tabular}                                      & \begin{tabular}[c]{@{}c@{}}$2h\text{-rank}[j] \neq$\\ $2h\text{-rank}[head]$\end{tabular}                                      & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[j]=$\\ $h\text{-rank}[head]$\\ $+ j - head$ \\ (neue Gruppe)\end{tabular} & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[j]=$\\ $h\text{-rank}[head]$\\ (Rang \\ übernehmen)\end{tabular} & \begin{tabular}[c]{@{}c@{}}$head$ \\ (neuer Wert)\end{tabular} \\ \hline
 \begin{tabular}[c]{@{}c@{}}$head=2$\\ $j=3$\end{tabular}   & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[3] = 2$\\ $= h\text{-rank}[2]$\end{tabular}                                     & \cellcolor[HTML]{3166FF}\begin{tabular}[c]{@{}c@{}}$2h\text{-rank}[3]$\\ $= 9 \neq -0$\\ $= 2h\text{-rank}[2]$\end{tabular}    & \cellcolor[HTML]{32CB00}\begin{tabular}[c]{@{}c@{}}$h\text{-rank}[3]$\\ $=2 + 3 - 2$\\ $= 3$\end{tabular}           & -                                                                                                          & $head = 3$                                                     \\ \hline
 \begin{tabular}[c]{@{}c@{}}$head=3$\\ $j=4$\end{tabular}   & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[4]$\\ $= 2 < 3$\\ $= h\text{-rank}[3]$\end{tabular}                             & \begin{tabular}[c]{@{}c@{}}$2h\text{-rank}[4] = 9$\\ $= 2h\text{-rank}[3]$\end{tabular}                                        & -                                                                                                                   & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[4]$\\ $=h\text{-rank}[3]$\\ $= 3$\end{tabular}                   & -                                                              \\ \hline
 \begin{tabular}[c]{@{}c@{}}$head=3$\\ $j=5$\end{tabular}   & \cellcolor[HTML]{3166FF}\begin{tabular}[c]{@{}c@{}}$h\text{-rank}[5]$\\ $= 5 > 3$\\ $= h\text{-rank}[3]$\end{tabular}     & -                                                                                                                              & -                                                                                                                   & -                                                                                                          & $head = 5$                                                     \\ \hline
@@ -181,7 +171,7 @@ Indizes                                                    & \begin{tabular}[c]{
 \small
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
-Indizes                                                    & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[j] >$\\ $h\text{-rank}[head]$\end{tabular} & \begin{tabular}[c]{@{}c@{}}$2h\text{-rank}[j] \neq$\\ $2h\text{-rank}[head]$\end{tabular} & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[j]$\\ $=h\text{-rank}[head]$\\ $+ j - head$ \\ (neue Gruppe)\end{tabular} & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[j]=$\\ $h\text{-rank}[head]$\\ (Rang \\ übernehmen)\end{tabular}                       & \begin{tabular}[c]{@{}c@{}}$head$ \\ (neuer Wert)\end{tabular} \\ \hline
+Indizes                                                    & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[j] >$\\ $h\text{-rank}[head]$\end{tabular} & \begin{tabular}[c]{@{}c@{}}$2h\text{-rank}[j] \neq$\\ $2h\text{-rank}[head]$\end{tabular} & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[j]=$\\ $h\text{-rank}[head]$\\ $+ j - head$ \\ (neue Gruppe)\end{tabular} & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[j]=$\\ $h\text{-rank}[head]$\\ (Rang \\ übernehmen)\end{tabular}                       & \begin{tabular}[c]{@{}c@{}}$head$ \\ (neuer Wert)\end{tabular} \\ \hline
 \begin{tabular}[c]{@{}c@{}}$head=2$\\ $j=3$\end{tabular}   & $2 = 2$                                                                              & \cellcolor[HTML]{3166FF}$9 \neq -0$                                                       & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[3]$\\ $=2 + 3 - 2$\\ $= 3$\end{tabular}                                   & -                                                                                                                                & $head = 3$                                                     \\ \hline
 \begin{tabular}[c]{@{}c@{}}$head=3$\\ $j=4$\end{tabular}   & $2 < 3$                                                                              & $9 = 9$                                                                                   & -                                                                                                                   & \cellcolor[HTML]{32CB00}\begin{tabular}[c]{@{}c@{}}$h\text{-rank}[4]$\\ $=h\text{-rank}[3]$\\ $= 3$\end{tabular}                 & -                                                              \\ \hline
 \begin{tabular}[c]{@{}c@{}}$head=3$\\ $j=5$\end{tabular}   & \cellcolor[HTML]{3166FF}$5 > 3$                                                      & -                                                                                         & -                                                                                                                   & -                                                                                                                                & $head = 5$                                                     \\ \hline
@@ -198,14 +188,48 @@ Indizes                                                    & \begin{tabular}[c]{
 \label{tab:osipov-new-ranks}
 \end{table}
 
+Tabelle \ref{tab:osipov-new-ranks} zeigt die Berechnung der neuen Ränge. Die ersten beiden Bedingungen prüfen, ob die zu vergleichenden Tupel sich in derselben Gruppe befinden. Bei Ungleichheit der ersten Bedingung $h\text{-rank}[j] > h\text{-rank}[head]$ befinden sich die beiden Suffixe bereits in unterschiedlichen $h$-Gruppen. Bei der zweiten Bedingung $2h\text{-rank}[j] \neq 2h\text{-rank}[head]$ hingegen entsteht eine neue $2h$-Gruppe, da sie sich durch die Verdopplung des Suffixes zum ersten Mal unterscheiden. In diesem Fall muss der neue Rang berechnet werden. Dies geschiet in der $4.$ Spalte. Die blauen Markierungen in den Spalten $2$ und $3$ geben an, dass eine neue Gruppe beginnt, d.~h. die Bedingung ist erfüllt. Wenn keine der beiden Bedingungen gilt, so befinden sich die Suffixe immer noch in derselben Gruppe. Dabei müssen wir den Rang des Gruppenkopfes übernehmen, da sich in der Zwischenzeit der Rang dieser Gruppe erhöht haben könnte. Um dies hervorzuheben, werden die Zuweisungen in der $5.$ Spalte grün markiert. Dies ist beispielsweise für die Gruppe $(1,7)$ (Tupel $3$ und $4$) der Fall, wobei dem Index $1$ im vorigen Durchlauf dieser Schleife der Rang $3$ zugewiesen wurde und somit der Rang $2$ überschrieben wurde. 
+
 
 \begin{table}[]
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 \hline
 j                              & 0  & 1  & 2  & 3 & 4 & 5 & 6 & 7  & 8 & 9  & 10  & 11  & 12 & 13 & 14  \\ \hline
 $\mathsf{SA}[j]$               & 14 & 13 & 12 & 1 & 7 & 2 & 8 & 10 & 4 & 9  & 3   & 11  & 0  & 6  & 5   \\ \hline
-$\mathsf{ISA}[\mathsf{SA}[j]]$ & -0 & -1 & -2 & 3 & 3 & 5 & 5 & 7  & 7 & -9 & -10 & -11 & 12 & 12 & -14 \\ \hline
+$\mathsf{ISA}[\mathsf{SA}[j]]$ & -0 & -1 & -2 & 3 & 3 & 5 & 5 & -7  & -8 & -9 & -10 & -11 & 12 & 12 & -14 \\ \hline
 \end{tabular}
 \caption{$\mathsf{SA}$ in sortierter Reihenfolge und $\mathsf{ISA}$ (in $\mathsf{SA}$-Reihenfolge) nach dem ersten Schleifendurchlauf.}
 \label{tab:osipov-iteration}
 \end{table}
+
+Zum Ende unserer Iteration übernehmen wir die finalen Werte für die $h$-Ränge und übernehmen sie in das $\mathsf{ISA}$. Zuletzt markieren wir alle neuen, fertig sortierten Gruppen mittels Negierung und wir haben unsere finalen Werte. Das Ergebnis findet sich in Tabelle \ref{tab:osipov-iteration}. Da wir in dieser Iteration noch Tupel erzeugt haben und die Größe für die nächste Iteration der Anzahl erzeugter Tupel entspricht, müssen wir eine weitere Iteration durchführen. Dafür setzen wir die neue Größe auf die Anzahl unserer Tupel (identischer Wert) und wir verdoppeln $h$ auf $4$. Der Einfachheit halber überspringen wir diese Iteration jedoch, da die Gruppen $(1, 7), (2,8)$ und $(0,6)$ eindeutig sortiert werden. Unser finales Suffix Array findet sich in Tabelle \ref{tab:osipov-final} wieder.
+
+\begin{table}[]
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+\hline
+j                              & 0  & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9  & 10  & 11  & 12  & 13  & 14  \\ \hline
+$\mathsf{SA}$[j]               & 14 & 13 & 12 & 7  & 1  & 8  & 2  & 10 & 4  & 9  & 3   & 11  & 6   & 0   & 5   \\ \hline
+$\mathsf{ISA}[\mathsf{SA}[j]]$ & -0 & -1 & -2 & -3 & -4 & -5 & -6 & -7 & -8 & -9 & -10 & -11 & -12 & -13 & -14 \\ \hline
+\end{tabular}
+\caption{Das finale $\mathsf{SA}$ nach einer weiteren Iteration. Alle drei unsortierten Gruppen wurden in ihrer Reihenfolge vertauscht.}
+\label{tab:osipov-final}
+\end{table}
+
+Dort sehen wir, dass die Reihenfolge für diese drei Gruppen jeweils umgedreht wurde. Wir würden daraufhin eine neue Iteration beginnen, aber bei der Erzeugung der Tupel merken, dass wir gar keine Tupel mehr erzeugen können, da entweder ungültige Indizes produziert werden oder die zu induzierenden Suffixe bereits sortiert sind. Damit wird die Größe auf 0 gesetzt und unsere Schleife ist fertig. Abschließend müssen wir aus dem $\mathsf{ISA}$ noch das $\mathsf{SA}$ berechnen, da wir in jeder Iteration nicht in Tupel enthaltene Suffixindizes aus dem $\mathsf{SA}_h$ entfernt haben. Dabei können wir alle Ränge negieren, welche dann der Position des Suffixes im Suffixarray entsprechen.
+
+\subsection{Parallelität und Implementierung}
+Im folgenden Abschnitt erläutern wir, wie drei Schritte des Algorithmus, das Markieren sortierter Gruppen, die Erzeugung der Tupel sowie das Aktualisieren der Ränge, parallelisiert werden können. Dabei gehen wir auch kurz auf die Implementierung in Nvidia Cuda ein.
+Für die Parallelisierung wird ein zusätzliches Hilfsarray für Zwischenberechnungen benötigt, welches wir mit $\mathsf{aux}$ bezeichnen.
+
+\subsubsection{Sortierte Gruppen markieren}
+Für die Markierung von sortierten Gruppen müssen wir ein Suffix sowohl mit seinem Vorgänger als auch mit seinem Nachfolger vergleichen. Dafür setzen wir in einem ersten Durchlauf für jeden Index im Hilfsarray $\mathsf{aux}$ eine 1, wenn sich der Rang zum Rang des Vorgängers unterscheidet. Da der erste Index keinen Vorgänger besitzt, setzen wir für diesen immer eine 1. Im zweiten Durchlauf können wir den Wert in $\mathsf{aux}$ für Suffix $j$ mit dem Wert seines Nachfolgers $j+1$ abgleichen. Unterscheiden sich diese beiden Werte, so negieren wir den Rang des Suffixes $j$. Für den letzten Suffix müssen wir nur den Wert in $\mathsf{aux}$ betrachten, da dieser keinen Nachfolger besitzt.
+Die Operationen beider Durchläufe können parallel ausgeführt werden, weshalb wir diese beiden Durchläufe naiv auf zwei eigenständige Kernel-Methode ausgelagert haben.
+
+\subsubsection{Tupel erzeugen}
+Die Erzeugung der Tupel wird in drei Schritte aufgeteilt: Zunächst prüfen wir, für welche Indizes Tupel erstellt werden müssen. Dafür schreiben wir in unser Hilfsarray $\mathsf{aux}$ an Stelle $j$ die Anzahl der erzeugten Tupel, wobei bis zu zwei Tupel (induzierter Suffix, Suffix an Stelle $j$) erzeugt werden können. Wurde $\mathsf{aux}$ komplett befüllt, berechnen wir die exklusive Präfixsumme über alle betrachteten Suffixe dieser Iteration. Der neue Wert in $\mathsf{aux}$ gibt nun an, an welcher Stelle wir die durch Suffix $j$ generierten Tupel einfügen. Im letzten Schritt können wir nun die Tupel parallel erzeugen und an die entsprechende Position einfügen. 
+Für die Tupel verwalten wir zur einfacheren Nutzung drei Arrays: eines für den Index, eines für den $h$-Rang und das dritte Array für den $2h$-Rang. Um die Anzahl der erzeugten Tupel zu bestimmen, benötigen wir den letzten Index in $\mathsf{aux}$. Da die Anzahl der durch den letzten Suffix erzeugten Tupel durch die Präfixsummenoperation überschrieben wird, berechnet sich die Gesamtzahl der Tupel aus dem Wert des letzten Indizes vor der Präfixsumme und dem Wert nach der Präfixsumme.
+
+Da wir für den leichteren Zugriff auf die Ränge $h$- und $2h$-Ränge separat speichern, müssten wir ein Value-Paar aus Index und $2h$-Rang für alle Tupel generieren, da der Radixsort-Aufruf der CUB-Library nur Key-Value-Paare (und einzelne Werte) sortieren kann. Wir haben uns stattdessen dafür entschieden, die $2h$-Ränge erst nach dem Radixsort in sortierter Reihenfolge zu erzeugen, da diese Ränge erst für das Aktualisieren der Ränge benötigt werden. Wir haben für das Befüllen des Hilfsarrays und für die Erzeugung der Tupel nach der Präfixsumme zwei unabhängige Kernel-Methoden geschrieben, da die Präfixsumme einen eigenen Kernel innerhalb der CUB-Library darstellt und der Aufruf von Kernel-Methoden nur durch Host-Methoden (von der CPU aus) möglich ist. 
+
+\subsubsection{Ränge aktualisieren}
+
