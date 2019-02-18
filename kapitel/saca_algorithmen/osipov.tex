@@ -69,11 +69,18 @@ Zum Abschluss der Iteration müssen wir die neuen Ränge in $\mathsf{ISA_{2h}}$ 
 
 % Beispiel für kompletten Algorithmus
 \subsection{Parallelität und Implementierung}
-bla bla nvidia bla bla
+Im folgenden Abschnitt erläutern wir, wie drei Schritte des Algorithmus, das Markieren sortierter Gruppen, die Erzeugung der Tupel sowie das Aktualisieren der Ränge, parallelisiert werden können. Dabei gehen wir auch kurz auf die Implementierung in Nvidia Cuda ein.
+Für die Parallelisierung wird ein zusätzliches Hilfsarray für Zwischenberechnungen benötigt, welches wir mit $\mathsf{aux}$ bezeichnen.
 
 \subsubsection{Sortierte Gruppen markieren}
+Für die Markierung von sortierten Gruppen müssen wir ein Suffix sowohl mit seinem Vorgänger als auch mit seinem Nachfolger vergleichen. Dafür setzen wir in einem ersten Durchlauf für jeden Index im Hilfsarray $\mathsf{aux}$ eine 1, wenn sich der Rang zum Rang des Vorgängers unterscheidet. Da der erste Index keinen Vorgänger besitzt, setzen wir für diesen immer eine 1. Im zweiten Durchlauf können wir den Wert in $\mathsf{aux}$ für Suffix $j$ mit dem Wert seines Nachfolgers $j+1$ abgleichen. Unterscheiden sich diese beiden Werte, so negieren wir den Rang des Suffixes $j$. Für den letzten Suffix müssen wir nur den Wert in $\mathsf{aux}$ betrachten, da dieser keinen Nachfolger besitzt.
+Die Operationen beider Durchläufe können parallel ausgeführt werden, weshalb wir diese beiden Durchläufe naiv auf zwei eigenständige Kernel-Methode ausgelagert haben.
 
 \subsubsection{Tupel erzeugen}
+Die Erzeugung der Tupel wird in drei Schritte aufgeteilt: Zunächst prüfen wir, für welche Indizes Tupel erstellt werden müssen. Dafür schreiben wir in unser Hilfsarray $\mathsf{aux}$ an Stelle $j$ die Anzahl der erzeugten Tupel, wobei bis zu zwei Tupel (induzierter Suffix, Suffix an Stelle $j$) erzeugt werden können. Wurde $\mathsf{aux}$ komplett befüllt, berechnen wir die exklusive Präfixsumme über alle betrachteten Suffixe dieser Iteration. Der neue Wert in $\mathsf{aux}$ gibt nun an, an welcher Stelle wir die durch Suffix $j$ generierten Tupel einfügen. Im letzten Schritt können wir nun die Tupel parallel erzeugen und an die entsprechende Position einfügen. 
+Für die Tupel verwalten wir zur einfacheren Nutzung drei Arrays: eines für den Index, eines für den $h$-Rang und das dritte Array für den $2h$-Rang. Um die Anzahl der erzeugten Tupel zu bestimmen, benötigen wir den letzten Index in $\mathsf{aux}$. Da die Anzahl der durch den letzten Suffix erzeugten Tupel durch die Präfixsummenoperation überschrieben wird, berechnet sich die Gesamtzahl der Tupel aus dem Wert des letzten Indizes vor der Präfixsumme und dem Wert nach der Präfixsumme.
+
+Da wir für den leichteren Zugriff auf die Ränge $h$- und $2h$-Ränge separat speichern, müssten wir ein Value-Paar aus Index und $2h$-Rang für alle Tupel generieren, da der Radixsort-Aufruf der CUB-Library nur Key-Value-Paare (und einzelne Werte) sortieren kann. Wir haben uns stattdessen dafür entschieden, die $2h$-Ränge erst nach dem Radixsort in sortierter Reihenfolge zu erzeugen, da diese Ränge erst für das Aktualisieren der Ränge benötigt werden. Wir haben für das Befüllen des Hilfsarrays und für die Erzeugung der Tupel nach der Präfixsumme zwei unabhängige Kernel-Methoden geschrieben, da die Präfixsumme einen eigenen Kernel innerhalb der CUB-Library darstellt und der Aufruf von Kernel-Methoden nur durch Host-Methoden (von der CPU aus) möglich ist. 
 
 \subsubsection{Ränge aktualisieren}
 
