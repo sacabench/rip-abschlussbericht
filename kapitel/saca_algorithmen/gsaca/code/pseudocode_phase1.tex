@@ -1,0 +1,32 @@
+\begin{figure}
+\begin{minted}[escapeinside=@@, mathescape=true, linenos=true, autogobble, obeytabs=true, tabsize=2]{python}
+def phase_1():
+	# Order all suffixes into groups according to their first character
+	groups = setupGroups()
+	groups.sortByContext()
+	for group in groups.reversed():
+		for char in group:
+			prev(char) = max(@\{@ @$j$@ @$\in$@ [1 ... char] | group(@$j$@) < group(char) @\}@ @$\cup$@ @\{@0@\}@)
+		# prevoisSuffixes is the set of previous suffixes from $group$
+		prevoisSuffixes = @\{ $j$ $\in$ [1 ... $n$] | prev(char) = $j$ for any char $\in$ group \}@
+		# each subset $prevoisSuffixes_{l}$ contains suffixes whose number of prev pointers
+		# from group pointing to them is equal to l
+		listOfSubsets = prevoisSuffixes.splitIntoSubsets()
+		for subset in listOfSubsets.reversed:
+			# split each subset into new subsets, 
+			# such that suffixes of same group are gathered in the same subset
+			listOfSubgroups = subset.sortByGroup()
+			for subGroup in listOfSubgroups:
+				# create new group, to which all suffixes of subGroup will be added to
+				newGroup = Group()
+				for suffix in subGroup:
+					# remove suffixes of subGroup from their group and put them into new group
+					subGroup.remove(suffix)
+					newGroup.append(suffix)
+					# place new group as immediate successor of their old group
+					insertPosition = listOfSubgroups.indexOf(subGroup) + 1
+					groups.insert(newGroup, insertPosition)
+\end{minted}
+\caption[Phase 1 von GSACA]{Phase 1 von GSACA}
+\label{saca:3:code_1}
+\end{figure}

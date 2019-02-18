@@ -1,29 +1,37 @@
 \section{SAIS}
+
+\currentauthor{Christopher Poeplau}
+
+Der Suffix Array Induced Sorting-Algorithmus ist unter den Induzierern einzuordnen. Dabei verfolgt er einen rekursiven Ansatz, um eine lineare Laufzeit bei der Berechnung des Suffix-Arrays zu erzielen. Im Folgenden wird diese Strategie beleuchtet und anhand eines Beispiels nachvollzogen.
+
 \subsection{Framework}
 \label{saisAlg}
-\currentauthor{Christopher Poeplau}
-\begin{minted}[mathescape=true, escapeinside=||, frame=single]{text}
-SA-IS(|$T$|,|$SA$|)
-    //|$T$| is the input string;
-    //|$SA$| is the output suffix array of |$T$|
-    |$t$|: array[|$0..n-1$|] of boolean;
-    |$P_1$|, |$T_1$|: array[|$0..n_1-1$|] of integer; //|$n_1=\Vert S_1 \Vert$|
-    B: array[|$0..\Vert \Sigma (T)\Vert-1$|] of integer;
-1   Scan |$T$| once to classify all the characters as L- or S-type
-    into |$t$|;
-2   Scan |$t$| once to find all the LMS-substrings in |$T$| into |$P_1$|;
-3   Induced sort all the LMS-substrings using |$P_1$| and |$B$|;
-4   Name each LMS-substring in |$T$| by its bucket index to get a
-    new shortened string |$T_1$|;
-6   if Each character in |$T_1$| is unique
-7       then
-8           Directly compute |$SA_1$| from |$T_1$|;
-9       else
-10          SA-IS(|$T_1$|,|$SA_1$|); //Fire a recursive call
-11  Induce |$SA$| from |$SA_1$|
-12  return
+
+
+\begin{figure}[h]
+\begin{minted}[escapeinside=@@,numbers=left]{python}
+def SAIS(T,SA):
+# T is the input string;
+# SA is the output suffix array of T
+# t: array[@$0..n-1$@] of boolean;
+# P@$_1$@, T@$_1$@: array[@$0..n_1-1$@] of integer; # @$n_1=\Vert S_1 \Vert$@
+# B: array[@$0..\Vert \Sigma (T)\Vert-1$@] of integer;
+Scan T once to classify all the characters as L- or S-type
+into t;
+Scan t once to find all the LMS-substrings in T into P@$_1$@;
+Induced sort all the LMS-substrings using P@$_1$@ and B;
+Name each LMS-substring in T by its bucket index to get a
+new shortened string T@$_1$@;
+if Each character in T@$_1$@ is unique
+  Directly compute SA@$_1$@ from T@$_1$@;
+else
+  SAIS(T@$_1$@, SA@$_1$@); # Fire a recursive call
+Induce SA from SA@$_1$@ 
 \end{minted}
-Der oben stehende Algorithmus~\cite[fig.~1]{saca:6} berechnet das Suffix-Array des Strings $T$. Grundsätzlich ist das Problem in zwei Teile aufgeteilt. Das Reduzieren des Problems zu Teilproblemen (Divide and Conquer) und das Induzieren der LMS-Substrings und der Teilsuffix-Arrays. Am deutlichsten wird die Funktionsweise des Algorithmus durch ein Beispiel.
+\end{figure}
+
+
+\noindent Der oben stehende Algorithmus~\cite[Fig.~1]{saca:6} berechnet das Suffix-Array des Strings $T$. Grundsätzlich ist das Problem in zwei Teile aufgeteilt. Das Reduzieren des Problems zu Teilproblemen (Divide and Conquer) und das Induzieren der LMS-Substrings und der Teilsuffix-Arrays. Am deutlichsten wird die Funktionsweise des Algorithmus durch ein Beispiel.
 
 \subsection{Verfahren}
 Sei $T=caabaccaabacaa\$$ der String zu dem das Suffix-Array konstruiert werden soll und $SA$ das zugehörige Suffix-Array. Zunächst wird für jedes Zeichen des Strings $T$ der Typ $t$, nach den Definitionen aus Kap.~\ref{section:induzierer}, ermittelt.
@@ -141,8 +149,8 @@ Die Rekursionstiefe von $1$ ändert sich wieder auf die Tiefe von $0$ und das ur
 Von links nach rechts ergibt sich das endgültige Suffix-Array \\
 $SA = \{14, 13, 12, 7, 1, 8, 2, 10, 4, 9, 3, 11, 6, 0, 5\}$.
 
-\subsection{Optimierung und Ausblick}
-Der SAIS benötigt nur noch an zwei Stellen Extra-Speicher. Zum einen benötigen die Buckets zusätzlichen Speicher in Größe der Alphabetgröße. Zum anderen benötigt der SAIS einen Bitvektor, um die L- und S-Typen zu speichern. Alle anderen Berechnungen geschehen "on the fly", benötigen also keinen Extra-Speicher. So können die LMS-Typen leicht berechnet werden, indem sich vom aktuellen Typ des Zeichens der Vorgänger angeschaut wird. Wenn dieser vom Typ L ist, dann ist das Zeichen ein LMS. Im Zuge des nächsten Semesters sollen auch die Berechnungen der Typen "on the fly" geschehen, sodass der Bitvektor wegfällt. Aufwändig an dieser Stelle ist, dass momentan noch geteilte Schleifen, die das Wort von rechts nach links bzw. von links nach rechts durchlaufen kompaktifiziert werden müssen, damit die Typen, die berechnet wurden für alle Berechnungsschritte genutzt werden können. Interessant an dieser Stelle ist der Kompromiss zwischen Laufzeit und Extra-Speicher. Der Algorithmus kann auf Grund des Designs unseres Frameworks nicht nur für 8-Bit, sondern auch für 16-, 32-, 48-Bittypen usw. ausgeführt werden.
+\subsection{Optimierungsmöglichkeiten}
+Der SAIS benötigt nur noch an zwei Stellen Extra-Speicher. Zum einen benötigen die Buckets zusätzlichen Speicher in Größe der Alphabetgröße. Zum anderen benötigt der SAIS einen Bitvektor, um die L- und S-Typen zu speichern. Alle anderen Berechnungen geschehen $on the fly$, benötigen also keinen Extra-Speicher. So können die LMS-Typen leicht berechnet werden, indem sich vom aktuellen Typ des Zeichens der Vorgänger angeschaut wird. Wenn dieser vom Typ L ist, dann ist das Zeichen ein LMS. Im Zuge des nächsten Semesters sollen auch die Berechnungen der Typen "on the fly" geschehen, sodass der Bitvektor wegfällt. Aufwändig an dieser Stelle ist, dass momentan noch geteilte Schleifen, die das Wort von rechts nach links bzw. von links nach rechts durchlaufen kompaktifiziert werden müssen, damit die Typen, die berechnet wurden für alle Berechnungsschritte genutzt werden können. Interessant an dieser Stelle ist der Kompromiss zwischen Laufzeit und Extra-Speicher. Der Algorithmus kann auf Grund des Designs unseres Frameworks nicht nur für 8-Bit, sondern auch für 16-, 32-, 48-Bittypen usw. ausgeführt werden.
 
 \newpage
 

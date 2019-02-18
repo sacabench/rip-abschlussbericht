@@ -1,7 +1,10 @@
 \section{SADS}
 \subsection{D-Critical}
 \label{dc}
-Der \currentauthor{Christopher Poeplau} Kern des Radix Sorting Fixed Length D-Critical Substring-Algorithmus\cite[ch.~4.1]{saca:6} (kurz: SADS) sind die d-critical (kurz: dc) Zeichen des strings $T$. Ein Zeichen ist dc, für $d \geq 2$, wenn
+
+\currentauthor{Christopher Poeplau}
+
+Der  Kern des Radix Sorting Fixed Length D-Critical Substring-Algorithmus\cite[ch.~4.1]{saca:6} (kurz: SADS) sind die d-critical (kurz: dc) Zeichen des strings $T$. Ein Zeichen ist dc, für $d \geq 2$, wenn
 \begin{itemize}
     \item $T[i]$ ist LMS oder
     \item $T[i-d]$ ist dc, $S[i+1]$ ist kein LMS und kein weiteres Zeichen in $S[i-d_1..i-1]$ ist dc. Es gilt $d_1=d+1$
@@ -31,34 +34,34 @@ Sei $\omega(T,i)=2T[i]+t[i]$ die $T[i]$ $\omega$-gewichtende Funktion und es gil
 \subsection{Framework}
 Ähnlich des Frameworks des SAIS-Algorithmus in Kap.~\ref{saisAlg}, ist auch der SADS-Algorithmus in einem Framework\cite[fig.~3]{saca:6} modelliert:
 \label{sadsAlg}
-\begin{minted}[mathescape=true, escapeinside=||, frame=single]{text}
-SA-DS(|$T$|,|$SA$|)
-    //|$T$| is the input string;
-    //|$SA$| is the output suffix array of |$T$|
-    |$t$|: array[|$0..n-1$|] of boolean;
-    |$P_1$|, |$S_1$|: array[|$0..n_1-1$|] of integer; //|$n_1=\Vert S_1 \Vert$|
-    B: array[|$0..\Vert \Sigma (T)\Vert-1$|] of integer;
-1   Scan |$T$| once to classify all the characters as L- or S-type
-    into |$t$|;
-2   Scan $t$ once to find all the d-critical-substrings in $T$
-    into $P_1$;
-3   Bucket sort all the d-critical substrings using $P_1$
-    and $B$;
-4   Name each d-critical-substring in $T$ by its bucket index to
-    get a new shortened string |$S_1$|;
-6   if |$\Vert T_1 \Vert = $| Number of Buckets
-7       then
-8           Directly compute |$SA_1$| from |$T_1$|;
-9       else
-10          SA-DS(|$T_1$|,|$SA_1$|); //Fire a recursive call
-11  Induce |$SA$| from |$SA_1$|
-12  return
+\begin{figure}
+\begin{minted}[escapeinside=@@,numbers=left]{python}
+SADS(T, SA)
+# T is the input string;
+# SA is the output suffix array of T
+# t: array[@$0..n-1$@] of boolean;
+# P@$_1$@, S@$_1$@: array[@$0..n_1-1$@] of integer; # @$n_1=\Vert S_1 \Vert$@
+# B: array[@$0..\Vert \Sigma (T)\Vert-1$@] of integer;
+Scan T once to classify all the characters as L- or S-type
+into t;
+Scan t once to find all the d-critical-substrings in T
+into P@$_1$@;
+Bucket sort all the d-critical substrings using P@$_1$@
+and B;
+Name each d-critical-substring in T by its bucket index to
+get a new shortened string S@$_1$@;
+if |@$\Vert T_1 \Vert = $@| Number of Buckets
+   Directly compute SA@$_1$@ from T@$_1$@;
+else
+   SADS(T@$_1$@, SA@$_1$@); # Fire a recursive call
+Induce SA from SA@$_1$@
 \end{minted}
+\end{figure}
 
 
-\noindent Äquivalent zum ersten Algorithmus wird das Problem in Teilprobleme aufgeteilt, um abschließend die Lösung des Problems zu induzieren.
+\noindent Äquivalent zum ersten Algorithmus wird das Problem in Probleme kleinerer Größe aufgeteilt, um abschließend die Lösung des Problems zu induzieren.
 Sei der String $T = caabaccaabacaa\$$ wieder der String, zu dem das Suffix-Array konstruiert wird. Des Weiteren sei $d = 2$. Der erste Schritt besteht daraus die Typen aus $T$
-zu bestimmen, sodass folgende, schon aus dem SAIS bekannte, Anordnung entsteht:
+zu bestimmen, sodass folgende, schon aus dem SAIS bekannte, Klassifizierung entsteht:
 
 \begin{center}
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
@@ -80,12 +83,12 @@ zu bestimmen, sodass folgende, schon aus dem SAIS bekannte, Anordnung entsteht:
         $i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 \\ \hline
         $T$ & c & a & a & b & a & c & c & a & a & b & a & c & a & a & \$ \\ \hline
         $t$ & L & S & S & L & S & L & L & S & S & L & S & L & L & L & S \\ \hline
-      $P_1$ & & * & & & * & & & * & & & * & & \textcolor{green}{*} & & * \\
+      $P_1$ & & * & & & * & & & * & & & * & & ** & & * \\
     \hline
   \end{tabular}
 \end{center}
 \bigskip
-Die schwarzen dc-Zeichen sind hier $normale$ LMS-Zeichen, die genauso auch beim SAIS berechnet wurden. Das grüne dc-Zeichen entsteht durch die Anpassungen des SADS, die dafür sorgt, dass maximal Substrings der Größe $d_1$ entstehen. Durch die Definitionen aus Kap.~\ref{dc} wird außerdem deutlich, dass es maximal $\lfloor\frac{n}{2}\rfloor$ dc-Zeichen geben kann. \footnote{Für den Beweis, s.~\cite[Lemma~3.5]{saca:6}}
+Die einfachen dc-Zeichen sind hier $normale$ LMS-Zeichen, die genauso auch beim SAIS berechnet wurden. Das doppelte dc-Zeichen entsteht durch die Anpassungen des SADS, die dafür sorgt, dass maximal Substrings der Größe $d_1$ entstehen. Durch die Definitionen aus Kap.~\ref{dc} wird außerdem deutlich, dass es maximal $\lfloor\frac{n}{2}\rfloor$ dc-Zeichen geben kann.
 \bigskip
 \\Die gefundenen sechs Substrings müssen nun sortiert werden. Dazu nutzt der Algorithmus ein Bucket-Sort mit vier Passes, beginnend mit dem LSC(Least Significant Character). Zunächst werden die Wörter anhand ihres jeweiligen LSC ihren Buckets zugeordnet. Dort werden sie anhand der $\gamma$-Gewichtung aus Kap.~\ref{weighting} in ihren Buckets sortiert. In den darauffolgenden Schritten wird das nächste Zeichen des jeweiligen Wortes analysiert und das Wort wird dem passenden Bucket zugeordnet. Angewandt auf die dc-Substrings ergibt sich so folgende Reihenfolge:
 
@@ -108,7 +111,10 @@ Die schwarzen dc-Zeichen sind hier $normale$ LMS-Zeichen, die genauso auch beim 
   \end{tabular}
 \end{center}
 \bigskip
-\newpage
+
+\noindent Im ersten Schritt findet die $\gamma$-Gewichtung statt. Dadurch findet eine initiale Vorsortierung in den jeweiligen LSC-Buckets statt. Es folgt die eigentliche Radix-Sortierung. Die Suffixe $\{14, 12, 10, 7, 1 , 4\}$ werden anhand des vorletzten Zeichens sortiert. Dabei bleiben $\{14, 12, 10\}$ an derselben Stelle und in denselben Buckets, da ihr Zeichen identisch zum Nachfolgerzeichen ist. Es findet also keine Umsortierung statt. Teilstrings $\{7, 1\}$ gehören aufgrund ihres Zeichens nun zum $b-Bucket$ und sind aufgrund ihrer Reihenfolge im Schritt davor implizit in ihren Buckets sortiert worden. Analog dazu befindet sich $\{4\}$ als einziger String im $c-Bucket$.
+Im nächsten Schritt werden $\{12, 7, 1\}$ zum $a-Bucket$ zusortiert. Dabei ist die $12$ an erster Stelle, da sie aus dem obersten Bucket kommt. Äquivalent dazu ist im letzten Schritt die Sortierung final und die Indizes können ihren Teilstrings zugeordnet werden. Dabei ist zu beachten, dass identische Strings denselben Index erhalten.
+
 \noindent Aus dem Bucketsort ist folgende Bucket-Zuordnung der dc-Zeichen enstanden:
 
 \begin{center}
@@ -145,7 +151,7 @@ Die schwarzen dc-Zeichen sind hier $normale$ LMS-Zeichen, die genauso auch beim 
 \end{center}
 \bigskip
 
-\noindent Der letzte Schritt des Algorithmus besteht darin, das Suffix-Array $SA$ rekursiv aus den Teillösungen zu induzieren. Dazu wird das bestehende $S$ aus dem Rekursionsschritt sortiert, sodass sich die Buckets $\{0,1,2,2,3,4\}$ ergeben. Folgender Algorithmus wird nun für den ersten Schritt des Induzierens angewandt\cite[ch.~4.5]{saca:6}:
+\noindent Der letzte Schritt des Algorithmus besteht darin, das Suffix-Array $SA$ rekursiv aus den Teillösungen zu induzieren. Dazu wird das bestehende $S$ aus dem Rekursionsschritt sortiert, sodass sich die Buckets $\{0,1,2,2,3,4\}$ ergeben. Folgender Algorithmus wird nun für den ersten Schritt des Induzierens angewandt\cite[Kap.~4.5]{saca:6}:
 \begin{minted}[mathescape=true, escapeinside=||, frame=single]{text}
     Initialize each item of SA as |$-1$|. Find the end of
     each bucket in |$SA$| for all the suffixes in |$S$|. Scan
