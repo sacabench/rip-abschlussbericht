@@ -49,7 +49,7 @@ Nun können wir die lexikographischen Namen vergeben. Dafür werden die Position
 	\label{tab:lexNamen}
 \end{table}
 
-Hier ist zu erkennen, dass mehrere Triplets den gleichen lexikographischen Namen erhalten haben. Somit haben wir noch nicht die endgültige Reihenfolge ermitteln können. Dafür rufen wir den Algorithmus rekursiv mit diesen lexikographischen Namen $t_{12} = 2524137360$ auf. Als Ergebnis der Rekursion erhalten wir $\sa_{12} = [9, 4, 2, 0, 7, 5, 3, 1, 8, 6]$. Das Ergebnis lässt sich so deuten, dass sich das kleinste Triplet an Stelle 9 von $t_{12}$ befindet, das der Position $i = 14$ aus dem Ausgangstext $T$ entspricht, also $\sa_{12} = [14, 13, 7, 1, 8, 2, 10, 4, 11, 5]$. 
+Hier ist zu erkennen, dass mehrere Triplets den gleichen lexikographischen Namen erhalten haben. Somit haben wir noch nicht die endgültige Reihenfolge ermitteln können. Dafür rufen wir den Algorithmus rekursiv mit diesen lexikographischen Namen $\mathsf{T}_{12} = 2524137360$ auf. Als Ergebnis der Rekursion erhalten wir $\sa_{12} = [9, 4, 2, 0, 7, 5, 3, 1, 8, 6]$. Das Ergebnis lässt sich so deuten, dass sich das kleinste Triplet an Stelle 9 von $\mathsf{T}_{12}$ befindet, das der Position $i = 14$ aus dem Ausgangstext \inputtext entspricht, also $\sa_{12} = [14, 13, 7, 1, 8, 2, 10, 4, 11, 5]$. 
 
 Damit ist die erste Phase des Algorithmus abgeschlossen und wir gehen über zur zweiten Phase. Dafür werden zunächst die Ränge bestimmt mit Hilfe des inversen Suffix-Arrays, das sich wie folgt berechnen lässt: $\sa_{12}[i] = j$ genau dann, wenn $\isa_{12}[j] = i$.
 

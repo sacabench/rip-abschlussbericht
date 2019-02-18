@@ -9,13 +9,13 @@ In \currentauthor{Johannes Bahne} diesem Kapitel wird auf verschiedene Optimieru
 	Die Referenzimplementierung benötigt folgende Arrays:
 
 	$\begin{array}{lcl}
-	1. \text{  } t_{12} & : & \text{ lexikographische Namen der Suffixe in } 	i \text{ modulo } 3 \neq 0\\
+	1. \text{  } \mathsf{T}_{12} & : & \text{ lexikographische Namen der Suffixe in } 	i \text{ modulo } 3 \neq 0\\
 	2. \text{  } \sa_{12}& : & \text{ sortierte Positionen der Suffixe } 		i \text{ modulo } 3 \neq 0\\
-	3. \text{  } t_0	& : & \text{ Positionen der Suffixe } 					i \text{ modulo } 3 = 0\\
+	3. \text{  } \mathsf{T}_0	& : & \text{ Positionen der Suffixe } 					i \text{ modulo } 3 = 0\\
 	4. \text{  } \sa_0	& : & \text{ sortierte Positionen der Suffixe } 		i \text{ modulo } 3 = 0
 	\end{array}$
 
-	In unserer Implementierung benötigen wir jedoch nur drei Arrays. Und zwar können wir uns das Array $t_{0}$ sparen, da dieses nicht erst berechnet werden muss, sondern dem Sortieralgorithmus in Form einer \emph{Compare}-Funktion übermittelt werden kann, ohne ein neues Array anlegen zu müssen. Ein Array der Länge $1/3n$ wird somit weniger verbraucht. Daher hat unsere Implementierung einen etwas besseren Speicherverbrauch als die Referenzimplementierung.
+	In unserer Implementierung benötigen wir jedoch nur drei Arrays. Und zwar können wir uns das Array $\mathsf{T}_{0}$ sparen, da dieses nicht erst berechnet werden muss, sondern dem Sortieralgorithmus in Form einer \emph{Compare}-Funktion übermittelt werden kann, ohne ein neues Array anlegen zu müssen. Ein Array der Länge $1/3n$ wird somit weniger verbraucht. Daher hat unsere Implementierung einen etwas besseren Speicherverbrauch als die Referenzimplementierung.
 
 	\item[\texttt{Sortieralgorithmus}]
 
