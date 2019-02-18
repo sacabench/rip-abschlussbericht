@@ -1,0 +1,48 @@
+\newpage
+\subsection{Der Algorithmus}
+\label{gsaca:chapter4}
+%
+Nachdem zuvor das allgemeine Vorgehen beschrieben und an einem Beispiel verdeutlicht wurde, wird in diesem Kapitel der konkrete Algorithmus vorgestellt, wie er von Uwe Baier konzipiert wurde und in \ref{saca:3:code} zu sehen ist. 
+
+In den ersten 12 Zeilen wird Phase 1 beschrieben. 
+In den Zeilen 2 und 3 wird die initiale Einteilung in die lexikografisch sortierten Gruppen vorgenommen. 
+In der for-Schleife, die die Zeilen 4 bis 12 umfasst, werden dann die Schritte für jede Gruppe durchlaufen, beginnend bei der lexikografisch größten. 
+Die zweite for-Schleife in den Zeilen 5 und 6 bestimmt für jedes Element der gerade betrachteten Gruppe das direkt vorhergehende Zeichen im Wort und speichert einen \prevpointer auf dieses Zeichen. 
+Gibt es kein vorheriges Zeichen, wird die 0 als \prevpointer gespeichert. 
+Dies ermöglicht die Überprüfung, ob ein Zeichen ein vohergehendes Zeichen hat, indem der \prevpointer mit 0 verglichen wird. 
+Dies geschieht in einer späteren Codezeile in Phase 2. 
+Anschließend werden alle lexikografisch kleineren Gruppenkontexte, auf die ein \prevpointer eines Elements der gerade betrachteten Gruppe zeigt, in Untermengen geteilt. 
+Diese Untermengen enthalten Elemente der lexikografisch kleineren Gruppen, auf die dieselbe Anzahl an \prevpointern zeigt.
+Dies geschieht in den Zeilen 7 und 8. 
+Anschließend beginnt in Zeile 9 eine weitere for-Schleife, die über alle Untermengen iteriert, die in den beiden vorherigen Zeilen erstellt wurden. 
+Dabei wird jede Untermengen in Teilmengen unterteilt, die die gleichen Suffixe beinhalten. 
+In einer letzten for-Schleife dieser Phase in den Zeilen 11 und 12 wird über jedes Element dieser Teilmengen iteriert. 
+Dazu wird jedes Suffix dieser Teilmengen aus seiner ursprünglichen Gruppe entfernt und zu einer neuen Gruppe als direkter Nachfolger der alten Gruppe hinzugefügt.
+
+Die Zeilen 13 bis 23 bilden die Schritte der Phase 2, in der das Suffix Array aus den zuvor gebildeten Gruppen konstruiert wird. 
+In der Zeile 14 wird das letzte Zeichen des Wortes, also das Terminationssymbol \$, als erstes Element der Liste SA gespeichert. 
+Anschließend werden in einer for-Schleife, die in Zeile 15 beginnt, die Indices von SA vom ersten Element bis zum letzten Element durchlaufen. 
+In jeder Iteration dieser Schleife wird das Zeichen betrachtet, welches der direkte Vorgänger des Zeichens ist, welches in der Liste SA an der Position steht, die der Nummer der aktuellen Iteration entspricht. 
+Dies geschieht in Zeile 16. Die nachfolgende while-Schleife aus Zeile 17 durchläuft die Liste der \prevpointer des im vorherigen Schritt bestimmten Zeichens. 
+In dieser while-Schleife wird zunächst in Zeile 18 die Position des gerade betrachteten Zeichens bestimmt. 
+Die Position ergibt sich aus der Kardinalität der Menge aller Suffixe in kleineren Gruppen, inkrementiert um 1. 
+Anschließend wird überprüft, ob SA bereits ein Zeichen an diesem Index enthält. 
+Falls dies der Fall ist, wurden dieses Zeichen und die Elemente der \prevpointer schon betrachtet und die aktuelle Iteration der for-Schleife wird abgebrochen. 
+Gibt es jedoch noch kein Zeichen an dieser Stelle in der Liste SA, wird das aktuell betrachtete Zeichen dort gespeichert. 
+Die Überprüfung, der gegebenenfalls erfolgende Abbruch der aktuellen Iteration und die neue Zuordnung erfolgen in den Zeilen 19 bis 21. 
+In Zeile 22 wird dieses Zeichen dann aus seiner aktuellen Gruppe entfernt und in eine neue, direkt vor der alten Gruppe liegende Gruppe hinzugefügt.
+Am Schluss der while-Schleife wird in Zeile 23 das Zeichen, auf den der \prevpointer des aktuellen Zeichens zeigt, zum betrachteten Element für die nächste Iteration der while-Schleife.\\
+
+Im folgenden wird die erste Iteration der einzelnen Zeilen der zweiten Phase exemplarisch am Beispiel Banane durchlaufen:\\
+14: 	SA[1] = 7\\
+15:	for-Schleife wird mit $i$ = 1 begonnen\\
+16:	$j$ = SA[$i$] - 1 = SA[1] - 1 = 6\\
+17:	$j$ $\neq$ 0, in while-Schleife wird eingetreten\\
+18:	$sr$ = |\{\$, anane, ane, b\}| = 4\\
+19:	SA[$sr$ + 1] = nil, daher wird die 1. Iteration der for-Schleife nicht abgebrochen\\
+21:	SA[$sr$ + 1] = $j$ = 6\\
+22: 	$j$ wird aus der aktuellen Gruppe entfernt und in eine neue Gruppe eingefügt, die ein direkter Vorgänger der aktuellen Gruppe ist. Da $j$ das einzige Element dieser Gruppe ist, findet keine Änderung statt.\\
+23:	$j$ = prev($j$) = 4. Die nächste Iteration der while-Schleife wird mit $j$ = 4 durchlaufen.
+
+%\input{kapitel/saca_algorithmen/gsaca/code/pseudocode}
+\clearpage % add new page to move the next section down

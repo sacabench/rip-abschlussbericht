@@ -1,0 +1,38 @@
+\subsection{Sortierer}
+Ein \currentauthor{Marvin Böcker} prinzipiell einfacher Ansatz um das SA zu konstruieren
+ist selbstverständlich das Sortieren von Suffixen mittels einem allgemeinen Sortieralgorithmus,
+wie beispielsweise Quicksort oder Radixsort.
+
+Um einen Sortieralgorithmus zu verwenden, um das SA direkt zu konstruieren,
+muss eine passende Vergleichsfunktion verwendet werden:
+Nehmen wir an, die Menge die sortiert werden soll, ist bereits ein Array von disjunkten Suffixindices.
+\footnote{Dies kann zu Beginn sichergestellt werden, indem das
+Array mit den Zahlen von 0 bis $n-1$ (bzw $n$, wenn das Sentinel mitsortiert werden soll) gefüllt wird.}
+In der Vergleichsfunktion vergleichen wir dann die Suffixe aus dem Text, die am entsprechenden Index starten.
+In Abbildung 1 findet sich Pseudocode für eine simple Vergleichsfunktion,
+welche die gesamten Suffixe naiv miteinander vergleicht.
+
+\begin{figure}[!h]
+\begin{minted}[mathescape=true,escapeinside=||]{python}
+def compare(i, j):
+    if |$\inputtext[i]$| == |$\inputtext[j]$|:
+        return compare(i + 1, j + 1)
+    return |$\inputtext[i]$| < |\inputtext[j]|
+\end{minted}
+\caption{Pseudocode einer naiven Suffixvergleichsfunktion}
+\end{figure}
+%
+Es ist klar, dass mit einem $\mathcal O(n \log n)$-Sortieralgorithmus wie beispielsweise Merge- oder Introsort der gesamte SACA eine Worst-Case-Laufzeit von $\mathcal O(n^2 \log n)$ hat, da jeder Suffixvergleich eine Worst-Case-Laufzeit von $\mathcal O(n)$ hat.
+Zum Vergleich: Es gibt einige Linearzeitalgorithmen für die SA-Konstruktion, beispielsweise DC3~\cite{saca:9} oder SAIS~\cite{saca:6}.
+
+Die alleinige Sortierung von ganzen Suffixen ist offensichtlich nicht effizient.
+Viele unserer implementierten Algorithmen verwenden allerdings zum Teil allgemeine Sortierverfahren,
+um verschiedene Mengen zu sortieren: Suffixindicies, ganze Suffixe oder eine Menge von Zeichen.
+Beispielsweise verwendet Multikey-Quicksort den Quicksort-Algorithmus, um eine Menge von Zeichen zu sortieren.
+Deep-Shallow verwendet Introsort, um die Suffixe nach ihrer Länge zu sortieren
+und DC3 benutzt Radixsort um Triplets zu sortieren.
+In DivSufSort werden Stringsortierer benutzt, um bestimmte Substrings zu sortieren.
+Daher ist es für unsere Bibliothek wichtig, auch diese allgemeinen Sortierverfahren angepasst
+auf unseren Use-Case effizient zu implementieren.
+In Abschnitt \ref{section:sortieralgorithmen} findet sich eine Übersicht über die von uns
+implementierten Sortieralgorithmen.
