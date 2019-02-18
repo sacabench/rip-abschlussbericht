@@ -217,12 +217,13 @@ $\mathsf{ISA}[\mathsf{SA}[j]]$ & -0 & -1 & -2 & -3 & -4 & -5 & -6 & -7 & -8 & -9
 
 Dort sehen wir, dass die Reihenfolge für diese drei Gruppen jeweils umgedreht wurde. Wir würden daraufhin eine neue Iteration beginnen, aber bei der Erzeugung der Tupel merken, dass wir gar keine Tupel mehr erzeugen können, da entweder ungültige Indizes produziert werden oder die zu induzierenden Suffixe bereits sortiert sind. Damit wird die Größe auf 0 gesetzt und unsere Schleife ist fertig. Abschließend müssen wir aus dem $\mathsf{ISA}$ noch das $\mathsf{SA}$ berechnen, da wir in jeder Iteration nicht in Tupel enthaltene Suffixindizes aus dem $\mathsf{SA}_h$ entfernt haben. Dabei können wir alle Ränge negieren, welche dann der Position des Suffixes im Suffixarray entsprechen.
 
+
 \subsection{Parallelität und Implementierung}
-Im folgenden Abschnitt erläutern wir, wie drei Schritte des Algorithmus, das Markieren sortierter Gruppen, die Erzeugung der Tupel sowie das Aktualisieren der Ränge, parallelisiert werden können. Dabei gehen wir auch kurz auf die Implementierung in Nvidia Cuda ein.
+Im folgenden Abschnitt erläutern wir, wie drei Schritte des Algorithmus, die Markierung sortierter Gruppen, die Erzeugung der Tupel sowie das Aktualisieren der Ränge, parallelisiert werden können. Dabei gehen wir auch kurz auf die Implementierung in NVIDIA CUDA ein.
 Für die Parallelisierung wird ein zusätzliches Hilfsarray für Zwischenberechnungen benötigt, welches wir mit $\mathsf{aux}$ bezeichnen.
 
 \subsubsection{Sortierte Gruppen markieren}
-Für die Markierung von sortierten Gruppen müssen wir ein Suffix sowohl mit seinem Vorgänger als auch mit seinem Nachfolger vergleichen. Dafür setzen wir in einem ersten Durchlauf für jeden Index im Hilfsarray $\mathsf{aux}$ eine 1, wenn sich der Rang zum Rang des Vorgängers unterscheidet. Da der erste Index keinen Vorgänger besitzt, setzen wir für diesen immer eine 1. Im zweiten Durchlauf können wir den Wert in $\mathsf{aux}$ für Suffix $j$ mit dem Wert seines Nachfolgers $j+1$ abgleichen. Unterscheiden sich diese beiden Werte, so negieren wir den Rang des Suffixes $j$. Für den letzten Suffix müssen wir nur den Wert in $\mathsf{aux}$ betrachten, da dieser keinen Nachfolger besitzt.
+Für die Markierung von sortierten Gruppen müssen wir ein Suffix sowohl mit seinem Vorgänger, als auch mit seinem Nachfolger vergleichen. Dafür setzen wir in einem ersten Durchlauf für jeden Index im Hilfsarray $\mathsf{aux}$ eine 1, wenn sich der Rang zum Rang des Vorgängers unterscheidet. Da der erste Index keinen Vorgänger besitzt, setzen wir für diesen immer eine 1. Im zweiten Durchlauf können wir den Wert in $\mathsf{aux}$ für Suffix $j$ mit dem Wert seines Nachfolgers $j+1$ abgleichen. Unterscheiden sich diese beiden Werte, so negieren wir den Rang des Suffixes $j$. Für den letzten Suffix müssen wir nur den Wert in $\mathsf{aux}$ betrachten, da dieser keinen Nachfolger besitzt.
 Die Operationen beider Durchläufe können parallel ausgeführt werden, weshalb wir diese beiden Durchläufe naiv auf zwei eigenständige Kernel-Methode ausgelagert haben.
 
 \subsubsection{Tupel erzeugen}
@@ -232,4 +233,3 @@ Für die Tupel verwalten wir zur einfacheren Nutzung drei Arrays: eines für den
 Da wir für den leichteren Zugriff auf die Ränge $h$- und $2h$-Ränge separat speichern, müssten wir ein Value-Paar aus Index und $2h$-Rang für alle Tupel generieren, da der Radixsort-Aufruf der CUB-Library nur Key-Value-Paare (und einzelne Werte) sortieren kann. Wir haben uns stattdessen dafür entschieden, die $2h$-Ränge erst nach dem Radixsort in sortierter Reihenfolge zu erzeugen, da diese Ränge erst für das Aktualisieren der Ränge benötigt werden. Wir haben für das Befüllen des Hilfsarrays und für die Erzeugung der Tupel nach der Präfixsumme zwei unabhängige Kernel-Methoden geschrieben, da die Präfixsumme einen eigenen Kernel innerhalb der CUB-Library darstellt und der Aufruf von Kernel-Methoden nur durch Host-Methoden (von der CPU aus) möglich ist. 
 
 \subsubsection{Ränge aktualisieren}
-
