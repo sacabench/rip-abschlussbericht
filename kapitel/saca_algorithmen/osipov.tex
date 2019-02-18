@@ -3,7 +3,7 @@
 
 Mit fortlaufendem Fortschritt in der Entwicklung von General-Purpose-GPUs (GPGPUs), insbesondere innerhalb der letzten Jahre, wurde der Gebrauch von Grafikkarten als Koprozessor für grafikunabhängige Algorithmen immer populärer. Dabei ermöglicht die Bauweise der Grafikprozessoren eine hohe Parallelität und beschleunigt die Berechnungen enorm. Entwicklungsumgebungen wie das NVIDIA CUDA Toolkit werden fortlaufend weiterentwickelt und integrieren vor allem für allgemeine GPU-Berechnungen immer mehr Möglichkeiten. Zusätzlich bieten Libraries wie \textit{Thrust} und \textit{CUB} bereits eine Unterstützung allgemeiner Algorithmen auf der Grafikkarte wie Radixsort oder Präfixsummen an.
 
-Auch im Bereich der Suffix-Array-Konstruktions-Algorithmen entstanden für dieses Rechenmodell bereits Ansätze. Dazu gehört unter anderem der Prefix Doubling Ansatz von Osipov [TODO], der Skew Ansatz von Deo und Keely [TODO] und ein Hybrid beider Varianten von Wang, Baxter und Owens [TODO]. Im Rahmen unserer Projektgruppe haben wir uns auf ersteren fokussiert und diesen innerhalb des Frameworks implementiert und evaluiert.\\
+Auch im Bereich der Suffix-Array-Konstruktions-Algorithmen entstanden für dieses Rechenmodell bereits Ansätze. Dazu gehört unter anderem der Prefix Doubling Ansatz von Osipov \cite{osipovGPU}, der Skew Ansatz von Deo und Keely \cite{deoGPU} und ein Hybrid beider Varianten von Wang, Baxter und Owens \cite{wangGPU}. Im Rahmen unserer Projektgruppe haben wir uns auf ersteren fokussiert und diesen innerhalb des Frameworks implementiert und evaluiert.\\
 In diesem Kapitel werden wir dazu zunächst den sequentiellen Algorithmus von Osipov vorstellen und an einem Beispiel erläutern, bevor wir auf die Ideen der Parallelisierung und deren Implementierungen, speziell im Bezug auf die GPU, eingehen.
 \subsection{Algorithmus}
 \begin{listing}
@@ -46,7 +46,7 @@ osipov(T)
 \label{alg:osipov}
 \end{listing}
 
-Die Idee des Algorithmus von Osipov basiert sowohl auf den Prefix Doublern von Larson und Sadakane [TODO], als auch von Manber und Myers [TODO]. In Bezug auf Parallelität hat Ersterer das Problem, dass die zu sortierenden Gruppen innerhalb einer Iteration unterschiedliche Längen haben können, wodurch unbalancierte Workloads entstehen. Der Algorithmus von Manber und Myer dagegen hat dieses Problem zwar nicht, sortiert dafür aber bereits fertig sortierte Suffixe erneut. Die Idee ist es nun, beide Ansätze zu kombinieren, also global zu sortieren, allerdings nur mit den Suffixen, die noch nicht fertig sortiert wurden oder für die Sortierung noch benötigt werden. Dabei soll folgendes Lemma helfen:
+Die Idee des Algorithmus von Osipov basiert sowohl auf den Prefix Doublern von Larson und Sadakane \cite{saca:1}, als auch von Manber und Myers \cite{Manber1993}. In Bezug auf Parallelität hat Ersterer das Problem, dass die zu sortierenden Gruppen innerhalb einer Iteration unterschiedliche Längen haben können, wodurch unbalancierte Workloads entstehen. Der Algorithmus von Manber und Myer dagegen hat dieses Problem zwar nicht, sortiert dafür aber bereits fertig sortierte Suffixe erneut. Die Idee ist es nun, beide Ansätze zu kombinieren, also global zu sortieren, allerdings nur mit den Suffixen, die noch nicht fertig sortiert wurden oder für die Sortierung noch benötigt werden. Dabei soll folgendes Lemma helfen:
 \begin{lemma}\label{lem:sort-gruppe}
 Falls in der i-ten Iteration des Manber-Myers Algorithmus gilt, dass
 \begin{itemize}
