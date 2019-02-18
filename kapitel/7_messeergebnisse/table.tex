@@ -1,0 +1,134 @@
+\subsection{\sa Korrektheit}
+
+Wir Überprüfen zunächst, ob alle Testdaten von allen Implementierungen
+korrekt verarbeitet werden konnten. Die Messergebnisse enthalten hierfür von \texttt{-{}-check} erzeugte Informationen und können in \cref{messung:tab:sa-chk} eingesehen werden.
+
+\begin{table}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lrrrrrrrrrrrrrrr}
+\toprule
+     & \rotatebox[origin=c]{90}{\texttt{pc\_dblp.xml}} & \rotatebox[origin=c]{90}{\texttt{pc\_dna}} & \rotatebox[origin=c]{90}{\texttt{pc\_english}} & \rotatebox[origin=c]{90}{\texttt{pc\_proteins}} & \rotatebox[origin=c]{90}{\texttt{pc\_sources}} & \rotatebox[origin=c]{90}{\texttt{pcr\_cere}} & \rotatebox[origin=c]{90}{\texttt{pcr\_para}} & \rotatebox[origin=c]{90}{\texttt{pcr\_einstein.en.txt}} & \rotatebox[origin=c]{90}{\texttt{pcr\_kernel}} & \rotatebox[origin=c]{90}{\texttt{pcr\_fib41}} & \rotatebox[origin=c]{90}{\texttt{pcr\_rs.13}} & \rotatebox[origin=c]{90}{\texttt{pcr\_tm29}} & \rotatebox[origin=c]{90}{\texttt{cc\_commoncrawl.ascii}} & \rotatebox[origin=c]{90}{\texttt{tagme\_wiki-disamb30}} & \rotatebox[origin=c]{90}{\texttt{wiki\_all\_vital.txt}} \\
+\midrule
+    $\text{BPR}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{BPR}_{\text{ref}}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{DC3}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{DC3-Lite}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{DC3}_{\text{ref}}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{DC7}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{Deep-Shallow}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & \cmarkc & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{Deep-Shallow}_{\text{ref}}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{Discarding2}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{Discarding4}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{DivSufSort}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{DivSufSort}_{\text{ref}}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{GSACA}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{GSACA}_{\text{ref}}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{MSufSort}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & {\color{darkgray}--} & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{MSufSort}_{\text{ref}}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{Naiv}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{NzSufSort}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & {\color{darkgray}--} & {\color{darkgray}--} & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{Qsufsort}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \xmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{Qsufsort}_{\text{ref}}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{SACA-K}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{SACA-K}_{\text{ref}}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{SADS}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{SADS}_{\text{ref}}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{SAIS}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{SAIS-LITE}_{\text{ref}}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{SAIS}_{\text{ref}}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+\bottomrule
+\end{tabular}
+}
+\caption{\sa Korrektheit}
+\label{messung:tab:sa-chk}
+\end{table}
+
+\subsection{Laufzeit}
+
+Wir betrachten nun in \cref{messung:tab:duration} die mediane Laufzeit, die jeder Algorithmus für die jeweiligen Testdaten erreicht hat.
+Pro Eingabe sind jeweils die besten drei Algorithmen mit Grün markiert, und die schlechtesten drei mit Rot.
+
+\begin{table}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lrrrrrrrrrrrrrrr}
+\toprule
+     & \rotatebox[origin=c]{90}{\texttt{pc\_dblp.xml}} & \rotatebox[origin=c]{90}{\texttt{pc\_dna}} & \rotatebox[origin=c]{90}{\texttt{pc\_english}} & \rotatebox[origin=c]{90}{\texttt{pc\_proteins}} & \rotatebox[origin=c]{90}{\texttt{pc\_sources}} & \rotatebox[origin=c]{90}{\texttt{pcr\_cere}} & \rotatebox[origin=c]{90}{\texttt{pcr\_para}} & \rotatebox[origin=c]{90}{\texttt{pcr\_einstein.en.txt}} & \rotatebox[origin=c]{90}{\texttt{pcr\_kernel}} & \rotatebox[origin=c]{90}{\texttt{pcr\_fib41}} & \rotatebox[origin=c]{90}{\texttt{pcr\_rs.13}} & \rotatebox[origin=c]{90}{\texttt{pcr\_tm29}} & \rotatebox[origin=c]{90}{\texttt{cc\_commoncrawl.ascii}} & \rotatebox[origin=c]{90}{\texttt{tagme\_wiki-disamb30}} & \rotatebox[origin=c]{90}{\texttt{wiki\_all\_vital.txt}} \\
+\midrule
+    $\text{BPR}$ & 0.58 & {\color{green!60!black}0.54} & {\color{green!60!black}0.58} & {\color{green!60!black}0.60} & {\color{green!60!black}0.48} & 0.69 & 0.71 & 0.86 & 0.58 & 2.36 & 1.79 & 1.77 & 0.56 & {\color{green!60!black}0.55} & {\color{green!60!black}0.57} \\
+    $\text{BPR}_{\text{ref}}$ & {\color{green!60!black}0.54} & {\color{green!60!black}0.68} & {\color{green!60!black}0.63} & {\color{green!60!black}0.53} & {\color{green!60!black}0.48} & {\color{green!60!black}0.67} & {\color{green!60!black}0.70} & {\color{green!60!black}0.72} & {\color{green!60!black}0.56} & 2.46 & 1.70 & 1.85 & {\color{green!60!black}0.49} & {\color{green!60!black}0.56} & {\color{green!60!black}0.61} \\
+    $\text{DC3}$ & 2.72 & 2.92 & 2.93 & 2.86 & 2.73 & 2.99 & 3.02 & 3.12 & 3.01 & 3.00 & 3.05 & 3.18 & 2.82 & 2.80 & 2.88 \\
+    $\text{DC3-Lite}$ & {\color{red}31.48} & {\color{red}9.61} & {\color{red}23.66} & {\color{red}25.45} & {\color{red}37.67} & {\color{red}8.63} & {\color{red}8.91} & 11.07 & 11.06 & 7.47 & 8.05 & 8.84 & {\color{red}29.87} & {\color{red}29.02} & {\color{red}26.97} \\
+    $\text{DC3}_{\text{ref}}$ & 4.09 & 4.42 & 5.12 & {\color{red}5.06} & {\color{red}4.62} & 3.92 & 4.06 & 4.02 & 4.35 & 2.22 & 2.39 & 2.68 & 4.65 & {\color{red}4.83} & {\color{red}5.05} \\
+    $\text{DC7}$ & 3.94 & 4.13 & 4.04 & 3.97 & 3.79 & 4.29 & 4.31 & 4.45 & 4.15 & 4.68 & 4.74 & 4.84 & 3.88 & 3.92 & 4.01 \\
+    $\text{Deep-Shallow}$ & 1.94 & 2.08 & {\color{red}17.12} & 3.53 & 2.50 & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{red}518.18} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & 6.06 & 1.77 & 1.59 \\
+    $\text{Deep-Shallow}_{\text{ref}}$ & 0.62 & 0.71 & 1.00 & 0.87 & 0.61 & 1.18 & 1.22 & 3.63 & 1.81 & {\color{red}372.70} & {\color{red}332.25} & {\color{red}125.50} & 0.84 & 0.68 & 0.70 \\
+    $\text{Discarding2}$ & 3.05 & 2.10 & 5.09 & 3.48 & 3.18 & {\color{red}8.08} & 8.10 & 10.85 & 13.19 & {\color{red}15.03} & {\color{red}15.64} & {\color{red}12.17} & 4.70 & 2.85 & 2.24 \\
+    $\text{Discarding4}$ & 2.61 & 2.07 & 3.77 & 2.78 & 2.61 & 6.00 & 5.99 & 7.67 & 8.92 & 10.69 & 10.99 & 8.85 & 3.52 & 2.39 & 2.04 \\
+    $\text{DivSufSort}$ & {\color{red}4.75} & {\color{red}4.76} & 5.00 & 5.03 & 3.55 & {\color{red}9.00} & {\color{red}9.40} & {\color{red}29.13} & {\color{red}15.67} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & 5.85 & 3.84 & 3.94 \\
+    $\text{DivSufSort}_{\text{ref}}$ & {\color{green!60!black}0.36} & {\color{green!60!black}0.53} & {\color{green!60!black}0.48} & {\color{green!60!black}0.55} & {\color{green!60!black}0.33} & {\color{green!60!black}0.45} & {\color{green!60!black}0.47} & {\color{green!60!black}0.46} & {\color{green!60!black}0.36} & 0.96 & 0.98 & 1.07 & {\color{green!60!black}0.38} & {\color{green!60!black}0.45} & {\color{green!60!black}0.48} \\
+    $\text{GSACA}$ & 1.26 & 1.36 & 1.47 & 1.55 & 1.24 & 1.19 & 1.22 & 1.32 & 1.23 & {\color{green!60!black}0.66} & {\color{green!60!black}0.87} & {\color{green!60!black}0.81} & 1.28 & 1.45 & 1.48 \\
+    $\text{GSACA}_{\text{ref}}$ & 1.20 & 1.25 & 1.36 & 1.41 & 1.14 & 1.09 & 1.12 & 1.25 & 1.11 & {\color{green!60!black}0.64} & {\color{green!60!black}0.84} & {\color{green!60!black}0.81} & 1.17 & 1.33 & 1.38 \\
+    $\text{MSufSort}$ & 3.24 & 3.59 & 3.48 & 3.05 & 3.36 & {\color{darkgray}--} & {\color{red}13.34} & 6.47 & 5.01 & {\color{red}11.56} & 10.74 & 11.25 & {\color{red}13.03} & 3.03 & 2.99 \\
+    $\text{MSufSort}_{\text{ref}}$ & 0.64 & 0.76 & 0.73 & 0.64 & 0.59 & 1.48 & 1.01 & 1.05 & 0.90 & 1.72 & 1.68 & 1.98 & 1.02 & 0.62 & 0.63 \\
+    $\text{Naiv}$ & 3.37 & 3.19 & 7.20 & 3.33 & 3.06 & 7.97 & 5.80 & {\color{red}61.51} & {\color{red}104.06} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & 4.49 & 2.94 & 2.93 \\
+    $\text{NzSufSort}$ & {\color{red}16.08} & {\color{red}11.26} & {\color{red}14.86} & {\color{red}21.35} & {\color{red}22.84} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{red}21.22} & 9.05 & 3.37 & 4.66 & 5.35 & {\color{red}18.85} & {\color{red}17.03} & {\color{red}15.37} \\
+    $\text{Qsufsort}$ & 4.21 & 4.75 & 5.71 & 4.87 & 4.21 & 6.72 & 6.95 & 8.18 & 7.71 & 11.40 & {\color{red}11.47} & {\color{red}13.94} & 4.73 & 4.17 & 4.32 \\
+    $\text{Qsufsort}_{\text{ref}}$ & 1.28 & 1.55 & 2.13 & 1.27 & 1.23 & 2.24 & 2.24 & 3.29 & 3.15 & 5.23 & 5.37 & 5.49 & 1.52 & 1.45 & 1.42 \\
+    $\text{SACA-K}$ & 1.39 & 1.46 & 1.64 & 1.75 & 1.27 & 4.71 & 2.03 & 1.47 & 1.29 & 1.21 & 1.20 & 1.18 & 1.34 & 1.57 & 1.64 \\
+    $\text{SACA-K}_{\text{ref}}$ & 1.05 & 1.11 & 1.22 & 1.27 & 0.93 & 1.02 & 1.05 & 1.15 & 1.00 & 1.01 & 0.98 & 1.00 & 1.00 & 1.16 & 1.22 \\
+    $\text{SADS}$ & 1.93 & 2.13 & 2.32 & 2.50 & 1.84 & 1.80 & 1.87 & 2.00 & 1.86 & 1.21 & 1.21 & 1.15 & 1.93 & 2.26 & 2.33 \\
+    $\text{SADS}_{\text{ref}}$ & 1.56 & 1.81 & 1.87 & 2.00 & 1.48 & 1.50 & 1.56 & 1.60 & 1.48 & 1.05 & 1.05 & 1.01 & 1.55 & 1.81 & 1.88 \\
+    $\text{SAIS}$ & 1.31 & 1.49 & 1.61 & 1.75 & 1.23 & 1.28 & 1.33 & 1.39 & 1.26 & 1.16 & 1.12 & 1.08 & 1.30 & 1.54 & 1.60 \\
+    $\text{SAIS-LITE}_{\text{ref}}$ & {\color{green!60!black}0.48} & 0.72 & 0.71 & 0.86 & 0.50 & {\color{green!60!black}0.43} & {\color{green!60!black}0.45} & {\color{green!60!black}0.42} & {\color{green!60!black}0.39} & {\color{green!60!black}0.32} & {\color{green!60!black}0.32} & {\color{green!60!black}0.34} & {\color{green!60!black}0.52} & 0.66 & 0.74 \\
+    $\text{SAIS}_{\text{ref}}$ & 1.20 & 1.36 & 1.48 & 1.63 & 1.13 & 1.16 & 1.20 & 1.27 & 1.15 & 1.04 & 1.01 & 1.00 & 1.20 & 1.42 & 1.47 \\
+\bottomrule
+\end{tabular}
+}
+\caption{Laufzeit in Minuten}
+\label{messung:tab:duration}
+\end{table}
+
+\subsection{Speicherpeak}
+
+\Cref{messung:tab:mem} entnehmen wir den mediane Speicherverbrauch. Der Wert setzt sich zusammen aus der Allokation für den Eingabetext inklusive der vom Algorithmus benötigten extra Sentinel Bytes, die Allokation für das Ausgabe \sa und dem vom Algorithmus selbst benötigten Speichers.
+Pro Eingabe sind erneut die besten drei Algorithmen mit Grün markiert, und die schlechtesten drei mit Rot.
+
+\begin{table}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lrrrrrrrrrrrrrrr}
+\toprule
+     & \rotatebox[origin=c]{90}{\texttt{pc\_dblp.xml}} & \rotatebox[origin=c]{90}{\texttt{pc\_dna}} & \rotatebox[origin=c]{90}{\texttt{pc\_english}} & \rotatebox[origin=c]{90}{\texttt{pc\_proteins}} & \rotatebox[origin=c]{90}{\texttt{pc\_sources}} & \rotatebox[origin=c]{90}{\texttt{pcr\_cere}} & \rotatebox[origin=c]{90}{\texttt{pcr\_para}} & \rotatebox[origin=c]{90}{\texttt{pcr\_einstein.en.txt}} & \rotatebox[origin=c]{90}{\texttt{pcr\_kernel}} & \rotatebox[origin=c]{90}{\texttt{pcr\_fib41}} & \rotatebox[origin=c]{90}{\texttt{pcr\_rs.13}} & \rotatebox[origin=c]{90}{\texttt{pcr\_tm29}} & \rotatebox[origin=c]{90}{\texttt{cc\_commoncrawl.ascii}} & \rotatebox[origin=c]{90}{\texttt{tagme\_wiki-disamb30}} & \rotatebox[origin=c]{90}{\texttt{wiki\_all\_vital.txt}} \\
+\midrule
+    $\text{BPR}$ & 2.417 & 1.938 & 1.844 & 1.846 & 1.850 & 2.208 & 2.208 & 1.772 & 1.789 & 2.720 & 2.720 & 2.720 & 3.061 & 1.823 & 1.822 \\
+    $\text{BPR}_{\text{ref}}$ & {\color{red}4.303} & {\color{red}4.305} & {\color{red}4.382} & {\color{red}4.300} & {\color{red}4.388} & {\color{red}4.297} & {\color{red}4.297} & {\color{red}4.311} & {\color{red}4.327} & 4.297 & {\color{red}4.297} & {\color{red}4.297} & {\color{red}4.308} & {\color{red}4.361} & {\color{red}4.360} \\
+    $\text{DC3}$ & 4.056 & 4.093 & 4.098 & 4.088 & 4.096 & 4.093 & 4.093 & 4.098 & 4.099 & 4.101 & 4.101 & 4.101 & 4.096 & 4.056 & 4.081 \\
+    $\text{DC3-Lite}$ & 2.539 & 2.539 & 2.539 & 2.539 & 2.539 & 2.539 & 2.539 & 2.539 & 2.539 & 2.539 & 2.539 & 2.539 & 2.539 & 2.539 & 2.539 \\
+    $\text{DC3}_{\text{ref}}$ & {\color{red}5.458} & {\color{red}5.623} & {\color{red}5.646} & {\color{red}5.603} & {\color{red}5.637} & {\color{red}5.623} & {\color{red}5.623} & {\color{red}5.646} & {\color{red}5.652} & {\color{red}5.660} & {\color{red}5.660} & {\color{red}5.660} & {\color{red}5.637} & {\color{red}5.458} & {\color{red}5.573} \\
+    $\text{DC7}$ & 2.938 & 2.938 & 2.938 & 2.938 & 2.938 & 2.938 & 2.938 & 2.938 & 2.938 & 2.938 & 2.938 & 2.938 & 2.938 & 2.938 & 2.938 \\
+    $\text{Deep-Shallow}$ & 0.979 & 0.979 & 0.980 & 0.979 & 0.980 & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & 0.979 & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & 0.979 & 0.980 & 0.980 \\
+    $\text{Deep-Shallow}_{\text{ref}}$ & 0.979 & 0.979 & 0.979 & 0.979 & 0.979 & 0.979 & 0.979 & 0.981 & 0.979 & 0.984 & 0.984 & 0.984 & 0.979 & 0.979 & 0.979 \\
+    $\text{Discarding2}$ & 3.322 & 3.322 & 3.322 & 3.322 & 3.322 & 3.322 & 3.322 & 3.322 & 3.322 & 3.322 & 3.322 & 3.322 & 3.322 & 3.322 & 3.322 \\
+    $\text{Discarding4}$ & {\color{red}4.885} & {\color{red}4.885} & {\color{red}4.885} & {\color{red}4.885} & {\color{red}4.885} & {\color{red}4.885} & {\color{red}4.885} & {\color{red}4.885} & {\color{red}4.885} & {\color{red}4.885} & {\color{red}4.885} & {\color{red}4.885} & {\color{red}4.885} & {\color{red}4.885} & {\color{red}4.885} \\
+    $\text{DivSufSort}$ & 1.621 & 1.608 & 1.662 & 1.670 & 1.619 & 1.579 & 1.594 & 1.642 & 1.623 & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & 1.648 & 1.651 & 1.666 \\
+    $\text{DivSufSort}_{\text{ref}}$ & 0.977 & 0.977 & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} \\
+    $\text{GSACA}$ & 4.102 & 4.102 & 4.102 & 4.102 & 4.102 & 4.102 & 4.102 & 4.102 & 4.102 & 4.102 & 4.102 & 4.102 & 4.102 & 4.102 & 4.102 \\
+    $\text{GSACA}_{\text{ref}}$ & 3.320 & 3.320 & 3.320 & 3.320 & 3.320 & 3.320 & 3.320 & 3.320 & 3.320 & 3.320 & 3.320 & 3.320 & 3.320 & 3.320 & 3.320 \\
+    $\text{MSufSort}$ & 1.086 & 1.352 & 1.352 & 1.164 & 1.166 & {\color{darkgray}--} & 1.352 & 1.164 & 1.165 & 2.227 & 1.852 & 2.227 & 1.164 & 1.165 & 1.164 \\
+    $\text{MSufSort}_{\text{ref}}$ & 1.783 & 1.959 & 1.788 & 1.783 & 1.769 & 2.159 & 2.159 & 1.787 & 1.771 & 2.840 & 2.440 & 2.440 & 1.768 & 1.783 & 1.783 \\
+    $\text{Naiv}$ & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} \\
+    $\text{NzSufSort}$ & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & 0.977 & 1.172 & 1.173 & {\color{darkgray}--} & {\color{darkgray}--} & 1.172 & 1.172 & 1.172 & 1.172 & 1.172 & 1.172 & 1.172 & 0.977 \\
+    $\text{Qsufsort}$ & 1.758 & 1.758 & 1.758 & 1.758 & 1.758 & 1.758 & 1.758 & 1.758 & 1.758 & 1.758 & 1.758 & 1.758 & 1.758 & 1.758 & 1.758 \\
+    $\text{Qsufsort}_{\text{ref}}$ & 4.102 & 4.102 & 4.102 & 4.102 & 4.102 & 4.102 & 4.102 & 4.102 & 4.102 & 4.102 & 4.102 & 4.102 & 4.102 & 4.102 & 4.102 \\
+    $\text{SACA-K}$ & 1.103 & 1.310 & 1.267 & 1.366 & 1.218 & 1.011 & 1.022 & 0.977 & 0.993 & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & 1.203 & 1.279 & 1.294 \\
+    $\text{SACA-K}_{\text{ref}}$ & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} & {\color{green!60!black}0.977} \\
+    $\text{SADS}$ & 1.434 & 1.553 & 1.510 & 1.526 & 1.493 & 1.310 & 1.320 & 1.281 & 1.295 & 1.293 & 1.291 & 1.274 & 1.465 & 1.510 & 1.542 \\
+    $\text{SADS}_{\text{ref}}$ & 1.041 & 1.092 & 1.076 & 1.077 & 1.061 & 1.020 & 1.022 & 1.015 & 1.016 & 1.016 & 1.016 & 1.014 & 1.055 & 1.071 & 1.080 \\
+    $\text{SAIS}$ & 2.391 & 3.003 & 3.394 & 2.824 & 3.190 & 2.939 & 2.942 & 3.321 & 3.520 & {\color{red}4.688} & 3.516 & 4.297 & 2.986 & 2.222 & 2.622 \\
+    $\text{SAIS-LITE}_{\text{ref}}$ & 1.758 & 1.758 & 1.758 & 1.758 & 1.758 & 1.758 & 1.758 & 1.758 & 1.758 & 1.758 & 1.758 & 1.758 & 1.758 & 1.758 & 1.758 \\
+    $\text{SAIS}_{\text{ref}}$ & 1.027 & 1.052 & 1.048 & 1.060 & 1.040 & 1.014 & 1.015 & 1.012 & 1.012 & 1.016 & 1.015 & 1.014 & 1.039 & 1.049 & 1.051 \\
+\bottomrule
+\end{tabular}
+}
+\caption{Speicherpeak in GiB}
+\label{messung:tab:mem}
+\end{table}

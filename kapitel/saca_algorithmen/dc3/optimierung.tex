@@ -9,13 +9,13 @@ In \currentauthor{Johannes Bahne} diesem Kapitel wird auf verschiedene Optimieru
 	Die Referenzimplementierung benötigt folgende Arrays:
 
 	$\begin{array}{lcl}
-	1. \text{  } t_{12} & : & \text{ lexikographische Namen der Suffixe in } 	i \text{ modulo } 3 \neq 0\\
-	2. \text{  } SA_{12}& : & \text{ sortierte Positionen der Suffixe } 		i \text{ modulo } 3 \neq 0\\
-	3. \text{  } t_0	& : & \text{ Positionen der Suffixe } 					i \text{ modulo } 3 = 0\\
-	4. \text{  } SA_0	& : & \text{ sortierte Positionen der Suffixe } 		i \text{ modulo } 3 = 0
+	1. \text{  } \mathsf{T}_{12} & : & \text{ lexikographische Namen der Suffixe in } 	i \text{ modulo } 3 \neq 0\\
+	2. \text{  } \sa_{12}& : & \text{ sortierte Positionen der Suffixe } 		i \text{ modulo } 3 \neq 0\\
+	3. \text{  } \mathsf{T}_0	& : & \text{ Positionen der Suffixe } 					i \text{ modulo } 3 = 0\\
+	4. \text{  } \sa_0	& : & \text{ sortierte Positionen der Suffixe } 		i \text{ modulo } 3 = 0
 	\end{array}$
 
-	In unserer Implementierung benötigen wir jedoch nur drei Arrays. Und zwar können wir uns das Array $t_{0}$ sparen, da dieses nicht erst berechnet werden muss, sondern dem Sortieralgorithmus in Form einer \emph{Compare}-Funktion übermittelt werden kann, ohne ein neues Array anlegen zu müssen. Ein Array der Länge $1/3n$ wird somit weniger verbraucht. Daher hat unsere Implementierung einen etwas besseren Speicherverbrauch als die Referenzimplementierung.
+	In unserer Implementierung benötigen wir jedoch nur drei Arrays. Und zwar können wir uns das Array $\mathsf{T}_{0}$ sparen, da dieses nicht erst berechnet werden muss, sondern dem Sortieralgorithmus in Form einer \emph{Compare}-Funktion übermittelt werden kann, ohne ein neues Array anlegen zu müssen. Ein Array der Länge $1/3n$ wird somit weniger verbraucht. Daher hat unsere Implementierung einen etwas besseren Speicherverbrauch als die Referenzimplementierung.
 
 	\item[\texttt{Sortieralgorithmus}]
 
@@ -26,7 +26,8 @@ In \currentauthor{Johannes Bahne} diesem Kapitel wird auf verschiedene Optimieru
 	Die Implementierung des \emph{DC7} - Algorithmus ist sehr ähnlich zu der des \emph{DC3} - Algorithmus. Es wird jedoch zusätzlich ein Array benötigt, um zuerst die Ränge der Suffixe beginnend in Position $i \text{ modulo } 7 = 5$ und anschließend die Ränge in $i \text{ modulo } 7 = 6$ zu speichern. Dieses Array kann jedoch anschließend gelöscht werden.
 	Trotzdem ist der Speicherverbrauch niedriger als der unseres \emph{DC3} - Algorithmus, da die Rekursion mit einem kleineren String aufgerufen wird. Dies wurde bereits bei den theoretischen Überlegungen angenommen.
 
-	Ein etwas größerer Unterschied der Implementierungen der beiden Algorithmen ist die dritte Phase - das Mergen. Hierbei haben wir beide Ansätze, die wir bereits im Kapitel \ref{dc7} besprochen haben, implementiert und miteinander verglichen. Als Ergebnis erhielten wir, dass der naive erste Ansatz schneller ist als der zweite Ansatz. Dies liegt vermutlich daran, dass zuerst alle sortierten Mengen $SA_0$, $SA_{124}$, $SA_3$, $SA_5$ und  $SA_6$ zuerst einmal zu einer Menge konkateniert werden müssen und anschließend eine Sortierung nach den ersten sieben Zeichen erfolgen muss, um dann erst mergen zu können. Dieser Ansatz hat zwar in der Theorie eine bessere Laufzeit, jedoch sind dies zu viele Schritte in der Praxis. Aus diesem Grund liegt der zweite Ansatz zwar in unserem \emph{SACABench} - Framework vor, jedoch wird stattdessen nur der naive Ansatz bei den Auswertungen verwendet.
-	Trotz der geringeren Rekursionstiefe weist der \emph{DC7} - Algorithmus mit dem naiven Ansatz eine langsamere Laufzeit gegenüber dem \emph{DC3} - Algorithmus auf. Diese lässt sich vermutlich auf das Mergen zurückführen. Dies ist die Schwachstelle in dem Algorithmus. Daher wäre es interessant, ob sich nicht sogar noch andere Ansätze anbieten würden, die diesen Schritt schneller ausführen können. Ein möglicher Ansatz zum Mergen wäre der sogenannte \emph{Looser-Tree}. Dieser ist in der Praxis einer der schnellsten Bäume, mit dem sich die Laufzeit möglicherweise noch verbessern lässt. Somit wäre es eine Überlegung Wert, diesen Ansatz im zweiten Teil der Projektgruppe \emph{SACABench} zu implementieren.
+	Ein etwas größerer Unterschied der Implementierungen der beiden Algorithmen ist die dritte Phase - das Mergen. Hierbei haben wir beide Ansätze, die wir bereits im Kapitel \ref{dc7} besprochen haben, implementiert und miteinander verglichen. Als Ergebnis erhielten wir, dass der naive erste Ansatz schneller ist als der zweite Ansatz. Dies liegt vermutlich daran, dass zuerst alle sortierten Mengen $\sa_0$, $\sa_{124}$, $\sa_3$, $\sa_5$ und  $\sa_6$ zuerst einmal zu einer Menge konkateniert werden müssen und anschließend eine Sortierung nach den ersten sieben Zeichen erfolgen muss, um dann erst mergen zu können. Dieser Ansatz hat zwar in der Theorie eine bessere Laufzeit, jedoch sind dies zu viele Schritte in der Praxis. Aus diesem Grund liegt der zweite Ansatz zwar in unserem \sacabench - Framework vor, jedoch wird stattdessen nur der naive Ansatz bei den Auswertungen verwendet.
+	Trotz der geringeren Rekursionstiefe weist der \emph{DC7} - Algorithmus mit dem naiven Ansatz eine langsamere Laufzeit gegenüber dem \emph{DC3} - Algorithmus auf. Diese lässt sich vermutlich auf das Mergen zurückführen, denn dies ist die Schwachstelle in dem Algorithmus.
+	%Daher wäre es interessant, ob sich nicht sogar noch andere Ansätze anbieten würden, die diesen Schritt schneller ausführen können. Ein möglicher Ansatz zum Mergen wäre der sogenannte \emph{Looser-Tree}. Dieser ist in der Praxis einer der schnellsten Bäume, mit dem sich die Laufzeit möglicherweise noch verbessern lässt. Somit wäre es eine Überlegung Wert, diesen Ansatz im zweiten Teil der Projektgruppe \sacabench zu implementieren.
 
 \end{description}
