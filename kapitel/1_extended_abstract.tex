@@ -74,8 +74,8 @@ This file can be converted to a plot on the tudostat website (see \cref{tudostat
 In order to compare different algorithms with each other, you can run a set of algorithms on a given input file.
 This is achieved by using the \termfont{sacabench batch} command.
 By default all included algorithms are run, but you can either deselect certain
-algorithm with the \termfont{--blacklist <saca name>} flag or run only certain
-algorithms by using the \termfont{--whitelist <saca name>} command.
+algorithm with the \termfont{-{}-blacklist <saca name>} flag or run only certain
+algorithms by using the \termfont{-{}-whitelist <saca name>} command.
 
 The selected algorithms are run sequentially on the input text and their memory consumption
 and construction times measured.
@@ -94,9 +94,9 @@ but rather use methods to speed up the real-world performance.
 These methods can be classified into the categories \emph{inducing} and \emph{doubling}:
 %
 \paragraph{Inducing} %
-There are different methods of inducing but they operate by the same principle.
+There are different methods of inducing but they mostly operate by similar principles.
 When the rank of a suffix $i$ (that is the position of $i$ in the SA) is known,
-it is possible to calculate the rank of other suffixes $j$.
+it is possible to deduce the rank of other suffixes $j$.
 
 The easiest to understand usecase for this is when using buckets.
 Recall that a bucket $B_{\sigma}$ is a region of the suffix
