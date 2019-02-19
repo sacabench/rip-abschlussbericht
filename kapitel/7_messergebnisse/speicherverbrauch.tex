@@ -1,0 +1,4 @@
+\section{Evaluation Speicherverbrauch}
+
+Der Speicherverbrauch scheint größtenteils unabhängig von der Art der Eingabe zu sein. Implementierungen die keinen oder kaum extra Speicher benötigen haben somit den niedrigsten Verbrauch. Hierzu zählen der naive Algorithmus, die SACA-K Implementierungen und der Referenz DivSufSort. Umgekehrt liegt der höchste Speicherverbrauch in den Referenzimplementierungen des BPR und DC3, sowie in der Discarding Variante mit $A=4$ vor.
+Der Speicherverbrauch unserer Implementierungen sieht im Vergleich zu den Referenzimplementierungen besser aus als noch bei den Laufzeiten. So liegt er bei BPR, DC3, MSufSort und SACA-K deutlich niedriger, und ist beim Deep-Shallow zumindest gleichauf. Die Unterschiede sind hierbei teilweise architekturell begründet. So benutzt zB. die Referenzimplementierung des BPRs immer 64Bit Integer für Suffix Array Einträge.

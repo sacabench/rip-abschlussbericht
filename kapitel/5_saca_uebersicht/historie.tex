@@ -1,17 +1,17 @@
 \section{Historie}
-Alle \currentauthor{David Piper} in dieser Ausarbeitung vorgestellte Algorithmen zur Konstruktion eines Suffix Arrays lassen sich in drei Gruppen einteilen, welche die grundlegenden Sortierverfahren beschreiben. \par
+Alle \currentauthor{David Piper} in dieser Ausarbeitung vorgestellte Algorithmen zur Konstruktion des Suffix Arrays lassen sich in drei Gruppen einteilen, welche die grundlegenden Sortierverfahren beschreiben. \par
 Die erste Gruppe bilden die sogenannten \textit{prefix doubler}, zu welcher die Algorithmen Prefix Doubling und qSufSort gehören.
 Wie in Abschnitt \ref{sec:ansatz:doubler} beschrieben wird, sortieren diese die Präfixe der Suffixe und können durch geschickte Ideen die Sortierung beschleunigen, indem die Anzahl der betrachteten Präfixe in jedem Schritt verdoppelt wird. 
 Dabei setzte der SACA Prefix Doubling die Grundlagen für diese Kategorie, auf der dann qSufSort aufbaute, um eine effizientere Konstruktion des Suffix Arrays zu ermöglichen. 
 Neben diesen beiden Algorithmen gehört auch der Algorithmus BPR teilweise in diese Gruppe, nutzt jedoch auch Ideen eines zweiten Verfahrens, dem \textit{Induzieren}. \par
 
-Zur Gruppe der Induzierer gehören ebenfalls die Algorithmen Deep-Shallow, DivSufSort, mSufSort, SAIS und GSACA.
+Zur Gruppe der Induzierer gehören auch die Algorithmen Deep-Shallow, DivSufSort, mSufSort, SAIS und GSACA.
 Sie sortieren Suffixe anhand bereits zuvor sortierter Suffixe.
 Dieses Konzept wird näher im Absatz \ref{section:induzierer} beschrieben.
 Deep-Shallow war von den hier behandelten Algorithmen der erste, welcher dieses Verfahren nutzte.
 Von ihm wurde der Algorithmus DivSufSort inspiriert, dessen Implementierungsdetails teilweise in die Entwicklung von SAIS eingingen.
-SAIS führte Ideen ein, welche auch im Algorithmus GSACA aufgegriffen wurden.
-Hingegen bildet mSufSort eine eigene Vererbungslinie und baut auf keinem der zuvor genannten SACAs auf.
+SAIS führte Ideen ein, welche auch von GSACA aufgegriffen wurden.
+Hingegen bildet mSufSort eine neu Vererbungslinie und baut auf keinem der anderen SACAs auf.
 Auch nzSufSort und SACA-K gehörten zu dieser Gruppe, kombinieren das induzierte Sortieren jedoch mit dem Konzept der letzten Gruppe. \par
 
 Diese nutzt Rekursion um kleinere Teilmengen von Zeichen zu Sortieren, welche dann zum finalen Suffix Array zusammengesetzt werden.
@@ -25,6 +25,6 @@ Zuletzt leitet sich GOTO direkt von SACA-K ab. \par
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{kapitel/5_saca_uebersicht/history/history2}
-	\caption[Geschichtliche Entwicklung von SACAs.]{Geschichtliche Entwicklung von SACAs.}
+	\caption[Geschichtliche Entwicklung von SACAs, die in dieser Ausarbeitung betrachtet werden.]{Geschichtliche Entwicklung von SACAs, die in dieser Ausarbeitung betrachtet werden.}
 	\label{fig_banane_1_2}
 \end{figure}
