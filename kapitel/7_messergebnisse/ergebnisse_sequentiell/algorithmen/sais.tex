@@ -1,0 +1,239 @@
+\subsubsection{SAIS/SADS}
+
+\textbf{Configuration} \hfill Model name: none
+% IMPORT-DATA stats2 ../results.txt
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                name=axis1,
+                cycle list name={exoticlines},
+                width=0.5\textwidth,
+                height=65mm,
+                title={wiki.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={SA construction time [s]},
+                legend columns=2,
+                legend to name=legend0,
+                legend style={
+                    /tikz/every even column/.append style={column sep=0.5cm,black},
+                    /tikz/every even column/.append style={black},
+                },
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="wiki.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="SAIS" OR algo="SAIS_ref" OR algo="SADS" OR algo="SADS_ref" OR algo="SAIS-LITE_ref")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,359.928) (4,778.531) (8,2125.23) };
+            \addlegendentry{algo=Naiv};
+            \addplot coordinates { (2,340.271) (4,713.304) (8,1468.57) };
+            \addlegendentry{algo=SADS};
+            \addplot coordinates { (2,250.895) (4,550.796) (8,1144.96) };
+            \addlegendentry{algo=SADS\_ref};
+            \addplot coordinates { (2,260.346) (4,426.767) (8,902.654) };
+            \addlegendentry{algo=SAIS};
+            \addplot coordinates { (2,80.8687) (4,169.096) (8,347.818) };
+            \addlegendentry{algo=SAIS-LITE\_ref};
+            \addplot coordinates { (2,197.246) (4,434.592) (8,919.429) };
+            \addlegendentry{algo=SAIS\_ref};
+
+        \end{axis}
+        \begin{axis}[
+                cycle list name={exoticlines},
+                at={(axis1.outer north east)},
+                anchor=outer north west,
+                name=axis2,
+                width=0.5\textwidth,
+                height=65mm,
+                title={wiki.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={Extra Memory [MB]},
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="wiki.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="SAIS" OR algo="SAIS_ref" OR algo="SADS" OR algo="SADS_ref" OR algo="SAIS-LITE_ref")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addlegendentry{algo=Naiv};
+            \addplot coordinates { (2,1180.05) (4,2297.91) (8,4393.65) };
+            \addlegendentry{algo=SADS};
+            \addplot coordinates { (2,203.5) (4,386.634) (8,710.665) };
+            \addlegendentry{algo=SADS\_ref};
+            \addplot coordinates { (2,243.595) (4,465.634) (8,863.737) };
+            \addlegendentry{algo=SAIS};
+            \addplot coordinates { (2,1677.73) (4,3355.45) (8,6710.89) };
+            \addlegendentry{algo=SAIS-LITE\_ref};
+            \addplot coordinates { (2,152.24) (4,288.938) (8,536.258) };
+            \addlegendentry{algo=SAIS\_ref};
+
+            \legend{}
+        \end{axis}
+    \end{tikzpicture}
+
+    \medskip
+    \ref{legend0}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                name=axis1,
+                cycle list name={exoticlines},
+                width=0.5\textwidth,
+                height=65mm,
+                title={dna.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={SA construction time [s]},
+                legend columns=2,
+                legend to name=legend1,
+                legend style={
+                    /tikz/every even column/.append style={column sep=0.5cm,black},
+                    /tikz/every even column/.append style={black},
+                },
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="dna.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="SAIS" OR algo="SAIS_ref" OR algo="SADS" OR algo="SADS_ref" OR algo="SAIS-LITE_ref")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,413.268) (4,908.502) (8,1904.01) };
+            \addlegendentry{algo=Naiv};
+            \addplot coordinates { (2,433.723) (4,668.406) (8,1399) };
+            \addlegendentry{algo=SADS};
+            \addplot coordinates { (2,248.317) (4,535.859) (8,1157.82) };
+            \addlegendentry{algo=SADS\_ref};
+            \addplot coordinates { (2,183.108) (4,399.696) (8,857.96) };
+            \addlegendentry{algo=SAIS};
+            \addplot coordinates { (2,79.9981) (4,163.18) (8,364.519) };
+            \addlegendentry{algo=SAIS-LITE\_ref};
+            \addplot coordinates { (2,184.63) (4,404.854) (8,865.672) };
+            \addlegendentry{algo=SAIS\_ref};
+
+        \end{axis}
+        \begin{axis}[
+                cycle list name={exoticlines},
+                at={(axis1.outer north east)},
+                anchor=outer north west,
+                name=axis2,
+                width=0.5\textwidth,
+                height=65mm,
+                title={dna.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={Extra Memory [MB]},
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="dna.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="SAIS" OR algo="SAIS_ref" OR algo="SADS" OR algo="SADS_ref" OR algo="SAIS-LITE_ref")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addlegendentry{algo=Naiv};
+            \addplot coordinates { (2,1093.33) (4,2124.99) (8,4262.49) };
+            \addlegendentry{algo=SADS};
+            \addplot coordinates { (2,193.54) (4,359.194) (8,706.575) };
+            \addlegendentry{algo=SADS\_ref};
+            \addplot coordinates { (2,199.172) (4,382.286) (8,769.728) };
+            \addlegendentry{algo=SAIS};
+            \addplot coordinates { (2,1677.73) (4,3355.45) (8,6710.89) };
+            \addlegendentry{algo=SAIS-LITE\_ref};
+            \addplot coordinates { (2,133.951) (4,252.866) (8,516.79) };
+            \addlegendentry{algo=SAIS\_ref};
+
+            \legend{}
+        \end{axis}
+    \end{tikzpicture}
+
+    \medskip
+    \ref{legend1}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                name=axis1,
+                cycle list name={exoticlines},
+                width=0.5\textwidth,
+                height=65mm,
+                title={commoncrawl.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={SA construction time [s]},
+                legend columns=2,
+                legend to name=legend2,
+                legend style={
+                    /tikz/every even column/.append style={column sep=0.5cm,black},
+                    /tikz/every even column/.append style={black},
+                },
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="SAIS" OR algo="SAIS_ref" OR algo="SADS" OR algo="SADS_ref" OR algo="SAIS-LITE_ref")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,666.038) (4,1590.11) (8,4111.56) };
+            \addlegendentry{algo=Naiv};
+            \addplot coordinates { (2,283.388) (4,606.205) (8,1810) };
+            \addlegendentry{algo=SADS};
+            \addplot coordinates { (2,204.765) (4,454.729) (8,992.489) };
+            \addlegendentry{algo=SADS\_ref};
+            \addplot coordinates { (2,154.432) (4,347.206) (8,824.577) };
+            \addlegendentry{algo=SAIS};
+            \addplot coordinates { (2,66.1321) (4,136.778) (8,335.648) };
+            \addlegendentry{algo=SAIS-LITE\_ref};
+            \addplot coordinates { (2,157.57) (4,351.008) (8,781.429) };
+            \addlegendentry{algo=SAIS\_ref};
+
+        \end{axis}
+        \begin{axis}[
+                cycle list name={exoticlines},
+                at={(axis1.outer north east)},
+                anchor=outer north west,
+                name=axis2,
+                width=0.5\textwidth,
+                height=65mm,
+                title={commoncrawl.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={Extra Memory [MB]},
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="SAIS" OR algo="SAIS_ref" OR algo="SADS" OR algo="SADS_ref" OR algo="SAIS-LITE_ref")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addlegendentry{algo=Naiv};
+            \addplot coordinates { (2,1148.5) (4,2194.44) (8,4203.78) };
+            \addlegendentry{algo=SADS};
+            \addplot coordinates { (2,193.333) (4,362.933) (8,681.06) };
+            \addlegendentry{algo=SADS\_ref};
+            \addplot coordinates { (2,231.44) (4,430.199) (8,800.226) };
+            \addlegendentry{algo=SAIS};
+            \addplot coordinates { (2,1677.73) (4,3355.45) (8,6710.89) };
+            \addlegendentry{algo=SAIS-LITE\_ref};
+            \addplot coordinates { (2,151.23) (4,284.445) (8,535.397) };
+            \addlegendentry{algo=SAIS\_ref};
+
+            \legend{}
+        \end{axis}
+    \end{tikzpicture}
+
+    \medskip
+    \ref{legend2}
+\end{figure}
+\FloatBarrier

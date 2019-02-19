@@ -150,6 +150,11 @@ After this step, the ordering of the other suffixes can be induced.
 \bigskip
 
 \section{Optimization Strategies}
+
+As with most programs, much of the performance of SACAs is dependent on efficiently implementing these algorithms.
+We therefore used some practical optimizations to the descriptions of the algorithms to improve performance.
+The following is an incomplete list of tricks one can use to do so.
+
 \subsection{Different bit lengths for the suffix array}
 
 We implemented our SACAs with an exchangable suffix array index type, that is a different bit length for the indices in the suffix array.
@@ -165,7 +170,8 @@ Since the SA is a pseudo-random mutation of numbers, the SA can't be written cac
 
 \subsection{Wordpacking}
 
-To maximize throughput, multiple characters of the input (8 bit each) can be processed as a whole by interpreting them as integer numbers (64 bit, or even up to 512 bit).
+To maximize throughput, multiple characters of the input (8 bit each) can be processed as a whole by
+interpreting them as integer numbers (64 bit, or even up to 512 bit by using vector operations).
 This is done in multiple algorihms\todo{welche?} to improve performance.
 
 \subsection{Binary vs. ternary comparison-based sort}
