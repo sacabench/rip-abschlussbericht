@@ -21,9 +21,12 @@ Zus{\"a}tzlich kann eine ganze Reihe von Optionen angegeben werden.
 Wie auch bei anderen Subcommands zeigen \termfont{-h} und \termfont{-{}-help} die Hilfe an. 
 Die Option \termfont{-c} bzw. \termfont{-{}-check} wendet zus{\"a}tzlich zu dem ausgew{\"a}hlten Algorithmus einen weiteren SACA auf die Eingabe an und {\"u}berpr{\"u}ft, ob die beiden Ergebnisse gleich sind. 
 Ist dies nicht der Fall, wird eine Fehlermeldung angezeigt. 
+Eine Alternative hierzu ist die Option \termfont{-q} oder \termfont{-{}-quick}, welche auch die Korrektheit überprüft, jedoch einen parallelen Algorithmus verwendet. 
 Wird die Option \termfont{-b} oder \termfont{-{}-benchmark} gefolgt von einem Pfad angegeben, wird an diesem Pfad eine JSON-Datei mit den gemessenen Zeiten und Speicherverbrauch angelegt. 
 Existiert an dem angegebenen Pfad bereits eine Datei, kann diese mit der Option \termfont{-f} bzw. \termfont{-{}-force} {\"u}berschrieben und durch die neue Messung ersetzt werden. 
-Der Inhalt dieser Datei ist die Grundlage f{\"u}r die erstellten Diagramme, welche mit \termfont{-z} oder \termfont{-{}-plot} bei der Ausf{\"u}hrung des Algorithmus generiert werden. 
+Der Inhalt dieser Datei ist die Grundlage f{\"u}r die durch ein R-Skript erstellten Diagramme, welche mit \termfont{-z} oder \termfont{-{}-rplot} bei der Ausf{\"u}hrung des Algorithmus generiert werden. 
+Als Alternative hierzu können durch die Option \termfont{-{}-latexplot} auch Plots durch SqlPlotTools und Latex generiert werden.
+Weitere Informationen hierzu sind in Kapitel \ref{framework:bechmark:sqlplottools} enthalten.
 Um bei den Messungen ein besseres Ergebnis zu erhalten, kann mit der Option \termfont{-r} bzw. \termfont{-{}-repetitions} eine Anzahl an Durchf{\"u}hrungen festgelegt werden. 
 Hierdurch wird die Genauigkeit der Messung erh{\"o}ht, indem das Arithmetische Mittel gebildet wird.
 Weiterhin kann dem Befehl \termfont{-p} oder \termfont{-{}-prefix} hinzugef{\"u}gt werden. 
@@ -34,6 +37,21 @@ Die Option \termfont{-B} oder \termfont{-{}-binary} veranlasst das Framework zur
 Anschlie{\ss}end werden die Eintr{\"a}ge des Ergebnisses als Bin{\"a}rzahlen mit bis zu 8 Stellen ausgegeben. 
 Die erste Zahl der Ausgabe gibt die genaue Anzahl der Stellen an.
 Ist eine feste Anzahl an Bits gew{\"u}nscht, kann diese mit der Option \termfont{-F} bzw. \termfont{-{}-fixed} angegeben werden.
-Die letzte Option, welche dem Subcommand \texttt{sacabench construct} {\"u}bergeben werden kann, ist \termfont{-m} oder \termfont{-{}-minimum\_sa\_bits} gefolgt von einem UINT Wert. Dieser Parameter bestimmt die Anzahl der Bits, die f{\"u}r die Datenstrukturen w{\"a}hrend der Berechnung genutzt werden.
+Alternativ kann das Framework das Suffixarray als JSON-Array ausgeben. 
+Dies ist mit der Option \termfont{-J} oder \termfont{-{}-json} möglich.
+Die nächste Option, welche dem Subcommand \texttt{sacabench construct} {\"u}bergeben werden kann, ist \termfont{-m} oder \termfont{-{}-minimum\_sa\_bits} gefolgt von einem UINT Wert. 
+Dieser Parameter bestimmt die Anzahl der Bits, die f{\"u}r die Datenstrukturen w{\"a}hrend der Berechnung genutzt werden.
+Anstatt diese Optionen einzeln anzugeben, kann auch eine Konfigurationsdatei eingelesen werden, welche Werte für die zu benutzenden Optionen angibt.
+Diese Datei ist im ini-Format und anstelle der Optionen wird die Option \termfont{-{}-config} gefolgt zu dem Pfad zu der Konfigurations-Datei beim Aufruf dieses Befehls angegeben.
+Ein Beispiel für solch eine Konfigurations-Datei ist in Abbildung \ref{sacabench-construct:config} zu sehen.
+Soll das Tool beispielsweise für den SACA \texttt{BPR} mit der angezeigten Konfigurationsdatei aufgerufen werden, sieht der entsprechende Befehl folgendermaßen aus:
+
+\termfont{sacabench/sacabench construct --config /pfad/zur/config BPR \linebreak /pfad/zum/input/text}
+
+Die gezeigte Konfigurations-Datei ist gleichbedeutentd zum Aufruf mit den Optionen \termfont{-c}, \termfont{-b}, \termfont{-f}, \termfont{-p 1K}, \termfont{-r 2}, \termfont{--rplot} und \termfont{--latexplot}.
+Sollen die Optionen einzeln übergeben werden, ist dies mit diesem Aufruf möglich:
+
+\termfont{sacabench/sacabench construct -c -b /ziel/pfad/zur/ergebnis.json -f -p 1K -r 2 --rplot --latexplot BPR /pfad/zum/input/text}
 \par
 }
+\input{kapitel/3_framework/cli/sacabench-construct-config}
