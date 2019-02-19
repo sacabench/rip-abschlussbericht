@@ -42,6 +42,7 @@ Alternativ kann das Framework das Suffixarray als JSON-Array ausgeben.
 Dies ist mit der Option \termfont{-J} oder \termfont{-{}-json} möglich.
 Die nächste Option, welche dem Subcommand \texttt{sacabench construct} übergeben werden kann, ist \termfont{-m} oder \termfont{-{}-minimum\_sa\_bits} gefolgt von einem UINT Wert. 
 Dieser Parameter bestimmt die Anzahl der Bits, die für die Datenstrukturen während der Berechnung genutzt werden.
+Durch \termfont{-s} oder \termfont{-{}-sysinfo} werden Information über das System, welches das Benchmarktool ausführt, in die Ergebnisdatei mit aufgenommen.
 Anstatt die genannten Optionen einzeln anzugeben, kann auch eine Konfigurationsdatei eingelesen werden, welche Werte für die zu benutzenden Optionen angibt.
 Diese Datei ist im ini-Format und anstelle der Optionen wird die Option \termfont{-{}-config} gefolgt zu dem Pfad zu der Konfigurations-Datei beim Aufruf dieses Befehls angegeben.
 Ein Beispiel für solch eine Konfigurations-Datei ist in Abbildung \ref{sacabench-construct:config} zu sehen.
