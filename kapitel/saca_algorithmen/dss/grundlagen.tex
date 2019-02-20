@@ -2,7 +2,7 @@
 Bevor wir zum Algorithmus kommen, müssen zunächst noch einige Definitionen und Grundideen geklärt werden. Dafür betrachten wir zunächst die Präfixsumme:
 
 \begin{definition}
-	Betrachten wir eine Menge $\{a_0, a_1, \dots , a_{n-1}\}$ und den \glqq + \grqq -Operator, dann ist die Menge der Präfixsummen wie folgt definiert:
+	Betrachten wir eine Menge $\{a_0, a_1, \dots , a_{n-1}\}$ und den + Operator, dann ist die Menge der Präfixsummen wie folgt definiert:
 	$$
 	[a_0, (a_0 + a_1), \dots , (a_0 + a_1 + \dots + a_{n-1})]
 	$$
@@ -15,17 +15,10 @@ In einem Text können Wiederholungen derselben Sequenz von Zeichen auftreten. Di
 	Eine Wiederholung in $T$ ist ein Teilstring $T[i, i + rp]$ mit $ r \geq 2, p \geq 0$ und $i, i + rp \in [0, n)$, sodass $T[i, i+p) = T[i + p, i + 2p) = \dots = T[i + (r-1)p, i + rp)$.
 \end{definition}
 
-
-Auf Basis des Suffix-Arrays können wir das inverse Suffix-Array sowie den längsten gemeinsamen Präfix (\textit{longest common prefix, lcp}) definieren:
-\begin{definition}
-	Das inverse Suffix-Array \textit{ISA} ist die inverserse Permutation des Suffix-Arrays \textit{SA}.
-	Mit lcp$(i, j) = \max{ \{s \geq 0: T[i, i+s) =  T[j, j+s) \}}$ beschreiben wir den \textit{longest common prefix} von $i$ und $j$.
-\end{definition}
-
 Wir wollen unsere Suffix-Arrays noch weiter charakterisieren können. Dafür unterteilen wir die Suffixe in sogenannte Buckets.
 
 \begin{definition}
-	Alle Suffixe, die mit demselben Zeichen $c0 \in \Sigma$ beginnen, formen ein zusammenhängendes Intervall, das $c0$-Bucket $b_{\textit{c0}}$. Das $(c0,c1)$-Bucket $b_{\textit{c0,c1}}$ bezeichnet jenes Intervall, dessen Suffixe mit denselben zwei Zeichen $c0,c1 \in \Sigma$ beginnen.
+	Alle Suffixe, die mit demselben Zeichen $c0 \in \Sigma$ beginnen, formen ein zusammenhängendes Intervall, das $c0$-Bucket $b_{\textit{c0}}$. Das $(c0,c1)$-Bucket $b_{\textit{c0,c1}}$ bezeichnet das Intervall, dessen Suffixe mit denselben zwei Zeichen $c0,c1 \in \Sigma$ beginnen.
 \end{definition}
 
 Die Buckets werden später wichtig, um die Beziehungen zwischen den Suffix-Typen herzuleiten. Dabei kann $c0=c1$ gelten. Suffixe können in drei Typen eingeteilt werden: L-Suffixe, S-Suffixe sowie RMS-Suffixe.
@@ -51,7 +44,7 @@ Durch diese Einschränkungen wird eine partielle Ordnung unter den Suffixen erzw
 	L- und S-Suffixe können nur gleichzeitig in $b_{\textit{c0,c0}}$ auftauchen. Wir nehmen an, $S_i$ und $S_j$ beginnen mit $c0c0$, gefolgt von beliebig vielen $c0$ und $S_i, S_j$ sind ein L- bzw. S-Suffix. Sei $u = T[i+lcp(i, j)]$ und $v = T[j+lcp(i, j)]$, d.h. $u \neq v$ ist das erste Zeichen, wo sich $S_i$ und $S_j$ unterscheiden. Da $S_i$ ein L-Suffix ist und sich zuvor vom S-Suffix $S_j$ nicht unterschieden hat, muss $u \leq c0$ sein. Ebenso gilt $v \geq c0$. Eine der Ungleichungen ist strikt erfüllt, da $u \neq v$, damit ist $S_i < S_j$.
 	Analog gilt für den zweiten Fall: Die ersten beiden Zeichen von $S_i, S_j$ sind identisch. Da $S_i$ ein RMS-Suffix ist, gilt $T[i] \neq T[i+1]$. Ebenso gilt $T[i+1] > T[i+2]$, da nach der Definition von RMS-Suffixen $S_{i+2}$ ein L-Suffix sein muss. Jedoch ist $S_j$ kein RMS-Suffix, sodass $T[i+2] < T[i+1] =  T[j+1] \leq T[j+2]$ und damit $S_i < S_j$. 
 
-Um RMS-Suffixe später sortieren zu können, müssen wir noch RMS-Teilstrings betrachten.
+Um RMS-Suffixe später sortieren zu können, müssen wir zunächst RMS-Teilstrings betrachten.
 
 \begin{definition}
 	Gegeben seien zwei aufeinander folgende RMS-Suffixe $S_i$ und $S_j$, d.h. es existiert kein RMS-Suffix $S_k$ mit $i < k < j$. Wir bezeichnen den Teilstring $T[i, j+2)$ Als RMS-Teilstring. Für das letzte RMS-Suffix $S_i$ ($S_k$ mit $ i < k < n$ ist kein RMS-Suffix) ist der Teilstring $T[i, n)$ ebenfalls ein RMS-Teilstring.

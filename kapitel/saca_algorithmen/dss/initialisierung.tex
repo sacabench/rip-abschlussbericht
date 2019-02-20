@@ -11,7 +11,7 @@
 			SA-Typ & L & S & RMS & L & RMS & L & L & S & RMS & L & RMS & L  & L  & L  & L 
 		\end{tabular}%
 	}
-	\caption{Eingabetext mit Suffixtypen und initialisiertem Suffix-Array}
+	\caption{Eingabetext mit Suffixtypen und initialisiertem Suffix-Array.}
 	\label{table:sa-init}
 \end{table}
 
@@ -27,6 +27,7 @@ Wir beginnen mit einem Durchlauf des Textes $T$, welcher von rechts nach links d
 % \usepackage{multirow}
 % \usepackage[table,xcdraw]{xcolor}
 % If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\iffalse
 \begin{table}
 	\centering
 	\begin{tabular}{|l|l|l|l|l|l|l|l|l|}
@@ -39,6 +40,22 @@ Wir beginnen mit einem Durchlauf des Textes $T$, welcher von rechts nach links d
 		& Bucket\_S   &                           &                           &                           &                            & 2     &                           &                           \\ \cline{2-9} 
 		\multirow{-3}{*}{Präfixsumme} & Bucket\_RMS &                           &                           &                           &                            &       & \cellcolor[HTML]{32CB00}2 & \cellcolor[HTML]{32CB00}4 \\ \hline
 	\end{tabular}
+	\fi
+	
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\begin{table}[]
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+\hline
+            & \$                        & a                         & b                         & c                          & (a,a) & (a,b)                     & (a,c)                     \\ \hline
+Bucket\_L   & 1                         & 2                         & 2                         & 4                          &       &                           &                           \\ \hline
+Bucket\_S   &                           &                           &                           &                            & 2     &                           &                           \\ \hline
+Bucket\_RMS &                           &                           &                           &                            &       & 2                         & 2                         \\ \hline
+Bucket\_L   & \cellcolor[HTML]{34CDF9}0 & \cellcolor[HTML]{34CDF9}1 & \cellcolor[HTML]{34CDF9}9 & \cellcolor[HTML]{34CDF9}11 &       &                           &                           \\ \hline
+Bucket\_S   &                           &                           &                           &                            & 2     &                           &                           \\ \hline
+Bucket\_RMS &                           &                           &                           &                            &       & \cellcolor[HTML]{32CB00}2 & \cellcolor[HTML]{32CB00}4 \\ \hline
+\end{tabular}
 	\caption{Berechnung der Bucketgrößen und der Präfixsummen für L- und RMS-Buckets. Die L-Buckets enthalten die Präfixsummen über alle Suffix-Typen (linke Grenze des Buckets), die RMS-Buckets beinhalten die rechten Grenzen des jeweiligen Buckets (bestehend aus zwei Zeichen).}
 	\label{table:prefixsum}
 \end{table}
@@ -58,7 +75,7 @@ Bevor wir mit dem vollständigen Sortieren der RMS-Suffixe beginnen, werden die 
 		SA & \cellcolor[HTML]{32CB00}0 & \cellcolor[HTML]{32CB00}2 & \cellcolor[HTML]{32CB00}3 & \cellcolor[HTML]{32CB00}1 & 0 & 0 & 0 & 0 & 0 & 0 & 0  & 2  & 4  & 8  & 10 \\ \hline
 	\end{tabular}	\newline
 
-	\caption{Finaler Schritt der Initialisierung: Sortierte Referenzen \textbf{PAb} auf Indizes der RMS-Suffixe für den Beispielstring caabaccaabacaa\$.}
+	\caption{Finaler Schritt der Initialisierung: Sortierte Referenzen \textit{PAb} auf Indizes der RMS-Suffixe für den Beispielstring caabaccaabacaa\$.}
 	\label{table:bucket-order}
 \end{table}
 
