@@ -72,15 +72,16 @@ Zum Abschluss der Iteration müssen wir die neuen Ränge in $\mathsf{ISA_{2h}}$ 
 % Please add the following required packages to your document preamble:
 % \usepackage{multirow}
 \begin{table}[]
+\small
 \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}
 \hline
 j                                                                          & 0  & 1  & 2 & 3 & 4  & 5 & 6 & 7 & 8  & 9 & 10 & 11 & 12 & 13 & 14 \\ \hline
-$\mathsf{SA}${[}j{]}                                                                  & 14 & 13 & 1 & 7 & 12 & 2 & 8 & 4 & 10 & 3 & 9  & 0  & 6  & 11 & 5  \\ \hline
-\multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}2-Suffixe\end{tabular}} & \$ & a  & a & a & a  & a & a & a & a  & b & b  & c  & c  & c  & c  \\
+$\mathsf{SA}$                                                                  & 14 & 13 & 1 & 7 & 12 & 2 & 8 & 4 & 10 & 3 & 9  & 0  & 6  & 11 & 5  \\ \hline
+\multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}Suffix \\ h=2 \end{tabular}} & \$ & a  & a & a & a  & a & a & a & a  & b & b  & c  & c  & c  & c  \\
                                                                            &    & \$ & a & a & a  & b & b & c & c  & a & a  & a  & a  & a  & c  \\ \hline
-$\mathsf{ISA}${[}$\mathsf{SA}${[}j{]}{]}                                                         & -0 & -1 & 2 & 2 & 2  & 5 & 5 & 7 & 7  & 9 & 9  & 11 & 11 & 11 & -14 \\ \hline
+$\mathsf{ISA}$                                                         & -0 & -1 & 2 & 2 & 2  & 5 & 5 & 7 & 7  & 9 & 9  & 11 & 11 & 11 & -14 \\ \hline
 \end{tabular}
-\caption{Schritte vor dem Schleifendurchlauf: initiale Sortierung nach den ersten $h$-Zeichen (hier: $h=2$), initiales $\mathsf{ISA}$ und Markierung bereits sortierter Gruppen}
+\caption{Schritte vor dem Schleifendurchlauf: initiale Sortierung nach den ersten $h$-Zeichen (hier: $h=2$), initiales $\mathsf{ISA}$ (in $\mathsf{SA}$-Reihenfolge) und Markierung bereits sortierter Gruppen}
 \label{tab:osipov-init}
 \end{table}
 
@@ -90,6 +91,7 @@ Im Folgenden gehen wir auf das bekannte Beispiel \glqq caabaccaabacaa\$\grqq ein
 Zunächst sortieren wir unsere Suffixe nach den ersten 2 Zeichen und erzeugen basierend darauf das initiale $\mathsf{ISA}_2$. Die Ränge bereits sortierter Gruppen werden negiert, so wie bei den Suffixen mit Index $14, 13 ~\text{und}~ 5$ zu sehen. Die Ergebnisse dieser drei Schritte sind in Tabelle \ref{tab:osipov-init} dargestellt. Als nächstes betrachten wir die erste Iteration unserer Schleife. 
 
 \begin{table}[]
+\small
 \begin{tabular}{|l|l|l|l|l|}
 \hline
 $j$ & $i = \mathsf{SA}[j] - h$ & $i > 0 \wedge \mathsf{ISA}_h[i] > 0$ & $i' = \mathsf{SA}[j]$ & \begin{tabular}[c]{@{}l@{}}$\mathsf{ISA}_h[i'] < 0$\\ $\wedge (i' - 2h) \geq 0$ \\ $\wedge ~\mathsf{ISA}_h[i' - 2h] \geq 0$\end{tabular} \\ \hline
@@ -116,6 +118,7 @@ $j$ & $i = \mathsf{SA}[j] - h$ & $i > 0 \wedge \mathsf{ISA}_h[i] > 0$ & $i' = \m
 Zu Beginn einer jeden Iteration müssen wir unsere Tupel erzeugen. Dafür schauen wir uns zunächst an, welche Tupel wir überhaupt erzeugen müssen. Tabelle \ref{tab:osipov-tupel-cond} listet den Index $j$ der inneren Schleife, den zu induzierenden Suffixindex $\mathsf{SA}[j]-h$ und die Bedingung zur Erzeugung des Tupels. Dabei muss $i>0$ einen gültigen Index induzieren und das Suffix darf noch nicht eindeutig sortiert sein ($\mathsf{ISA}_h[i] > 0$). Ebenso haben wir den Suffixindex $\mathsf{SA}[j]$ sowie die entsprechende Bedingung notiert. Die Bedingung entspricht hierbei der Negierung von Lemma \ref{lem:sort-gruppe}. Die Bedingungen sind als Lazy Evaluation dargestellt, d.~h.\ sobald ein Wert $\mathsf{false}$ ist, schreiben wir die Auswertung der weiteren Teilbedingungen nicht auf. In der ersten Iteration werden alle Suffixe außer $S_0 ~\text{und}~ S_1$ zum Induzieren anderer Suffixe verwendet. Die Suffixe mit Index $14, 13 ~\text{und}~ 5$ werden nicht induziert. Wir erzeugen durch die zweite Bedingung dennoch Tupel mit ihnen, da wir sie möglicherweise für die nächste Iteration zum weiteren Sortieren benötigen.
 
 \begin{table}[]
+\small
 \begin{tabular}{|l|l|l|}
 \hline
 Erzeugte Tupel & j  & Sortierte Reihenfolge (nach $h$-Rang) \\ \hline
@@ -146,6 +149,7 @@ Die erzeugten Tupel und die daraus resultierende Sortierung sind in Tabelle \ref
 % \usepackage[table,xcdraw]{xcolor}
 % If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
 \begin{table}[]
+\small
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
 Indizes                                                    & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[j] >$\\ $h\text{-rank}[head]$\end{tabular}                                      & \begin{tabular}[c]{@{}c@{}}$2h\text{-rank}[j] \neq$\\ $2h\text{-rank}[head]$\end{tabular}                                      & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[j]=$\\ $h\text{-rank}[head]$\\ $+ j - head$ \\ (neue Gruppe)\end{tabular} & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[j]=$\\ $h\text{-rank}[head]$\\ (Rang \\ übernehmen)\end{tabular} & \begin{tabular}[c]{@{}c@{}}$head$ \\ (neuer Wert)\end{tabular} \\ \hline
@@ -169,20 +173,20 @@ Indizes                                                    & \begin{tabular}[c]{
 % If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
 \begin{table}[]
 \small
-\begin{tabular}{|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|}
 \hline
-Indizes                                                    & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[j] >$\\ $h\text{-rank}[head]$\end{tabular} & \begin{tabular}[c]{@{}c@{}}$2h\text{-rank}[j] \neq$\\ $2h\text{-rank}[head]$\end{tabular} & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[j]=$\\ $h\text{-rank}[head]$\\ $+ j - head$ \\ (neue Gruppe)\end{tabular} & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[j]=$\\ $h\text{-rank}[head]$\\ (Rang \\ übernehmen)\end{tabular}                       & \begin{tabular}[c]{@{}c@{}}$head$ \\ (neuer Wert)\end{tabular} \\ \hline
-\begin{tabular}[c]{@{}c@{}}$head=2$\\ $j=3$\end{tabular}   & $2 = 2$                                                                              & \cellcolor[HTML]{3166FF}$9 \neq -0$                                                       & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[3]$\\ $=2 + 3 - 2$\\ $= 3$\end{tabular}                                   & -                                                                                                                                & $head = 3$                                                     \\ \hline
-\begin{tabular}[c]{@{}c@{}}$head=3$\\ $j=4$\end{tabular}   & $2 < 3$                                                                              & $9 = 9$                                                                                   & -                                                                                                                   & \cellcolor[HTML]{32CB00}\begin{tabular}[c]{@{}c@{}}$h\text{-rank}[4]$\\ $=h\text{-rank}[3]$\\ $= 3$\end{tabular}                 & -                                                              \\ \hline
-\begin{tabular}[c]{@{}c@{}}$head=3$\\ $j=5$\end{tabular}   & \cellcolor[HTML]{3166FF}$5 > 3$                                                      & -                                                                                         & -                                                                                                                   & -                                                                                                                                & $head = 5$                                                     \\ \hline
-\begin{tabular}[c]{@{}c@{}}$head=5$\\ $j=6$\end{tabular}   & $5 = 5$                                                                              & $7 = 7$                                                                                   & -                                                                                                                   & \cellcolor[HTML]{32CB00}\begin{tabular}[c]{@{}c@{}}$h\text{-rank}[6]$\\ $=h\text{-rank}[5]$\\ (Rang \\ unverändert)\end{tabular} & -                                                              \\ \hline
-\begin{tabular}[c]{@{}c@{}}$head=5$\\ $j=7$\end{tabular}   & \cellcolor[HTML]{3166FF}$7 > 5$                                                      & -                                                                                         & -                                                                                                                   & -                                                                                                                                & $head=7$                                                       \\ \hline
-\begin{tabular}[c]{@{}c@{}}$head=7$\\ $j=8$\end{tabular}   & $7 = 7$                                                                              & \cellcolor[HTML]{3166FF}$11 \neq 2$                                                       & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[8]$\\ $= 7 + 8 - 7$\\ $= 8$\end{tabular}                                  & -                                                                                                                                & $head=8$                                                       \\ \hline
-\begin{tabular}[c]{@{}c@{}}$head=8$\\ $j=9$\end{tabular}   & \cellcolor[HTML]{3166FF}$9 > 8$                                                      & -                                                                                         & -                                                                                                                   & -                                                                                                                                & $head=9$                                                       \\ \hline
-\begin{tabular}[c]{@{}c@{}}$head=9$\\ $j=10$\end{tabular}  & $9 = 9$                                                                              & \cellcolor[HTML]{3166FF}$-14 \neq 11$                                                     & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[10]$\\ $= 9 + 10 - 9$\\ $= 10$\end{tabular}                               & -                                                                                                                                & $head=10$                                                      \\ \hline
-\begin{tabular}[c]{@{}c@{}}$head=10$\\ $j=11$\end{tabular} & \cellcolor[HTML]{3166FF}$11 > 10$                                                    & -                                                                                         & -                                                                                                                   & -                                                                                                                                & $head=11$                                                      \\ \hline
-\begin{tabular}[c]{@{}c@{}}$head=11$\\ $j=12$\end{tabular} & $11 = 11$                                                                            & \cellcolor[HTML]{3166FF}$5 \neq -1$                                                       & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[12]$\\ $= 11 + 12 - 11$\\ $=12$\end{tabular}                              & -                                                                                                                                & $head=12$                                                      \\ \hline
-\begin{tabular}[c]{@{}c@{}}$head=12$\\ $j=13$\end{tabular} & $11 < 12$                                                                            & $5 = 5$                                                                                   & -                                                                                                                   & \cellcolor[HTML]{32CB00}\begin{tabular}[c]{@{}c@{}}$h\text{-rank}[13]$\\ $=h\text{-rank}[12]$\\ $=12$\end{tabular}               &  -                                                              \\ \hline
+Indizes                                                    & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[j] >$\\ $h\text{-rank}[head]$\end{tabular} & \begin{tabular}[c]{@{}c@{}}$2h\text{-rank}[j] \neq$\\ $2h\text{-rank}[head]$\end{tabular} & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[j]=$\\ $h\text{-rank}[head]$\\ $+ j - head$ \\ (neue Gruppe)\end{tabular} & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[j]=$\\ $h\text{-rank}[head]$\\ (Rang \\ übernehmen)\end{tabular} \\ \hline
+\begin{tabular}[c]{@{}c@{}}$head=2$\\ $j=3$\end{tabular}   & $2 = 2$                                                                              & \cellcolor[HTML]{3166FF}$9 \neq -0$                                                       & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[3]$\\ $=2 + 3 - 2$\\ $= 3$\end{tabular}                                   & -                                                                                                                               \\ \hline
+\begin{tabular}[c]{@{}c@{}}$head=3$\\ $j=4$\end{tabular}   & $2 < 3$                                                                              & $9 = 9$                                                                                   & -                                                                                                                   & \cellcolor[HTML]{32CB00}\begin{tabular}[c]{@{}c@{}}$h\text{-rank}[4]$\\ $=h\text{-rank}[3]$\\ $= 3$\end{tabular}                \\ \hline
+\begin{tabular}[c]{@{}c@{}}$head=3$\\ $j=5$\end{tabular}   & \cellcolor[HTML]{3166FF}$5 > 3$                                                      & -                                                                                         & -                                                                                                                   & -                                                                                                                                \\ \hline
+\begin{tabular}[c]{@{}c@{}}$head=5$\\ $j=6$\end{tabular}   & $5 = 5$                                                                              & $7 = 7$                                                                                   & -                                                                                                                   & \cellcolor[HTML]{32CB00}\begin{tabular}[c]{@{}c@{}}$h\text{-rank}[6]$\\ $=h\text{-rank}[5]$\\ (Rang \\ unverändert)\end{tabular} \\ \hline
+\begin{tabular}[c]{@{}c@{}}$head=5$\\ $j=7$\end{tabular}   & \cellcolor[HTML]{3166FF}$7 > 5$                                                      & -                                                                                         & -                                                                                                                   & -                                                                                                                                \\ \hline
+\begin{tabular}[c]{@{}c@{}}$head=7$\\ $j=8$\end{tabular}   & $7 = 7$                                                                              & \cellcolor[HTML]{3166FF}$11 \neq 2$                                                       & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[8]$\\ $= 7 + 8 - 7$\\ $= 8$\end{tabular}                                  & -      \\ \hline
+\begin{tabular}[c]{@{}c@{}}$head=8$\\ $j=9$\end{tabular}   & \cellcolor[HTML]{3166FF}$9 > 8$                                                      & -                                                                                         & -                                                                                                                   & -                                                                                                                                \\ \hline
+\begin{tabular}[c]{@{}c@{}}$head=9$\\ $j=10$\end{tabular}  & $9 = 9$                                                                              & \cellcolor[HTML]{3166FF}$-14 \neq 11$                                                     & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[10]$\\ $= 9 + 10 - 9$\\ $= 10$\end{tabular}                               & -      \\ \hline
+\begin{tabular}[c]{@{}c@{}}$head=10$\\ $j=11$\end{tabular} & \cellcolor[HTML]{3166FF}$11 > 10$                                                    & -                                                                                         & -                                                                                                                   & -  \\ \hline
+\begin{tabular}[c]{@{}c@{}}$head=11$\\ $j=12$\end{tabular} & $11 = 11$                                                                            & \cellcolor[HTML]{3166FF}$5 \neq -1$                                                       & \begin{tabular}[c]{@{}c@{}}$h\text{-rank}[12]$\\ $= 11 + 12 - 11$\\ $=12$\end{tabular}                              & -                                                                                                                                \\ \hline
+\begin{tabular}[c]{@{}c@{}}$head=12$\\ $j=13$\end{tabular} & $11 < 12$                                                                            & $5 = 5$                                                                                   & -                                                                                                                   & \cellcolor[HTML]{32CB00}\begin{tabular}[c]{@{}c@{}}$h\text{-rank}[13]$\\ $=h\text{-rank}[12]$\\ $=12$\end{tabular}               \\ \hline
 \end{tabular}
 \caption{Neuberechnung der Ränge mittels Tupeln aus Tabelle \ref{tab:osipov-tupel-sort}. Die erste Bedingung (zweite Spalte) prüft, ob eine neue $h$-Gruppe beginnt. Die zweite Bedingung (dritte Spalte) prüft, ob eine neue $2h$-Gruppe beginnt. Ist dies der Fall (blau markiert), muss der neue Rang berechnet werden. Falls die zweite Bedingung nicht erfüllt ist, so wird der Rang des Gruppenkopfes übernommen (grün markiert). Sobald eine neue $h$- oder $2h$-Gruppe beginnt, muss der $head$-Zeiger auf den Anfang der neuen Gruppe zeigen.}
 \label{tab:osipov-new-ranks}
@@ -192,11 +196,12 @@ Tabelle \ref{tab:osipov-new-ranks} zeigt die Berechnung der neuen Ränge. Die er
 
 
 \begin{table}[]
+\small
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 \hline
 j                              & 0  & 1  & 2  & 3 & 4 & 5 & 6 & 7  & 8 & 9  & 10  & 11  & 12 & 13 & 14  \\ \hline
-$\mathsf{SA}[j]$               & 14 & 13 & 12 & 1 & 7 & 2 & 8 & 10 & 4 & 9  & 3   & 11  & 0  & 6  & 5   \\ \hline
-$\mathsf{ISA}[\mathsf{SA}[j]]$ & -0 & -1 & -2 & 3 & 3 & 5 & 5 & -7  & -8 & -9 & -10 & -11 & 12 & 12 & -14 \\ \hline
+$\mathsf{SA}$               & 14 & 13 & 12 & 1 & 7 & 2 & 8 & 10 & 4 & 9  & 3   & 11  & 0  & 6  & 5   \\ \hline
+$\mathsf{ISA}$ & -0 & -1 & -2 & 3 & 3 & 5 & 5 & -7  & -8 & -9 & -10 & -11 & 12 & 12 & -14 \\ \hline
 \end{tabular}
 \caption{$\mathsf{SA}$ in sortierter Reihenfolge und $\mathsf{ISA}$ (in $\mathsf{SA}$-Reihenfolge) nach dem ersten Schleifendurchlauf.}
 \label{tab:osipov-iteration}
@@ -205,13 +210,14 @@ $\mathsf{ISA}[\mathsf{SA}[j]]$ & -0 & -1 & -2 & 3 & 3 & 5 & 5 & -7  & -8 & -9 & 
 Zum Ende unserer Iteration übernehmen wir die finalen Werte für die $h$-Ränge und übernehmen sie in das $\mathsf{ISA}$. Zuletzt markieren wir alle neuen, fertig sortierten Gruppen mittels Negierung und wir haben unsere finalen Werte. Das Ergebnis findet sich in Tabelle \ref{tab:osipov-iteration}. Da wir in dieser Iteration noch Tupel erzeugt haben und die Größe für die nächste Iteration der Anzahl erzeugter Tupel entspricht, müssen wir eine weitere Iteration durchführen. Dafür setzen wir die neue Größe auf die Anzahl unserer Tupel (identischer Wert) und wir verdoppeln $h$ auf $4$. Der Einfachheit halber überspringen wir diese Iteration jedoch, da die Gruppen $(1, 7), (2,8)$ und $(0,6)$ eindeutig sortiert werden. Unser finales Suffix Array findet sich in Tabelle \ref{tab:osipov-final} wieder.
 
 \begin{table}[]
+\small
 \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}
 \hline
 j                              & 0  & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9  & 10  & 11  & 12  & 13  & 14  \\ \hline
-$\mathsf{SA}$[j]               & 14 & 13 & 12 & 7  & 1  & 8  & 2  & 10 & 4  & 9  & 3   & 11  & 6   & 0   & 5   \\ \hline
-$\mathsf{ISA}[\mathsf{SA}[j]]$ & -0 & -1 & -2 & -3 & -4 & -5 & -6 & -7 & -8 & -9 & -10 & -11 & -12 & -13 & -14 \\ \hline
+$\mathsf{SA}$               & 14 & 13 & 12 & 7  & 1  & 8  & 2  & 10 & 4  & 9  & 3   & 11  & 6   & 0   & 5   \\ \hline
+$\mathsf{ISA}$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 \\ \hline
 \end{tabular}
-\caption{Das finale $\mathsf{SA}$ nach einer weiteren Iteration. Alle drei unsortierten Gruppen wurden in ihrer Reihenfolge vertauscht.}
+\caption{Das finale $\mathsf{SA}$ nach einer weiteren Iteration. Alle drei unsortierten Gruppen wurden in ihrer Reihenfolge vertauscht. Alle Werte in $\mathsf{ISA}$ (in $\mathsf{SA}$-Reihenfolge) wurden bereits negiert, sodass das $\mathsf{SA}$ hergeleitet werden kann.}
 \label{tab:osipov-final}
 \end{table}
 
