@@ -174,13 +174,18 @@ To maximize throughput, multiple characters of the input (8 bit each) can be pro
 interpreting them as integer numbers (64 bit, or even up to 512 bit by using vector operations).
 This is done in multiple algorihms\todo{welche?} to improve performance.
 
-\subsection{Binary vs. ternary comparison-based sort}
+\subsection{Sorting Algorithms}
 
-Since different applications require different algorithms, we implemented multiple versions of quicksort:
+Many SACAs use sorting algorithms at some point, so for the benchmark a variety of sorting algorithms were implemented so that all SACAs can use them. Included are some versions of quicksort, bucketsort and versions of radixsort.  This is especially interesting for naive parallelization, where one may just switch from a sequential sorting algorithm to a parallel one and thereby improve performance.
+Besides our own implemented sorting algorithms some external sorting algorithms are also included. Most of those external sorting algorithms are made for parallel use.
+
+\subsubsection{Binary vs. ternary comparison-based sort}
+
+Multiple versions of quicksort are implemented:
 Two of them are introsort~\cite{Musser97} and ternary quicksort~\cite{ternary_quicksort}.
 It has been shown that the binary sorting procedure is faster,
-if there are no equal elements in the set to be sorted.\todo{Graph oder Messung?};
-the ternary version is faster when there are~\cite{ternary_quicksort}.
+if there are no equal elements in the set to be sorted \todo{Graph oder Messung?};
+else, the ternary version is faster~\cite{ternary_quicksort}.
 We therefore chose the best option for the required use-case.
 
 \section{Evaluation}
