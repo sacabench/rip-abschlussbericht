@@ -209,3 +209,25 @@
     \ref{legend2}
 \end{figure}
 \FloatBarrier
+
+Auf den Abbildungen zu den beiden Texten \texttt{wiki} und \texttt{dna} lässt sich erkennen,
+dass alle drei Implementierungen von Deep-Shallow die naive Sortiermethode in der Laufzeit schlagen.
+Sie tun dies durch das Eintauschen von einigem Speicher (ca 1\% des Eingabetextes):
+Der naive SACA verwendet hingegen keinen Extraspeicher.
+
+In der dritten Abbildung zum Text \texttt{commoncrawl} zeigt sich die schlechte
+Worst-Case-Laufzeit von Deep-Shallow.
+Unsere Deep-Shallow-Implementierung ohne Big-Buckets (siehe \cref{ds:zweite}) schafft es hier zwar,
+bis 400MB das SA zu berechnen, allerdings reicht die Zeit (2 Stunden) nicht aus, um das SA für 800MB Text zu berechnen.
+Die Deep-Shallow-Big-Buckets-Implementierung schafft es nicht, das 200MB-SA zu berechnen.
+
+In allen drei Plots schafft der Referenzalgorithmus es nicht, das SA für 1600MB Text zu berechnen.
+Dies liegt daran, dass er innerhalb des Zeitlimits von zwei Stunden nicht terminiert ist.
+Der Algorithmus verwendet zwar 32-Bit-Integer, und verwendet außerdem eins dieser Bits als Tag,
+dies schränkt den adressierbaren Text jedoch nur auf $2^{32 - 1} \approx \SI{2.1}{GB}$ ein.
+Daher ist zu vermuten, dass diese (relativ alte) Implementierung andere Annahmen trifft,
+die die Textgröße weiter einschränken.
+
+Vergleichend lässt sich sagen, dass unsere Implementierungen zwar den naiven SACA auf zwei Texten schlagen,
+die optimiertere Referenzimplementierung allerdings in fast allen Fällen besser ist.
+Lediglich der Speicherverbrauch unserer Implementierungen ist auf \texttt{dna} geringer.
