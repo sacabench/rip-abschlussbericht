@@ -147,7 +147,30 @@ DC3 sorts exactly $^2\!/\!_3$ of the suffixes by recursion, while SAIS sorts all
 if their ordering cannot be decided by looking at their first character.
 After this step, the ordering of the other suffixes can be induced.
 
-\bigskip
+\begin{figure}[!t]
+    \includegraphics[width=\textwidth]{kapitel/5_saca_uebersicht/history/history2.png}
+    \caption{(partial) History of SACAs}
+    \label{ea:fig:history}
+\end{figure}
+
+See \cref{ea:fig:history} for a short summary of SACA history.
+The different SACAs are divided into the three classes described above.
+We now briefly explain the shown algorithms and their differences.
+
+Prefix Doubling is a SACA which works purely by the above described method \emph{Doubling}.
+In every iteration the SA is refined and double the amount of characters are considered for sorting.
+This directly influenced qsufsort, which improved its performance~\cite{hermann?}.
+BPR incorporated some ideas of inducing with prefix doubling and is therefore on the edge of those two paradigms.
+Its inducing is based on the copy-technique by Seward~\cite{seward2000}\todo{right ref?}.
+This technique is also used by Deep-Shallow, which uses string-sorting instead of prefix doubling.
+It influenced divsufsort, which \todo{Olli? Adde hier mal shit}.
+mSufSort is another inducing-SACA, but since it constructs the \emph{inverse suffix array} instead of the SA,
+it's not derived from any other SACA.
+SAIS/SADS take inducing one step further than DivSufSort and induce most suffixes after a recursion step.
+This is also done by SACA-K and GSACA, which are both similar to SAIS, but add some optimizations
+(SACA-K for example doesn't use any extra space).
+The two other recursive SACAs are DC3 (which sorts $\frac{2}{3}$ of the suffixes in a recursion step)
+and nzSufSort (which is similar to DC3 but improves on some aspects)\todo{nico? johannes? bitte ergänzen}.
 
 \section{Optimization Strategies}
 
@@ -185,7 +208,7 @@ We therefore chose the best option for the required use-case.
 
 \section{Evaluation}
 
-Wartend auf Flo
+
 
 \section{Conclusion}
 
