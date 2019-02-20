@@ -1,0 +1,106 @@
+\pgfplotscreateplotcyclelist{exotic}{%
+    {fill=teal!50!white},
+    {fill=orange!80!white},
+    {fill=cyan!80!white},
+    {fill=lime!80!white},
+    {fill=red!80!white},
+    {fill=yellow!80!white},
+    {fill=black!60!white},
+    {fill=blue!80!white},
+    {fill=teal!80!white, postaction={pattern=north east lines}},
+    {fill=orange!80!white, postaction={pattern=north east lines}},
+    {fill=cyan!80!white, postaction={pattern=north east lines}},
+    {fill=lime!80!white, postaction={pattern=north east lines}},
+    {fill=red!80!white, postaction={pattern=north east lines}},
+    {fill=yellow!80!white, postaction={pattern=north east lines}},
+    {fill=black!30!white, postaction={pattern=north east lines}},
+    {fill=blue!80!white, postaction={pattern=north east lines}},
+    {fill=teal!80!white, postaction={pattern=north west lines}},
+    {fill=orange!80!white, postaction={pattern=north west lines}},
+    {fill=cyan!80!white, postaction={pattern=north west lines}},
+    {fill=lime!80!white, postaction={pattern=north west lines}},
+    {fill=red!80!white, postaction={pattern=north west lines}},
+    {fill=yellow!80!white, postaction={pattern=north west lines}},
+    {fill=black!30!white, postaction={pattern=north west lines}},
+    {fill=blue!80!white, postaction={pattern=north west lines}},
+    {fill=teal!80!white, postaction={pattern=horizontal lines}},
+    {fill=orange!80!white, postaction={pattern=horizontal lines}},
+    {fill=cyan!80!white, postaction={pattern=horizontal lines}},
+    {fill=lime!80!white, postaction={pattern=horizontal lines}},
+    {fill=red!80!white, postaction={pattern=horizontal lines}},
+    {fill=yellow!80!white, postaction={pattern=horizontal lines}},
+    {fill=black!30!white, postaction={pattern=horizontal lines}},
+    {fill=blue!80!white, postaction={pattern=horizontal lines}},
+    {fill=teal!80!white, postaction={pattern=crosshatch}},
+    {fill=orange!80!white, postaction={pattern=crosshatch}},
+    {fill=cyan!80!white, postaction={pattern=crosshatch}},
+    {fill=lime!80!white, postaction={pattern=crosshatch}},
+    {fill=red!80!white, postaction={pattern=crosshatch}},
+    {fill=yellow!80!white, postaction={pattern=crosshatch}},
+    {fill=black!30!white, postaction={pattern=crosshatch}},
+    {fill=blue!80!white, postaction={pattern=crosshatch}},
+    {fill=teal!80!white, postaction={pattern=crosshatch dots}},
+    {fill=orange!80!white, postaction={pattern=crosshatch dots}},
+    {fill=cyan!80!white, postaction={pattern=crosshatch dots}},
+    {fill=lime!80!white, postaction={pattern=crosshatch dots}},
+    {fill=red!80!white, postaction={pattern=crosshatch dots}},
+    {fill=yellow!80!white, postaction={pattern=crosshatch dots}},
+    {fill=black!30!white, postaction={pattern=crosshatch dots}},
+    {fill=blue!80!white, postaction={pattern=crosshatch dots}},
+    {fill=teal!80!white, postaction={pattern=fivepointed stars}},
+    {fill=orange!80!white, postaction={pattern=fivepointed stars}},
+    {fill=cyan!80!white, postaction={pattern=fivepointed stars}},
+    {fill=lime!80!white, postaction={pattern=fivepointed stars}},
+    {fill=red!80!white, postaction={pattern=fivepointed stars}},
+    {fill=yellow!80!white, postaction={pattern=fivepointed stars}},
+    {fill=black!30!white, postaction={pattern=fivepointed stars}},
+    {fill=blue!80!white, postaction={pattern=fivepointed stars}},
+    }
+
+\pgfplotscreateplotcyclelist{exoticlines}{%
+    red!70!white,mark=star\\%
+    teal,every mark/.append style={fill=teal!80!black},mark=*\\%
+    orange,every mark/.append style={fill=orange!80!black},mark=square*\\%
+    lime!80!black,every mark/.append style={fill=lime},mark=diamond*\\%
+    cyan!60!black,every mark/.append style={fill=cyan!80!black},mark=otimes*\\%
+    red,densely dashed,every mark/.append style={solid,fill=red!80!black},mark=*\\%
+    yellow!60!black,densely dashed,every mark/.append style={solid,fill=yellow!80!black},mark=square*\\%
+    black,every mark/.append style={solid,fill=gray},mark=otimes*\\%
+    blue,densely dashed,mark=star,every mark/.append style=solid\\%
+    teal,every mark/.append style={fill=teal!80!black},mark=diamond*\\%
+    orange,every mark/.append style={fill=orange!80!black},mark=*\\%
+    cyan!60!black,every mark/.append style={fill=cyan!80!black},mark=square*\\%
+    red!70!white,mark=otimes*\\%
+    lime!80!black,every mark/.append style={fill=lime},mark=star\\%
+    red,densely dashed,every mark/.append style={solid,fill=red!80!black},mark=diamond*\\%
+    yellow!60!black,densely dashed,every mark/.append style={solid,fill=yellow!80!black},mark=*\\%
+    black,every mark/.append style={solid,fill=gray},mark=square*\\%
+    blue,densely dashed,mark=otimes*,every mark/.append style=solid\\%
+    teal,every mark/.append style={fill=teal!80!black},mark=star\\%
+    orange,every mark/.append style={fill=orange!80!black},mark=diamond*\\%
+    cyan!60!black,every mark/.append style={fill=cyan!80!black},mark=*\\%
+    red!70!white,mark=square*\\%
+    lime!80!black,every mark/.append style={fill=lime},mark=otimes*\\%
+    red,densely dashed,every mark/.append style={solid,fill=red!80!black},mark=star\\%
+    yellow!60!black,densely dashed,every mark/.append style={solid,fill=yellow!80!black},mark=diamond*\\%
+    black,every mark/.append style={solid,fill=gray},mark=*\\%
+    blue,densely dashed,mark=square*,every mark/.append style=solid\\%
+    teal,every mark/.append style={fill=teal!80!black},mark=otimes*\\%
+    orange,every mark/.append style={fill=orange!80!black},mark=star\\%
+    cyan!60!black,every mark/.append style={fill=cyan!80!black},mark=*\\%
+    red!70!white,mark=*\\%
+    lime!80!black,every mark/.append style={fill=lime},mark=square*\\%
+    red,densely dashed,every mark/.append style={solid,fill=red!80!black},mark=otimes*\\%
+    yellow!60!black,densely dashed,every mark/.append style={solid,fill=yellow!80!black},mark=star\\%
+    black,every mark/.append style={solid,fill=gray},mark=diamond*\\%
+    blue,densely dashed,mark=square*,every mark/.append style=*\\%
+    teal,every mark/.append style={fill=teal!80!black},mark=square*\\%
+    orange,every mark/.append style={fill=orange!80!black},mark=otimes*\\%
+    cyan!60!black,every mark/.append style={fill=cyan!80!black},mark=star\\%
+    red!70!white,mark=diamond*\\%
+    lime!80!black,every mark/.append style={fill=lime},mark=*\\%
+    red,densely dashed,every mark/.append style={solid,fill=red!80!black},mark=square*\\%
+    yellow!60!black,densely dashed,every mark/.append style={solid,fill=yellow!80!black},mark=otimes*\\%
+    black,every mark/.append style={solid,fill=gray},mark=star\\%
+    blue,densely dashed,mark=square*,every mark/.append style=diamond*\\%
+}

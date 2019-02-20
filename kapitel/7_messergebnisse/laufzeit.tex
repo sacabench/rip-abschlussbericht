@@ -1,0 +1,11 @@
+\section{Evaluation Laufzeit}
+
+Die Ergebnisse zur Laufzeit lassen sich abhängig von der Eingabe grob in drei verschiedenen Klassen einteilen:
+
+In normalen Texten wie dem Pizza\&Chili Korpus, Commoncrawl und Wikipedia besitzen in der Regel die Referenzimplementierung vom DivSufSort und beiden Implementierungen vom Bucket-Pointer-Refinement die besten Laufzeiten. Demgegenüber stehen DC3-Lite, NzSufSort, sowie unser DivSufSort und die Referenzimplementierung von DC3 mit den langsamsten Laufzeiten.
+
+In Texten mit einigen Repetitionen wie dem  Pizza\&Chili repetitiven Korpus von echten Texten zeigt sich ein ähnliches Bild, allerdings löst hier die Referenzimplementierung des SAIS-Lite unsere BPR Implementierung bei den besten Laufzeiten ab. Auch zeigt sich hier ein noch langsameres Laufzeitverhalten bei beiden Deep-Shallow Implementierungen, DivSufSort, sowie dem naiven Algorithmus.
+
+Texte mit vielen Repetitiven wie dem Pizza\&Chili repetitiven Korpus von künstlichen Texten scheinen einen Extremfall darzustellen. Zum einen wird der Referenz DivSufSort in der Laufzeit von beiden GSACA Implementierungen und der Referenzimplementierung des SAIS-Lite geschlagen. Zum anderen zeigen einige der Algorithmen so schlechte Laufzeiten, dass sie teilweise vollständig aus der Messung ausgenommen werden mussten. Hierzu zählen die Deep-Shallow Implementierungen, der naive Algorithmus, DivSufSort und Doubling+Discarding.
+
+Im Vergleich sind die Laufzeiten der Referenzimplementierungen meistens noch besser als die von uns durchgeführten Implementierungen. Einige schlagen jedoch bereits die Referenz, wie zB. BPR und DC3.

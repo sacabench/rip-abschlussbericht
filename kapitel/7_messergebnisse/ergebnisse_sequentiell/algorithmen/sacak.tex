@@ -1,0 +1,203 @@
+\subsubsection{SACA-K}
+
+\textbf{Configuration} \hfill Model name: none
+% IMPORT-DATA stats2 ../results.txt
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                name=axis1,
+                cycle list name={exoticlines},
+                width=0.5\textwidth,
+                height=65mm,
+                title={wiki.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={SA construction time [s]},
+                legend columns=2,
+                legend to name=legend0,
+                legend style={
+                    /tikz/every even column/.append style={column sep=0.5cm,black},
+                    /tikz/every even column/.append style={black},
+                },
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="wiki.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="SACA-K" OR algo="SACA-K_ref")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,359.928) (4,778.531) (8,2125.23) };
+            \addlegendentry{algo=Naiv};
+            \addplot coordinates { (2,176.918) (4,372.933) (8,762.356) };
+            \addlegendentry{algo=SACA-K};
+            \addplot coordinates { (2,146.571) (4,308.399) (8,635.051) };
+            \addlegendentry{algo=SACA-K\_ref};
+
+        \end{axis}
+        \begin{axis}[
+                cycle list name={exoticlines},
+                at={(axis1.outer north east)},
+                anchor=outer north west,
+                name=axis2,
+                width=0.5\textwidth,
+                height=65mm,
+                title={wiki.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={Extra Memory [MB]},
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="wiki.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="SACA-K" OR algo="SACA-K_ref")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addlegendentry{algo=Naiv};
+            \addplot coordinates { (2,625.246) (4,1126.38) (8,1925.11) };
+            \addlegendentry{algo=SACA-K};
+            \addplot coordinates { (2,0.000836) (4,0.00084) (8,0.00084) };
+            \addlegendentry{algo=SACA-K\_ref};
+
+            \legend{}
+        \end{axis}
+    \end{tikzpicture}
+
+    \medskip
+    \ref{legend0}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                name=axis1,
+                cycle list name={exoticlines},
+                width=0.5\textwidth,
+                height=65mm,
+                title={dna.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={SA construction time [s]},
+                legend columns=2,
+                legend to name=legend1,
+                legend style={
+                    /tikz/every even column/.append style={column sep=0.5cm,black},
+                    /tikz/every even column/.append style={black},
+                },
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="dna.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="SACA-K" OR algo="SACA-K_ref")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,413.268) (4,908.502) (8,1904.01) };
+            \addlegendentry{algo=Naiv};
+            \addplot coordinates { (2,163.561) (4,342.293) (8,703.922) };
+            \addlegendentry{algo=SACA-K};
+            \addplot coordinates { (2,142.352) (4,294.672) (8,606.149) };
+            \addlegendentry{algo=SACA-K\_ref};
+
+        \end{axis}
+        \begin{axis}[
+                cycle list name={exoticlines},
+                at={(axis1.outer north east)},
+                anchor=outer north west,
+                name=axis2,
+                width=0.5\textwidth,
+                height=65mm,
+                title={dna.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={Extra Memory [MB]},
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="dna.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="SACA-K" OR algo="SACA-K_ref")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addlegendentry{algo=Naiv};
+            \addplot coordinates { (2,493.271) (4,865.24) (8,1857.47) };
+            \addlegendentry{algo=SACA-K};
+            \addplot coordinates { (2,2.0e-05) (4,2.0e-05) (8,2.0e-05) };
+            \addlegendentry{algo=SACA-K\_ref};
+
+            \legend{}
+        \end{axis}
+    \end{tikzpicture}
+
+    \medskip
+    \ref{legend1}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                name=axis1,
+                cycle list name={exoticlines},
+                width=0.5\textwidth,
+                height=65mm,
+                title={commoncrawl.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={SA construction time [s]},
+                legend columns=2,
+                legend to name=legend2,
+                legend style={
+                    /tikz/every even column/.append style={column sep=0.5cm,black},
+                    /tikz/every even column/.append style={black},
+                },
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="SACA-K" OR algo="SACA-K_ref")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,666.038) (4,1590.11) (8,4111.56) };
+            \addlegendentry{algo=Naiv};
+            \addplot coordinates { (2,150.122) (4,320.212) (8,684.859) };
+            \addlegendentry{algo=SACA-K};
+            \addplot coordinates { (2,122.444) (4,264.282) (8,564.378) };
+            \addlegendentry{algo=SACA-K\_ref};
+
+        \end{axis}
+        \begin{axis}[
+                cycle list name={exoticlines},
+                at={(axis1.outer north east)},
+                anchor=outer north west,
+                name=axis2,
+                width=0.5\textwidth,
+                height=65mm,
+                title={commoncrawl.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={Extra Memory [MB]},
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="SACA-K" OR algo="SACA-K_ref")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addlegendentry{algo=Naiv};
+            \addplot coordinates { (2,600.542) (4,1057.1) (8,1845.21) };
+            \addlegendentry{algo=SACA-K};
+            \addplot coordinates { (2,0.000964) (4,0.000972) (8,0.000972) };
+            \addlegendentry{algo=SACA-K\_ref};
+
+            \legend{}
+        \end{axis}
+    \end{tikzpicture}
+
+    \medskip
+    \ref{legend2}
+\end{figure}
+\FloatBarrier

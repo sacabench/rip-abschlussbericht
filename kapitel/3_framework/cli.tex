@@ -1,15 +1,16 @@
-\section{CLI}
+\section{Command Line Interface}
 
 Das \currentauthor{David Piper und\\ Florian Grieskamp} \sacabench-Framework wurde mit dem Ziel entworfen, alle enthaltenen Funktionen flexibel aufrufen sowie Ein- und Ausgaben mit UNIX-Tools einfach verarbeiten zu können.
-Es können daher alle Komponenten über ein Command Line Interface angesprochen werden, um Zugriff auf deren Funktionalitäten zu erlangen.
-Das Hauptprogramm unterteilt sich in vier Bestandteile:
+Es können daher alle Komponenten über ein Command Line Interface (CLI) angesprochen werden, um Zugriff auf deren Funktionalitäten zu erlangen.
+Das Hauptprogramm unterteilt sich in fünf Bestandteile:
 \begin{description}
     \item[\termfont{sacabench list}] gibt eine Liste aller verfügbaren Implementierungen aus, welche neben den im Rahmen der Projektgruppe implementierten Algorithmen auch die zugehörigen Referenzimplementierungen beinhaltet.
-        Alle Funktionen dieser Komponente werden in \cref{framework:cli:sacabench-list} auf \cpageref{framework:cli:sacabench-list} genauer erklärt.
+        Alle Funktionen dieser Komponente werden in \cref{framework:cli:sacabench-list} genauer erklärt.
     \item[\termfont{sacabench demo}] führt alle enthaltenen Algorithmen auf einer Beispieleingabe aus, um deren Funktionalität zu demonstrieren.
-        Alle Funktionen dieser Komponente werden in \cref{framework:cli:sacabench-demo} auf \cpageref{framework:cli:sacabench-demo} genauer erklärt.
-    \item[\termfont{sacabench construct}] führt einen einzlenen Algorithmus wahlweise auf einer Eingabedatei oder auf der Standardeingabe aus und bietet unter anderem die Optionen, die Laufzeit der Verarbeitung zu messen oder die Korrektheit der Ausgabe zu testen. Alle Funktionen dieser Komponente werden in \cref{framework:cli:sacabench-construct} auf \cpageref{framework:cli:sacabench-construct} genauer erklärt.
-    \item[\termfont{sacabench batch}] bietet ähnliche Funktionen wie \termfont{sacabench construct}, wendet aber mehrere Algorithmen auf den Eingabetext an. Dadurch kann die Effizienz ausgewählter Verfahren verglichen werden. Alle Funktionen dieser Komponente werden in \cref{framework:cli:sacabench-batch} auf \cpageref{framework:cli:sacabench-batch} genauer erklärt.
+        Alle Funktionen dieser Komponente werden in \cref{framework:cli:sacabench-demo} genauer erklärt.
+    \item[\termfont{sacabench construct}] führt einen einzelnen Algorithmus wahlweise auf einer Eingabedatei oder auf der Standardeingabe aus und bietet unter anderem die Optionen, die Laufzeit der Verarbeitung zu messen oder die Korrektheit der Ausgabe zu testen. Alle Funktionen dieser Komponente werden in \cref{framework:cli:sacabench-construct} genauer erklärt.
+    \item[\termfont{sacabench batch}] bietet ähnliche Funktionen wie \termfont{sacabench construct}, wendet aber mehrere Algorithmen auf den Eingabetext an. Dadurch kann die Effizienz ausgewählter Verfahren verglichen werden. Alle Funktionen dieser Komponente werden in \cref{framework:cli:sacabench-batch} genauer erklärt.
+    \item[\termfont{sacabench plot}] ermöglicht es, zu einer zuvor bereits durchgeführte Messung PDF-Dateien zu generieren.
 \end{description}
 
 \input{kapitel/3_framework/cli/sacabench}
@@ -17,3 +18,4 @@ Das Hauptprogramm unterteilt sich in vier Bestandteile:
 \input{kapitel/3_framework/cli/sacabench-demo}
 \input{kapitel/3_framework/cli/sacabench-construct}
 \input{kapitel/3_framework/cli/sacabench-batch}
+\input{kapitel/3_framework/cli/sacabench-plot}
