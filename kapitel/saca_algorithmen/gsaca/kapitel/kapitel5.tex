@@ -24,7 +24,7 @@ Hierzu sei die Variable $gs$ der Startindex der aktuellen Gruppe und $ge$ der En
 Um nun zur nächsten Gruppe zu gelangen, wird der neue Endindex der nächsten Gruppe auf den direkten Vorgänger des Startindex der aktuellen Gruppe gesetzt, also ist $ge_{neu}$ = $gs$ - 1. 
 Der neue Startindex $gs_{neu}$ kann bestimmt werden, indem zu dem neuen Endindex das Element aus dem Suffix-Array \sa gesucht und für dieses mit GLINK der Zeiger auf das erste Element der Gruppe bestimmt wird. 
 Somit ist $gs_{neu}$ = GLINK[SA[$gs - a$]]. 
-Das Bestimmen der Gruppengrenzen der nächsten Gruppe geschieht in O(1) und die Iteration über alle Gruppen benötigt somit O(n) Zeit.\\
+Das Bestimmen der Gruppengrenzen der nächsten Gruppe geschieht in $\mathcal O(1)$ und die Iteration über alle Gruppen benötigt somit $\mathcal O(n)$ Zeit.\\
 
 Als nächstes wird beschrieben, wie sich der \prevpointer für ein Element berechnen lässt. 
 Der \prevpointer für ein Index kann bestimmt werden, indem der vorherige Index betrachtet wird. 
@@ -33,7 +33,7 @@ Ob eine Gruppe kleiner als eine andere Gruppe ist, kann über die Liste GLINK ü
 Falls der gefundene Index zu einer kleineren Gruppe gehört, wurde das Element, auf den der \prevpointer des Elements am ursprünglichen Index zeigt, gefunden. 
 Falls der gefundene Index aber zur gleichen Gruppe gehört, wird dieses Verfahren mit diesem neuen Index als Ausgangspunkt durchgeführt. 
 Auf das dann gefundene Element wird von den \prevpointern aller so in einem Schritt betrachteten Indices gezeigt. 
-Dieses als \textit{pointer jumping} bekannte Verfahren benötigt O(n) Zeit.\\
+Dieses als \textit{pointer jumping} bekannte Verfahren benötigt $\mathcal O(n)$ Zeit.\\
 Dieses Vorgehen kann am Beispiel aus Kapitel \ref{gsaca:chapter3} gezeigt werden. 
 In Tabelle \ref{gsaca:fig_banane_1_2} ist die zweite Iteration der ersten Phase dargestellt. 
 Zu Beginn der zweiten Iteration wurde die Gruppe \textit{n} schon betrachtet, in dieser Iteration wird also die Gruppe \textit{e} untersucht. 
