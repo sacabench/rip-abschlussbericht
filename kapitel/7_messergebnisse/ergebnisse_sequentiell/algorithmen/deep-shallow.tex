@@ -1,0 +1,233 @@
+\subsubsection{Deep-Shallow}
+
+\textbf{Configuration} \hfill Model name: none
+% IMPORT-DATA stats2 ../results.txt
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                name=axis1,
+                cycle list name={exoticlines},
+                width=0.5\textwidth,
+                height=65mm,
+                title={wiki.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={SA construction time [s]},
+                legend columns=2,
+                legend to name=legend0,
+                legend style={
+                    /tikz/every even column/.append style={column sep=0.5cm,black},
+                    /tikz/every even column/.append style={black},
+                },
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="wiki.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="Deep-Shallow" OR algo="Deep-Shallow_ref" OR algo="Deep-Shallow_bb")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,189.772) (4,424.189) (8,1051.45) };
+            \addlegendentry{algo=Deep-Shallow};
+            \addplot coordinates { (2,172.208) (4,438.225) (8,863.927) };
+            \addlegendentry{algo=Deep-Shallow\_bb};
+            \addplot coordinates { (2,76.0137) (4,166.025) };
+            \addlegendentry{algo=Deep-Shallow\_ref};
+            \addplot coordinates { (2,359.928) (4,778.531) (8,2125.23) };
+            \addlegendentry{algo=Naiv};
+
+        \end{axis}
+        \begin{axis}[
+                cycle list name={exoticlines},
+                at={(axis1.outer north east)},
+                anchor=outer north west,
+                name=axis2,
+                width=0.5\textwidth,
+                height=65mm,
+                title={wiki.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={Extra Memory [MB]},
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="wiki.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="Deep-Shallow" OR algo="Deep-Shallow_ref" OR algo="Deep-Shallow_bb")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,5.711312) (4,10.2978) (8,19.449) };
+            \addlegendentry{algo=Deep-Shallow};
+            \addplot coordinates { (2,5.624159) (4,10.2098) (8,19.361) };
+            \addlegendentry{algo=Deep-Shallow\_bb};
+            \addplot coordinates { (2,5.057524) (4,10.091) };
+            \addlegendentry{algo=Deep-Shallow\_ref};
+            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addlegendentry{algo=Naiv};
+
+            \legend{}
+        \end{axis}
+    \end{tikzpicture}
+
+    \medskip
+    \ref{legend0}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                name=axis1,
+                cycle list name={exoticlines},
+                width=0.5\textwidth,
+                height=65mm,
+                title={dna.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={SA construction time [s]},
+                legend columns=2,
+                legend to name=legend1,
+                legend style={
+                    /tikz/every even column/.append style={column sep=0.5cm,black},
+                    /tikz/every even column/.append style={black},
+                },
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="dna.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="Deep-Shallow" OR algo="Deep-Shallow_ref" OR algo="Deep-Shallow_bb")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,253.606) (4,558.614) (8,1146.5) };
+            \addlegendentry{algo=Deep-Shallow};
+            \addplot coordinates { (2,195.02) (4,426.372) (8,1103.55) };
+            \addlegendentry{algo=Deep-Shallow\_bb};
+            \addplot coordinates { (2,81.0557) (4,174.525) };
+            \addlegendentry{algo=Deep-Shallow\_ref};
+            \addplot coordinates { (2,413.268) (4,908.502) (8,1904.01) };
+            \addlegendentry{algo=Naiv};
+
+        \end{axis}
+        \begin{axis}[
+                cycle list name={exoticlines},
+                at={(axis1.outer north east)},
+                anchor=outer north west,
+                name=axis2,
+                width=0.5\textwidth,
+                height=65mm,
+                title={dna.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={Extra Memory [MB]},
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="dna.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="Deep-Shallow" OR algo="Deep-Shallow_ref" OR algo="Deep-Shallow_bb")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,4.576256) (4,9.151862) (8,18.3031) };
+            \addlegendentry{algo=Deep-Shallow};
+            \addplot coordinates { (2,4.576211) (4,9.151817) (8,18.303) };
+            \addlegendentry{algo=Deep-Shallow\_bb};
+            \addplot coordinates { (2,5.033172) (4,10.0663) };
+            \addlegendentry{algo=Deep-Shallow\_ref};
+            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addlegendentry{algo=Naiv};
+
+            \legend{}
+        \end{axis}
+    \end{tikzpicture}
+
+    \medskip
+    \ref{legend1}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                name=axis1,
+                cycle list name={exoticlines},
+                width=0.5\textwidth,
+                height=65mm,
+                title={commoncrawl.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={SA construction time [s]},
+                legend columns=2,
+                legend to name=legend2,
+                legend style={
+                    /tikz/every even column/.append style={column sep=0.5cm,black},
+                    /tikz/every even column/.append style={black},
+                },
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="Deep-Shallow" OR algo="Deep-Shallow_ref" OR algo="Deep-Shallow_bb")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,743.525) };
+            \addlegendentry{algo=Deep-Shallow};
+            \addplot coordinates { (2,85.6395) (4,194.03) };
+            \addlegendentry{algo=Deep-Shallow\_ref};
+            \addplot coordinates { (2,666.038) (4,1590.11) (8,4111.56) };
+            \addlegendentry{algo=Naiv};
+
+        \end{axis}
+        \begin{axis}[
+                cycle list name={exoticlines},
+                at={(axis1.outer north east)},
+                anchor=outer north west,
+                name=axis2,
+                width=0.5\textwidth,
+                height=65mm,
+                title={commoncrawl.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={Extra Memory [MB]},
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="Deep-Shallow" OR algo="Deep-Shallow_ref" OR algo="Deep-Shallow_bb")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,6.085712) };
+            \addlegendentry{algo=Deep-Shallow};
+            \addplot coordinates { (2,5.089404) (4,10.1495) };
+            \addlegendentry{algo=Deep-Shallow\_ref};
+            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addlegendentry{algo=Naiv};
+
+            \legend{}
+        \end{axis}
+    \end{tikzpicture}
+
+    \medskip
+    \ref{legend2}
+\end{figure}
+\FloatBarrier
+
+Auf den Abbildungen zu den beiden Texten \texttt{wiki} und \texttt{dna} lässt sich erkennen,
+dass alle drei Implementierungen von Deep-Shallow die naive Sortiermethode in der Laufzeit schlagen.
+Sie tun dies durch das Eintauschen von einigem Speicher (ca 1\% des Eingabetextes):
+Der naive SACA verwendet hingegen keinen Extraspeicher.
+
+In der dritten Abbildung zum Text \texttt{commoncrawl} zeigt sich die schlechte
+Worst-Case-Laufzeit von Deep-Shallow.
+Unsere Deep-Shallow-Implementierung ohne Big-Buckets (siehe \cref{ds:zweite}) schafft es hier zwar,
+bis 400MB das SA zu berechnen, allerdings reicht die Zeit (2 Stunden) nicht aus, um das SA für 800MB Text zu berechnen.
+Die Deep-Shallow-Big-Buckets-Implementierung schafft es nicht, das 200MB-SA zu berechnen.
+
+In allen drei Plots schafft der Referenzalgorithmus es nicht, das SA für 1600MB Text zu berechnen.
+Dies liegt daran, dass er innerhalb des Zeitlimits von zwei Stunden nicht terminiert ist.
+Der Algorithmus verwendet zwar 32-Bit-Integer, und verwendet außerdem eins dieser Bits als Tag,
+dies schränkt den adressierbaren Text jedoch nur auf $2^{32 - 1} \approx \SI{2.1}{GB}$ ein.
+Daher ist zu vermuten, dass diese (relativ alte) Implementierung andere Annahmen trifft,
+die die Textgröße weiter einschränken.
+
+Vergleichend lässt sich sagen, dass unsere Implementierungen zwar den naiven SACA auf zwei Texten schlagen,
+die optimiertere Referenzimplementierung allerdings in fast allen Fällen besser ist.
+Lediglich der Speicherverbrauch unserer Implementierungen ist auf \texttt{dna} geringer.

@@ -1,0 +1,45 @@
+\subsection{\sa Korrektheit}
+
+Wir Überprüfen zunächst, ob alle Testdaten von allen Implementierungen
+korrekt verarbeitet werden konnten. Die Messergebnisse enthalten hierfür von \texttt{-{}-check} erzeugte Informationen und können in \cref{messung:tab:sa-chk} eingesehen werden.
+        
+\begin{table}
+\caption{\sa Korrektheit}
+\label{messung:tab:sa-chk}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lrrrrrrrrrrrrrrr}
+\toprule
+     & \rotatebox[origin=c]{90}{\texttt{pc\_dblp.xml}} & \rotatebox[origin=c]{90}{\texttt{pc\_dna}} & \rotatebox[origin=c]{90}{\texttt{pc\_english}} & \rotatebox[origin=c]{90}{\texttt{pc\_proteins}} & \rotatebox[origin=c]{90}{\texttt{pc\_sources}} & \rotatebox[origin=c]{90}{\texttt{pcr\_cere}} & \rotatebox[origin=c]{90}{\texttt{pcr\_para}} & \rotatebox[origin=c]{90}{\texttt{pcr\_einstein.en.txt}} & \rotatebox[origin=c]{90}{\texttt{pcr\_kernel}} & \rotatebox[origin=c]{90}{\texttt{pcr\_fib41}} & \rotatebox[origin=c]{90}{\texttt{pcr\_rs.13}} & \rotatebox[origin=c]{90}{\texttt{pcr\_tm29}} & \rotatebox[origin=c]{90}{\texttt{cc\_commoncrawl.ascii}} & \rotatebox[origin=c]{90}{\texttt{tagme\_wiki-disamb30}} & \rotatebox[origin=c]{90}{\texttt{wiki\_all\_vital.txt}} \\
+\midrule
+    $\text{BPR}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{BPR}_{\text{ref}}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{DC3}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{DC3-Lite}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{DC3}_{\text{ref}}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{DC7}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{Deep-Shallow}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & \cmarkc & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{Deep-Shallow}_{\text{ref}}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{Discarding2}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{Discarding4}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{DivSufSort}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{DivSufSort}_{\text{ref}}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{GSACA}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{GSACA}_{\text{ref}}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{MSufSort}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & {\color{darkgray}--} & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{MSufSort}_{\text{ref}}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{Naiv}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{NzSufSort}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & {\color{darkgray}--} & {\color{darkgray}--} & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{Qsufsort}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \xmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{Qsufsort}_{\text{ref}}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{SACA-K}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{SACA-K}_{\text{ref}}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{SADS}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{SADS}_{\text{ref}}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{SAIS}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{SAIS-LITE}_{\text{ref}}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+    $\text{SAIS}_{\text{ref}}$ & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc & \cmarkc \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+

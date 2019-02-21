@@ -1,0 +1,203 @@
+\subsubsection{DivSufSort}
+
+\textbf{Configuration} \hfill Model name: none
+% IMPORT-DATA stats2 ../results.txt
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                name=axis1,
+                cycle list name={exoticlines},
+                width=0.5\textwidth,
+                height=65mm,
+                title={wiki.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={SA construction time [s]},
+                legend columns=2,
+                legend to name=legend0,
+                legend style={
+                    /tikz/every even column/.append style={column sep=0.5cm,black},
+                    /tikz/every even column/.append style={black},
+                },
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="wiki.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="DivSufSort" OR algo="DivSufSort_ref")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,411.136) (4,921.937) (8,2177.72) };
+            \addlegendentry{algo=DivSufSort};
+            \addplot coordinates { (2,54.009) (4,104.727) (8,210.125) };
+            \addlegendentry{algo=DivSufSort\_ref};
+            \addplot coordinates { (2,359.928) (4,778.531) (8,2125.23) };
+            \addlegendentry{algo=Naiv};
+
+        \end{axis}
+        \begin{axis}[
+                cycle list name={exoticlines},
+                at={(axis1.outer north east)},
+                anchor=outer north west,
+                name=axis2,
+                width=0.5\textwidth,
+                height=65mm,
+                title={wiki.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={Extra Memory [MB]},
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="wiki.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="DivSufSort" OR algo="DivSufSort_ref")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,1033.59) (4,2066.12) (8,4096.81) };
+            \addlegendentry{algo=DivSufSort};
+            \addplot coordinates { (2,0.265752) (4,0.267384) (8,0.270648) };
+            \addlegendentry{algo=DivSufSort\_ref};
+            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addlegendentry{algo=Naiv};
+
+            \legend{}
+        \end{axis}
+    \end{tikzpicture}
+
+    \medskip
+    \ref{legend0}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                name=axis1,
+                cycle list name={exoticlines},
+                width=0.5\textwidth,
+                height=65mm,
+                title={dna.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={SA construction time [s]},
+                legend columns=2,
+                legend to name=legend1,
+                legend style={
+                    /tikz/every even column/.append style={column sep=0.5cm,black},
+                    /tikz/every even column/.append style={black},
+                },
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="dna.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="DivSufSort" OR algo="DivSufSort_ref")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,566.993) (4,1253.72) (8,2424.72) };
+            \addlegendentry{algo=DivSufSort};
+            \addplot coordinates { (2,61.5801) (4,125.326) (8,258.027) };
+            \addlegendentry{algo=DivSufSort\_ref};
+            \addplot coordinates { (2,413.268) (4,908.502) (8,1904.01) };
+            \addlegendentry{algo=Naiv};
+
+        \end{axis}
+        \begin{axis}[
+                cycle list name={exoticlines},
+                at={(axis1.outer north east)},
+                anchor=outer north west,
+                name=axis2,
+                width=0.5\textwidth,
+                height=65mm,
+                title={dna.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={Extra Memory [MB]},
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="dna.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="DivSufSort" OR algo="DivSufSort_ref")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,967.058) (4,1940.14) (8,3647.41) };
+            \addlegendentry{algo=DivSufSort};
+            \addplot coordinates { (2,0.265752) (4,0.267384) (8,0.270648) };
+            \addlegendentry{algo=DivSufSort\_ref};
+            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addlegendentry{algo=Naiv};
+
+            \legend{}
+        \end{axis}
+    \end{tikzpicture}
+
+    \medskip
+    \ref{legend1}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                name=axis1,
+                cycle list name={exoticlines},
+                width=0.5\textwidth,
+                height=65mm,
+                title={commoncrawl.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={SA construction time [s]},
+                legend columns=2,
+                legend to name=legend2,
+                legend style={
+                    /tikz/every even column/.append style={column sep=0.5cm,black},
+                    /tikz/every even column/.append style={black},
+                },
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="DivSufSort" OR algo="DivSufSort_ref")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,616.886) (4,1422.44) (8,3278.38) };
+            \addlegendentry{algo=DivSufSort};
+            \addplot coordinates { (2,49.3898) (4,95.1064) (8,192.432) };
+            \addlegendentry{algo=DivSufSort\_ref};
+            \addplot coordinates { (2,666.038) (4,1590.11) (8,4111.56) };
+            \addlegendentry{algo=Naiv};
+
+        \end{axis}
+        \begin{axis}[
+                cycle list name={exoticlines},
+                at={(axis1.outer north east)},
+                anchor=outer north west,
+                name=axis2,
+                width=0.5\textwidth,
+                height=65mm,
+                title={commoncrawl.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={Extra Memory [MB]},
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="DivSufSort" OR algo="DivSufSort_ref")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,1131.53) (4,2262.12) (8,4530.59) };
+            \addlegendentry{algo=DivSufSort};
+            \addplot coordinates { (2,0.265752) (4,0.267384) (8,0.270648) };
+            \addlegendentry{algo=DivSufSort\_ref};
+            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addlegendentry{algo=Naiv};
+
+            \legend{}
+        \end{axis}
+    \end{tikzpicture}
+
+    \medskip
+    \ref{legend2}
+\end{figure}
+\FloatBarrier

@@ -1,0 +1,203 @@
+\subsubsection{Osipov}
+
+\textbf{Configuration} \hfill Model name: none
+% IMPORT-DATA stats2 ../results.txt
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                name=axis1,
+                cycle list name={exoticlines},
+                width=0.5\textwidth,
+                height=65mm,
+                title={wiki.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={SA construction time [s]},
+                legend columns=2,
+                legend to name=legend0,
+                legend style={
+                    /tikz/every even column/.append style={column sep=0.5cm,black},
+                    /tikz/every even column/.append style={black},
+                },
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="wiki.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="Osipov_sequential_wp" OR algo="Osipov_sequential")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,359.928) (4,778.531) (8,2125.23) };
+            \addlegendentry{algo=Naiv};
+            \addplot coordinates { (2,363.338) (4,770.05) (8,1797.53) };
+            \addlegendentry{algo=Osipov\_sequential};
+            \addplot coordinates { (2,312.5) (4,666.592) (8,1608.01) };
+            \addlegendentry{algo=Osipov\_sequential\_wp};
+
+        \end{axis}
+        \begin{axis}[
+                cycle list name={exoticlines},
+                at={(axis1.outer north east)},
+                anchor=outer north west,
+                name=axis2,
+                width=0.5\textwidth,
+                height=65mm,
+                title={wiki.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={Extra Memory [MB]},
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="wiki.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="Osipov_sequential_wp" OR algo="Osipov_sequential")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addlegendentry{algo=Naiv};
+            \addplot coordinates { (2,11740.7) (4,23483.9) (8,46972.2) };
+            \addlegendentry{algo=Osipov\_sequential};
+            \addplot coordinates { (2,11740.7) (4,23483.9) (8,46972.2) };
+            \addlegendentry{algo=Osipov\_sequential\_wp};
+
+            \legend{}
+        \end{axis}
+    \end{tikzpicture}
+
+    \medskip
+    \ref{legend0}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                name=axis1,
+                cycle list name={exoticlines},
+                width=0.5\textwidth,
+                height=65mm,
+                title={dna.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={SA construction time [s]},
+                legend columns=2,
+                legend to name=legend1,
+                legend style={
+                    /tikz/every even column/.append style={column sep=0.5cm,black},
+                    /tikz/every even column/.append style={black},
+                },
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="dna.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="Osipov_sequential_wp" OR algo="Osipov_sequential")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,413.268) (4,908.502) (8,1904.01) };
+            \addlegendentry{algo=Naiv};
+            \addplot coordinates { (2,356.152) (4,751.455) (8,1619.22) };
+            \addlegendentry{algo=Osipov\_sequential};
+            \addplot coordinates { (2,319.453) (4,679.532) (8,1469.47) };
+            \addlegendentry{algo=Osipov\_sequential\_wp};
+
+        \end{axis}
+        \begin{axis}[
+                cycle list name={exoticlines},
+                at={(axis1.outer north east)},
+                anchor=outer north west,
+                name=axis2,
+                width=0.5\textwidth,
+                height=65mm,
+                title={dna.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={Extra Memory [MB]},
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="dna.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="Osipov_sequential_wp" OR algo="Osipov_sequential")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addlegendentry{algo=Naiv};
+            \addplot coordinates { (2,11744.1) (4,23488.1) (8,46976.2) };
+            \addlegendentry{algo=Osipov\_sequential};
+            \addplot coordinates { (2,11744.1) (4,23488.1) (8,46976.2) };
+            \addlegendentry{algo=Osipov\_sequential\_wp};
+
+            \legend{}
+        \end{axis}
+    \end{tikzpicture}
+
+    \medskip
+    \ref{legend1}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                name=axis1,
+                cycle list name={exoticlines},
+                width=0.5\textwidth,
+                height=65mm,
+                title={commoncrawl.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={SA construction time [s]},
+                legend columns=2,
+                legend to name=legend2,
+                legend style={
+                    /tikz/every even column/.append style={column sep=0.5cm,black},
+                    /tikz/every even column/.append style={black},
+                },
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="Osipov_sequential_wp" OR algo="Osipov_sequential")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,666.038) (4,1590.11) (8,4111.56) };
+            \addlegendentry{algo=Naiv};
+            \addplot coordinates { (2,504.913) (4,1081.25) (8,2441.53) };
+            \addlegendentry{algo=Osipov\_sequential};
+            \addplot coordinates { (2,455.295) (4,982.089) (8,2242.2) };
+            \addlegendentry{algo=Osipov\_sequential\_wp};
+
+        \end{axis}
+        \begin{axis}[
+                cycle list name={exoticlines},
+                at={(axis1.outer north east)},
+                anchor=outer north west,
+                name=axis2,
+                width=0.5\textwidth,
+                height=65mm,
+                title={commoncrawl.txt},
+                xlabel={input size [200\,MB]},
+                ylabel={Extra Memory [MB]},
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" AND thread_count<9
+            %% AND (algo="Naiv" OR algo="Osipov_sequential_wp" OR algo="Osipov_sequential")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addlegendentry{algo=Naiv};
+            \addplot coordinates { (2,11741.7) (4,23485) (8,46972) };
+            \addlegendentry{algo=Osipov\_sequential};
+            \addplot coordinates { (2,11741.7) (4,23485) (8,46972) };
+            \addlegendentry{algo=Osipov\_sequential\_wp};
+
+            \legend{}
+        \end{axis}
+    \end{tikzpicture}
+
+    \medskip
+    \ref{legend2}
+\end{figure}
+\FloatBarrier

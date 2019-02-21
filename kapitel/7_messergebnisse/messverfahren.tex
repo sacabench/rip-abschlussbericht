@@ -1,0 +1,7 @@
+\section{Messverfahren}
+
+Wir messen die Performance der Algorithmen wie folgt: Sei $k$ eine Prefixlänge der Eingabe $input$, $outfile$ ein eindeutiger Pfad pro $k$ und Eingabe, und $r$ eine Anzahl von Messwiederholungen. Für jede Testdatei $input$ wird \texttt{sacabench batch $input$} mit den Optionen \texttt{-{}-check}, \texttt{-{}-prefix $k$}, \texttt{-{}-repetitions $r$} und \texttt{-{}-benchmark $outfile$} aufgerufen. Abhängig von $input$ werden außerdem einige der im Benchmarktool implementierten Algorithmen mit \texttt{-{}-blacklist ...} von der Messung ausgeschlossen, falls sie auf der Eingabe zu hohe Laufzeiten haben.
+
+%Run ['../build/sacabench/sacabench', 'batch', '--check', '--force', '--prefix', '10M', '--benchmark', 'measures/pcr_tm29.json', '--blacklist', 'Naiv', '--blacklist', 'Doubling', '../external/datasets/downloads/pcr_tm29']
+
+Dieses Verfahren ist in dem Python Skript \texttt{zbmessung/benchmark.py} implementiert, und die Messung erfolgte für $k$ = 200MiB und $r = 3$. Da $k$ kleiner als 4GiB ist, wird die Länge des internen \texttt{sa\_index} Types automatisch auf 32Bit gesetzt, womit der Speicherverbrauch jedes Algorithmus bei mindesten 1000MiB liegt (1 Byte Text + 4 Byte Suffix Array).
