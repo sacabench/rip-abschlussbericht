@@ -55,7 +55,7 @@ Leider benötigt die neue Version GSIZE\_BOOL aber erheblich mehr Re\-chen\-auf\
 Durch diesen Ansatz konnte der Speicherverbrauch im Vergleich zu der vorherigen Implementierung als Vektor reduziert werden.
 Aufgrund der benötigten Umrechnung der Werte erhöhte sich jedoch die Laufzeit gegenüber dem vorherigen Ansatz deutlich.
 Die Ergebnisse von Laufzeit- und Speicherverbrauchsmessungen auf Datensätzen verschiedener Größe lässt sich in \ref{compare_gsize_results} sehen.
-Beide wurden Varianten drei mal ausgeführt, um Schwankungen auszugleichen.
+Beide Varianten wurden drei mal ausgeführt, um Schwankungen auszugleichen.
 Die gemessenen Werte beziehen sich dabei auf die Ausführungsdauer des Algorithmus und beziehen nicht die Initialisierungsphase oder das Einlesen und Vorbereiten der Texte mit ein.
 Als Grundlage diente der Text \textit{english} des \textit{Pizza\&Chili Corpus} \cite{testdaten:pizzachilli2007}.
 Wegen dieser starken Erhöhung der Laufzeit bei gleich\-zeitig nur relativ moderater Reduktion des Speicherverbrauchs ist der untersuchte Ansatz als keine sinnvolle Optimierung von GSACA anzusehen.
