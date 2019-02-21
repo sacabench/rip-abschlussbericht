@@ -23,23 +23,23 @@ Dazu wird jedes Suffix dieser Teilmengen aus seiner ursprünglichen Gruppe entfe
 \newpage
 
 Abbildung \ref{saca:3:code_2} zeigt den Pseudocode zu Phase 2 von GSACA, in der das Suffix-Array aus den zuvor gebildeten Gruppen konstruiert wird.
-Hierzu wird zunächst das letzte Zeichen des Wortes, also das Terminalsymbol \$, als erstes Element der Liste SA gespeichert. 
+Hierzu wird zunächst das letzte Zeichen des Wortes, also das Terminalsymbol \$, als erstes Element der Liste \sa gespeichert. 
 Anschließend werden die Elemente dieser Liste in einer for-Schleife durchlaufen.
 Auch wenn zu Beginn nur ein einziges Element in der Liste enthalten ist, wird jeder Durchlauf weitere Elemente hinzufügen.
-In jeder Iteration ein das nächste Zeichen in SA bearbeitet und zu diesem Zeichen wird der Vorgänger im Wort betrachtet. 
+In jeder Iteration ein das nächste Zeichen in \sa bearbeitet und zu diesem Zeichen wird der Vorgänger im Wort betrachtet. 
 Die Liste der \prevpointer wird in einer nachfolgenden while-Schleife durchlaufen.
 In dieser while-Schleife wird zunächst die Position des gerade betrachteten Zeichens bestimmt. 
 Die Position ergibt sich aus der Kardinalität der Menge aller Suffixe in kleineren Gruppen, inkrementiert um 1. 
-Anschließend wird überprüft, ob SA bereits ein Zeichen an diesem Index enthält. 
+Anschließend wird überprüft, ob \sa bereits ein Zeichen an diesem Index enthält. 
 Falls dies der Fall ist, wurden dieses Zeichen und die Elemente der \prevpointer schon betrachtet und die aktuelle Iteration der for-Schleife wird abgebrochen. 
-Gibt es jedoch noch kein Zeichen an dieser Stelle in der Liste SA, wird das aktuell betrachtete Zeichen dort gespeichert. 
+Gibt es jedoch noch kein Zeichen an dieser Stelle in der Liste \sa, wird das aktuell betrachtete Zeichen dort gespeichert. 
 Dann wird dieses Zeichen aus seiner aktuellen Gruppe entfernt und in eine neue, direkt vor der alten Gruppe liegende Gruppe hinzugefügt.
 Am Schluss der while-Schleife wird das Zeichen, auf den der \prevpointer des aktuellen Zeichens zeigt, zum betrachteten Element für die nächste Iteration der while-Schleife.\\
 
 Im folgenden wird die erste Iteration der zweiten Phase exemplarisch am Beispiel Banane durchlaufen:\\
 SA[1] = 7\\
 for-Schleife wird mit $i$ = 1 begonnen\\
-$j$ = SA[$i$] - 1 = SA[1] - 1 = 6\\
+$j$ = \sa[$i$] - 1 = \sa[1] - 1 = 6\\
 $j$ $\neq$ 0, in while-Schleife wird eingetreten\\
 $sr$ = |\{\$, anane, ane, b\}| = 4\\
 SA[$sr$ + 1] = nil, daher wird die 1. Iteration der for-Schleife nicht abgebrochen\\
