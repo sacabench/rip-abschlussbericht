@@ -3,7 +3,7 @@
 \textbf{Configuration} \hfill Model name: none
 % IMPORT-DATA stats2 ../results.txt
 
-\begin{figure}[ht]
+\begin{figure}[!h]
     \centering
     \begin{tikzpicture}
         \begin{axis}[
@@ -73,7 +73,7 @@
     \ref{legend0}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[!h]
     \centering
     \begin{tikzpicture}
         \begin{axis}[
@@ -143,7 +143,7 @@
     \ref{legend1}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[!h]
     \centering
     \begin{tikzpicture}
         \begin{axis}[
@@ -210,6 +210,7 @@
 \end{figure}
 \FloatBarrier
 
+\noindent
 Auf den Abbildungen zu den beiden Texten \texttt{wiki} und \texttt{dna} lässt sich erkennen,
 dass alle drei Implementierungen von Deep-Shallow die naive Sortiermethode in der Laufzeit schlagen.
 Sie tun dies durch das Eintauschen von einigem Speicher (ca 1\% des Eingabetextes):
