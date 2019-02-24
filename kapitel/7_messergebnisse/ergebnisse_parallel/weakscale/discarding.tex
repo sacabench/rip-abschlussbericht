@@ -29,11 +29,11 @@
             %% ) WHERE input="wiki.txt" AND sacheck="ok"
             %% AND (algo="Discarding4Parallel" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,139.876) (2,166.992) (4,199.918) (8,271.82) };
+            \addplot coordinates { (1,139.749) (2,167.11) (4,201.711) (8,268.939) };
             \addlegendentry{algo=Discarding4Parallel};
-            \addplot coordinates { (1,28.4572) (2,53.4006) (4,103.506) (8,221.141) };
+            \addplot coordinates { (1,28.4809) (2,53.6872) (4,103.952) (8,222.206) };
             \addlegendentry{algo=DivSufSort\_par\_ref};
-            \addplot coordinates { (1,125.886) (2,157.223) (4,182.864) (8,232.734) (12,261.652) (16,279.461) (20,281.886) };
+            \addplot coordinates { (1,162.68) (2,211.948) (4,235.913) (8,291.322) (12,331.856) (16,349.492) };
             \addlegendentry{algo=NaivParallel};
 
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
@@ -42,11 +42,11 @@
             %% ) WHERE input="wiki.txt" AND sacheck="ok"
             %% AND (algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,309.316) (4,653.891) (8,1442.4) };
+            \addplot coordinates { (1,145.603) (2,314.671) (4,653.102) (8,1438.13) };
             \addlegendentry{algo=Discarding2};
-            \addplot coordinates { (2,285.11) (4,628.096) (8,1324.72) };
+            \addplot coordinates { (1,133.248) (2,285.374) (4,607.647) (8,1335.22) };
             \addlegendentry{algo=Discarding4};
-            \addplot coordinates { (2,1384.3) (4,2862.66) (8,5896.73) };
+            \addplot coordinates { (1,665.505) (2,1378.72) (4,2852.78) (8,5833.34) };
             \addlegendentry{algo=Doubling};
         \end{axis}
     \end{tikzpicture}
@@ -74,7 +74,7 @@
             \addlegendentry{algo=Discarding4Parallel};
             \addplot coordinates { (1,0.26492) (2,0.265752) (4,0.267384) (8,0.270648) };
             \addlegendentry{algo=DivSufSort\_par\_ref};
-            \addplot coordinates { (1,838.8608) (2,3355.45) (4,6710.89) (8,13421.8) (12,20132.7) (16,26843.6) (20,33554.5) };
+            \addplot coordinates { (1,0.0) (2,1677.72) (4,3355.45) (8,6710.9) (12,20132.7) (16,26843.6) };
             \addlegendentry{algo=NaivParallel};
 
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
@@ -83,11 +83,11 @@
             %% ) WHERE input="wiki.txt" AND sacheck="ok"
             %% AND (algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,309.316) (4,653.891) (8,1442.4) };
+            \addplot coordinates { (1,145.603) (2,314.671) (4,653.102) (8,1438.13) };
             \addlegendentry{algo=Discarding2};
-            \addplot coordinates { (2,285.11) (4,628.096) (8,1324.72) };
+            \addplot coordinates { (1,133.248) (2,285.374) (4,607.647) (8,1335.22) };
             \addlegendentry{algo=Discarding4};
-            \addplot coordinates { (2,1384.3) (4,2862.66) (8,5896.73) };
+            \addplot coordinates { (1,665.505) (2,1378.72) (4,2852.78) (8,5833.34) };
             \addlegendentry{algo=Doubling};
 
             \legend{}
@@ -123,11 +123,11 @@
             %% ) WHERE input="dna.txt" AND sacheck="ok"
             %% AND (algo="Discarding4Parallel" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,146.784) (2,183.348) (4,218.97) (8,278.096) };
+            \addplot coordinates { (1,147.036) (2,180.926) (4,218.688) (8,275.182) };
             \addlegendentry{algo=Discarding4Parallel};
-            \addplot coordinates { (1,30.9011) (2,60.7299) (4,123.853) (8,308.543) };
+            \addplot coordinates { (1,31.0613) (2,60.9584) (4,124.109) (8,308.403) };
             \addlegendentry{algo=DivSufSort\_par\_ref};
-            \addplot coordinates { (1,142.355) (2,204.857) (4,224.395) (8,266.02) (12,266.92) (16,295.226) (20,316.294) };
+            \addplot coordinates { (1,184.608) (2,241.729) (4,280.063) (8,306.519) (12,348.244) (16,361.277) };
             \addlegendentry{algo=NaivParallel};
 
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
@@ -136,11 +136,11 @@
             %% ) WHERE input="dna.txt" AND sacheck="ok"
             %% AND (algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,299.085) (4,638.063) (8,1281.29) };
+            \addplot coordinates { (1,139.272) (2,297.487) (4,637.613) (8,1279.9) };
             \addlegendentry{algo=Discarding2};
-            \addplot coordinates { (2,304.928) (4,654.423) (8,1372.36) };
+            \addplot coordinates { (1,138.858) (2,305.111) (4,654.655) (8,1366.39) };
             \addlegendentry{algo=Discarding4};
-            \addplot coordinates { (2,680.806) (4,1400) (8,2878.03) };
+            \addplot coordinates { (1,332.269) (2,678.887) (4,1393.47) (8,2866.3) };
             \addlegendentry{algo=Doubling};
 
         \end{axis}
@@ -169,7 +169,7 @@
             \addlegendentry{algo=Discarding4Parallel};
             \addplot coordinates { (1,0.26492) (2,0.265752) (4,0.267384) (8,0.270648) };
             \addlegendentry{algo=DivSufSort\_par\_ref};
-            \addplot coordinates { (1,838.8608) (2,3355.45) (4,6710.89) (8,13421.8) (12,20132.7) (16,26843.6) (20,33554.5) };
+            \addplot coordinates { (1,0.0) (2,1677.72) (4,3355.45) (8,6710.9) (12,20132.7) (16,26843.6) };
             \addlegendentry{algo=NaivParallel};
 
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
@@ -178,11 +178,11 @@
             %% ) WHERE input="dna.txt" AND sacheck="ok"
             %% AND (algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,299.085) (4,638.063) (8,1281.29) };
+            \addplot coordinates { (1,139.272) (2,297.487) (4,637.613) (8,1279.9) };
             \addlegendentry{algo=Discarding2};
-            \addplot coordinates { (2,304.928) (4,654.423) (8,1372.36) };
+            \addplot coordinates { (1,138.858) (2,305.111) (4,654.655) (8,1366.39) };
             \addlegendentry{algo=Discarding4};
-            \addplot coordinates { (2,680.806) (4,1400) (8,2878.03) };
+            \addplot coordinates { (1,332.269) (2,678.887) (4,1393.47) (8,2866.3) };
             \addlegendentry{algo=Doubling};
 
             \legend{}
@@ -218,11 +218,11 @@
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
             %% AND (algo="Discarding4Parallel" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,212.81) (2,255.262) (4,310.246) (8,404.364) };
+            \addplot coordinates { (1,212.789) (2,251.915) (4,311.235) (8,402.9) };
             \addlegendentry{algo=Discarding4Parallel};
-            \addplot coordinates { (1,26.264) (2,49.0331) (4,115.141) (8,191.021) };
+            \addplot coordinates { (1,26.2932) (2,49.1258) (4,94.7354) (8,191.633) };
             \addlegendentry{algo=DivSufSort\_par\_ref};
-            \addplot coordinates { (1,282.17) (2,297.239) (4,368.751) (8,507.408) (12,634.041) (16,750.055) (20,836.124) };
+            \addplot coordinates { (1,428.21) (2,444.552) (4,528.09) (8,677.753) (12,823.829) (16,930.325) };
             \addlegendentry{algo=NaivParallel};
 
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
@@ -231,11 +231,11 @@
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
             %% AND (algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,557.154) (4,1222.04) (8,2637.27) };
+            \addplot coordinates { (1,262.849) (2,556.495) (4,1219.45) (8,2634.48) };
             \addlegendentry{algo=Discarding2};
-            \addplot coordinates { (2,432.803) (4,948.025) (8,2061.98) };
+            \addplot coordinates { (1,204.102) (2,432.97) (4,947.567) (8,2057.2) };
             \addlegendentry{algo=Discarding4};
-            \addplot coordinates { (2,1824.89) (4,4003.9) };
+            \addplot coordinates { (1,822.056) (2,1817.86) (4,3988.59) };
             \addlegendentry{algo=Doubling};
 
         \end{axis}
@@ -264,7 +264,7 @@
             \addlegendentry{algo=Discarding4Parallel};
             \addplot coordinates { (1,0.26492) (2,0.265752) (4,0.267384) (8,0.270648) };
             \addlegendentry{algo=DivSufSort\_par\_ref};
-            \addplot coordinates { (1,838.8608) (2,3355.45) (4,6710.89) (8,13421.8) (12,20132.7) (16,26843.6) (20,33554.5) };
+            \addplot coordinates { (1,0.0) (2,1677.72) (4,3355.45) (8,6710.9) (12,20132.7) (16,26843.6) };
             \addlegendentry{algo=NaivParallel};
 
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
@@ -273,11 +273,11 @@
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
             %% AND (algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,557.154) (4,1222.04) (8,2637.27) };
+            \addplot coordinates { (1,262.849) (2,556.495) (4,1219.45) (8,2634.48) };
             \addlegendentry{algo=Discarding2};
-            \addplot coordinates { (2,432.803) (4,948.025) (8,2061.98) };
+            \addplot coordinates { (1,204.102) (2,432.97) (4,947.567) (8,2057.2) };
             \addlegendentry{algo=Discarding4};
-            \addplot coordinates { (2,1824.89) (4,4003.9) };
+            \addplot coordinates { (1,822.056) (2,1817.86) (4,3988.59) };
             \addlegendentry{algo=Doubling};
 
             \legend{}

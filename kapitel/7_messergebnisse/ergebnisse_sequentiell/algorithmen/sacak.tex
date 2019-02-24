@@ -25,14 +25,14 @@
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="wiki.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="wiki.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="SACA-K" OR algo="SACA-K_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,359.928) (4,778.531) (8,2125.23) };
+            \addplot coordinates { (1,162.841) (2,361.602) (4,783.025) (8,1729.44) (12,3448.59) (16,3842.25) (20,6183.09) };
             \addlegendentry{algo=Naiv};
-            \addplot coordinates { (2,176.918) (4,372.933) (8,762.356) };
+            \addplot coordinates { (1,85.2816) (2,184.089) (4,387.585) (8,789.897) (12,1906.57) (16,1832.18) (20,2608.71) };
             \addlegendentry{algo=SACA-K};
-            \addplot coordinates { (2,146.571) (4,308.399) (8,635.051) };
+            \addplot coordinates { (1,67.5895) (2,146.574) (4,309.243) (8,633.171) (12,1251.08) (16,1334.4) (20,2504.26) };
             \addlegendentry{algo=SACA-K\_ref};
 
         \end{axis}
@@ -51,14 +51,14 @@
             %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="wiki.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="wiki.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="SACA-K" OR algo="SACA-K_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addplot coordinates { (1,0.0) (2,0.0) (4,0.0) (8,0.0) (12,0.0) (16,0.0) (20,0.0) };
             \addlegendentry{algo=Naiv};
-            \addplot coordinates { (2,625.246) (4,1126.38) (8,1925.11) };
+            \addplot coordinates { (1,343.697) (2,625.246) (4,1126.38) (8,1925.11) (12,2610.55) (16,3418.62) (20,4180.56) };
             \addlegendentry{algo=SACA-K};
-            \addplot coordinates { (2,0.000836) (4,0.00084) (8,0.00084) };
+            \addplot coordinates { (1,0.000836) (2,0.000836) (4,0.00084) (8,0.00084) (12,0.00084) (16,0.00084) (20,0.000844) };
             \addlegendentry{algo=SACA-K\_ref};
 
             \legend{}
@@ -91,14 +91,14 @@
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="dna.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="dna.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="SACA-K" OR algo="SACA-K_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,413.268) (4,908.502) (8,1904.01) };
+            \addplot coordinates { (1,183.948) (2,415.412) (4,910.737) (8,1910.63) (12,3645.28) (16,4061.77) (20,6575.73) };
             \addlegendentry{algo=Naiv};
-            \addplot coordinates { (2,163.561) (4,342.293) (8,703.922) };
+            \addplot coordinates { (1,81.6123) (2,168.851) (4,348.744) (8,1014.26) (12,1188.86) (16,1675.7) (20,2406.48) };
             \addlegendentry{algo=SACA-K};
-            \addplot coordinates { (2,142.352) (4,294.672) (8,606.149) };
+            \addplot coordinates { (1,67.5694) (2,141.3) (4,294.461) (8,606.079) (12,1153.24) (16,1773.37) (20,2327.64) };
             \addlegendentry{algo=SACA-K\_ref};
 
         \end{axis}
@@ -117,14 +117,14 @@
             %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="dna.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="dna.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="SACA-K" OR algo="SACA-K_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addplot coordinates { (1,0.0) (2,0.0) (4,0.0) (8,0.0) (12,0.0) (16,0.0) (20,0.0) };
             \addlegendentry{algo=Naiv};
-            \addplot coordinates { (2,493.271) (4,865.24) (8,1857.47) };
+            \addplot coordinates { (1,322.915) (2,493.271) (4,865.24) (8,1857.47) (12,2825.95) (16,3849.29) (20,4888.43) };
             \addlegendentry{algo=SACA-K};
-            \addplot coordinates { (2,2.0e-05) (4,2.0e-05) (8,2.0e-05) };
+            \addplot coordinates { (1,2.0e-05) (2,2.0e-05) (4,2.0e-05) (8,2.0e-05) (12,2.0e-05) (16,2.0e-05) (20,2.0e-05) };
             \addlegendentry{algo=SACA-K\_ref};
 
             \legend{}
@@ -157,14 +157,14 @@
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="SACA-K" OR algo="SACA-K_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,666.038) (4,1590.11) (8,4111.56) };
+            \addplot coordinates { (1,428.421) (2,669.456) (4,1602.12) (8,3723.05) };
             \addlegendentry{algo=Naiv};
-            \addplot coordinates { (2,150.122) (4,320.212) (8,684.859) };
+            \addplot coordinates { (1,69.7497) (2,155.464) (4,331.646) (8,1620.86) (12,1258.92) (16,1655.54) (20,2892.56) };
             \addlegendentry{algo=SACA-K};
-            \addplot coordinates { (2,122.444) (4,264.282) (8,564.378) };
+            \addplot coordinates { (1,55.2005) (2,123.851) (4,266.413) (8,563.135) (12,1148.3) (16,1712.78) (20,2232.7) };
             \addlegendentry{algo=SACA-K\_ref};
 
         \end{axis}
@@ -183,14 +183,14 @@
             %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="SACA-K" OR algo="SACA-K_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addplot coordinates { (1,0.0) (2,0.0) (4,0.0) (8,0.0) };
             \addlegendentry{algo=Naiv};
-            \addplot coordinates { (2,600.542) (4,1057.1) (8,1845.21) };
+            \addplot coordinates { (1,319.277) (2,600.542) (4,1057.1) (8,1845.21) (12,2541.75) (16,3185.04) (20,3818.06) };
             \addlegendentry{algo=SACA-K};
-            \addplot coordinates { (2,0.000964) (4,0.000972) (8,0.000972) };
+            \addplot coordinates { (1,0.000944) (2,0.000964) (4,0.000972) (8,0.000972) (12,0.000972) (16,0.000972) (20,0.000972) };
             \addlegendentry{algo=SACA-K\_ref};
 
             \legend{}
