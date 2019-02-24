@@ -31,10 +31,10 @@ Zunächst können wir feststellen, dass das Aktualisieren der maximalen kombinie
 
 Um darauf aufbauend die gesamte Aktualisierung in die Sortierung übernehmen zu können, gehen wir wie folgt vor:
 \begin{enumerate}
-\item Teile das Array $A$ wie gewohnt nach dem Pivotelement in $A_l$, $A_e$ und $A_g$ auf
-\item Sortiere $A_l$ rekursiv
-\item Aktualisiere die Gruppennummern und -längen der Elemente in $A_e$
-\item Sortiere $A_g$ rekursiv
+\item Teile das Array $A$ wie gewohnt nach dem Pivotelement in $A_{left}$, $A_{middle}$ und $A_{right}$ auf
+\item Sortiere $A_{left}$ rekursiv
+\item Aktualisiere die Gruppennummern und -längen der Elemente in $A_{middle}$
+\item Sortiere $A_{right}$ rekursiv
 \end{enumerate}
 
 Aktualisieren wir zuerst den \glqq Gleich\grqq{}- oder \glqq Größer\grqq{}-Teil, kann es passieren, dass 
