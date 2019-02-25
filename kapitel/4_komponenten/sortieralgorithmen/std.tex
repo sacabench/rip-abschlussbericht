@@ -6,3 +6,10 @@ Wir verwenden insbesondere die parallelen Varianten von \texttt{std::sort}
 und \texttt{std::stable\_sort}.
 Diese erwiesen sich als zuverlässiger als \ipsviero auf vielen Kernen
 und werden daher für die naiven Parallelisierungen der SACAs verwendet.
+
+Im nicht-stabilen Sortierer kann entweder \emph{Parallel Multiway Mergesort} oder \emph{Parallel Load-Balanced Quicksort} verwendet werden.
+Da der erste Algorithmus stabil sortiert, wird er auch als stabiler Sortierer verwendet.
+Die Mergesort-Variante teilt dabei das Problem nicht in zwei Teile sondern $k$ Teile, wovon jeder von einem anderen Kern bearbeitet wird.
+Um Verlangsamungen durch kleine Partitionen zu vermeiden, teilt die Quicksort-Variante Threads,
+die mit ihrem Anteil des Arrays schon fertig sind, neue Teile zu, um eine höhere Effizienz zu erreichen.
+Die Details der verwendeten Algorithmen werden im Paper von Singler und Kosnik von 2008~\cite{parallelstdsort} erläutert.

@@ -1,7 +1,15 @@
-\subsection{Inplace Parallel Super-Scalar-Samplesort (\ipsviero)}
+\subsection{Inplace Parallel Super Scalar Samplesort (\ipsviero)}
 \label{section:ips4o}
 
 In \sacabench verwenden wir auch andere Sortieralgorithmen, die wir nicht selbst implementiert haben.
-Der erste dieser Algorithmen ist ips4o~\cite{axtmann2017}.
+Der erste dieser Algorithmen ist \ipsviero~\cite{axtmann2017}.
 Dieser existiert in einer sequentiellen und einer parallelen Variante,
 die mittels OpenMP parallel funktioniert.
+
+\ipsviero baut auf Samplesort auf, welcher wiederrum auf Quicksort aufbaut.
+Statt nur ein Pivot wie bei Quicksort werden dabei aber mehrere Pivot verwendet.
+Dadurch erhält man einen Algorithmus \glqq der cache-effizient ist, datenparallel arbeitet und \emph{branch mispredictions} verhindert\grqq~\cite{axtmann2017}.
+\ipsviero verbessert diesen Algorithmus und implementiert ihn in-place, also mit $\mathcal O(1)$ Extraspeicher.
+Da dies ein komplexes, vergleichsbasiertes Sortierverfahren ist,
+sei an dieser Stelle für weitere Details auf das Paper von Axtmann et al.~\cite{axtmann2017}
+beziehungsweise das öffentliche Repository von \ipsviero~\cite{ips4o:repo} verwiesen.
