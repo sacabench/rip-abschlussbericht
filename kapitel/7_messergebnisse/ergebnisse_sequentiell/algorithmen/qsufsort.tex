@@ -15,7 +15,7 @@
                 xlabel={input size [200\,MB]},
                 ylabel={SA construction time [s]},
                 legend columns=2,
-                legend to name=legend0,
+                legend to name=legend-seq-qsufsort-0,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
@@ -25,14 +25,14 @@
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="wiki.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="wiki.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="qsufsort" OR algo="qsufsort_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,359.928) (4,778.531) (8,2125.23) };
+            \addplot coordinates { (1,162.841) (2,361.602) (4,783.025) (8,1729.44) (12,3448.59) (16,3842.25) (20,6183.09) };
             \addlegendentry{algo=Naiv};
-            \addplot coordinates { (2,315.263) (4,700.966) (8,1651.57) };
+            \addplot coordinates { (1,144.919) (2,312.841) (4,695.813) (8,1649.12) (12,3276.85) (16,3946.5) };
             \addlegendentry{algo=qsufsort};
-            \addplot coordinates { (2,167.122) (4,446.149) };
+            \addplot coordinates { (1,76.0592) (2,166.595) (4,376.548) (8,844.835) };
             \addlegendentry{algo=qsufsort\_ref};
 
         \end{axis}
@@ -51,14 +51,14 @@
             %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="wiki.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="wiki.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="qsufsort" OR algo="qsufsort_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addplot coordinates { (1,0.0) (2,0.0) (4,0.0) (8,0.0) (12,0.0) (16,0.0) (20,0.0) };
             \addlegendentry{algo=Naiv};
-            \addplot coordinates { (2,1679.86) (4,3357.59) (8,6713.03) };
+            \addplot coordinates { (1,841.003) (2,1679.86) (4,3357.59) (8,6713.03) (12,20134.8) (16,26845.7) };
             \addlegendentry{algo=qsufsort};
-            \addplot coordinates { (2,6710.89) (4,13421.8) };
+            \addplot coordinates { (1,3355.44) (2,6710.89) (4,13421.8) (8,26843.5) };
             \addlegendentry{algo=qsufsort\_ref};
 
             \legend{}
@@ -66,7 +66,7 @@
     \end{tikzpicture}
 
     \medskip
-    \ref{legend0}
+    \ref{legend-seq-qsufsort-0}
 \end{figure}
 
 \begin{figure}[ht]
@@ -81,7 +81,7 @@
                 xlabel={input size [200\,MB]},
                 ylabel={SA construction time [s]},
                 legend columns=2,
-                legend to name=legend1,
+                legend to name=legend-seq-qsufsort-1,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
@@ -91,14 +91,14 @@
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="dna.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="dna.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="qsufsort" OR algo="qsufsort_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,413.268) (4,908.502) (8,1904.01) };
+            \addplot coordinates { (1,183.948) (2,415.412) (4,910.737) (8,1910.63) (12,3645.28) (16,4061.77) (20,6575.73) };
             \addlegendentry{algo=Naiv};
-            \addplot coordinates { (2,247.517) (4,552.177) (8,1128.32) };
+            \addplot coordinates { (1,108.085) (2,246.923) (4,541.994) (8,1126.55) (12,2234.58) (16,2991.18) };
             \addlegendentry{algo=qsufsort};
-            \addplot coordinates { (2,151.26) (4,327.106) };
+            \addplot coordinates { (1,68.0012) (2,149.926) (4,324.567) (8,707.31) };
             \addlegendentry{algo=qsufsort\_ref};
 
         \end{axis}
@@ -117,14 +117,14 @@
             %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="dna.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="dna.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="qsufsort" OR algo="qsufsort_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addplot coordinates { (1,0.0) (2,0.0) (4,0.0) (8,0.0) (12,0.0) (16,0.0) (20,0.0) };
             \addlegendentry{algo=Naiv};
-            \addplot coordinates { (2,1679.86) (4,3357.59) (8,6713.03) };
+            \addplot coordinates { (1,841.003) (2,1679.86) (4,3357.59) (8,6713.03) (12,20134.8) (16,26845.7) };
             \addlegendentry{algo=qsufsort};
-            \addplot coordinates { (2,6710.89) (4,13421.8) };
+            \addplot coordinates { (1,3355.44) (2,6710.89) (4,13421.8) (8,26843.5) };
             \addlegendentry{algo=qsufsort\_ref};
 
             \legend{}
@@ -132,7 +132,7 @@
     \end{tikzpicture}
 
     \medskip
-    \ref{legend1}
+    \ref{legend-seq-qsufsort-1}
 \end{figure}
 
 \begin{figure}[ht]
@@ -147,7 +147,7 @@
                 xlabel={input size [200\,MB]},
                 ylabel={SA construction time [s]},
                 legend columns=2,
-                legend to name=legend2,
+                legend to name=legend-seq-qsufsort-2,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
@@ -157,14 +157,14 @@
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="qsufsort" OR algo="qsufsort_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,666.038) (4,1590.11) (8,4111.56) };
+            \addplot coordinates { (1,428.421) (2,669.456) (4,1602.12) (8,3723.05) };
             \addlegendentry{algo=Naiv};
-            \addplot coordinates { (2,387.863) (4,868.107) (8,1948.32) };
+            \addplot coordinates { (1,175.933) (2,388.521) (4,895.613) (8,1947.33) (12,3741.75) };
             \addlegendentry{algo=qsufsort};
-            \addplot coordinates { (2,188.813) (4,414.582) };
+            \addplot coordinates { (1,86.9851) (2,189.008) (4,415.687) (8,924.991) };
             \addlegendentry{algo=qsufsort\_ref};
 
         \end{axis}
@@ -183,14 +183,14 @@
             %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="qsufsort" OR algo="qsufsort_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addplot coordinates { (1,0.0) (2,0.0) (4,0.0) (8,0.0) };
             \addlegendentry{algo=Naiv};
-            \addplot coordinates { (2,1679.86) (4,3357.59) (8,6713.03) };
+            \addplot coordinates { (1,841.003) (2,1679.86) (4,3357.59) (8,6713.03) (12,20134.8) };
             \addlegendentry{algo=qsufsort};
-            \addplot coordinates { (2,6710.89) (4,13421.8) };
+            \addplot coordinates { (1,3355.44) (2,6710.89) (4,13421.8) (8,26843.5) };
             \addlegendentry{algo=qsufsort\_ref};
 
             \legend{}
@@ -198,6 +198,6 @@
     \end{tikzpicture}
 
     \medskip
-    \ref{legend2}
+    \ref{legend-seq-qsufsort-2}
 \end{figure}
 \FloatBarrier

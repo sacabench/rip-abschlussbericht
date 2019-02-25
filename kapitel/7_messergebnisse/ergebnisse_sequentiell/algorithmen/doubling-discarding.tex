@@ -15,7 +15,7 @@
                 xlabel={input size [200\,MB]},
                 ylabel={SA construction time [s]},
                 legend columns=2,
-                legend to name=legend0,
+                legend to name=legend-seq-doubling-0,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
@@ -25,16 +25,16 @@
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="wiki.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="wiki.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,309.316) (4,653.891) (8,1442.4) };
+            \addplot coordinates { (1,145.603) (2,314.671) (4,653.102) (8,1438.13) };
             \addlegendentry{algo=Discarding2};
-            \addplot coordinates { (2,285.11) (4,628.096) (8,1324.72) };
+            \addplot coordinates { (1,133.248) (2,285.374) (4,607.647) (8,1335.22) };
             \addlegendentry{algo=Discarding4};
-            \addplot coordinates { (2,1384.3) (4,2862.66) (8,5896.73) };
+            \addplot coordinates { (1,665.505) (2,1378.72) (4,2852.78) (8,5833.34) };
             \addlegendentry{algo=Doubling};
-            \addplot coordinates { (2,359.928) (4,778.531) (8,2125.23) };
+            \addplot coordinates { (1,162.841) (2,361.602) (4,783.025) (8,1729.44) (12,3448.59) (16,3842.25) (20,6183.09) };
             \addlegendentry{algo=Naiv};
 
         \end{axis}
@@ -53,16 +53,16 @@
             %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="wiki.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="wiki.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,5035.31) (4,10068.5) (8,20134.8) };
+            \addplot coordinates { (1,2518.73) (2,5035.31) (4,10068.5) (8,20134.8) };
             \addlegendentry{algo=Discarding2};
-            \addplot coordinates { (2,8390.76) (4,16779.4) (8,33556.6) };
+            \addplot coordinates { (1,4196.45) (2,8390.76) (4,16779.4) (8,33556.6) };
             \addlegendentry{algo=Discarding4};
-            \addplot coordinates { (2,5035.31) (4,10068.5) (8,20134.8) };
+            \addplot coordinates { (1,2518.73) (2,5035.31) (4,10068.5) (8,20134.8) };
             \addlegendentry{algo=Doubling};
-            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addplot coordinates { (1,0.0) (2,0.0) (4,0.0) (8,0.0) (12,0.0) (16,0.0) (20,0.0) };
             \addlegendentry{algo=Naiv};
 
             \legend{}
@@ -70,7 +70,7 @@
     \end{tikzpicture}
 
     \medskip
-    \ref{legend0}
+    \ref{legend-seq-doubling-0}
 \end{figure}
 
 \begin{figure}[ht]
@@ -85,7 +85,7 @@
                 xlabel={input size [200\,MB]},
                 ylabel={SA construction time [s]},
                 legend columns=2,
-                legend to name=legend1,
+                legend to name=legend-seq-doubling-1,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
@@ -95,16 +95,16 @@
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="dna.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="dna.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,299.085) (4,638.063) (8,1281.29) };
+            \addplot coordinates { (1,139.272) (2,297.487) (4,637.613) (8,1279.9) };
             \addlegendentry{algo=Discarding2};
-            \addplot coordinates { (2,304.928) (4,654.423) (8,1372.36) };
+            \addplot coordinates { (1,138.858) (2,305.111) (4,654.655) (8,1366.39) };
             \addlegendentry{algo=Discarding4};
-            \addplot coordinates { (2,680.806) (4,1400) (8,2878.03) };
+            \addplot coordinates { (1,332.269) (2,678.887) (4,1393.47) (8,2866.3) };
             \addlegendentry{algo=Doubling};
-            \addplot coordinates { (2,413.268) (4,908.502) (8,1904.01) };
+            \addplot coordinates { (1,183.948) (2,415.412) (4,910.737) (8,1910.63) (12,3645.28) (16,4061.77) (20,6575.73) };
             \addlegendentry{algo=Naiv};
 
         \end{axis}
@@ -123,16 +123,16 @@
             %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="dna.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="dna.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,5035.31) (4,10068.5) (8,20134.8) };
+            \addplot coordinates { (1,2518.73) (2,5035.31) (4,10068.5) (8,20134.8) };
             \addlegendentry{algo=Discarding2};
-            \addplot coordinates { (2,8390.76) (4,16779.4) (8,33556.6) };
+            \addplot coordinates { (1,4196.45) (2,8390.76) (4,16779.4) (8,33556.6) };
             \addlegendentry{algo=Discarding4};
-            \addplot coordinates { (2,5035.31) (4,10068.5) (8,20134.8) };
+            \addplot coordinates { (1,2518.73) (2,5035.31) (4,10068.5) (8,20134.8) };
             \addlegendentry{algo=Doubling};
-            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addplot coordinates { (1,0.0) (2,0.0) (4,0.0) (8,0.0) (12,0.0) (16,0.0) (20,0.0) };
             \addlegendentry{algo=Naiv};
 
             \legend{}
@@ -140,7 +140,7 @@
     \end{tikzpicture}
 
     \medskip
-    \ref{legend1}
+    \ref{legend-seq-doubling-1}
 \end{figure}
 
 \begin{figure}[ht]
@@ -155,7 +155,7 @@
                 xlabel={input size [200\,MB]},
                 ylabel={SA construction time [s]},
                 legend columns=2,
-                legend to name=legend2,
+                legend to name=legend-seq-doubling-2,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
@@ -165,16 +165,16 @@
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,557.154) (4,1222.04) (8,2637.27) };
+            \addplot coordinates { (1,262.849) (2,556.495) (4,1219.45) (8,2634.48) };
             \addlegendentry{algo=Discarding2};
-            \addplot coordinates { (2,432.803) (4,948.025) (8,2061.98) };
+            \addplot coordinates { (1,204.102) (2,432.97) (4,947.567) (8,2057.2) };
             \addlegendentry{algo=Discarding4};
-            \addplot coordinates { (2,1824.89) (4,4003.9) };
+            \addplot coordinates { (1,822.056) (2,1817.86) (4,3988.59) };
             \addlegendentry{algo=Doubling};
-            \addplot coordinates { (2,666.038) (4,1590.11) (8,4111.56) };
+            \addplot coordinates { (1,428.421) (2,669.456) (4,1602.12) (8,3723.05) };
             \addlegendentry{algo=Naiv};
 
         \end{axis}
@@ -193,16 +193,16 @@
             %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,5035.31) (4,10068.5) (8,20134.8) };
+            \addplot coordinates { (1,2518.73) (2,5035.31) (4,10068.5) (8,20134.8) };
             \addlegendentry{algo=Discarding2};
-            \addplot coordinates { (2,8390.76) (4,16779.4) (8,33556.6) };
+            \addplot coordinates { (1,4196.45) (2,8390.76) (4,16779.4) (8,33556.6) };
             \addlegendentry{algo=Discarding4};
-            \addplot coordinates { (2,5035.31) (4,10068.5) };
+            \addplot coordinates { (1,2518.73) (2,5035.31) (4,10068.5) };
             \addlegendentry{algo=Doubling};
-            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addplot coordinates { (1,0.0) (2,0.0) (4,0.0) (8,0.0) };
             \addlegendentry{algo=Naiv};
 
             \legend{}
@@ -210,6 +210,6 @@
     \end{tikzpicture}
 
     \medskip
-    \ref{legend2}
+    \ref{legend-seq-doubling-2}
 \end{figure}
 \FloatBarrier

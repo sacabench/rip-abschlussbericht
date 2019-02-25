@@ -15,7 +15,7 @@
                 xlabel={input size [200\,MB]},
                 ylabel={SA construction time [s]},
                 legend columns=2,
-                legend to name=legend0,
+                legend to name=legend-seq-ds-0,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
@@ -25,16 +25,16 @@
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="wiki.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="wiki.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Deep-Shallow" OR algo="Deep-Shallow_ref" OR algo="Deep-Shallow_bb")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,189.772) (4,424.189) (8,1051.45) };
+            \addplot coordinates { (1,85.1097) (2,190.63) (4,425.599) (8,1050.53) (12,1859.4) (16,2472.93) (20,3139.03) };
             \addlegendentry{algo=Deep-Shallow};
-            \addplot coordinates { (2,172.208) (4,438.225) (8,863.927) };
+            \addplot coordinates { (1,79.191) (2,172.315) (4,372.287) (8,1022.63) (12,1782.47) (16,2396) (20,2548.68) };
             \addlegendentry{algo=Deep-Shallow\_bb};
-            \addplot coordinates { (2,76.0137) (4,166.025) };
+            \addplot coordinates { (1,34.3903) (2,76.1794) (4,166.842) };
             \addlegendentry{algo=Deep-Shallow\_ref};
-            \addplot coordinates { (2,359.928) (4,778.531) (8,2125.23) };
+            \addplot coordinates { (1,162.841) (2,361.602) (4,783.025) (8,1729.44) (12,3448.59) (16,3842.25) (20,6183.09) };
             \addlegendentry{algo=Naiv};
 
         \end{axis}
@@ -53,16 +53,16 @@
             %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="wiki.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="wiki.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Deep-Shallow" OR algo="Deep-Shallow_ref" OR algo="Deep-Shallow_bb")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,5.711312) (4,10.2978) (8,19.449) };
+            \addplot coordinates { (1,3.423512) (2,5.711312) (4,10.2978) (8,19.449) (12,47.34365) (16,62.59566) (20,77.8628) };
             \addlegendentry{algo=Deep-Shallow};
-            \addplot coordinates { (2,5.624159) (4,10.2098) (8,19.361) };
+            \addplot coordinates { (1,3.336359) (2,5.624159) (4,10.2098) (8,19.361) (12,47.16767) (16,62.41968) (20,77.6852) };
             \addlegendentry{algo=Deep-Shallow\_bb};
-            \addplot coordinates { (2,5.057524) (4,10.091) };
+            \addplot coordinates { (1,2.540872) (2,5.057524) (4,10.091) };
             \addlegendentry{algo=Deep-Shallow\_ref};
-            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addplot coordinates { (1,0.0) (2,0.0) (4,0.0) (8,0.0) (12,0.0) (16,0.0) (20,0.0) };
             \addlegendentry{algo=Naiv};
 
             \legend{}
@@ -70,7 +70,7 @@
     \end{tikzpicture}
 
     \medskip
-    \ref{legend0}
+    \ref{legend-seq-ds-0}
 \end{figure}
 
 \begin{figure}[!h]
@@ -85,7 +85,7 @@
                 xlabel={input size [200\,MB]},
                 ylabel={SA construction time [s]},
                 legend columns=2,
-                legend to name=legend1,
+                legend to name=legend-seq-ds-1,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
@@ -95,16 +95,16 @@
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="dna.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="dna.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Deep-Shallow" OR algo="Deep-Shallow_ref" OR algo="Deep-Shallow_bb")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,253.606) (4,558.614) (8,1146.5) };
+            \addplot coordinates { (1,111.326) (2,252.814) (4,558.929) (8,1148.98) (12,1821.64) (16,2482.4) (20,3182.25) };
             \addlegendentry{algo=Deep-Shallow};
-            \addplot coordinates { (2,195.02) (4,426.372) (8,1103.55) };
+            \addplot coordinates { (1,90.8697) (2,194.55) (4,425.169) (8,930.997) (12,1764.17) (16,2427.68) (20,2598.36) };
             \addlegendentry{algo=Deep-Shallow\_bb};
-            \addplot coordinates { (2,81.0557) (4,174.525) };
+            \addplot coordinates { (1,38.7309) (2,81.5342) (4,175.302) };
             \addlegendentry{algo=Deep-Shallow\_ref};
-            \addplot coordinates { (2,413.268) (4,908.502) (8,1904.01) };
+            \addplot coordinates { (1,183.948) (2,415.412) (4,910.737) (8,1910.63) (12,3645.28) (16,4061.77) (20,6575.73) };
             \addlegendentry{algo=Naiv};
 
         \end{axis}
@@ -123,16 +123,16 @@
             %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="dna.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="dna.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Deep-Shallow" OR algo="Deep-Shallow_ref" OR algo="Deep-Shallow_bb")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,4.576256) (4,9.151862) (8,18.3031) };
+            \addplot coordinates { (1,2.288456) (2,4.576256) (4,9.151862) (8,18.3031) (12,45.9107) (16,61.16271) (20,76.41473) };
             \addlegendentry{algo=Deep-Shallow};
-            \addplot coordinates { (2,4.576211) (4,9.151817) (8,18.303) };
+            \addplot coordinates { (1,2.288411) (2,4.576211) (4,9.151817) (8,18.303) (12,45.9107) (16,61.1627) (20,76.4147) };
             \addlegendentry{algo=Deep-Shallow\_bb};
-            \addplot coordinates { (2,5.033172) (4,10.0663) };
+            \addplot coordinates { (1,2.516592) (2,5.033172) (4,10.0663) };
             \addlegendentry{algo=Deep-Shallow\_ref};
-            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addplot coordinates { (1,0.0) (2,0.0) (4,0.0) (8,0.0) (12,0.0) (16,0.0) (20,0.0) };
             \addlegendentry{algo=Naiv};
 
             \legend{}
@@ -140,7 +140,7 @@
     \end{tikzpicture}
 
     \medskip
-    \ref{legend1}
+    \ref{legend-seq-ds-1}
 \end{figure}
 
 \begin{figure}[!h]
@@ -155,7 +155,7 @@
                 xlabel={input size [200\,MB]},
                 ylabel={SA construction time [s]},
                 legend columns=2,
-                legend to name=legend2,
+                legend to name=legend-seq-ds-2,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
@@ -165,14 +165,16 @@
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Deep-Shallow" OR algo="Deep-Shallow_ref" OR algo="Deep-Shallow_bb")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,743.525) };
+            \addplot coordinates { (1,373.777) (2,727.454) };
             \addlegendentry{algo=Deep-Shallow};
-            \addplot coordinates { (2,85.6395) (4,194.03) };
+            \addplot coordinates { (1,212.824) };
+            \addlegendentry{algo=Deep-Shallow\_bb};
+            \addplot coordinates { (1,38.4159) (2,85.7689) (4,193.81) };
             \addlegendentry{algo=Deep-Shallow\_ref};
-            \addplot coordinates { (2,666.038) (4,1590.11) (8,4111.56) };
+            \addplot coordinates { (1,428.421) (2,669.456) (4,1602.12) (8,3723.05) };
             \addlegendentry{algo=Naiv};
 
         \end{axis}
@@ -191,14 +193,16 @@
             %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Deep-Shallow" OR algo="Deep-Shallow_ref" OR algo="Deep-Shallow_bb")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,6.085712) };
+            \addplot coordinates { (1,3.735902) (2,6.085712) };
             \addlegendentry{algo=Deep-Shallow};
-            \addplot coordinates { (2,5.089404) (4,10.1495) };
+            \addplot coordinates { (1,3.624746) };
+            \addlegendentry{algo=Deep-Shallow\_bb};
+            \addplot coordinates { (1,2.570416) (2,5.089404) (4,10.1495) };
             \addlegendentry{algo=Deep-Shallow\_ref};
-            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addplot coordinates { (1,0.0) (2,0.0) (4,0.0) (8,0.0) };
             \addlegendentry{algo=Naiv};
 
             \legend{}
@@ -206,7 +210,7 @@
     \end{tikzpicture}
 
     \medskip
-    \ref{legend2}
+    \ref{legend-seq-ds-2}
 \end{figure}
 \FloatBarrier
 
