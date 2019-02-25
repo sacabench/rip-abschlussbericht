@@ -167,12 +167,13 @@ We measured an approximate 2.5x slowdown compared to the built-in number types.\
 
 The most crucial part of optimizing a SACA is cache-efficiency, that is aiming for time-local and space-local memory access.
 Since the SA is a pseudo-random mutation of numbers, the SA can't be written cache-efficiently.
+However, when implementing SACAs, avoiding unnecessary cache misses can significantly improve performance.
 
 \subsection{Wordpacking}
 
 To maximize throughput, multiple characters of the input (8 bit each) can be processed as a whole by
 interpreting them as integer numbers (64 bit, or even up to 512 bit by using vector operations).
-This is done in multiple algorihms\todo{welche?} to improve performance.
+Algorithms using wordpacking techniques are the Osipov algorithm \todo{Referenz}, Doubling \todo{Referenz}, Discarding \todo{Referenz} and QSufSort \todo{Referenz}.
 
 \subsection{Sorting Algorithms}
 
