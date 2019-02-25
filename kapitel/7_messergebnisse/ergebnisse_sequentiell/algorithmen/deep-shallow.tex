@@ -1,6 +1,6 @@
 \subsubsection{Deep-Shallow}
 
-\textbf{Configuration} \hfill Model name: none
+\textbf{Configuration} \hfill Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
 % IMPORT-DATA stats2 ../results.txt
 
 \begin{figure}[!h]
@@ -28,13 +28,13 @@
             %% ) WHERE input="wiki.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Deep-Shallow" OR algo="Deep-Shallow_ref" OR algo="Deep-Shallow_bb")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,1.41849) (2,3.17717) (4,7.09332) (8,17.5089) (12,30.9901) (16,41.2155) (20,52.3171) };
+            \addplot coordinates { (1,1.41194) (2,3.15161) (4,7.0355) (8,17.3743) (12,31.4128) (16,41.969) (20,53.1324) };
             \addlegendentry{algo=Deep-Shallow};
-            \addplot coordinates { (1,1.31985) (2,2.87191) (4,6.20479) (8,17.0438) (12,29.7078) (16,39.9333) (20,42.4779) };
+            \addplot coordinates { (1,1.32619) (2,2.88039) (4,6.21822) (8,14.5018) (12,25.2688) (16,33.7536) (20,42.8578) };
             \addlegendentry{algo=Deep-Shallow\_bb};
-            \addplot coordinates { (1,0.573171) (2,1.26966) (4,2.7807) };
+            \addplot coordinates { (1,0.572572) (2,1.26708) (4,2.77311) };
             \addlegendentry{algo=Deep-Shallow\_ref};
-            \addplot coordinates { (1,2.71401) (2,6.02671) (4,13.0504) (8,28.824) (12,57.4765) (16,64.0376) (20,103.051) };
+            \addplot coordinates { (1,2.7048) (2,6.0286) (4,15.8137) (8,28.8136) (12,59.9193) (16,65.215) (20,105.373) };
             \addlegendentry{algo=Naiv};
 
         \end{axis}
@@ -98,13 +98,13 @@
             %% ) WHERE input="dna.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Deep-Shallow" OR algo="Deep-Shallow_ref" OR algo="Deep-Shallow_bb")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,1.85544) (2,4.21356) (4,9.31549) (8,19.1496) (12,30.3606) (16,41.3734) (20,53.0374) };
+            \addplot coordinates { (1,1.84297) (2,4.19221) (4,9.31173) (8,19.1414) (12,31.3496) (16,41.822) (20,53.3196) };
             \addlegendentry{algo=Deep-Shallow};
-            \addplot coordinates { (1,1.5145) (2,3.24249) (4,7.08615) (8,15.5166) (12,29.4029) (16,40.4614) (20,43.3059) };
+            \addplot coordinates { (1,1.52271) (2,3.25649) (4,7.08483) (8,15.4772) (12,24.4969) (16,40.615) (20,45.8152) };
             \addlegendentry{algo=Deep-Shallow\_bb};
-            \addplot coordinates { (1,0.645514) (2,1.3589) (4,2.9217) };
+            \addplot coordinates { (1,0.641739) (2,1.35715) (4,2.89482) };
             \addlegendentry{algo=Deep-Shallow\_ref};
-            \addplot coordinates { (1,3.06579) (2,6.92353) (4,15.1789) (8,31.8439) (12,60.7547) (16,67.6962) (20,109.595) };
+            \addplot coordinates { (1,3.07022) (2,6.92539) (4,15.1993) (8,31.8829) (12,50.4039) (16,86.2066) (20,90.5095) };
             \addlegendentry{algo=Naiv};
 
         \end{axis}
@@ -168,13 +168,13 @@
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Deep-Shallow" OR algo="Deep-Shallow_ref" OR algo="Deep-Shallow_bb")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,6.22962) (2,12.1242) };
+            \addplot coordinates { (1,6.05164) (2,11.5902) };
             \addlegendentry{algo=Deep-Shallow};
-            \addplot coordinates { (1,3.54706) };
+            \addplot coordinates { (1,3.63105) };
             \addlegendentry{algo=Deep-Shallow\_bb};
-            \addplot coordinates { (1,0.640264) (2,1.42948) (4,3.23017) };
+            \addplot coordinates { (1,0.640794) (2,1.43003) (4,3.24651) };
             \addlegendentry{algo=Deep-Shallow\_ref};
-            \addplot coordinates { (1,7.14036) (2,11.1576) (4,26.7019) (8,62.0508) };
+            \addplot coordinates { (1,7.14747) (2,11.1463) (4,26.6099) (8,62.0999) };
             \addlegendentry{algo=Naiv};
 
         \end{axis}

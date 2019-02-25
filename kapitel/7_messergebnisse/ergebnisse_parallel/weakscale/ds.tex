@@ -1,6 +1,5 @@
 \subsubsection{Deep-Shallow}
-
-\textbf{Configuration} \hfill Model name: none
+\textbf{Configuration} \hfill Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
 % IMPORT-DATA stats_parallel ../result_weakscale.txt
 % IMPORT-DATA stats_sequential ../../ergebnisse_sequentiell/results.txt
 
@@ -29,11 +28,11 @@
             %% ) WHERE input="wiki.txt" AND sacheck="ok"
             %% AND (algo="Deep-Shallow_par" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,1.41757) (2,1.80344) (4,2.30554) (8,3.37452) (12,4.78903) (16,5.31493) (20,6.50103) };
+            \addplot coordinates { (1,1.41234) (2,1.79674) (4,2.28839) (8,3.29598) (12,4.53346) (16,5.42954) (20,6.48599) };
             \addlegendentry{algo=Deep-Shallow\_par};
-            \addplot coordinates { (1,0.474682) (2,0.894787) (4,1.73253) (8,3.70343) };
+            \addplot coordinates { (1,0.474964) (2,0.890462) (4,1.72981) (8,3.69632) };
             \addlegendentry{algo=DivSufSort\_par\_ref};
-            \addplot coordinates { (1,2.71133) (2,3.53247) (4,3.93189) (8,4.85537) (12,5.53093) (16,5.82486) };
+            \addplot coordinates { (1,2.71662) (2,3.54087) (4,4.03271) (8,4.7199) (12,5.55871) (16,5.86449) };
             \addlegendentry{algo=NaivParallel};
 
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
@@ -42,7 +41,7 @@
             %% ) WHERE input="wiki.txt" AND sacheck="ok"
             %% AND (algo="Deep-Shallow_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,0.573171) (2,1.26966) (4,2.7807) };
+            \addplot coordinates { (1,0.572572) (2,1.26708) (4,2.77311) };
             \addlegendentry{algo=Deep-Shallow\_ref};
         \end{axis}
     \end{tikzpicture}
@@ -66,11 +65,11 @@
             %% ) WHERE input="wiki.txt" AND sacheck="ok"
             %% AND (algo="Deep-Shallow_par" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,0.00319003) (2,0.00532148) (4,0.00959451) (8,0.0184642) (12,0.0489192) (16,0.0634228) (20,0.07799) };
+            \addplot coordinates { (1,0.00319003) (2,0.00532148) (4,0.00959451) (8,0.0183557) (12,0.0497788) (16,0.0630637) (20,0.0779177) };
             \addlegendentry{algo=Deep-Shallow\_par};
             \addplot coordinates { (1,0.000246726) (2,0.000247501) (4,0.000249021) (8,0.000252061) };
             \addlegendentry{algo=DivSufSort\_par\_ref};
-            \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25001) (12,18.75) (16,25) };
+            \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) (12,18.75) (16,25) };
             \addlegendentry{algo=NaivParallel};
 
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
@@ -79,7 +78,7 @@
             %% ) WHERE input="wiki.txt" AND sacheck="ok"
             %% AND (algo="Deep-Shallow_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,0.573171) (2,1.26966) (4,2.7807) };
+            \addplot coordinates { (1,0.572572) (2,1.26708) (4,2.77311) };
             \addlegendentry{algo=Deep-Shallow\_ref};
 
             \legend{}
@@ -115,11 +114,11 @@
             %% ) WHERE input="dna.txt" AND sacheck="ok"
             %% AND (algo="Deep-Shallow_par" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,1.85644) (2,2.47751) (4,3.03596) (8,4.37529) (12,6.09241) (16,8.6897) (20,10.5433) };
+            \addplot coordinates { (1,1.84653) (2,2.47075) (4,3.2711) (8,4.23853) (12,5.92934) (16,9.05611) (20,10.8896) };
             \addlegendentry{algo=Deep-Shallow\_par};
-            \addplot coordinates { (1,0.517688) (2,1.01597) (4,2.06848) (8,5.14005) };
+            \addplot coordinates { (1,0.516853) (2,1.01441) (4,2.06209) (8,4.53356) };
             \addlegendentry{algo=DivSufSort\_par\_ref};
-            \addplot coordinates { (1,3.0768) (2,4.02881) (4,4.66772) (8,5.10865) (12,5.80407) (16,6.02129) };
+            \addplot coordinates { (1,3.06848) (2,4.3148) (4,4.73058) (8,5.05918) (12,5.68415) (16,5.68597) };
             \addlegendentry{algo=NaivParallel};
 
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
@@ -128,7 +127,7 @@
             %% ) WHERE input="dna.txt" AND sacheck="ok"
             %% AND (algo="Deep-Shallow_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,0.645514) (2,1.3589) (4,2.9217) };
+            \addplot coordinates { (1,0.641739) (2,1.35715) (4,2.89482) };
             \addlegendentry{algo=Deep-Shallow\_ref};
 
         \end{axis}
@@ -153,11 +152,11 @@
             %% ) WHERE input="dna.txt" AND sacheck="ok"
             %% AND (algo="Deep-Shallow_par" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,0.00213599) (2,0.00426745) (4,0.00853033) (8,0.0170561) (12,0.0427685) (16,0.0569776) (20,0.0711844) };
+            \addplot coordinates { (1,0.00213599) (2,0.00426745) (4,0.00853033) (8,0.0170561) (12,0.0427683) (16,0.0569774) (20,0.0711839) };
             \addlegendentry{algo=Deep-Shallow\_par};
             \addplot coordinates { (1,0.000246726) (2,0.000247501) (4,0.000249021) (8,0.000252061) };
             \addlegendentry{algo=DivSufSort\_par\_ref};
-            \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25001) (12,18.75) (16,25) };
+            \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) (12,18.75) (16,25) };
             \addlegendentry{algo=NaivParallel};
 
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
@@ -166,7 +165,7 @@
             %% ) WHERE input="dna.txt" AND sacheck="ok"
             %% AND (algo="Deep-Shallow_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,0.645514) (2,1.3589) (4,2.9217) };
+            \addplot coordinates { (1,0.641739) (2,1.35715) (4,2.89482) };
             \addlegendentry{algo=Deep-Shallow\_ref};
 
             \legend{}
@@ -202,11 +201,11 @@
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
             %% AND (algo="Deep-Shallow_par" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,6.77429) (2,6.6247) (4,9.53641) };
+            \addplot coordinates { (1,7.83762) (2,7.19017) (4,9.73639) };
             \addlegendentry{algo=Deep-Shallow\_par};
-            \addplot coordinates { (1,0.43822) (2,0.818763) (4,1.57892) (8,3.19389) };
+            \addplot coordinates { (1,0.438349) (2,0.817589) (4,1.57076) (8,3.18317) };
             \addlegendentry{algo=DivSufSort\_par\_ref};
-            \addplot coordinates { (1,7.13684) (2,7.4092) (4,8.8015) (8,11.2959) (12,13.7305) (16,15.5054) };
+            \addplot coordinates { (1,7.15567) (2,7.39145) (4,8.81336) (8,11.3875) (12,13.2541) (16,15.516) };
             \addlegendentry{algo=NaivParallel};
 
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
@@ -215,7 +214,7 @@
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
             %% AND (algo="Deep-Shallow_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,0.640264) (2,1.42948) (4,3.23017) };
+            \addplot coordinates { (1,0.640794) (2,1.43003) (4,3.24651) };
             \addlegendentry{algo=Deep-Shallow\_ref};
 
         \end{axis}
@@ -240,11 +239,11 @@
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
             %% AND (algo="Deep-Shallow_par" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,0.00348096) (2,0.00567017) (4,0.0434837) };
+            \addplot coordinates { (1,0.00348096) (2,0.00567017) (4,0.0413734) };
             \addlegendentry{algo=Deep-Shallow\_par};
             \addplot coordinates { (1,0.000246726) (2,0.000247501) (4,0.000249021) (8,0.000252061) };
             \addlegendentry{algo=DivSufSort\_par\_ref};
-            \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25001) (12,18.75) (16,25) };
+            \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) (12,18.75) (16,25) };
             \addlegendentry{algo=NaivParallel};
 
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
@@ -253,7 +252,7 @@
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
             %% AND (algo="Deep-Shallow_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,0.640264) (2,1.42948) (4,3.23017) };
+            \addplot coordinates { (1,0.640794) (2,1.43003) (4,3.24651) };
             \addlegendentry{algo=Deep-Shallow\_ref};
 
             \legend{}
