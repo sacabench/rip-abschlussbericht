@@ -40,10 +40,8 @@
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="wiki.txt" AND sacheck="ok"
-            %% AND (algo="Deep-Shallow" OR algo="Deep-Shallow_ref")
+            %% AND (algo="Deep-Shallow_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,1.41849) (2,3.17717) (4,7.09332) (8,17.5089) (12,30.9901) (16,41.2155) (20,52.3171) };
-            \addlegendentry{algo=Deep-Shallow};
             \addplot coordinates { (1,0.573171) (2,1.26966) (4,2.7807) };
             \addlegendentry{algo=Deep-Shallow\_ref};
         \end{axis}
@@ -79,10 +77,8 @@
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="wiki.txt" AND sacheck="ok"
-            %% AND (algo="Deep-Shallow" OR algo="Deep-Shallow_ref")
+            %% AND (algo="Deep-Shallow_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,1.41849) (2,3.17717) (4,7.09332) (8,17.5089) (12,30.9901) (16,41.2155) (20,52.3171) };
-            \addlegendentry{algo=Deep-Shallow};
             \addplot coordinates { (1,0.573171) (2,1.26966) (4,2.7807) };
             \addlegendentry{algo=Deep-Shallow\_ref};
 
@@ -130,10 +126,8 @@
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="dna.txt" AND sacheck="ok"
-            %% AND (algo="Deep-Shallow" OR algo="Deep-Shallow_ref")
+            %% AND (algo="Deep-Shallow_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,1.85544) (2,4.21356) (4,9.31549) (8,19.1496) (12,30.3606) (16,41.3734) (20,53.0374) };
-            \addlegendentry{algo=Deep-Shallow};
             \addplot coordinates { (1,0.645514) (2,1.3589) (4,2.9217) };
             \addlegendentry{algo=Deep-Shallow\_ref};
 
@@ -170,10 +164,8 @@
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="dna.txt" AND sacheck="ok"
-            %% AND (algo="Deep-Shallow" OR algo="Deep-Shallow_ref")
+            %% AND (algo="Deep-Shallow_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,1.85544) (2,4.21356) (4,9.31549) (8,19.1496) (12,30.3606) (16,41.3734) (20,53.0374) };
-            \addlegendentry{algo=Deep-Shallow};
             \addplot coordinates { (1,0.645514) (2,1.3589) (4,2.9217) };
             \addlegendentry{algo=Deep-Shallow\_ref};
 
@@ -221,10 +213,8 @@
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
-            %% AND (algo="Deep-Shallow" OR algo="Deep-Shallow_ref")
+            %% AND (algo="Deep-Shallow_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,6.22962) (2,12.1242) };
-            \addlegendentry{algo=Deep-Shallow};
             \addplot coordinates { (1,0.640264) (2,1.42948) (4,3.23017) };
             \addlegendentry{algo=Deep-Shallow\_ref};
 
@@ -261,10 +251,8 @@
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
-            %% AND (algo="Deep-Shallow" OR algo="Deep-Shallow_ref")
+            %% AND (algo="Deep-Shallow_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,6.22962) (2,12.1242) };
-            \addlegendentry{algo=Deep-Shallow};
             \addplot coordinates { (1,0.640264) (2,1.42948) (4,3.23017) };
             \addlegendentry{algo=Deep-Shallow\_ref};
 
