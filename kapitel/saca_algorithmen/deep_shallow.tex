@@ -2,11 +2,7 @@
 \tikzstyle{na} = [baseline=-.5ex,remember picture]
 \tikzstyle{nobox} = [rectangle,inner sep = 0]
 
-\def\divsufsort{\texttt{divsufsort}\xspace}
-\def\qsufsort{\texttt{qsufsort}\xspace}
-\def\cache{\texttt{cache}\xspace}
-
-Der \currentauthor{Marvin Böcker} Deep-Shallow SACA von Manzini und Ferragina aus ihrem
+Mit dem SACA \currentauthor{Marvin Böcker} Deep-Shallow von Manzini und Ferragina aus ihrem
 Paper von 2004~\cite{saca:4} begann die Limitierung des Speicherverbrauches von SACAs.
 Da das Suffixarray besonders bei großen Texten interessant ist, ist der Speicherbedarf möglichst stark zu begrenzen.
 Das bedeutet, dass zusätzlich zu den $n$ Byte, welche durch den Eingabetext belegt werden
@@ -16,10 +12,11 @@ nur wenig Hilfs-Speicherplatz belegt wird.
 Insgesamt hat der Speicherbedarf der Suffixarray-Konstruktion also eine untere Schranke von
 $5n$ Byte\footnote{Wenn man das Suffixarray mit 32-Bit Zahlen kodiert.
 Bei 40, 48 und 64 Bit Zahlen ist die untere Grenze jeweils höher.}.
-\qsufsort (einer der Algorithmen, mit denen im Paper von Manzini und Ferragina vergleichen wird)
+qsufsort (siehe \cref{algorithm:qsufsort})
 benutzt beispielsweise zusätzlich $4n$ Byte an Speicher~\cite{saca:4}.
 Allerdings gibt es seit der Veröffentlichung des Papers auch viele Algorithmen mit
-konstantem oder keinem zusätzlichen Speicherverbrauch, wie beispielsweise SACA-K~\cite{saca:7}.
+konstantem oder keinem zusätzlichen Speicherverbrauch,
+wie beispielsweise SACA-K~\cite{saca:7} (siehe \cref{section:saca_k}).
 
 Im hier vorliegenden Algorithmus kann durch einen Parameter bestimmt werden, wie viel
 zusätzlicher Speicherplatz gegen ersparte Laufzeit eingetauscht wird.
@@ -43,13 +40,16 @@ Der Deep-Shallow SA Sortieralgorithmus besteht aus drei Teilen: Bucket Sort, Sha
 Außerdem findet nach jedem Shallow Sort ein Induzierschritt statt.
 Diese Teile werden nun erläutert und zuletzt mit einem Beispiel erklärt.
 
-Bucket Sort (siehe \cref{section:bucketsort}) wird einmalig zu Beginn verwendet, dann wird jeder Bucket mit Shallow Sort sortiert, und sobald die zu sortierenden Suffixe eine vorher festgelegte Größe an LCP haben, wird Deep Sort verwendet.
+Bucket Sort (siehe \cref{section:bucketsort}) wird einmalig zu Beginn verwendet,
+dann wird jeder Bucket mit Shallow Sort sortiert und
+sobald erkannt wird, dass die zu sortierenden Suffixe einen vorher festgelegte LCP
+haben, wird Deep Sort verwendet.
 
 \begin{listing}
 \begin{minted}[mathescape=true, escapeinside=||]{python}
 def deep_shallow_sort(T: Text):
   Create a bucket for every character pair |$\alpha, \beta \in \Sigma$|.
-  Call them |$B_{\alpha \beta}$|.
+  Call them |$\mathsf{b}_{\alpha \beta}$|.
 
   # Sort T into the buckets by comparing only the first two
   # characters of every string. Represent the suffixes by their
@@ -57,14 +57,14 @@ def deep_shallow_sort(T: Text):
   bucket_sort(T)
 
   while (not all buckets are sorted) do:
-    find the smallest unsorted bucket |$B_{\alpha}$|.
+    find the smallest unsorted bucket |$\mathsf{b}_{\alpha}$|.
     
-    # Skip already sorted subbuckets $B_{\alpha\sigma}$ for every $\sigma \in \Sigma$.
-    shallow_sort(|$B_{\alpha}$|, 0)
+    # Skip already sorted subbuckets $\mathsf{b}_{\alpha\sigma}$ for every $\sigma \in \Sigma$.
+    shallow_sort(|$\mathsf{b}_{\alpha}$|, 0)
     Mark A as sorted.
 
     # Use the copy technique to induce the order
-    # of $B_{\sigma\alpha}$ for every $\sigma \in \Sigma$.
+    # of $\mathsf{b}_{\sigma\alpha}$ for every $\sigma \in \Sigma$.
     for |$\sigma \in \Sigma$| do:
       copy_technique(|$\sigma$|, |$\alpha$|)
 \end{minted}
@@ -76,10 +76,10 @@ def deep_shallow_sort(T: Text):
 
 Die erste Stufe des Algorithmus erstellt $|\Sigma|^2$ Buckets.
 Diese enthalten jeweils alle Suffixe, die mit den gleichen zwei Buchstaben anfangen.
-Es gibt also für jede Buchstabenkombination $\alpha\beta$ einen Bucket $B_{\alpha\beta}$.
+Es gibt also für jede Buchstabenkombination $\alpha\beta$ einen Bucket $\mathsf{b}_{\alpha\beta}$.
 Allerdings muss nicht jeder Bucket Elemente enthalten.
 Es wird jeder Bucket als unsortiert markiert, wenn er mehr als ein Element enthält.
-Es gibt weiterhin Superbuckets $B_\alpha$, welche alle Subbuckets $B_{\alpha\sigma}$ für alle $\sigma \in \Sigma$ enthalten.
+Es gibt weiterhin Superbuckets $\mathsf{b}_\alpha$, welche alle Subbuckets $\mathsf{b}_{\alpha\sigma}$ für alle $\sigma \in \Sigma$ enthalten.
 
 Die Buckets liegen sequentiell im Speicher des Suffixarrays, von links nach rechts sortiert.
 Daher erhält jeder Bucket einen festen Speicherbereich, in dem seine Elemente sortiert werden müssen.
@@ -89,20 +89,20 @@ In Algorithmus \ref{ds:alg:main} wird anhand eines Pseudocode der Einstiegspunkt
 \subsubsection{Teil 2: Shallow Sort}
 
 Der Hauptteil des Algorithmus wählt immer den kleinsten,
-nicht-sortierten Bucket aus und sortiert ihn mittels Shallow Sorting.
+nicht-sortierten Buck-et aus und sortiert ihn mittels Shallow Sort.
 Dabei wird Multikey-Quicksort (siehe \cref{section:mkqs}) verwendet,
-welches gut auf Strings funktioniert, welche keine langen gemeinsamen Prefixe haben~\cite{saca:4}.
+welches gut auf Strings funktioniert, die keine langen gemeinsamen Präfixe haben~\cite{saca:4}.
 Der normale MKQS-Algorithmus wird so abgewandelt,
-dass bei einer Vergleichstiefe größer einem Threshold automatisch abgebrochen wird
+dass bei einer Vergleichstiefe größer einem Schwellwert automatisch abgebrochen wird
 und die verbleibenden Partitionen jeweils mit Deep Sort sortiert werden.
 
 \subsubsection{Teil 3: Deep Sort}
 
-Wird die Rekursion im Shallow Sorting zu tief, bedeutet das,
-dass im zu sortierenden Bucket viele Strings mit einem gemeinsamen Prefix liegen.
+Wird die Rekursion im Shallow Sort zu tief, bedeutet das,
+dass im zu sortierenden Bucket viele Strings mit einem gemeinsamen Präfix liegen.
 Daher wird ein Verfahren verwendet, welches diese Strings schnell sortieren kann.
 Genauer gesagt werden drei Verfahren verwendet, je nachdem welches anwendbar ist.
-Diese werden insgesamt Deep-Sorting genannt.
+Diese werden insgesamt Deep Sort genannt.
 
 \begin{figure}[!h]
 \centering
@@ -146,36 +146,36 @@ Diese werden insgesamt Deep-Sorting genannt.
 \label{fg:blindtrie}
 \end{figure}
 
-Das so genannte \textit{Blind Sorting} verwendet einen Blind Trie (siehe Abbildung \ref{fg:blindtrie}),
+Das so genannte \textit{Blind Sort} verwendet einen Blind Trie (siehe Abbildung \ref{fg:blindtrie}),
 in welchen die Suffixe eingefügt werden.
 Danach ist es einfach, den Trie in lexikografisch korrekter Reihenfolge zu durchlaufen.
 Da der Trie allerdings einen relativ großen Speicherbereich belegt (36 Byte je String~\cite{saca:4}),
 wird er nur für bis zu $M$ zu sortierende Strings verwendet.
 
-Wenn es mehr als $M$ Strings gibt, die es zu sortieren gilt, wird erneut \textit{Quicksort}~\cite{ternary_quicksort} verwendet, allerdings werden diesmal ganze Suffixe verglichen.
-Die Rekursion verwendet Blind Sorting, wenn die zu sortierende Menge klein genug ist.
+Wenn es mehr als $M$ Strings gibt, die es zu sortieren gilt, wird erneut Quicksort~\cite{ternary_quicksort} verwendet, allerdings werden diesmal ganze Suffixe verglichen.
+Die Rekursion verwendet Blind Sort, wenn die zu sortierende Menge klein genug ist.
 
 \begin{figure}
 \centering
 \begin{tikzpicture}[remember picture]
-\node[align=center] at (-4, 1.25) {$B_b$\\ (unsortiert)};
+\node[align=center] at (-4, 1.25) {$\mathsf{b}_b$\\ (unsortiert)};
 \node[align=right, draw] at (-4, 0) {banabas\tikz[na] \coordinate (0);\\ bas\tikz[na] \coordinate (1);\\ banabanabas\tikz[na] \coordinate (2);};
 
-\node[align=center] at (0, 1.75) {$B_a$\\ (bereits sortiert)};
+\node[align=center] at (0, 1.75) {$\mathsf{b}_a$\\ (bereits sortiert)};
 \node[align=left, draw] at (0,0) {abanabas\\ abas\\ \tikz[na] \coordinate (10);anabanabas\tikz[na] \coordinate (10b);\\ \tikz[na] \coordinate (11);anabas\tikz[na] \coordinate (11b);\\ \tikz[na] \coordinate (12);as\tikz[na] \coordinate (12b);};
 
 \draw[-stealth] (0) -- (11);
 \draw[-stealth] (1) -- (12);
 \draw[-stealth] (2) -- (10);
 
-\node[align=center] at (4, 1.25) {$B_b$\\ (sortiert)};
+\node[align=center] at (4, 1.25) {$\mathsf{b}_b$\\ (sortiert)};
 \node[align=left, draw] at (4, 0) {\tikz[na] \coordinate (0);banabanabas\\ \tikz[na] \coordinate (1);banabas\\ \tikz[na] \coordinate (2);bas};
 
 \draw[-stealth] (10b) -- (0);
 \draw[-stealth] (11b) -- (1);
 \draw[-stealth] (12b) -- (2);
 
-\node[align=center] (0) at (-2, -2) {Finde $B_b$\\ in $B_a$\\ (ohne b am Stringanfang)};
+\node[align=center] (0) at (-2, -2) {Finde $\mathsf{b}_b$\\ in $\mathsf{b}_a$\\ (ohne b am Stringanfang)};
 \node[align=center] (1) at (2, -2) {Leite relative\\ Sortierung her};
 
 \coordinate (2) at (-2, -1);
@@ -184,40 +184,43 @@ Die Rekursion verwendet Blind Sorting, wenn die zu sortierende Menge klein genug
 \draw[-stealth] (0) -- (2);
 \draw[-stealth] (1) -- (3);
 \end{tikzpicture}
-\caption[Funktionsweise von Induced Sorting]{Funktionsweise von Induced Sorting am Beispiel von \glqq banabanabas\grqq. Der linke Bucket $B_b$ (zur Vereinfachung gibt es nur Buckets für einzelne Buchstaben) soll mithilfe von $B_a$ sortiert werden. Dazu wird das LCP von allen Einträgen in $B_b$ berechnet (\glqq ba\grqq). Da \glqq a\grqq{} in \glqq ba\grqq{} enthalten ist, kann $B_a$ benutzt werden, um $B_b$ zu sortieren. Dazu wird $B_a$ durchlaufen um die Reihenfolge aller Elemente von $B_b$ zu bestimmen.}
+\caption[Funktionsweise von Induced Sort]{Funktionsweise von Induced Sort am Beispiel von \glqq banabanabas\grqq. Der linke Bucket $\mathsf{b}_b$ (zur Vereinfachung gibt es nur Buckets für einzelne Buchstaben) soll mithilfe von $\mathsf{b}_a$ sortiert werden. Dazu wird das LCP von allen Einträgen in $\mathsf{b}_b$ berechnet (\glqq ba\grqq). Da \glqq a\grqq{} in \glqq ba\grqq{} enthalten ist, kann $\mathsf{b}_a$ benutzt werden, um $\mathsf{b}_b$ zu sortieren. Dazu wird $\mathsf{b}_a$ durchlaufen um die Reihenfolge aller Elemente von $\mathsf{b}_b$ zu bestimmen.}
 \label{fg:induced}
 \end{figure}
 
-\subsubsection{Induced Sorting}
+\subsubsection{Induced Sort}
 
-Diese beiden Verfahren nutzen die Struktur der zu sortierenden Strings, nämlich dass sie Suffixe sind, nicht aus.
-Allerdings wird außerdem ein drittes Verfahren verwendet, welches \textit{Induced Sorting} heißt.
+Diese beiden Verfahren nutzen die Struktur der zu sortierenden Strings
+(sie sind Suffixe eines gemeinsamen Textes) nicht aus.
+Allerdings wird außerdem ein drittes Verfahren verwendet, welches \textit{Induced Sort} heißt.
 Dieses verwendet bereits sortierte Buckets, um eine Menge von Strings zu sortieren.
-Dazu müssen die Strings ein gemeinsames Prefix haben.
-Da Induced Sorting nur im Deep-Sorting verwendet wird, ist diese Bedingung gegeben.
+Dazu müssen die Strings ein gemeinsames Präfix haben.
+Da Induced Sort nur innerhalb von Deep Sort verwendet wird, ist diese Bedingung gegeben.
 Siehe zur Erläuterung Abbildung \ref{fg:induced}.
 
 Dieses Sortierverfahren ist auch ohne zusätzlichen Speicherplatz möglich.
 Allerdings ist es dann schwierig, die Positionen der unsortieren Strings im sortierten Bucket zu finden.
 Daher wird der Text in (etwa) gleich große Segmente zerlegt und eine zusätzliche Datenstruktur gespeichert,
 die zu jedem Segment des Textes für das linkeste bereits sortierte Suffix speichert,
-in welchem Bucket es liegt, und wo es in diesem Bucket liegt.
-Dadurch kann effizient überprüft werden, ob Induced Sorting verwendet werden kann.
+in welchem Bucket es liegt und wo es in diesem Bucket liegt.
+Dadurch kann effizient überprüft werden, ob Induced Sort verwendet werden kann.
 
-Die Anzahl der Segmente für Induced Sorting kann durch einen Parameter $d$ eingestellt werden,
+Die Anzahl der Segmente für Induced Sort kann durch einen Parameter $d$ eingestellt werden,
 da sie einen direkten Einfluss auf den Speicherplatzverbrauch des Algorithmus haben.
 Im Paper verwendet wurde $d = 500$, welches zum oben genannten Speicherplatzverbrauch von $5.03n$ Byte führt.
 Je nach Benchmark führen kleinere $d$ Werte (= mehr Speicherverbrauch) zu Verbesserungen der Laufzeit.
 Es liegt am Benutzer, die richtige Balance zwischen Laufzeit und Speicherverbrauch zu finden.
 
-Falls Induced Sorting nicht möglich ist, da kein passender Bucket gefunden wurde,
+Falls Induced Sort nicht möglich ist, da kein passender Bucket gefunden wurde,
 können die anderen beiden Sortierverfahren weiterhin benutzt werden.
 
 \subsection{Pseudocode}
-Nachdem die verwendeten Verfahren grob und anschaulich erklärt wurden, wird nun am folgenden Pseudocode der Algorithmus im Detail erläutert.
+Nachdem die verwendeten Verfahren grob erklärt wurden,
+wird nun am folgenden Pseudocode der Algorithmus im Detail erläutert.
 
 Zuerst werden Buckets für jede mögliche zweistellige Buchstabenkombination erstellt, wie bereits oben beschrieben.
-Diese werden nacheinander mit \texttt{shallow\_sort} sortiert.
+Diese werden nacheinander mit\\
+\texttt{shallow\_sort} sortiert.
 
 \subsubsection{Blind Sort}
 \begin{figure}
@@ -238,12 +241,12 @@ Diese werden nacheinander mit \texttt{shallow\_sort} sortiert.
 \begin{scope}[xshift=6cm]
 \tnode at (0,0) (0) {0};
 \tnode at (2,0.5) (1) {3};
-\tnode[gray] at (2,-0.5) (2) {3};
+\tnode at (2,-0.5) (2) {3};
 \tnode at (4,0.5) (3) {3};
 \tnode at (4,-0.5) (4) {4};
 
 \trans (0) -- (1) node[midway, above left] {a(bb)};
-\trans[gray] (0) -- (2) node[midway, below left] {b(ba)};
+\trans (0) -- (2) node[midway, below left] {b(ba)};
 
 \trans (1) -- (3) node[midway, below left] {};
 \trans (1) -- (4) node[midway, below left] {a};
@@ -266,12 +269,12 @@ Diese werden nacheinander mit \texttt{shallow\_sort} sortiert.
 \begin{scope}[xshift=6cm]
 \tnode at (0,0) (0) {0};
 \tnode at (2,0.5) (1) {1};
-\tnode[gray] at (2,-0.5) (2) {3};
+\tnode at (2,-0.5) (2) {3};
 \tnode at (4,0.5) (3) {3};
 \tnode at (4,-0.5) (4) {4};
 
 \trans (0) -- (1) node[midway, above left] {a};
-\trans[gray] (0) -- (2) node[midway, below left] {b(ba)};
+\trans (0) -- (2) node[midway, below left] {b(ba)};
 
 \trans (1) -- (3) node[midway, above] {a(a)};
 \trans (1) -- (4) node[midway, below=0.2cm] {b(ba)};
@@ -290,17 +293,17 @@ Diese werden nacheinander mit \texttt{shallow\_sort} sortiert.
 
 Blind Sort basiert auf Blind Tries, in welche die zu sortierenden Strings eingefügt werden.
 Daraufhin kann der Baum In-Order durchlaufen werden, wodurch die Suffixe in lexikographischer Reihenfolge erhalten werden.
-In Abbildung \ref{fg:blindtrie} findet sich ein beispielhafter Blind-Trie.
+An Abbildung \ref{fg:blindtrie} wurde ein solcher Blind Trie bereits beispielhaft erklärt.
 
 Ein Blind Trie besteht aus Knoten und Kanten in einer Baumstruktur, wobei jeder Knoten mindestens zwei Kinder hat.
 Jede Kante ist mit einem Buchstaben beschriftet und jeder Knoten mit einem Index.
-Ein Knoten entspricht dabei einer Menge von Strings, die einen gemeinsamen Prefix haben.
-Die Zahl im Knoten gibt an, wie lang dieser gemeinsame Prefix ist.
+Ein Knoten entspricht dabei einer Menge von Strings, die einen gemeinsamen Präfix haben.
+Die Zahl im Knoten gibt an, wie lang dieser gemeinsame Präfix ist.
 Die ausgehenden Kanten zeigen dann an, welches das Zeichen ist, durch das sie sich unterscheiden.
 Jedes Blatt entspricht einem Suffix, und ist durch einen Suffixindex gekennzeichnet.
 
 Beim Einfügen wird jeder Kante gefolgt, die zum neuen String passt.
-Hier kann es sein, dass keine passende Kante existiert.
+Hierbei kann es sein, dass keine passende Kante existiert.
 Dann kann eine neue Kante eingefügt werden, die den Rest des Strings enthält (siehe Abbildung \ref{fg:blind2}, oberer Fall).
 Der andere Fall wäre, dass zwar eine passende Kante existiert, der Index im folgenden Knoten allerdings zu groß ist und auch einen Teil enthält, der nicht mit dem String übereinstimmt.
 Dann muss in die Kante ein Knoten eingefügt werden, der den gemeinsamen Teil vom unterschiedlichen Teil trennt (siehe Abbildung \ref{fg:blind2}, unterer Fall).
@@ -316,30 +319,32 @@ Dadurch beschränkt sich der Speicher durch den Trie auf $9n/500$ Byte~\cite{sac
 \subsubsection{Ternäres Quicksort}
 Für größere Buckets wird ternäres Quicksort verwendet.
 Dieses sortiert den Bucket mit simplen, direkten Vergleichen über die gesamten Suffixe.
-Es ist zu beachten, dass die mittlere Partition (\glqq =\grqq) nur ein Element enthält, welches \texttt{p} ist.
+Es ist zu beachten, dass die mittlere Partition (\glqq =\grqq) nur ein Element enthält, welches $p$ ist.
 Daher muss diese Partition nicht sortiert werden.
 Statt einem rekursiven Aufruf an sich selbst wird jedoch wieder \texttt{deep\_sort} aufgerufen, um von Blind Sort zu profitieren, falls die Partition nun klein genug ist.
 Für Details über ternäres Quicksort siehe Abschnitt~\ref{section:ternary_quicksort} oder auch das Paper von Bentley und McIlroy~\cite{ternary_quicksort}.
 
-\subsubsection{Induced Sorting}
-Die bisher vorgestellten Algorithmen verwenden keine Information darüber, dass es sich bei den sortierten Strings um Suffixe des selben Textes handelt.
-In diesem Abschnitt wird das Verfahren um einen Algorithmus ergänzt, welcher eine Menge von Strings sortieren kann, die ein gemeinsames Prefix haben.
+\subsubsection{Induced Sort}
+Die bisher vorgestellten Algorithmen verwenden keine Information darüber,
+dass es sich bei den sortierten Strings um Suffixe desselben Textes handelt.
+In diesem Abschnitt wird das Verfahren um einen Algorithmus ergänzt,
+welcher eine Menge von Strings sortieren kann, die ein gemeinsames Präfix haben.
 
-Induced Sorting benutzt die bereits sortierten Buckets, um zu sortieren.
+Induced Sort benutzt die bereits sortierten Buckets, um zu sortieren.
 In Abbildung \ref{fg:induced} findet sich eine Visualisierung.
-Die Vorraussetzung dafür ist, dass die Strings in A einen gemeinsamen Prefix haben,
+Die Vorraussetzung dafür ist, dass die Strings in $\mathsf{A}$ einen gemeinsamen Präfix haben,
 und dass es einen dazu passenden Bucket gibt.
 Zuerst wird das eigentliche Prinzip erklärt und danach eine Verbesserung eingeführt,
-die die Performance auf Kosten von zusätzlichem Speicher erhöht.
+welche die Performance auf Kosten von zusätzlichem Speicher erhöht.
 
-Um heraus zu finden, ob Induced Sorting verwendet werden kann, wird der LCP berechnet und jeder Bucket, der in Frage kommt, überprüft.
+Um herauszufinden, ob Induced Sort verwendet werden kann, wird der LCP berechnet und jeder Bucket, der in Frage kommt, überprüft.
 Wenn im LCP der Strings eine zweistellige Zeichenkette $\alpha\beta$ vorkommt,
-für die der Bucket $B_{\alpha\beta}$ bereits sortiert wurde,
+für die der Bucket $\mathsf{b}_{\alpha\beta}$ bereits sortiert wurde,
 so kann die Sortierung der Strings leicht aus der Ordnung des Buckets hergeleitet werden.
 Alle Zeichen vor $\alpha\beta$ werden abgeschnitten.
 Die so erhaltenen Strings werden im Bucket gesucht und markiert.
 Dann wird der Bucket in richtiger Reihenfolge durchlaufen und jeder markierte String
-zurückgerechnet (um die Länge des gemeinsamen Prefix) und in dieser Reihenfolge gespeichert.
+zurückgerechnet (um die Länge des gemeinsamen Präfix) und in dieser Reihenfolge gespeichert.
 Da der Bucket sortiert war, sind folglich auch die Strings danach sortiert.
 
 \begin{listing}[!t]
@@ -347,10 +352,10 @@ Da der Bucket sortiert war, sind folglich auch die Strings danach sortiert.
 def induced_sort(A: Array<SuffixStartPos>, t: Integer,
                       B: Bucket):
   n_marked := 0
-  for b in B do:
+  for s in B do: # Do a pass through all the suffixes in B.
     # We need to ignore the first t characters.
-    if (A + t) contains b:
-      Mark b in B.
+    if (A + t) contains s:
+      Mark s in B.
       n_marked++
 
     if n_marked == |A|:
@@ -358,7 +363,7 @@ def induced_sort(A: Array<SuffixStartPos>, t: Integer,
       Unmark every element of B.
       return
 \end{minted}
-\caption{Induced Sorting, Version 1~\cite{saca:4}}
+\caption{Induced Sort, Version 1~\cite{saca:4}}
 \end{listing}
 
 \begin{figure}[!b]
@@ -384,7 +389,7 @@ def induced_sort(A: Array<SuffixStartPos>, t: Integer,
 \draw[-stealth] (3) -- (d);
 
 \begin{scope}[yshift=-2.5cm]
-\node at (3,1.5) {$B_a$ (sortiert)};
+\node at (3,1.5) {$\mathsf{b}_a$ (sortiert)};
 \node[align=left,draw] at (3,0) {\tikz[na] \coordinate (z2);abanabas\\ \tikz[na] \coordinate (z0);abas\\ \tikz[na] \coordinate (z1);anabanabas\\ anabas\\ \tikz[na] \coordinate (z3);as};
 \end{scope}
 
@@ -394,25 +399,28 @@ def induced_sort(A: Array<SuffixStartPos>, t: Integer,
 \draw[-stealth] (3) |- (z3);
 
 \end{tikzpicture}
-\caption{Verwendung der Arrays \texttt{Offset} und \texttt{Anchor} am Beispiel der Eingabe \glqq banabanabas\grqq. Die Eingabe wird in vier Segmente aufgeteilt und zu jedem Segment ein \texttt{Offset} und ein \texttt{Anchor} gespeichert. Das \texttt{Offset} entspricht jeweils dem Zeiger in den Eingabetext (oben). Der \texttt{Anchor} zeigt auf die Position dieses Suffix in seinem Bucket.}
+\caption{Verwendung der Arrays $\mathsf{OFFSET}$ und $\mathsf{ANCHOR}$ am Beispiel der Eingabe \glqq banabanabas\grqq. Die Eingabe wird in vier Segmente aufgeteilt und zu jedem Segment ein $\mathsf{OFFSET}$ und ein $\mathsf{ANCHOR}$ gespeichert. Das $\mathsf{OFFSET}$ entspricht jeweils dem Zeiger in den Eingabetext (oben). Der $\mathsf{ANCHOR}$ zeigt auf die Position dieses Suffix in seinem Bucket.}
 \label{fg:offset}
 \end{figure}
 
 Die zeitintensivste Aufgabe ist laut Profiling, einen passenden Bucket zu finden~\cite{saca:4}.
-Daher wird durch eine Verbesserung zusätzlicher Speicherplatz verwendet, um zwei Arrays anzulegen, \texttt{Offset} und \texttt{Anchor}.
+Daher wird durch eine Verbesserung zusätzlicher Speicherplatz verwendet,
+um zwei Arrays, $\mathsf{OFFSET}$ und $\mathsf{ANCHOR}$, anzulegen.
 Der Eingabetext wird in etwa gleich große Teile segmentiert.
 Die Segmentgröße ist dabei durch den Parameter $d$ einstellbar.
 Durch $n/d$ ergibt sich die Anzahl der Segmente.
 
-In \texttt{Offset[i]} wird der linkeste (also kleinste) Suffix-Startindex je Segment gespeichert,
+In $\mathsf{Offset}[i]$ wird der linkeste (also kleinste) Suffix-Index je Segment gespeichert,
 der zu einem Bucket gehört, der bereits als sortiert markiert ist.
 Der Wert ist dabei relativ zum jeweiligen Segmentbeginn.
-In \texttt{Anchor[i]} wird dann die Position vom Suffix \texttt{Offset[i]} in seinem Bucket gespeichert.
+In $\mathsf{ANCHOR}[i]$ wird dann die Position vom Suffix $\mathsf{OFFSET}[i]$ in seinem Bucket gespeichert.
 In Abbildung \ref{fg:offset} findet sich eine Veranschaulichung der beiden Arrays.
 
-Da man die Startposition von Segment \texttt{i} nicht speichern muss (da jedes Segment $i$ das Intervall $[i\cdot d, (i + 1) \cdot d]$ umfasst), und jedes Segment höchstens $d$ Elemente enthält, ist \texttt{Offset[i]} $< d$.
-Unter der Annahme $d < 2^{16}$ kann man \texttt{Offset[i]} in 2 Byte speichern.
-Da \texttt{Anchor[i]} die Position im Bucket enthält, und der Bucket im Worst-Case alle Suffixe enthält, sind dort die vollen $4$ Byte nötig.
+Da man die Startposition von Segment $i$ nicht speichern muss
+(da jedes Segment $i$ das Intervall $[i\cdot d, (i + 1) \cdot d)$ umfasst),
+und jedes Segment höchstens $d$ Elemente enthält, ist $\mathsf{OFFSET}[i] < d$.
+Unter der Annahme $d < 2^{16}$ kann man $\mathsf{OFFSET}[i]$ in 2 Byte speichern.
+Da $\mathsf{ANCHOR}[i]$ die Position im Bucket enthält und der Bucket im Worst-Case alle Suffixe enthält, sind dort die vollen $4$ Byte nötig.
 Daher hat diese Erweiterung einen zusätzlichen Speicherbedarf von $6$ Byte je Segment, also insgesamt $6n/d$ Byte.
 
 \begin{listing}
@@ -423,23 +431,23 @@ def induced_sort(A: Array<SuffixStartPos>, t: Integer,
     s := a mod d # Suffix a is from this segment number.
     if a < offset[s] <= a + L:
       bucket_pos = anchor[s]
-      Induce sorting like above by scanning around bucket_pos.
+      Induce Sort like above by scanning around bucket_pos.
       return
 
-  # If no induced sorting is possible, use other methods.
-  Use Deep Sorting without Induced Sorting.
+  # If no induced Sort is possible, use other methods.
+  Use Deep Sort without Induced Sort.
 \end{minted}
-\caption{Induced Sorting, Version 2~\cite{saca:4}}
+\caption{Induced Sort, Version 2~\cite{saca:4}}
 \label{ds:alg:induced2}
 \end{listing}
 
-Der Algorithmus verwendet \texttt{Offset} und \texttt{Anchor} (so genannte Anker), um einen passenden, bereits sortierten Bucket und die Position in jenem Bucket zu finden.
+Der Algorithmus verwendet $\mathsf{OFFSET}$ und $\mathsf{ANCHOR}$ (so genannte Anker), um einen passenden, bereits sortierten Bucket und die Position in jenem Bucket zu finden.
 In Algorithmus \ref{ds:alg:induced2} findet sich Pseudocode des Verfahrens.
 Einer der zu sortierenden Strings wird ausgewählt und der Index des Segments berechnet.
-Wenn der Eintrag von \texttt{Offset[s]} zwischen \texttt{a} und \texttt{a + L} liegt, ist klar, dass das Suffix an Position \texttt{Offset[s]} nach \texttt{a} beginnt und innerhalb der \texttt L ersten Zeichen liegt.
+Wenn der Eintrag von $\mathsf{OFFSET}[s]$ zwischen $a$ und $a+L$ liegt, ist klar, dass das Suffx an Position $\mathsf{OFFSET}[s]$ nach $a$ beginnt und innerhalb der $L$ ersten Zeichen liegt.
 Daher hat es mindestens ein übereinstimmendes Zeichen an vorderster Position mit den zu sortierenden Strings.
-Da bekannt ist, dass alle Strings in A die selben Zeichen an den ersten \texttt{L} Stellen haben, reicht es aus, einen der Strings aus A zu vergleichen.
-Daher kann der Bucket um \texttt{Anchor[s]} nach den zu sortierenden Strings gescannt werden.
+Da bekannt ist, dass alle Strings in $\mathsf A$ die selben Zeichen an den ersten $L$ Stellen haben, reicht es aus, einen der Strings aus $\mathsf{A}$ zu vergleichen.
+Daher kann der Bucket um $\mathsf{ANCHOR}[s]$ nach den zu sortierenden Strings gescannt werden.
 Da wir annehmen, dass die Strings im sortierten Bucket nah beieinander liegen, verbessert dies die Laufzeit~\cite{saca:4}.
 
 \begin{figure}
@@ -463,12 +471,12 @@ Da wir annehmen, dass die Strings im sortierten Bucket nah beieinander liegen, v
 \draw[-stealth] (1) -- (b);
 
 \begin{scope}[yshift=-2.5cm, xshift=1cm]
-\node at (3,1.5) {$B_a$ (sortiert)};
+\node at (3,1.5) {$\mathsf{b}_a$ (sortiert)};
 \node[align=left,draw] at (3,0) {\tikz[na] \coordinate (z2);abanabas\\ \tikz[na] \coordinate (z0);abas\\ \tikz[na] \coordinate (z1);anabanabas\\ anabas\\ \tikz[na] \coordinate (z3);as};
 \end{scope}
 
 \begin{scope}[yshift=-2.5cm, xshift=-6cm]
-\node at (3,1.5) {$B_b$ (unsortiert)};
+\node at (3,1.5) {$\mathsf{b}_b$ (unsortiert)};
 \node[align=left,draw] at (3,0) {banabas\\ bas\\ banabanabas};
 \end{scope}
 
@@ -476,34 +484,34 @@ Da wir annehmen, dass die Strings im sortierten Bucket nah beieinander liegen, v
 \draw[-stealth] (2) |- (z1);
 
 \end{tikzpicture}
-\caption{Ausgangs-Szenario im Beispiel. Betrachtet wird der String \glqq banabanabas\grqq, und der Bucket $B_a$ ist bereits sortiert. $B_b$ soll mittels Induced Sorting sortiert werden.}
+\caption{Ausgangs-Szenario im Beispiel. Betrachtet wird der String \glqq banabanabas\grqq, und der Bucket $\mathsf{b}_a$ ist bereits sortiert. $\mathsf{b}_b$ soll mittels Induced Sort sortiert werden.}
 \label{fg:beispiel}
 \end{figure}
 
 Zur Veranschaulichung folgt ein kurzes Beispiel. Unser Text sei wieder \glqq banabanabas\grqq.
 Sagen wir wieder, wir wollen die Strings \glqq banabas\grqq, \glqq bas\grqq{} und \glqq banabanabas\grqq{} sortieren.
-Diese haben jeweils die Suffix-Indices 4, 8 und 0.
+Diese haben jeweils die Suffix-Indizes 4, 8 und 0.
 Die Länge des LCP dieser Strings ist 2 (\glqq ba\grqq).
 Daher sei für dieses Beispiel $L = 2$.
-Zum Sortieren benutzen wir den Bucket $B_a$, welcher bereits sortiert ist (siehe Abbildung \ref{fg:beispiel}).
+Zum Sortieren benutzen wir den Bucket $\mathsf{b}_a$, welcher bereits sortiert ist (siehe Abbildung \ref{fg:beispiel}).
 Sei für dieses Beispiel $d = 6$.
-Dann ist also ist jedes Segment 6 Suffixe groß und es gibt zwei Segmente.
+Dann ist also jedes Segment 6 Suffixe groß und es gibt zwei Segmente.
 Die Segmente sind also \glqq banaba\grqq{} und \glqq nabas\grqq.
-Dann ist \texttt{Offset[0] = 1} (\glqq anabanabas\grqq) und \texttt{Offset[1] = 1} (\glqq abas\grqq).
+Dann ist $\mathsf{OFFSET}[0] = 1$ (\glqq anabanabas\grqq) und $\mathsf{OFFSET}[1] = 1$ (\glqq abas\grqq).
 Die jeweiligen Anker zeigen auf die Position dieser Suffixe in ihren Buckets.
 
 Wir wählen einen der zu sortierenden Strings aus, z.B. den ersten.
 Dieser hat Suffix-Index 4 und gehört daher zu Segment 0.
-Da \texttt{Offset[0] == 1} und $1 \not \in [4, 4 + L]$ liegt, ist dieser Anker nicht geeignet, um die Strings zu sortieren.
+Da $\mathsf{OFFSET}[0] == 1$ und $1 \not \in [4, 4 + L]$ liegt, ist dieser Anker nicht geeignet, um die Strings zu sortieren.
 
-Eigentlich ginge das Sortieren mittels \glqq banabas\grqq{} natürlich, da nach Löschen des ersten Zeichens \glqq anabas\grqq{} in $B_a$ liegt ($4 < 5 \leq 6$).
+Eigentlich ginge das Sortieren mittels \glqq banabas\grqq{} natürlich, da nach Löschen des ersten Zeichens \glqq anabas\grqq{} in $\mathsf{b}_a$ liegt ($4 < 5 \leq 6$).
 Um jedoch die Laufzeit gering zu halten, da nicht bekannt ist, an welcher Position \glqq anabas\grqq{} steht, werden stattdessen die anderen Kandidaten ausprobiert:
 
-Das Segment vom zweiten String mit Suffixindex 0 ist ebenfalls 0.
-Da \texttt{Offset[0] == 1} liegt 1 in diesem Fall im Intervall $[0, 0 + L] = [0, 2]$ und wir können \texttt{Anchor[0]} benutzen, um die Strings zu sortieren.
-Dazu verwenden wir den Zeiger \texttt{Anchor[0]}, welcher auf die Position von \glqq anabanabas\grqq{} in $B_a$ zeigt.
+Das Segment vom zweiten String mit Suffix-Index 0 ist ebenfalls 0.
+Da $\mathsf{OFFSET}[0] == 1$ liegt 1 in diesem Fall im Intervall $[0, 0 + L] = [0, 2]$ und wir können $\mathsf{ANCHOR}[0]$ benutzen, um die Strings zu sortieren.
+Dazu verwenden wir den Zeiger $\mathsf{ANCHOR}[0]$, welcher auf die Position von \glqq anabanabas\grqq{} in $\mathsf{b}_a$ zeigt.
 Wir schneiden die ersten $(1 - 0) = 1$ Zeichen aus unserer String-Menge ab und suchen die Suffixe im Bucket, wie oben beschrieben.
-Da wir bereits ein Element im Bucket kennen, und annehmen, dass die anderen Suffixe nah daran liegen, fällt das Suchen des ersten Elements im Bucket weg.
+Da wir bereits ein Element im Bucket kennen und annehmen, dass die anderen Suffixe nah daran liegen, fällt das Suchen des ersten Elements im Bucket weg.
 Im Ausgangspaper konnten die Autoren eine signifikante Performance-Erhöhung mittels dieses Ansatzes zeigen.
 
 \begin{figure}[!h]
@@ -527,12 +535,12 @@ Im Ausgangspaper konnten die Autoren eine signifikante Performance-Erhöhung mit
 \draw[-stealth] (1) -- (b);
 
 \begin{scope}[yshift=-2.5cm, xshift=1cm]
-\node at (3,1.5) {$B_a$ (sortiert)};
+\node at (3,1.5) {$\mathsf{b}_a$ (sortiert)};
 \node[align=left,draw] at (3,0) {\tikz[na] \coordinate (z2);abanabas\\ \tikz[na] \coordinate (z0);abas\\ \tikz[na] \coordinate (z1);anabanabas\\ anabas\\ \tikz[na] \coordinate (z3);as};
 \end{scope}
 
 \begin{scope}[yshift=-2.5cm, xshift=-6cm]
-\node at (3,1.5) {$B_b$ (sortiert)};
+\node at (3,1.5) {$\mathsf{b}_b$ (sortiert)};
 \node[align=left,draw] at (3,0) {banabanabas\tikz[na] \coordinate (y1);\\ banabas\\ bas};
 \end{scope}
 
@@ -540,33 +548,39 @@ Im Ausgangspaper konnten die Autoren eine signifikante Performance-Erhöhung mit
 \draw[-stealth] (3) |- (z0);
 
 \end{tikzpicture}
-\caption{Szenario nach einem Aufruf von Induced Sorting. Der Bucket $B_b$ wurde sortiert und \texttt{Offset} und \texttt{Anchor} aktualisiert. Es ist zu beachten, dass \texttt{Anchor[0]} nun 5 ist, da dies die Position des Suffix im Speicher ist und die Buckets nacheinander im Speicher liegen. Daher beginnt die Nummerierung der Suffixe in $B_b$ dort, wo $B_a$ endet.}
+\caption{Szenario nach einem Aufruf von Induced Sort. Der Bucket $\mathsf{b}_b$ wurde sortiert und $\mathsf{OFFSET}$ und $\mathsf{ANCHOR}$ aktualisiert. Es ist zu beachten, dass $\mathsf{ANCHOR}[0]$ nun 5 ist, da dies die Position des Suffixes im Speicher ist und die Buckets nacheinander im Speicher liegen. Daher beginnt die Nummerierung der Suffixe in $\mathsf{b}_b$ dort, wo $\mathsf{b}_a$ endet.}
 \label{fg:beispiel2}
 \end{figure}
 
-Im vorherigen Abschnitt haben wir für das Beispiel angenommen, dass alle \texttt{Anchor}-Pointer auf den selben Bucket zeigen.
-Das ist in der Praxis unwahrscheinlich, wodurch die Auswahl möglicher Anker weiter eingeschränkt wird.
-Falls dennoch mehrere Anker zur Auswahl stehen, wird derjenige dusgewählt, der \texttt{Anchor[i mod d] - i} minimiert (also einen möglichst kurzen gemeinsamen Prefix mit dem Anker hat).
+Im vorherigen Abschnitt haben wir für das Beispiel angenommen,
+dass alle $\mathsf{ANCHOR}$-Pointer auf denselben Bucket zeigen.
+Das ist in der Praxis unwahrscheinlich,
+wodurch die Auswahl möglicher Anker weiter eingeschränkt wird.
+Falls dennoch mehrere Anker zur Auswahl stehen, wird derjenige ausgewählt,
+der $\mathsf{ANCHOR}[i mod d] - i$ minimiert (also einen möglichst kurzen gemeinsamen Präfix mit dem Anker hat).
 
 Manzini und Ferragina haben in ihren Benchmarks verschiedene Werte der Segmentgröße $d$ zwischen 500 und 5000 getestet.
 Auf einigen Problemen hat eine Vergrößerung von $d$ keinen merklichen Unterschied in der Laufzeit gebracht.
-Allerdings wurde die Laufzeit auf einigen Dateien dann deutlich schlechter.
+Allerdings wurde die Laufzeit auf einigen Dateien deutlich schlechter.
 Die Autoren bewerben ihren Algorithmus allerdings mit $5.03n$ Byte Speicherverbrauch, was einem $d$ von 500 entspricht.
 
 \subsubsection{Copy-Technik}
+\label{ds:copy}
 
-Nachdem ein Bucket $B_\alpha$ fertig sortiert wurde, können alle Buckets $B_{\sigma\alpha}$ in einem Schritt sortiert werden.
-Dies basiert auf dem \texttt{copy}-SACA von Seward~\cite{seward2000}.
+Nachdem ein Bucket $\mathsf{b}_\alpha$ fertig sortiert wurde, können alle Buckets $\mathsf{b}_{\sigma\alpha}$ in einem Schritt sortiert werden.
+Dies basiert auf dem copy-SACA von Seward~\cite{seward2000}.
 Kern dieses Schrittes ist es, dass die relative Ordnung aller Suffixe,
 welche mit $\sigma\alpha$ beginnen, durch die Ordnung aller $\alpha$-Suffixe sortiert werden können.
 
-Um dies effizient durchzuführen, wird zuerst ein Array mit Pointern auf den Anfang jedes $\sigma\alpha$-Buckets erstellt.
-Es genügt nun jedes $i \in B_\alpha$ zu durchlaufen und das Zeichen vor diesem Suffix zu lesen, $T[i - 1]$.
+Um dies effizient durchzuführen, wird zuerst ein Array mit Pointern auf
+den Anfang jedes $\sigma\alpha$-Buckets erstellt.
+Es genügt nun jedes $i \in \mathsf{b}_\alpha$ zu durchlaufen und das Zeichen
+vor diesem Suffix zu lesen, $\inputtext[i - 1]$.
 Sei dieses Zeichen jeweils $\sigma_i$.
 Dieses kann man an die Stelle schreiben, auf die aktuell der Anfangspointer für den $\sigma_i\alpha$-Bucket zeigt.
 Der Pointer wird dann erhöht und das nächste Suffix gelesen.
-Nach diesem Schritt wurden sind alle $B_{\sigma\alpha}$ sortiert und können als solches markiert werden.
-So können sie beim Sortieren von $B_\sigma$ übersprungen werden.
+Nach diesem Schritt sind alle $\mathsf{b}_{\sigma\alpha}$ sortiert und können als solche markiert werden.
+So können sie beim Sortieren von $\mathsf{b}_\sigma$ übersprungen werden.
 
 \subsection{Beispiel}
 
@@ -576,10 +590,10 @@ So können sie beim Sortieren von $B_\sigma$ übersprungen werden.
 \hline
 2 & 12 & 10 & 1 & 13 & 8 & 4 & 7 & 3 & 9 & 5 & 11 & 6 & 0 \\
 \hline
-\multicolumn{8}{|c|}{$B_a$} & \multicolumn{2}{c|}{$B_b$} & \multicolumn{4}{c|}{$B_c$} \\
+\multicolumn{8}{|c|}{$\mathsf{b}_a$} & \multicolumn{2}{c|}{$\mathsf{b}_b$} & \multicolumn{4}{c|}{$\mathsf{b}_c$} \\
 \hline
 \end{tabular}
-\caption{SA nach Schritt 1: Bucket Sort}
+\caption{\sa nach Schritt 1: Bucket Sort}
 \label{ds:beispiel1}
 \end{figure}
 
@@ -596,11 +610,11 @@ So können sie beim Sortieren von $B_\sigma$ übersprungen werden.
 \trans (0) -- (1) node[midway, above] {a};
 \trans (0) -- (2) node[midway, below] {c};
 \end{tikzpicture}
-\caption{Blind Trie in der ersten Deep Sorting Phase}
+\caption{Blind Trie in der ersten Deep Sort Phase}
 \label{ds:beispiel_bt1}
 \end{figure}
 
-Zur Verdeutlichung und Veranschaulichung des Algorithmus wird im folgenden Abschnitt der Algorithmus
+Zur Veranschaulichung des Algorithmus wird im folgenden Abschnitt der Algorithmus
 beispielhaft\footnote{Insbesondere wird der Algorithmus mit Beispiel-Parameterwerten ausgeführt,
 die in einer echten Anwendung sehr unangebracht wären. Diese Parameter sind $L = 3, d = 7$. Außerdem wird der copy-Schritt weggelassen, um mehr interessante Fälle zeigen zu können.}
 am Eingabetext \glqq caabaccaabacaa\grqq{} ausgeführt.
@@ -610,11 +624,11 @@ Aus Gründen der Veranschaulichung wird hier allerdings nach nur einem Buchstabe
 Der Status des Algorithmus nach diesem Schritt ist in \cref{ds:beispiel1} abgebildet.
 
 \paragraph{Schritt 2} Sortiere alle Buckets mit Shallow Sort in nach Größe aufsteigender Reihenfolge.
-Der kleinste Bucket ist $B_b$.
+Der kleinste Bucket ist $\mathsf{b}_b$.
 Dieser enthält \glqq bacaa\grqq{} und \glqq bacaa\grqq.
 Wir vergleichen die Strings in MKQS bis zum dritten Zeichen.
-Da wir bis dahin noch keinen Unterschied festgestellt haben, schalten wir auf Deep Sorting um. 
-Weil der Bucket klein genug ist (und damit das Beispiel interessant ist), wird Blind Sorting benutzt, um den Bucket zu sortieren.
+Da wir bis dahin noch keinen Unterschied festgestellt haben, schalten wir auf Deep Sort um. 
+Weil der Bucket klein genug ist (und damit das Beispiel interessant ist), wird Blind Sort benutzt, um den Bucket zu sortieren.
 Der Blind Trie ist in \cref{ds:beispiel_bt1} dargestellt.
 Beim Vergleich sind die ersten drei Zeichen ignoriert worden, da sie als gleich bekannt sind.
 
@@ -626,37 +640,36 @@ Beim Vergleich sind die ersten drei Zeichen ignoriert worden, da sie als gleich 
 \tnode at (2,0) (2) {3};
 \tnode at (4,0) (3) {5};
 \tnode at (4,-1) (4) {11};
-\node at (3,1) {\$};
+\node at (3,1) {$\varepsilon$};
 \node at (6,0) {bacaa};
 \node at (6,-1) {baccaabacaa};
-\trans (0) -- (1) node[midway, above] {\$};
+\trans (0) -- (1) node[midway, above] {$\varepsilon$};
 \trans (0) -- (2) node[midway, below] {c};
 \trans (2) -- (3) node[midway, above] {a};
 \trans (2) -- (4) node[midway, below] {c};
 \end{tikzpicture}
-\caption{Blind Trie in der zweiten Deep Sorting Phase}
+\caption{Blind Trie in der zweiten Deep Sort Phase. $\varepsilon$ steht dabei für \emph{keinen} Buchstaben.}
 \label{ds:beispiel_bt2}
 \end{figure}
 
-\paragraph{Schritt 3} Der Bucket $B_b$ wird als sortiert markiert und der nächstgrößere sortiert.
-$B_c$ wird sortiert.
-Dieser enthält \glqq ccaabacaa\grqq, \glqq caa\grqq, \glqq caabacaa\grqq{} und \glqq caabaaccaabacaa\grqq.
+\paragraph{Schritt 3} Der Bucket $\mathsf{b}_b$ wird als sortiert markiert und der Nächstgrößere sortiert.
+$\mathsf{b}_c$ wird sortiert; dieser enthält \glqq ccaabacaa\grqq, \glqq caa\grqq, \glqq caabacaa\grqq{} und \glqq caabaaccaabacaa\grqq.
 Beim Versuch, diese mit MKQS zu sortieren, kann nur die relative Ordnung von \glqq ccaabacaa\grqq{} und den anderen drei Suffixen hergeleitet werden: \glqq ccaabacaa\grqq{} ist größer als die anderen drei Suffixe.
-Die anderen drei Suffixe haben ein zu langes LCP um komplett in Shallow Sort sortiert zu werden.
+Die anderen drei Suffixe haben ein zu langes LCP, um komplett in Shallow Sort sortiert zu werden.
 Daher wird für diese wieder ein Blind Trie benutzt, welcher in \cref{ds:beispiel_bt2} dargestellt ist.
 
-%\paragraph{Schritt 4} Da es für den nächsten Schritt interessant sein wird, aktualisieren wir für diesen Bucket die \texttt{OFFSET-} und \texttt{ANCHOR}-Pointer.
+%\paragraph{Schritt 4} Da es für den nächsten Schritt interessant sein wird, aktualisieren wir für diesen Bucket die $\mathsf{OFFSET}$- und $\mathsf{ANCHOR}$-Pointer.
 %Für dieses Beispiel wird der Eingabetext in Segmente der Größe 7 eingeteilt.
-%Als \texttt{OFFSET} wird für das linke Segment ein Pointer auf \glqq caabaccaabacaa\grqq gespeichert.
-%Der rechte \texttt{OFFSET}-Pointer zeigt auf \glqq bacaa\grqq.
-%Die beiden \texttt{ANCHOR}-Pointer zeigen auf die Position des jeweiligen Suffix im SA.
+%Als $\mathsf{OFFSET}$ wird für das linke Segment ein Pointer auf \glqq caabaccaabacaa\grqq gespeichert.
+%Der rechte $\mathsf{OFFSET}$-Pointer zeigt auf \glqq bacaa\grqq.
+%Die beiden $\mathsf{ANCHOR}$-Pointer zeigen auf die Position des jeweiligen Suffix im SA.
 %Damit sind die Pointer aktuell.
 
-\paragraph{Schritt 5} Der letzte zu sortierende Bucket, $B_c$ wird auch wieder mit Shallow Sort sortiert.
+\paragraph{Schritt 4} Der letzte zu sortierende Bucket, $\mathsf{b}_c$ wird auch wieder mit Shallow Sort sortiert.
 Allerdings kann durch den Vergleich der ersten drei Zeichen nicht die Ordnung von \glqq abaccaabacaa\grqq, \glqq abacaa\grqq, \glqq aabaccaabacaa\grqq{} und \glqq aabacaa\grqq{} hergeleitet werden.
-Für jeweils Paare aus zwei Suffixen (\glqq aabacaa\grqq{} und \glqq aabaccaabacaa\grqq, und \glqq abaccaabacaa\grqq{} und abacaa) können wir allerdings Induced Sorting benutzen:
+Für jeweils Paare aus zwei Suffixen (\glqq aabacaa\grqq{} und \glqq aabaccaabacaa\grqq, und \glqq abaccaabacaa\grqq{} und \glqq abacaa\grqq) können wir allerdings Induced Sort benutzen:
 Im bekannten LCP der ersten beiden Strings \glqq aab\grqq{} befindet sich ein \glqq b\grqq.
-Daher können wir zur Sortierung den bereits sortierten $B_b$-Bucket verwenden.
+Daher können wir zur Sortierung den bereits sortierten $\mathsf{b}_b$-Bucket verwenden.
 Darin suchen wir \glqq bacaa\grqq{} und \glqq baccaabacaa\grqq{} und können daraus die relative Sortierung herleiten.
 Das gleiche Verfahren wird für das zweite Paar verwendet.
 
@@ -670,35 +683,38 @@ Schlussendlich ist damit der gesamte Text sortiert, da es keine unsortierten Buc
 \begin{minted}[mathescape=true, escapeinside=||]{python}
 def deep_shallow_sort_parallel(T: Text):
   Create a bucket for every character pair |$\alpha, \beta \in \Sigma$|.
-  Call them |$B_{\alpha \beta}$|.
+  Call them |$\mathsf{b}_{\alpha \beta}$|.
 
   # Sort T into the buckets by comparing only the first two
   # characters of every string. Represent the suffixes by their
   # starting indices in T.
   bucket_sort(T)
 
-  parallel for all buckets |$B_{\alpha\beta}$| do:
-    shallow_sort(|$B_{\alpha\beta}$|, 0)
+  parallel for all buckets |$\mathsf{b}_{\alpha\beta}$| do:
+    shallow_sort(|$\mathsf{b}_{\alpha\beta}$|, 0)
 \end{minted}
 \caption{parallele Variante des Algorithmus}
 \label{ds:alg:parallel}
 \end{listing}
 
-% Dieses noindent ist nur erlaubt, weil aufgrund der Grafik der Absatz nicht richtig begonnen wird.
-\noindent Durch das Weglassen des copy-Verfahrens und des Induced Sortings ist es möglich,
+\noindent Die ursprüngliche Variante heißt in \sacabench \glqq Deep-Shallow\_bb\grqq (\emph{Big Buckets}),
+da sie die Superbuckets $\mathsf b_\sigma$ durchläuft und sortiert.
+Durch das Weglassen des copy-Verfahrens haben wir eine weitere Variante implementiert.
+Diese durchläuft nicht alle Buckets $\mathsf b_\sigma$ in aufsteigender Größe,
+sondern alle $\mathsf b_{\alpha\beta}$.
+
+Durch zusätzliches Weglassen des Induced Sorts ist es möglich,
 den Algorithmus sehr simpel zu parallelisieren.
 In \cref{ds:alg:parallel} findet sich der Pseudocode dieser Variante.
 Dabei werden die $\alpha\beta$-Buckets alle zeitgleich sortiert und
-der Induzierschritt über alle $\sigma\alpha$ Buckets, für alle $\sigma$ für die $B_{\sigma\alpha}$ unsortiert ist, weggelassen.
-Eine Synchronisation der Threads ist dann nur für die Verwendung der \texttt{ANCHOR}-Datenstruktur nötig.
-Dadurch ergibt sich eine hohe parallele Effizienz.
-Leider hat sich in der Evaluation gezeigt, dass die hohe Komplexität unserer
-Deep-Shallow-Implementierung nicht dadurch ausgeglichen werden kann.
+der copy-Schritt (siehe \cref{ds:copy}) weggelassen.
+Eine Synchronisation der Threads ist dann nicht nötig, wodurch sich eine hohe parallele Effizienz ergibt.
 Die Referenzimplementierung konnte von uns aufgrund ihrer unübersichtlichen C-Implementierung nicht parallelisiert werden,
 da nicht klar erkennbar war, an welchen Stellen auf die gemeinsamen Speicherbereiche zugegriffen wird.
+In unserer Auswertung zeigt sich, dass dieser Ansatz gut skaliert und keinen zusätzlichen Speicher verbraucht.
 
 \subsection{Vergleich}
-Manzini und Ferragina konnten zeigen, dass Deep-Shallow-Sorting ein zuverlässiger Ansatz ist, der mit anderen Verfahren mithalten kann~\cite{saca:4}.
+Manzini und Ferragina konnten zeigen, dass Deep-Shallow-Sort ein zuverlässiger Ansatz ist, der mit anderen Verfahren mithalten kann~\cite{saca:4}.
 Im Laufe des ersten Semesters der Projektgruppe war es Deep-Shallow einfach möglich,
 die meisten Algorithmen in ihrem Speicherverbrauch zu unterbieten (abgesehen von den Algorithmen, welche keinen zusätzlichen Speicher verbrauchen).
 Allerdings zeigte sich unsere Implementierung schwerfällig, die anderen Algorithmen in ihrer Laufzeit zu schlagen.

@@ -17,7 +17,7 @@ Wir stellen in diesem Abschnitt verschiedene Radixsort-Varianten vor.
 Zum einen unterscheiden sich diese hinsichtlich der Reihenfolge,
 in der die Stellen der Elemente betrachtet werden.
 Es kann bei der Stelle mit der höchsten Wertigkeit (MSD) oder der Stelle mit der niedrigsten Wertigkeit (LSD) begonnen werden.
-Wenn wir die Elemente nach dem MSD sortieren sind die Elemente nach den Zeichen an der aktuell betrachteten Stelle vorsortiert.
+Wenn wir die Elemente nach dem MSD sortieren, sind die Elemente nach den Zeichen an der aktuell betrachteten Stelle vorsortiert.
 Um Elemente mit gleichen Zeichen zu sortieren, müssen die übrigen Stellen rekursiv sortiert werden.
 Wenn wir die Elemente nach dem LSD sortieren,
 müssen die Elemente nach der aktuell betrachteten Stelle so in die Buckets einsortiert werden,
@@ -29,9 +29,8 @@ Die Varianten, die ein zusätzliches Hilfsarray benötigen, sind stabile Sortier
 Die inplace Varianten sind instabile Sortierverfahren.
 
 In allen Varianten, die wir hier vorstellen,
-muss als Eingabeparameter eine \texttt{key\_function} übergeben.
-Dies ist eine Funktion, die als Eingabe ein Element des Eingabearrays und die aktuelle Stelle erhält,
-und das Zeichen des Elements an der aktuellen Stelle zurückgibt.
+muss als Eingabeparameter eine \texttt{key\_function} übergeben werden.
+Ist $x$ ein Element der Eingabe und $k$ die aktuelle Stelle, gibt $\texttt{key\_function}(x,k)$ das Zeichen an Stelle $k$ von $x$ zurück.
 Dies ist von Vorteil, wenn die Eingabearrays unterschiedliche Formen besitzen.
 Es kann sein, dass die Eingabe aus den tatsächlich zu sortierenden Elementen besteht,
 oder die Eingabe besteht wie im \cref{algorithm:nzSufSort} aus Positionen von Teilstrings im Eingabetext.
@@ -40,8 +39,7 @@ Die unterschiedlichen Radixsort-Varianten verwenden alle die Hilfsfunktion \emph
 Diese erhält als Eingabe die zu sortierenden Elemente $A$, die aktuelle Stelle $i$ und ein Bucketarray
 $B$ mit $|B| = |\Sigma|$. \emph{Bucketsort} zählt zu jedem Zeichen des Alphabets die Häufigkeit
 und speichert diese in $B$.
-Anschließend werden die Elemente von $B$ von links nach rechts aufsummiert,
-wobei das erste Element die $0$ erhält.
+Anschließend wird die Präfixsumme von $B$ gebildet.
 Dadurch werden in $B$ die Startpositionen der jeweiligen Buckets berechnet.
 
 \subsubsection{MSD-Radixsort}
@@ -111,7 +109,7 @@ Dabei bleibt die Sortierung des vorherigen Schrittes bei gleichen Zeichen erhalt
 
 \begin{table}[H]
 	\centering
-	\begin{tabular}{c|| c | c | c | c | c }
+	\begin{tabular}{c|| c | c c | c c }
 		$i$ & 0 & 1 & 2 & 3 & 4 \\
 		$A[i]$ & 512 & 384 & 187 & 794 & 394
 	\end{tabular}
@@ -123,7 +121,7 @@ Anschließend sind die Elemente fertig sortiert.
 
 \begin{table}[H]
 	\centering
-	\begin{tabular}{c|| c | c | c | c | c }
+	\begin{tabular}{c|| c | c c | c | c }
 		$i$ & 0 & 1 & 2 & 3 & 4 \\
 		$A[i]$ & 187 & 384 & 394 & 512 & 794
 	\end{tabular}
@@ -151,10 +149,10 @@ Es gibt Elemente, die bereits ins richtige Bucket geschrieben wurden,
 und Elemente, die noch nicht in das richtige Bucket geschrieben wurden.
 Wenn wir über die Elemente der Eingabe iterieren, müssen wir nur die Elemente betrachten,
 die noch nicht in das richtige Bucket geschrieben wurden.
-Die Anderen müssen wir überspringen.
+Die anderen müssen wir überspringen.
 Dazu benötigen wir zwei Bucketarrays $B_{\text{start}}$ und $B_{\text{end}}$.
-In $B_{\text{start}}$ steht für jedes Zeichen des Alphabets die Startposition des jeweiligen Buckets drin
-und in $B_{\text{end}}$ steht die erste freie Position des Buckets drin.
+In $B_{\text{start}}$ steht für jedes Zeichen des Alphabets die Startposition des jeweiligen Buckets 
+und in $B_{\text{end}}$ steht die erste freie Position des Buckets.
 Da zu Beginn die Startpositionen und ersten freien Positionen eines Buckets zusammenfallen,
 lassen sich $B_{\text{start}}$ und $B_{\text{end}}$ durch Bucketsort berechnen.
 
@@ -162,12 +160,12 @@ Um die Elemente in die Buckets aufzuteilen durchlaufen wir das Eingabearray von 
 Wenn wir an der Position $i$ sind, schreiben wir $A[i]$ gemäß dem Zeichen $\sigma$ von $A[i]$ an der
 aktuellen Stelle an die Position $j = B_{\text{end}}[\sigma]$.
 Falls $i \ne j$ gilt, werden die Elemente an den Positionen $i$ und $j$ getauscht
-und für den nächsten Schritt bleibt unser $i$ unverändert.
-Falls $i = j$ gilt, bleibt $A[i]$ an der aktuellen Stelle stehen und unser $i$ muss erhöht werden.
+und für den nächsten Schritt bleibt $i$ unverändert.
+Falls $i = j$ gilt, bleibt $A[i]$ an der aktuellen Stelle stehen und $i$ muss erhöht werden.
 Dabei müssen wir darauf achten, dass $i$ immer auf eine Position zeigt,
 die noch nicht in ein Bucket einsortiert wurde.
-Wir müssen also $i$ mit der Startposition $k$ des nächsten Buckets in $B_{\text{start}}$ vergleichen.
-Falls $i+1 < k$, können wir $i$ inkrementieren.
+Wir müssen also $i$ mit der Startposition $s$ des nächsten Buckets in $B_{\text{start}}$ vergleichen.
+Falls $i+1 < s$, können wir $i$ inkrementieren.
 Ansonsten müssen wir solange volle Buckets überspringen bis wir $i$ auf eine freie Position setzen können.
 
 Falls es nach der Aufteilung Buckets gibt, die mehr als ein Element enthalten,
@@ -180,17 +178,17 @@ Im Folgenden nehmen wir an, dass wir Elemente sortieren,
 die aus maximal $3$ Zeichen bestehen. Dieses Vorgehen ließe sich aber auch für längere Elemente verallgemeinern.
 In unserem Framework haben wir eine Radixsort-Variante entworfen, die sich besonders eignet,
 wenn die Größe des Alphabets durch die Größe des Eingabearrays beschränkt ist.
-Also für $n=|A|$ gilt $|\Sigma| \le n$. Die Variante, die wir in \cref{sort:radix:inplace} vorgestellt haben,
+Also für $n=|A|$ gilt $|\Sigma| \le n$. Die Inplace-Variante, die wir bereits vorgestellt haben,
 ist in diesem Fall nicht geeignet, da in jedem Rekursionsschritt ein neues Bucketarray erzeugt wird.
 Dadurch kann sich ein Speicherverbrauch von $\mathcal O(3n)$ ergeben.
 
-Wir beschreiben hier wie man die Variante aus \cref{sort:radix:inplace} so modifizieren kann,
+Wir beschreiben hier, wie man die Variante aus \cref{sort:radix:inplace} so modifizieren kann,
 dass wir genau mit einem Bucketarray $B$ der Größe $n$ auskommen können.
 Die Idee ist es das Eingabealphabet in jedem rekursiven Schritt so zu verkleinern,
 dass wir in allen rekursiven Schritten genug Platz in $B$ haben.
 
 Dazu teilen wir das Eingabealphabet in fünf Buckets der Größe $\frac{n}{5}$ auf.
-Jedes dieser Buckets wird nun wie in \cref{sort:radix:inplace} beschrieben in die Buckets für jedes Zeichen aufgeteilt.
+Jedes dieser Buckets wird nun wie in der Inplace-Variante beschrieben in die Buckets für jedes Zeichen aufgeteilt.
 Da wir nur noch $\frac{n}{5}$ der Zeichen sortieren müssen,
 benötigt die Aufteilung für $B_{\text{start}}$ und $B_{\text{end}}$ jeweils nur $\frac{n}{5}$ Speicher.
 Außerdem benötigen wir nach der Aufteilung nur $B_{\text{start}}$ für die rekursiven Aufrufe.

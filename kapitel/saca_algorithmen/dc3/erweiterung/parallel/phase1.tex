@@ -1,0 +1,4 @@
+\subparagraph*{Phase 1}
+
+In der ersten Phase werden die Substrings \inputtext[i, i+2] sortiert, wobei $i$ ein Element aus dem Difference Cover \(D\) $=$ \{1, 2\} ist. Diese Phase haben wir in unserer Implementierung in zwei Teile aufgeteilt. Zuerst wird eine Liste von Triplets aufgestellt und diese wird dann im zweiten Teil der Phase sortiert.
+Diese zwei Teile lassen sich naiv parallelisieren. Die Aufstellung der Triplets kann mithilfe von \emph{OpenMP} parallelisiert werden und für die Sortierung dieser Triplets wird statt eines sequentiellen Sortieralgorithmus ein paralleler Sortier-Algorithmus verwendet. Wir haben uns für den parallelen Standard-Sortieralgorithmus der C++-Bibliothek entschieden.
