@@ -1,5 +1,5 @@
 \subparagraph*{Parallele Suche}
-
+\label{dc3:parallel:suche}
 In diesem Absatz stellen wir die \textit{parallele Suche} auf sortierten Arrays vor. \cite{merge:kruskal} Dabei handelt es sich um eine Verallgemeinerung der binären Suche auf eine beliebige Anzahl $p$ an Threads.
 
 Sei $A$ das sortierte Eingabearray und $k$ der Schlüssel, nach dem wir suchen. Ähnlich wie bei der binären Suche wählen wir bestimmte Elemente in $A$ und vergleichen diese mit $k$, um zu entscheiden, ob wir links oder rechts von $x$ weitersuchen. Um dies effizient zu parallelisieren, wählen wir $p$ Elemente $x_i$ an den Positionen $\frac{n(i+1)}{p+1}$ aus mit $i = 0,...,p-1$. Dadurch werden $p+1$ Segmente in $A$ induziert. Wir prüfen für jedes Element $x_i$, ob $k < x_i$ gilt und speichern die Ergebnisse dieser Vergleichsoperationen in ein Array $C$ der Größe $p$.
