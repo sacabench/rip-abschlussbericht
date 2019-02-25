@@ -15,7 +15,7 @@
                 xlabel={input size [200\,MB]},
                 ylabel={SA construction time [s]},
                 legend columns=2,
-                legend to name=legend0,
+                legend to name=legend-seq-msufsort-0,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
@@ -74,7 +74,7 @@
     \end{tikzpicture}
 
     \medskip
-    \ref{legend0}
+    \ref{legend-seq-msufsort-0}
 \end{figure}
 
 \begin{figure}[ht]
@@ -89,7 +89,7 @@
                 xlabel={input size [200\,MB]},
                 ylabel={SA construction time [s]},
                 legend columns=2,
-                legend to name=legend1,
+                legend to name=legend-seq-msufsort-1,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
@@ -148,7 +148,7 @@
     \end{tikzpicture}
 
     \medskip
-    \ref{legend1}
+    \ref{legend-seq-msufsort-1}
 \end{figure}
 
 \begin{figure}[ht]
@@ -163,7 +163,7 @@
                 xlabel={input size [200\,MB]},
                 ylabel={SA construction time [s]},
                 legend columns=2,
-                legend to name=legend2,
+                legend to name=legend-seq-msufsort-2,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
@@ -222,16 +222,16 @@
     \end{tikzpicture}
 
     \medskip
-    \ref{legend2}
+    \ref{legend-seq-msufsort-2}
 \end{figure}
 \FloatBarrier
 
 Es wurden alle drei sequentiellen Varianten des MSufSort parallelisiert.
-In \todo{Fix these legends wtf} den Experimenten \ref{legend0}, \ref{legend1} und \ref{legend2} ist jeweils der naive Algorithmus am langsamsten, was bedeutet,
-dass zumindest alle Varianten benutzbar sind. In \ref{legend0} und \ref{legend1} ist die Scan-Variante am schnellsten,
+In \todo{Fix these legends wtf} den Experimenten \ref{legend-seq-msufsort-0}, \ref{legend-seq-msufsort-1} und \ref{legend-seq-msufsort-2} ist jeweils der naive Algorithmus am langsamsten, was bedeutet,
+dass zumindest alle Varianten benutzbar sind. In \ref{legend-seq-msufsort-0} und \ref{legend-seq-msufsort-1} ist die Scan-Variante am schnellsten,
 insbesondere bei dem DNA Eingabetext erkennt man auch eine deutlich flacher verlaufende Kurve,
 vermutlich durch die lineare Laufzeit in einem der Sortierer.
 Dieser (Scan-)Sortierer profitiert auch insbesondere von sehr kleinen Alphabeten,
 da dann weniger Cache-Misses auftreten. Die beiden anderen Varianten unterscheiden sich fast gar nicht.
-In \ref{legend2} liegt die Scan-Variante oberhalb versetzt zu den anderen Varianten,
+In \ref{legend-seq-msufsort-2} liegt die Scan-Variante oberhalb versetzt zu den anderen Varianten,
 skaliert aber zumindest nicht schlechter und liegt näher an den normalen MSufSort Varianten als am naiven Sortierer.
