@@ -1,8 +1,19 @@
-\subsection{Standardbibliothek-Sortierer}
+\subsection{Parallel Stable Sort}
 \label{section:stdsort}
 
-In \sacabench verwenden wir außerdem die Sortierer aus der GNU Standardbibliothek von C++.
-Wir verwenden insbesondere die parallelen Varianten von \texttt{std::sort}
-und \texttt{std::stable\_sort}.
+Für einige Algorithmen war es wichtig, eine stabiles Sortierverfahren zu implementieren.
+Dies ist bei uns, wie auch sonst üblich, \emph{Merge Sort}.
+Merge Sort ist ein rekursives, stabiles Sortierverfahren, welches eine theoretische Worst-Case-Komplexität von $\mathcal O (n \log n)$ hat.
+Diese Struktur macht es möglich, diesen Algorithmus effizient zu parallelisieren.
 
-\blindtext
+Sei $\mathsf A$ das zu sortierende Array, so werden zuerst die beiden
+Hälften $\mathsf A[0, \frac{|A|}{2})$ und $\mathsf A[\frac{|A|}{2}, |A|)$ rekursiv sortiert.
+Der Rekursionsabbruch ist dabei eine zu sortierende Menge der Größe 1, welche automatisch sortiert ist.
+Danach kann die Sortierung der Gesamtmenge aus den sortierten Teilmengen zusammengesetzt werden,
+indem beide Hälften in der sortierten Reihenfolge gleichzeitig durchlaufen werden.
+Dabei wird immer das kleinere, aktuelle Element der beiden Partitionen verwendet,
+um die Gesamtsortierung zu konstruieren.
+
+Um diesen Algorithmus zu parallelisieren,
+können beide Partitionen von unabhängigen Kernen sortiert werden.
+Der \emph{Merge-Schritt} muss dennoch sequentiell ausgeführt werden.
