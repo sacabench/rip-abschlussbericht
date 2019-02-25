@@ -38,51 +38,51 @@ Das Hilfsarray $\mathsf{L}$ dagegen speichert die dazu gehörigen Gruppenlängen
 Der Algorithmus geht wie folgt vor:
 
 
-%\begin{lstlisting}[caption={qSufSort},label=algo,captionpos=t,float,abovecaptionskip=-\medskipamount, mathescape]
-%1. Sortiere Suffixe $S_i$ anhand des ersten Zeichens in $\mathsf{SA}$ ein 
-%2. Berechne $\mathsf{V}$ und $\mathsf{L}$
-%3. $h$ = 1
-%4. Do  
-%5.   Sortiere jede unsortierte Gruppe in $I$ mit Hilfe
-%     des ternaeren Quicksort mit V[i+h] als Key
-%6.   Markiere dabei die Grenzen von $A_l$, $A_e$ und $A_g$
-%7.   Erstelle neue Gruppen mit Hilfe der Grenzen
-%8.   Aktualisiere $\mathsf{V}$ und $\mathsf{L}$
-%9.   h=2*h
-%10. Until($\mathsf{SA}$ besteht aus nur einer kombinierten sortierten Gruppe)
-%\end{lstlisting}
-\begin{minted}[escapeinside=||,mathescape=true, frame = single]{text}
-qSufSort(T)
-1. Sortiere Suffixe |$\mathsf{S_i}$| anhand des ersten Zeichens in |$\mathsf{SA}$| ein 
-2. Berechne |$\mathsf{V}$| und |$\mathsf{L}$|
-3. |$h$ = 1|
-4. Do  
-5.   Sortiere jede unsortierte Gruppe in |$\mathsf{SA}$| mit Hilfe
-     des Ternary Quicksort mit |$\mathsf{V}[i+h]$| als Key,
-     wobei |$i$| dem Index des Suffixes entspricht
-6.   Markiere dabei die Grenzen von |$A_l$, $A_e$| und |$A_g$|
-7.   Erstelle neue Gruppen mit Hilfe der Grenzen
-8.   Aktualisiere |$\mathsf{V}$| und |$\mathsf{L}$|
-9.   |$h=2*h$|
-10. Until(|$\mathsf{SA}$| besteht aus einer kombinierten sortierten Gruppe)
+\begin{listing}
+\begin{minted}[escapeinside=||,mathescape=true,numbers=left]{python}
+def qSufSort(T)
+  Sort suffixes |$\mathsf{S_i}$| according to their first character into |$\mathsf{SA}$|  
+  Init additional arrays |$\mathsf{V}$| |and| |$\mathsf{L}$|
+  h := 1
+  while (-|$\mathsf{L}$|[0] != n):
+     Sort suffixes |$\mathsf{S_i}$| |in| unsorted groups |in| |$\mathsf{SA}$| by |$\mathsf{V}[i+h]$| 
+     Mark borders of |$A_{left}$, $A_{middle}$| |and| |$A_{right}$|
+     Calculate new groups 
+     Update |$\mathsf{V}$| |and| |$\mathsf{L}$|
+     h = h * 2
 \end{minted}
+\caption{Pseudocode zum qSufSort}
+\end{listing}
+% Sortiere Suffixe |$\mathsf{S_i}$| anhand des ersten Zeichens in |$\mathsf{SA}$| ein 
+ %Berechne |$\mathsf{V}$| und |$\mathsf{L}$|
+ %|$h$ = 1|
+% Do  
+ %  Sortiere jede unsortierte Gruppe in |$\mathsf{SA}$| mit Hilfe
+  %   des Ternary Quicksort mit |$\mathsf{V}[i+h]$| als Key,
+   %  wobei |$i$| dem Index des Suffixes entspricht
+   %Markiere dabei die Grenzen von |$A_{left}$, $A_{middle}$| und |$A_{right}$|
+  % Erstelle neue Gruppen mit Hilfe der Grenzen
+  % Aktualisiere |$\mathsf{V}$| und |$\mathsf{L}$|
+   %|$h=2*h$|
+ % Until(|$\mathsf{SA}$| besteht aus einer kombinierten sortierten Gruppe)
+
 
 In der ersten Zeile sortieren wir zunächst die Suffixe anhand ihres ersten Zeichens in das $\mathsf{SA}$ ein, wodurch dieses dann in 1-Reihenfolge vorliegt. Aufbauend darauf berechnen wir dann initial die Hilfsarrays $\mathsf{L}$ und $\mathsf{V}$ und setzen die Variable $h$ auf unsere derzeitige $h$-Reihenfolge, also 1.
-Die nachfolgende Schleife wiederholen wir dann solange, bis unser Suffix-Array nur noch eine kombinierte sortierte Gruppe beinhaltet, also vollständig sortiert ist.
-In dieser sortieren wir dann die einzelnen sortierten Gruppen, deren Startposition und Länge wir schnell mit $\mathsf{V}$ und $\mathsf{L}$ bestimmen können mit Hilfe des Ternary Quicksort auf Basis der Suffix-Array-Position des an $i+h$ startenden Suffixes. Damit versetzen wir das Ergebnisarray $\mathsf{SA}$ nach Lemma \ref{manmyers} in $2h$-Reihenfolge. Dementsprechend setzen wir dann $h$ auf seinen doppelten Wert, nachdem wir in Zeile 7 und 8 die Informationen zu den Gruppen in $\mathsf{L}$ und $\mathsf{V}$ mit Hilfe der Split-Positionen des Quicksorts aktualisiert haben.
+Die nachfolgende Schleife wiederholen wir dann solange, bis unser Suffix-Array nur noch eine kombinierte sortierte Gruppe beinhaltet, also vollständig sortiert ist und somit die Länge der ersten sortierten Gruppe der Länge des Arrays entspricht.
+In dieser sortieren wir dann die einzelnen sortierten Gruppen, deren Startposition und Länge wir schnell mit $\mathsf{V}$ und $\mathsf{L}$ bestimmen können mit Hilfe des Ternary Quicksort auf Basis der Suffix-Array-Position des an $i+h$ startenden Suffixes. Die aus dem Ternary Quicksort resultierenden Partitionen $A_{left}$, $A_{middle}$ und $A_{right}$ werden entsprechend markiert. Damit versetzen wir das Ergebnisarray $\mathsf{SA}$ nach Lemma \ref{manmyers} in $2h$-Reihenfolge. Dementsprechend setzen wir dann $h$ auf seinen doppelten Wert, nachdem wir in Zeile 8 und 9 die Informationen zu den Gruppen in $\mathsf{L}$ und $\mathsf{V}$ mit Hilfe der Split-Positionen des Quicksorts aktualisiert haben.
 
 \subsubsection{Laufzeit}
 Die initiale Sortierung in Schritt 1 kann in $\mathcal{O}(n\log n)$ Zeit durchgeführt werden, beispielsweise mit Hilfe des Quicksort-Algorithmus. Die Berechnung der Arrays $\mathsf{V}$ und $\mathsf{L}$ ist in linearer Zeit mittels eines Scans über das Array $\mathsf{SA}$ möglich, sowohl in den Zeilen 2 und 3 als auch in Zeile 8. Der für die Laufzeit ausschlaggebende Teil ist die in Zeile 4 beginnende Schleife. Wie wir bereits gesehen haben, rufen wir diese höchstens $\mathcal{O}(\log n)$ mal auf. Zwar rufen wir in jedem Durchlauf in Zeile 5 den Quicksort auf, woraus sich intuitiv eine Worst-Case Laufzeit $\mathcal{O}(n\log  n)\cdot \mathcal{O}(\log n)$ = $\mathcal{O}(n(\log n)^2)$ ergeben würde, jedoch können wir diese mittels einer genaueren Analyse deutlich schärfer wählen:
 
 Als Sortierverfahren wurde sowohl in Zeile 1 als auch in Zeile 5 der Ternary Quicksort gewählt. Der Verlauf der Partitionierungen lässt sich implizit durch einen ternären Baum darstellen (siehe Abb. $\ref{terTree}$).
 
-Die Partitionierung eines Arrays $A$ mit $|A|=n$ lässt sich in $\mathcal{O}(n)$ berechnen. Da für die drei resultierenden Arrays $A_l$, $A_e$ und $A_g$ gilt, dass diese in Summe höchstens genauso lang sind wie $A$, also $n$, können wir auch die Partitionierung der gesamten unter $A$ liegenden Ebene in $\mathcal{O}(n)$ berechnen. Daraus folgt folgendes Lemma:
+Die Partitionierung eines Arrays $A$ mit $|A|=n$ lässt sich in $\mathcal{O}(n)$ berechnen. Da für die drei resultierenden Arrays $A_{left}$, $A_{middle}$ und $A_{right}$ gilt, dass diese in Summe höchstens genauso lang sind wie $A$, also $n$, können wir auch die Partitionierung der gesamten unter $A$ liegenden Ebene in $\mathcal{O}(n)$ berechnen. Daraus folgt folgendes Lemma:
 \begin{lemma}
 Die Partitionierung der auf einer beliebigen Ebene im ternären Baum befindlichen Teilmengen lässt sich in $\mathcal{O}(n)$ erzeugen. 
 \end{lemma}
-Es bleibt zu zeigen, wie hoch der ternäre Baum sein kann. Für den Pfad entlang der $A_e$-Partitionen gilt, dass die Anzahl betrachteter Zeichen sich mit jeder Ebene verdoppelt. Damit ist die maximale Pfadlänge von der Wurzel zum Blatt entlang der $A_k$ Mengen kleiner gleich $ \log (n+1)$.
+Es bleibt zu zeigen, wie hoch der ternäre Baum sein kann. Für den Pfad entlang der $A_{middle}$-Partitionen gilt, dass die Anzahl betrachteter Zeichen sich mit jeder Ebene verdoppelt. Damit ist die maximale Pfadlänge von der Wurzel zum Blatt entlang der $A_k$ Mengen kleiner gleich $ \log (n+1)$.
 
-Für die Teilmengen $A_l$ und $A_g$ gilt, dass die Mengen in den jeweiligen Kindern höchstens halb so groß sind, da wir am Median teilen. Daraus folgt, dass auch entlang eines Pfades höchstens $\log (n+1)$ linke oder rechte Teilarrays sein können.
+Für die Teilmengen $A_{left}$ und $A_{right}$ gilt, dass die Mengen in den jeweiligen Kindern höchstens halb so groß sind, da wir am Median teilen. Daraus folgt, dass auch entlang eines Pfades höchstens $\log (n+1)$ linke oder rechte Teilarrays sein können.
 
 Daraus resultiert folgendes Lemma:
 \begin{lemma}

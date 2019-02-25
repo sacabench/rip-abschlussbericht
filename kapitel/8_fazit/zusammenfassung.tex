@@ -1,16 +1,24 @@
 \section{Zusammenfassung}
 
-Zusammenfassend \currentauthor{Janina Michaelis} lässt sich sagen,
-dass alle Algorithmen vollständig implementiert werden konnten. Durch das selbst entwickelte
-Commandline Tool können alle Algorithmen inklusiv bestehender Referenzimplementationen einfach ausgeführt werden
-und auch in Laufzeit und Speicherverbrauch auf Texten mit verschiedenen Eigenschaften gegeneinander getestet werden.
-Die Algorithmen haben im Text gemischt abgeschnitten.
-Viele waren gleichauf mit der Referenz, andere wiederum waren besonders bezüglich des Speicherverbrauchs sogar besser als die Referenzimplementierung.
-Einige der Algorithmen bieten auch noch deutlichen Optimierungsbedarf, da sie deutlich schlechter abgeschnitten haben im Test.
+Wir \currentauthor{Janina Michaelis und Marvin Böcker} haben das Tool SACABench vorgestellt, welches viele verschiedene SACAs enthält.
+Durch dieses Commandline Tool können alle Algorithmen inklusiv bestehender Referenzimplementationen einfach ausgeführt werden
+und in Laufzeit und Speicherverbrauch auf Texten mit verschiedenen Eigenschaften gegeneinander getestet werden.
 
-Ein wenig der Implementationsarbeit konnte gespart werden,
-da einige Komponenten wie zum Beispiel Sortierverfahren von mehreren Algorithmen geteilt werden konnten
-und nicht mehrfach das gleiche implementiert werden musst.
+Es wurden gemeinsame Komponenten wie beispielsweise verschiedene Sortierverfahren ausgelagert und optimiert,
+um doppelten Code zu verhindern und bessere Implementierungen dieser Algorithmen zu erreichen.
 
-Insgesamt wurde das Ziel, eine Menge an Algorithmen zu implementieren und durch ein Benchmark-Framework miteinander vergleichen zu können,
-grundlegend erreicht.
+Zusammenfassend sieht es so aus, dass unsere Implementierung teils einen besseren Speicherverbrauch vorweist,
+dafür aber meistens eine schlechtere Laufzeit als die Referenz hat.
+Insgesamt wurde das Ziel, die angegebenen Algorithmen zu implementieren und
+durch ein Benchmark-Framework miteinander zu vergleichen, erreicht.
+Es zeigt sich, dass DivSufSort immernoch auf den meisten Texten der schnellste SACA ist.
+
+Im zweiten Semester haben wir eine Auswahl von Algorithmen auf GPU und CPU parallelisiert:
+zuerst wurde dabei eine naive Parallelisierung versucht, indem die Sortieralgorithmen in den SACAs durch
+parallele Varianten ersetzt wurden, beispielsweise den parallelen ips4o\todo{ref} oder
+den stabilen Sortierer aus der GNU Standardbibliothek.
+Dabei dominieren die Sortierer aus der Standardbibliothek klar.
+
+Zuletzt wurden komplexere Parallelisierungen der SACAs verfolgt, wie beispielsweise für pSAIS
+oder Deep-Shallow: 
+Diese zeigen jedoch noch Optimierungspotential.

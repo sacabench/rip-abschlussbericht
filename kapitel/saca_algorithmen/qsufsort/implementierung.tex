@@ -8,41 +8,6 @@ Dabei wird die Variable \mintinline{cpp}{counter} verwendet, die den aktuell bet
 
 Ist \mintinline{cpp}{counter} größer als die Länge von \mintinline{cpp}{out_sa}, terminiert die Schleife und wir aktualisieren die Gruppenlängen, verdoppeln $h$ und überprüfen dann anhand der Länge der ersten sortierten Gruppe, ob das Array komplett sortiert ist. Ist dem so, terminiert der Algorithmus und in \mintinline{cpp}{out_sa} steht das fertig sortierte Suffix-Array. Andernfalls wird die Schleife erneut durchlaufen, bis das Array komplett sortiert ist.
 
-Das Grundgerüst der Implementierung lässt sich damit wie folgt darstellen:
-
-\newpage
-\begin{samepage}
-\begin{minted}[escapeinside=||,mathescape=true, frame= single]{cpp}
-qSufSort(string_span text, alphabet alp, span<sa_index> out_sa){
-        size_t n = text.size();
-        if (n < 2) return;  
-        auto V = util::make_container<sa_index>(n);
-        auto L = util::make_container<ssize_t>(n);           
-        size_t h = 0;
-        bool is_sorted = false;
-        ternary_quicksort(out_sa);
-        init_additional_arrays(text, out_sa, V, L, h);
-        ++h;
-        while (!is_sorted) {
-            sa_index counter = 0;
-            while (counter < out_sa.size()) {
-                if (L[counter] < 0) {
-                    counter -= L[counter];
-                }
-                else {
-                   ternary_quicksort(out_sa.slice(
-                   counter, counter + L[counter]));
-           	update_group_ranks(out_sa, V);
-                   counter += L[counter];
-                }
-            }
-            update_L(out_sa, V, L);
-            h = h * 2;
-            is_sorted = (size_t(-L[0]) == n);
-         }
-    }
-\end{minted}
-\end{samepage}
 \subsubsection{Optimierung}
 Ausgehend von der naiven Implementierung, wurden die von Autoren vorgeschlagenen praktischen Verbesserungen implementiert. 
 

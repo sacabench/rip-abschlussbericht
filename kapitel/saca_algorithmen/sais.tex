@@ -91,8 +91,8 @@ Nachdem die LMS-Substrings bestimmt sind, folgt das Unterteilen in Buckets und B
 \end{center}
 \bigskip
 
-\noindent Durch das Vergleichen der jeweiligen Zeichen und Typen kann so folgende Reihenfolge berechnet werden: $\{14, \textcolor{red}{7}, \textcolor{red}{1}, 10, 4\}$ \\
-\noindent Problem: Dadurch, dass die Substrings identisch sind, ist noch keine eindeutige Reihenfolge entstanden. Es muss ein weiterer Rekursionsschritt durchgeführt werden.
+\noindent Durch das Vergleichen der jeweiligen Zeichen und Typen kann so folgende Reihenfolge berechnet werden: $\{14, 7*, 1*, 10, 4\}$ \\
+\noindent Problem: Dadurch, dass die Substrings identisch sind (hier mit einem Stern markiert), ist noch keine eindeutige Reihenfolge entstanden. Es muss ein weiterer Rekursionsschritt durchgeführt werden.
 
 \newpage \noindent Analog zum Anfang werden den Substrings Buckets zugeordnet:
 
@@ -117,7 +117,7 @@ Nachdem die LMS-Substrings bestimmt sind, folgt das Unterteilen in Buckets und B
       $t_1$ & S & L & S\textsuperscript{*} & L & S\textsuperscript{*}  \\ \hline
 $Buckets$ & 0 & \multicolumn{1}{c}{1} & & 2 & 3 \\ \hline
           & S & \multicolumn{1}{c}{S} & & L & L \\ \hline
-          & 4 & & \textcolor{red}{2} & 3 & 1 \\ \hline
+          & 4 & & (2) & 3 & 1 \\ \hline
           & & 2 & 0 & & \\
     \hline
   \end{tabular}
@@ -137,7 +137,7 @@ Die Rekursionstiefe von $1$ ändert sich wieder auf die Tiefe von $0$ und das ur
             &   & * &   &   & * &   &   & * &   &   & * &   &   &   & * \\ \hline
    $Bucket$ &\$ & \multicolumn{7}{c}{a} &   & \multicolumn{1}{c}{b} &   & \multicolumn{3}{c}{c} & \\ \hline
       $Typ$ & S & \multicolumn{1}{c}{L} &   & \multicolumn{5}{c}{S} &   & \multicolumn{1}{c}{L} &    & \multicolumn{3}{c}{L} &\\ \hline
-            & 14 & & & 7 & 1 & \textcolor{red}{10} & \textcolor{red}{4} & & &  &   & &   &   &  \\ \hline
+            & 14 & & & 7 & 1 & (10) & (4) & & &  &   & &   &   &  \\ \hline
             & & 13 & & & & & & & & 9 & 3 & & 6 & 0 & \\ \hline
             &  &  & 12 & & & & & & & & & & &  & 5 \\ \hline
             & & & & & &   & & &   &   & & 11 & & & \\ \hline

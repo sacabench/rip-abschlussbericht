@@ -225,3 +225,13 @@
     \ref{legend2}
 \end{figure}
 \FloatBarrier
+
+Es wurden alle drei sequentiellen Varianten des MSufSort parallelisiert.
+In \todo{Fix these legends wtf} den Experimenten \ref{legend0}, \ref{legend1} und \ref{legend2} ist jeweils der naive Algorithmus am langsamsten, was bedeutet,
+dass zumindest alle Varianten benutzbar sind. In \ref{legend0} und \ref{legend1} ist die Scan-Variante am schnellsten,
+insbesondere bei dem DNA Eingabetext erkennt man auch eine deutlich flacher verlaufende Kurve,
+vermutlich durch die lineare Laufzeit in einem der Sortierer.
+Dieser (Scan-)Sortierer profitiert auch insbesondere von sehr kleinen Alphabeten,
+da dann weniger Cache-Misses auftreten. Die beiden anderen Varianten unterscheiden sich fast gar nicht.
+In \ref{legend2} liegt die Scan-Variante oberhalb versetzt zu den anderen Varianten,
+skaliert aber zumindest nicht schlechter und liegt näher an den normalen MSufSort Varianten als am naiven Sortierer.
