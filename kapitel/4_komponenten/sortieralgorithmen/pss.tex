@@ -1,13 +1,13 @@
 \subsection{Parallel Stable Sort}
-\label{section:stdsort}
+\label{section:pss}
 
 Für einige Algorithmen war es wichtig, eine stabiles Sortierverfahren zu implementieren.
-Dies ist bei uns, wie auch sonst üblich, \emph{Merge Sort}.
+%Wir verwenden dafür eine Implementierung von Intel\textregistered von parallelem \emph{Merge Sort}.
 Merge Sort ist ein rekursives, stabiles Sortierverfahren, welches eine theoretische Worst-Case-Komplexität von $\mathcal O (n \log n)$ hat.
 Diese Struktur macht es möglich, diesen Algorithmus effizient zu parallelisieren.
 
 Sei $\mathsf A$ das zu sortierende Array, so werden zuerst die beiden
-Hälften $\mathsf A[0, \frac{|A|}{2})$ und $\mathsf A[\frac{|A|}{2}, |A|)$ rekursiv sortiert.
+Hälften $\mathsf A[0, \frac{|A|}{2})$ und $\mathsf A[\frac{|A|}{2}, |\mathsf A|)$ rekursiv sortiert.
 Der Rekursionsabbruch ist dabei eine zu sortierende Menge der Größe 1, welche automatisch sortiert ist.
 Danach kann die Sortierung der Gesamtmenge aus den sortierten Teilmengen zusammengesetzt werden,
 indem beide Hälften in der sortierten Reihenfolge gleichzeitig durchlaufen werden.
