@@ -23,11 +23,11 @@
 
 \section{Introduction}
 
-The \currentauthor{Marvin Böcker} \emph{suffix array} (\emph{SA}) is a widely known text index,
+The \currentauthor{Marvin Böcker} \emph{suffix array} (\emph{\sa}) is a widely known text index,
 which can be used for various string operations,
 like full-text search~\cite{makinen} and construction of the Burrows-Wheeler Transform (BWT)~\cite{BWT}.
 It is a permutation of all indices $1 \dots n$ of a text of length $n$ such
-that the $i$th suffix of the text has lexicographic rank $\sa[i]$.
+that the $i$th suffix of the text \inputtext has lexicographic rank $\sa[i]$.
 
 While the efficient construction is still an active research area,
 divsufsort~\cite{saca:5,saca:5:repo} is the empirically fastest
@@ -38,14 +38,14 @@ while there are some $\mathcal O(n)$ algorithms available.
 For the last year we (re-)implemented eleven SACAs~\cite{saca:3,saca:11,saca:5,saca:9,saca:1,saca:8,saca:4,saca:7,saca:10,saca:6,saca:2}
 in modern C++ in order to create faster and more memory efficient implementations,
 and although our attempts were mostly not successful,
-we created a sophisticated benchmark framework for SACA algorithms, \emph{SACABench}, in the process.
+we created a sophisticated benchmark framework for SACA algorithms, \emph{\sacabench}, in the process.
 
-In this paper we introduce SACABench and highlight its features,
-as well as document some of the optimiziation strategies we used to implement the SACA algorithms.
+In this paper we introduce \sacabench and highlight its features,
+as well as document some of the optimiziation strategies we used to implement the SACAs.
 
 \section{Benchmark Tool}
 
-SACABench is a CMake/C++14 project which contains many different SACA algorithms.
+\sacabench is a CMake/C++14 project which contains many different SACAs.
 There are both sequential algorithms and parallel algorithms included
 and we also include the reference implementations for all of the algorithms, if one exists.
 You are able to run a single, a subset of, or all of the algorithms, depending on your needs.
@@ -99,19 +99,19 @@ When the rank of a suffix $i$ (that is the position of $i$ in the SA) is known,
 it is possible to deduce the rank of other suffixes $j$.
 
 The easiest to understand usecase for this is when using buckets.
-Recall that a bucket $B_{\sigma}$ is a region of the suffix
+Recall that a bucket $\mathsf b_{\sigma}$ is a region of the suffix
 array which contains only and all the suffixes,
 which start with the substring $\sigma$.
-It is obvious that all the subbuckets $B_{\sigma\alpha}$ for
-every $\alpha \in \Sigma$ are contained within $B_\sigma$.
-It is possible to \emph{induce} the order of the $B_{\alpha\sigma}$ bucket,
-if all Buckets $B_\sigma$ for every possible $\sigma \in \Sigma$ are already sorted (by whatever method),
-since you know the regions of $B_\alpha$ that are the $B_{\alpha\sigma}$ Subbuckets.
-You can then (for $\sigma \in \Sigma$) find the suffixes of $B_{\alpha\sigma}$ in $B_{\sigma}$,
-subtract one of every index and write the found suffixes in-order to $B_{\alpha\sigma}$.
-Since the suffixes of $B_{\alpha\sigma}$ are essentially the same as $B_\sigma$ but
+It is obvious that all the subbuckets $\mathsf b_{\sigma\alpha}$ for
+every $\alpha \in \Sigma$ are contained within $\mathsf b_\sigma$.
+It is possible to \emph{induce} the order of the $\mathsf b_{\alpha\sigma}$ bucket,
+if all Buckets $\mathsf b_\sigma$ for every possible $\sigma \in \Sigma$ are already sorted (by whatever method),
+since you know the regions of $\mathsf b_\alpha$ that are the $\mathsf b_{\alpha\sigma}$ Subbuckets.
+You can then (for $\sigma \in \Sigma$) find the suffixes of $\mathsf b_{\alpha\sigma}$ in $\mathsf b_{\sigma}$,
+subtract one of every index and write the found suffixes in-order to $\mathsf b_{\alpha\sigma}$.
+Since the suffixes of $\mathsf b_{\alpha\sigma}$ are essentially the same as $\mathsf b_\sigma$ but
 with only one (the same) character added in front of them,
-their relative ordering is the same as the suffixes in $B_\sigma$.
+their relative ordering is the same as the suffixes in $\mathsf b_\sigma$.
 This method is used in e.g. Deep-Shallow~\cite{saca:4} and 
 Bucket Pointer Refinement~\cite{saca:2}\todo{more sacas? correct refs?}.
 
@@ -125,7 +125,7 @@ It can be shown that after these two passes the resulting suffix array is correc
 \paragraph{Doubling} Another fundamentally different approach to suffix sorting
 aims to double the length of sorted suffixes in every iteration.
 This is done by first sorting the suffixes by their first character only.
-To then deduce the ordering of all the elements in the $B_\alpha$ bucket,
+To then deduce the ordering of all the elements in the $\mathsf b_\alpha$ bucket,
 one can look at the relative ordering of the suffixes that start one position
 after the to-be-sorted suffix:
 their relative ordering decide the ordering of the original suffixes.
