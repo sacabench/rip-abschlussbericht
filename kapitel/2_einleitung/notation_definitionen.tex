@@ -5,8 +5,12 @@ Einige\currentauthor{Rosa Pink und\\Marvin Löbel} grundlegende Notationen und D
 Wir nutzen $[i, j] = \{i, \dots, j\}$ und $[i, j) = [i, j - 1]$ als Kurzschreibweise für Integer-Intervalle.
 
 \subsection{Alphabet und lexikographische Sortierung}
-Das konstante, indizierte Alphabet, ist definiert als $\Sigma = \{\sigma_1, \sigma_2, ..., \sigma_{|\Sigma|-1}\} \cup \{\$\}$. Es besteht aus Symbolen bzw. Zeichen $\sigma_i$, die im Eingabe-String vorkommen dürfen, und dem Sentinel-Symbol \$, das das Ende des Strings markiert. Die Zeichen sind wie folgt lexikographisch (nach \textit{lexikographischer Sortierung})
-geordnet: $\$ < \sigma_1 < \sigma_2 < ... < \sigma_{|\Sigma|-1}$. Sie lassen sich durch Integer-Werte repräsentieren, indem wir \$ den Wert 0 zuweisen, und $\sigma_i$ den Wert $i$.
+Das konstante, indizierte Alphabet, ist definiert als $\Sigma = \{\sigma_1, \sigma_2, ..., \sigma_{|\Sigma|-1}\} \cup \{\$\}$.
+Es besteht aus Symbolen bzw. Zeichen $\sigma_i$, die im Eingabe-String vorkommen dürfen,
+und dem Sentinel-Symbol \$, das das Ende des Strings markiert.
+Die Zeichen sind wie folgt lexikographisch (nach \textit{lexikographischer Sortierung})
+geordnet: $\$ < \sigma_1 < \sigma_2 < ... < \sigma_{|\Sigma|-1}$.
+Sie lassen sich durch Integer-Werte repräsentieren, indem wir \$ den Wert 0 zuweisen, und $\sigma_i$ den Wert $i$.
 
 \subsection{Input-String und Suffix}
 Der Input-String wird \inputtext genannt und hat die Länge $n$. Das $i$-te Zeichen im
@@ -18,11 +22,14 @@ Der Eingabe-String beginnt bei \inputtext[0].
 \subsection{Suffix-Array}
 Das Suffix-Array, kurz \sa, bezeichnet ein Array, in dem in lexikographischer Reihenfolge
 die Suffix-Indizes (Positionen des Anfangsbuchstabens) gespeichert sind.
-Das bedeutet, \sa[j] = $i$ genau dann, wenn $\mathsf{T}[i,n)$ das $j$-te Suffix von \inputtext in Lexorder ist.
+Das bedeutet, $\sa[j] = i$ genau dann, wenn $\mathsf{T}[i,n)$ das $j$-te Suffix von \inputtext in lexikografischer Ordnung ist.
 
 \subsection{Buckets}
 \label{def:bucket}
-Alle Suffixe, die mit demselben Zeichen $c0 \in \Sigma$ beginnen, formen ein zusammenhängendes Intervall, das $c0$-Bucket $\mathsf{b}_{\textit{c0}}$. Das $(c0,c1)$-Bucket $\mathsf{b}_{\textit{c0,c1}}$ bezeichnet das Intervall, dessen Suffixe mit denselben zwei Zeichen $c0,c1 \in \Sigma$ beginnen.
+Alle Suffixe, die mit demselben Zeichen $c_0 \in \Sigma$ beginnen, formen ein zusammenhängendes Intervall im Suffix-Array.
+Dieses Intervall wird $c_0$-Bucket genannt und mit $\mathsf b_{c_0}$ bezeichnet.
+Der $(c_0,c_1)$-Bucket $\mathsf b_{c_0, c_1}$ bezeichnet das Intervall, dessen Suffixe mit denselben zwei Zeichen $c_0, c_1 \in \Sigma$ beginnen.
+Ähnlich dazu bezeichnet der Bucket $\mathsf b_\omega$ alle Suffixe im \sa, die alle mit dem String $\omega \in \Sigma^+$ anfangen.
 
 \subsection{Textwiederholung}
 \label{def:repetition}
@@ -30,7 +37,7 @@ Eine Wiederholung in $\mathsf{T}$ ist ein Teilstring $\mathsf{T}[i, i + rp]$ mit
 
 \subsection{Praxisrelevanten Grenzen}
 
-Wir gehen im folgenden davon aus, dass für unsere Eingabe $|\Sigma| = 256$ gilt, da sich so jedes Zeichen durch ein Byte repräsentieren lässt. Dies erlaubt auch das direkte verarbeiten von Texten in Standardkodierungen wie ASCII und UTF-8~\cite{grundlagen:utf8}, die durch Byte-Arrays ohne 0-Bytes repräsentiert werden.
+Wir gehen im folgenden davon aus, dass für unsere Eingabe $|\Sigma| = 256$ gilt, da sich so jedes Zeichen durch ein Byte repräsentieren lässt. Dies erlaubt auch das direkte Verarbeiten von Texten in Standardkodierungen wie ASCII und UTF-8~\cite{grundlagen:utf8}, die durch Byte-Arrays ohne 0-Bytes repräsentiert werden.
 
 Auch gehen wir davon aus, das Länge $n$ von Datenstrukturen, insbesondere der Eingabe und des Suffix-Arrays, durch die maximale Größe nativer Integer-Datentypen in Consumer-Computersystemen begrenzt ist. Es gilt somit in der Regel $n \leq 2^{32}$ oder $n \leq 2^{64}$, womit sich Indizes durch 4- bzw. 8-Byte Integer repräsentieren lassen. Wir betrachten außerdem $n = 2^{40}$ als 5-Byte Kompromiss zwischen den beiden.
 
