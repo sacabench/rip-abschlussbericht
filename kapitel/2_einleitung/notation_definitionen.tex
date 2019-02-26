@@ -21,7 +21,18 @@ Der Eingabe-String beginnt bei \inputtext[0].
 \subsection{Suffix-Array}
 Das Suffix-Array, kurz \sa, bezeichnet ein Array, in dem in lexikographischer Reihenfolge
 die Suffix-Indizes (Positionen des Anfangsbuchstabens) gespeichert sind.
-Das bedeutet, \sa[j] = $i$ genau dann, wenn $\mathsf{T}[i,n)$ das $j$-te Suffix von \inputtext in lexikographischer Reihenfolge ist.
+Das bedeutet, $\sa[j] = i$ genau dann, wenn $\mathsf{T}[i,n)$ das $j$-te Suffix von \inputtext in lexikografischer Ordnung ist.
+
+\subsection{Buckets}
+\label{def:bucket}
+Alle Suffixe, die mit demselben Zeichen $c_0 \in \Sigma$ beginnen, formen ein zusammenhängendes Intervall im Suffix-Array.
+Dieses Intervall wird $c_0$-Bucket genannt und mit $\mathsf b_{c_0}$ bezeichnet.
+Der $(c_0,c_1)$-Bucket $\mathsf b_{c_0, c_1}$ bezeichnet das Intervall, dessen Suffixe mit denselben zwei Zeichen $c_0, c_1 \in \Sigma$ beginnen.
+Ähnlich dazu bezeichnet der Bucket $\mathsf b_\omega$ alle Suffixe im \sa, die alle mit dem String $\omega \in \Sigma^+$ anfangen.
+
+\subsection{Textwiederholung}
+\label{def:repetition}
+Eine Wiederholung in $\mathsf{T}$ ist ein Teilstring $\mathsf{T}[i, i + rp]$ mit $ r \geq 2, p \geq 0$ und $i, i + rp \in [0, n)$, sodass $\mathsf{T}[i, i+p) = \mathsf{T}[i + p, i + 2p) = \dots = \mathsf{T}[i + (r-1)p, i + rp)$.
 
 \subsection{Praxisrelevante Grenzen}
 
