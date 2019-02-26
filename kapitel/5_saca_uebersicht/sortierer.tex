@@ -5,9 +5,9 @@ beispielsweise mit Quicksort oder Radixsort.
 
 Für die Verwendung eines Sortieralgorithmus, um das SA direkt zu konstruieren,
 muss eine passende Vergleichsfunktion benutzt werden:
-Nehmen wir an, die Menge die sortiert werden soll, ist bereits ein Array von disjunkten Suffix-Indizes.
+Nehmen wir an, die Menge die sortiert werden soll, ist bereits ein Array von disjunkten Suffix-Indizes
 \footnote{Dies kann zu Beginn sichergestellt werden, indem das
-Array mit den Zahlen von 0 bis $n-1$ (bzw $n$, wenn das Sentinel mitsortiert werden soll) gefüllt wird.}
+Array mit den Zahlen von 0 bis $n-1$ (bzw $n$, wenn das Sentinel mitsortiert werden soll) gefüllt wird.}.
 In der Vergleichsfunktion vergleichen wir dann die Suffixe aus dem Text, die am entsprechenden Index starten.
 In Abbildung 1 findet sich Pseudocode für eine simple Vergleichsfunktion,
 welche die gesamten Suffixe naiv miteinander vergleicht.
