@@ -14,7 +14,7 @@ Für jeden String $\inputtext$ der Länge $m$ mit beliebigem Alphabet lässt sic
 
 Ein so \textbf{umbenannter} String hat die Eigenschaft, dass die Ordnung über dem neuen Alphabet identisch zu der über dem ursprünglichen ist und sich somit darauf dasselbe Suffix-Array ergibt. Ein dazu ähnliches Verfahren, die \textbf{lexikographische Umbenennung}, wird Kern der vorgestellten Algorithmen sein und beruht darauf ganze (Teil-)Strings eines Textes durch aufsteigende Zähler zu ersetzen.
 
-Für die Analyse der Zugriffsoperationen auf externen Speicher betrachten wir das I/O-Model \cite{Vitter1994}. Darin besteht ein Computersystem aus $M$ Wörtern schnellen Hauptspeichers und langsameren externen Speicher der sich über I/O-Operationen in Blockgrößen $B$ über $D$ Platten erstreckt. Für Eingaben der Länge $n$ nehmen wir eine Wortbreite von $\geq \ceil*{\log n}$ Bits an \todo{-von- würde ich hier weglassen. Also: ... nehmen wir eine Wortbreite $\geq \ceil*{\log n}$ Bits an.}. Wir definieren folgende Kurzschreibweisen:
+Für die Analyse der Zugriffsoperationen auf externen Speicher betrachten wir das I/O-Model \cite{Vitter1994}. Darin besteht ein Computersystem aus $M$ Wörtern schnellen Hauptspeichers und langsameren externen Speicher der sich über I/O-Operationen in Blockgrößen $B$ über $D$ Platten erstreckt. Für Eingaben der Länge $n$ nehmen wir eine Wortbreite $\geq \ceil*{\log n}$ Bits an. Wir definieren folgende Kurzschreibweisen:
 \begin{itemize}
 \item $\text{scan}(x) = \ceil*{x/DB}$ für sequentielles Lesen oder Schreiben von $x$ Wörtern in externen Speicher.
 \item $\text{sort}(x) = \frac{2x}{DB}\ceil*{\log_{M/B}\frac{x}{M}}$ für das I/O-effiziente Sortieren von $x$ Wörtern unter Zuhilfenahme von externen Speicher.
@@ -723,7 +723,7 @@ Diese werden als zusätzliches Array der Länge $|U| + |P|$ mit Platz für $a - 
 
 Da unsere Implementierung nur im Arbeitsspeicher arbeitet, sind wir nicht an einen bestimmten extern arbeitenden Sortieralgorithmus gebunden, weshalb es uns frei steht einen Sortierer zu nutzen, der das beste Laufzeitverhalten zeigt.
 
-Wir haben hierzu den Discarding-Algorithmus mit allen im Framework verfügbaren Sortierern auf einer Reihe von Testdaten angewandt, um dem sich empirisch am besten verhaltenden Algorithmus zu wählen. Es stellte sich hierbei der externe \texttt{ips4o} \todo{Referenz zu ips4o Kapitel} Algorithmus als mit Abstand bester Algorithmus heraus.
+Wir haben hierzu den Discarding-Algorithmus mit allen im Framework verfügbaren Sortierern auf einer Reihe von Testdaten angewandt, um dem sich empirisch am besten verhaltenden Algorithmus zu wählen. Es stellte sich hierbei der externe \texttt{ips4o} Algorithmus (siehe \cref{section:ips4o}) als mit Abstand bester Algorithmus heraus.
 
 %\todo{testdaten bild}
 
