@@ -13,9 +13,11 @@ Sie lassen sich durch Integer-Werte repräsentieren, indem wir \$ den Wert 0 zuw
 
 \subsection{Input-String und Suffix}
 Der Input-String wird \inputtext genannt und hat die Länge $n$. Das $i$-te Zeichen im
-Input-String ist \inputtext[i], das $i$-te Suffix  (kurz: Suffix $i$) ist
-\suffix{i} = $\inputtext[i,n)$ = \mbox{\inputtext[i]\inputtext[i+1]$...$\inputtext[n-1]}. \inputtext[n]
-ist dann das Terminalsymbol \$ (sowie alle \inputtext[m] mit $m>n$) und ist formal nicht Teil des Eingabe-Strings.
+Input-String ist \inputtext[i], das $i$-te Suffix  (kurz: Suffix $i$) ist 
+\begin{align*}
+\suffix{i} := \inputtext[i,n) = \inputtext[i]\inputtext[i+1]...\inputtext[n-1]
+\end{align} \inputtext[n]
+ist das Terminalsymbol \$ (sowie alle \inputtext[m] mit $m>n$) und ist formal nicht Teil des Eingabe-Strings.
 Der Eingabe-String beginnt bei \inputtext[0].
 
 \subsection{Suffix-Array}
