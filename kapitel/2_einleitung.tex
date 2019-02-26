@@ -11,13 +11,13 @@ Gerade in der Bioinformatik,
 in der man es im Bereich der Genomforschung mit Größenordnungen von Milliarden von Zeichen zu tun hat,
 sind effiziente Algorithmen in Bezug auf Zeit und Speicherplatz notwendig~\cite[Kap.~1]{saca:6}.
 
-Ein Suffix-Array repräsentiert die Suffixe eines Strings \inputtext in lexikographischer Reihenfolge.
-Sei $\inputtext = \text{suffix}$. Für den String \inputtext ergeben sich folgende Suffixe:
+Ein Suffix-Array repräsentiert die Suffixe eines Strings \inputtext{} in lexikographischer Reihenfolge.
+Sei $\inputtext{} = \text{suffix}$. Für den String \inputtext{} ergeben sich folgende Suffixe:
 %
 \begin{center}
   \begin{tabular}{ | l | c | r }
     \hline
-        $i$ & $\inputtext[i, n)$ \\ \hline
+        $i$ & $\inputtext{}[i, n)$ \\ \hline
         0 & suffix \\ \hline
         1 & uffix \\ \hline
         2 & ffix \\ \hline
@@ -29,13 +29,13 @@ Sei $\inputtext = \text{suffix}$. Für den String \inputtext ergeben sich folgen
   \end{tabular}
 \end{center}
 %
-Es ist sofort ersichtlich, dass $\inputtext[0, n) = \inputtext$ und $\inputtext[n-2, n)=\$$ gilt.
+Es ist sofort ersichtlich, dass $\inputtext{}[0, n) = \inputtext{}$ und $\inputtext{}[n-2, n)=\$$ gilt.
 Sortiert man die Suffixe nun lexikografisch, ergibt sich das Suffix-Array:
 %
 \begin{center}
   \begin{tabular}{ | l | c | r }
     \hline
-        $i$ & $\inputtext[i, n)$ \\ \hline
+        $i$ & $\inputtext{}[i, n)$ \\ \hline
         6 & \$ \\ \hline
         3 & fix \\ \hline
         2 & ffix \\ \hline
