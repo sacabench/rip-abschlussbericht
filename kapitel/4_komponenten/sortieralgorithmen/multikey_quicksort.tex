@@ -1,9 +1,10 @@
 \subsection{Multikey-Quicksort}
 \label{section:mkqs}
 Der \currentauthor{Oliver Magiera und Marvin Böcker} Multikey-Quicksort von
-Bentley und Sedgewick basiert auf dem ternären Quicksort und sortiert Strings eines Arrays \textsf{A}
-zeichenweise \cite{multikey_quicksort}. Das Funktionsargument $d$ beschreibt,
-welches Zeichen momentan verglichen werden soll. Initial ist dieser Parameter 0,
+Bentley und Sedgewick~\cite{multikey_quicksort} basiert auf ternary Quicksort (siehe \cref{section:ternary_quicksort})
+und sortiert Strings eines Arrays \textsf{A} zeichenweise.
+Das Funktionsargument $d$ beschreibt, welches Zeichen momentan verglichen werden soll.
+Initial ist dieser Parameter $d = 0$,
 um das erste Zeichen von den Strings in \textsf{A} zu vergleichen.
 Wenn dieses Zeichen kleiner oder größer ist,
 kann der String in die \glqq <\grqq- bzw \glqq >\grqq-Partition sortiert werden.
@@ -26,7 +27,7 @@ def mkqs(A: Array<SuffixStartPos>, d: Integer):
   mkqs(A[i, j), d+1)
   mkqs(A[j, |A|), d)
 	\end{minted}
-	\caption{Bentley-Sedgewick Multikey-Quicksort~\cite{multikey_quicksort}}
+	\caption{Bentley-Sedgewick Multikey-Quicksort~\cite{multikey_quicksort}.}
 	\label{alg:mkqs}
 \end{figure}
 
