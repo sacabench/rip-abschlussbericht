@@ -15,7 +15,7 @@
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={SA construction time [min]},
                 legend columns=2,
-                legend to name=legend-par-bpr-0,
+                legend to name=legend-par-all-0,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
@@ -100,7 +100,8 @@
     \end{tikzpicture}
 
     \medskip
-    \ref{legend-par-bpr-0}
+    \ref{legend-par-all-0}
+    \caption{Vergleich der parallelen Implementierungen mit Laufzeit und Speicherbedarf auf wiki.txt}
 \end{figure}
 
 \begin{figure}[ht]
@@ -115,7 +116,7 @@
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={SA construction time [min]},
                 legend columns=2,
-                legend to name=legend-par-bpr-1,
+                legend to name=legend-par-all-1,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
@@ -201,7 +202,8 @@
     \end{tikzpicture}
 
     \medskip
-    \ref{legend-par-bpr-1}
+    \ref{legend-par-all-1}
+    \caption{Vergleich der parallelen Implementierungen mit Laufzeit und Speicherbedarf auf dna.txt}
 \end{figure}
 
 \begin{figure}[ht]
@@ -216,7 +218,7 @@
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={SA construction time [min]},
                 legend columns=2,
-                legend to name=legend-par-bpr-2,
+                legend to name=legend-par-all-2,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
@@ -302,6 +304,7 @@
     \end{tikzpicture}
 
     \medskip
-    \ref{legend-par-bpr-2}
+    \ref{legend-par-all-2}
+    \caption{Vergleich der parallelen Implementierungen mit Laufzeit und Speicherbedarf auf commoncrawl.txt}
 \end{figure}
 \FloatBarrier
