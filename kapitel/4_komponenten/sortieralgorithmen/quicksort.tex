@@ -33,7 +33,7 @@ Anschließend beschreiben wir wie möglichst effizient das Pivotelement gewonnen
         bentley_mcilroy_tq(A[0, left))
         bentley_mcilroy_tq(A[right, |A|))
     \end{minted}
-    \caption{Bentley-McIlroy ternäres Quicksort~\cite{ternary_quicksort}}
+    \caption{Bentley-McIlroy ternary Quicksort~\cite{ternary_quicksort}.}
 \end{listing}    
 
 \subsubsection{Ternary Quicksort}
@@ -70,18 +70,18 @@ Nachdem wir alle Elemente in die drei Bereiche aufgeteilt haben, müssen $A_{\te
 	\draw[decorate, decoration={mirror, brace,amplitude=10pt}] (8.1,0) -- (9.9,0) node[midway, below = 10pt] {$A_\text{right}$};
 	\end{scope}
 	\end{tikzpicture}
-	\caption[Partitionen bei ternärem Quicksort]{Partitionen bei ternärem Quicksort. (Abbildung ähnlich in \cite{ternary_quicksort}.)}
+	\caption[Partitionen bei ternary Quicksort]{Partitionen bei ternärem Quicksort. (Abbildung ähnlich in \cite{ternary_quicksort}.)}
 	\label{fg:ternary_partitions}
 \end{figure}
 
 \subsubsection{Auswahl des Pivotelements}
 
-Es gibt unterschiedliche Ansätze in den hier beschriebenen Quicksort-Varianten das Pivotelement zu wählen.
+Es gibt unterschiedliche Ansätze, um in den hier beschriebenen Quicksort-Varianten das Pivotelement zu wählen.
 Das Problem ist der Trade-Off zwischen aufwändiger Pivot-Wahl (Pivotwahl hat hohe Laufzeit) und
 degeneriertem Quicksort durch eine schlechte Wahl des Pivotelements (Quicksort hat hohe Laufzeit).
 
 Einfache Ansätze sind es das erste, mittlere oder das letzte Element der Eingabe zu wählen.
-Diese Ansätze sind problematisch wenn das gewählte Pivotelement ein sehr kleines oder ein sehr großes Element ist.
+Diese Ansätze sind problematisch, wenn das gewählte Pivotelement ein sehr kleines oder ein sehr großes Element ist.
 Dadurch wird die Eingabe nicht in zwei annähernd gleich große Bereiche aufgeteilt und die rekursiven Aufrufe werden ineffizient (degeneriertes Quicksort).
 
 Daher verwenden wir im Quicksort und im Ternary Quicksort eine verbesserte Variante~\cite{ternary_quicksort}.
