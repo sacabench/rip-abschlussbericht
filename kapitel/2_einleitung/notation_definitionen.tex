@@ -7,6 +7,7 @@ Wir nutzen $[i, j] = \{i, \dots, j\}$ und $[i, j) = [i, j - 1]$ als Kurzschreibw
 \subsection{Alphabet und lexikographische Sortierung}
 Das konstante, indizierte Alphabet, ist definiert als $\Sigma = \{\sigma_1, \sigma_2, ..., \sigma_{|\Sigma|-1}\} \cup \{\$\}$. Es besteht aus Symbolen bzw. Zeichen $\sigma_i$, die im Eingabe-String vorkommen dürfen, und dem Sentinel-Symbol \$, das das Ende des Strings markiert. Die Zeichen sind wie folgt lexikographisch (nach \textit{lexikographischer Sortierung})
 geordnet: $\$ < \sigma_1 < \sigma_2 < ... < \sigma_{|\Sigma|-1}$. Sie lassen sich durch Integer-Werte repräsentieren, indem wir \$ den Wert 0 zuweisen, und $\sigma_i$ den Wert $i$.
+$\Sigma^+$ bezeichnet weiter die Menge aller Strings über diesem Alphabet mit echt positiver Länge.
 
 \subsection{Input-String und Suffix}
 Der Input-String wird \inputtext genannt und hat die Länge $n$. Das $i$-te Zeichen im
