@@ -8,7 +8,7 @@ Bevor wir zum Algorithmus kommen, müssen zunächst noch einige Definitionen und
 	$$
 \end{definition}
 Die Präfixsumme kann demnach als ein Vektor betrachtet werden, welcher an der $i$-ten Stelle die ersten $i$ Elemente aufsummiert hat \cite{Blelloch90}. Später werden wir die Präfixsumme in leicht abgewandelter Form sehen.
-
+\iffalse
 In einem Text können Wiederholungen derselben Sequenz von Zeichen auftreten. Diese seien wie folgt definiert:
 \begin{definition}
 	\label{repetition}
@@ -21,8 +21,10 @@ Wir wollen unsere Suffix-Arrays noch weiter charakterisieren können. Dafür unt
 	Alle Suffixe, die mit demselben Zeichen $c0 \in \Sigma$ beginnen, formen ein zusammenhängendes Intervall, das $c0$-Bucket $\mathsf{b}_{\textit{c0}}$. Das $(c0,c1)$-Bucket $\mathsf{b}_{\textit{c0,c1}}$ bezeichnet das Intervall, dessen Suffixe mit denselben zwei Zeichen $c0,c1 \in \Sigma$ beginnen.
 \end{definition}
 
-Die Buckets werden später wichtig, um die Beziehungen zwischen den Suffix-Typen herzuleiten. Dabei kann $c0=c1$ gelten. Suffixe können in drei Typen eingeteilt werden: L-Suffixe, S-Suffixe sowie RMS-Suffixe.
-
+Die Buckets werden später wichtig, um die Beziehungen zwischen den Suffix-Typen herzuleiten. Dabei kann $c0=c1$ gelten. 
+\fi
+Suffixe können in drei Typen eingeteilt werden: L-Suffixe, S-Suffixe sowie RMS-Suffixe. Da die L- und S-Suffixe bereits definiert wurden, müssen wir hier nur die RMS-Suffixe beschreiben.
+\iffalse
 \begin{definition}
 	Suffix $\mathsf{S}_i$ ist ein
 	\begin{itemize}
@@ -32,22 +34,28 @@ Die Buckets werden später wichtig, um die Beziehungen zwischen den Suffix-Typen
 	\end{itemize}
 	Falls $\mathsf{T}[i] = \mathsf{T}[i+1]$, so ist $\mathsf{S}_i$ je nach Typ von $\mathsf{S}_{i+1}$ entweder ein L- oder ein S-Suffix.
 \end{definition}
+\fi
+\begin{definition}
+	Suffix $\mathsf{S}_i$ ist ein RMS-Suffix, falls $\mathsf{S}_i$ ein S-Suffix und $\mathsf{S}_{i+1}$ ein L-Suffix ist.
+	Falls $\mathsf{T}[i] = \mathsf{T}[i+1]$, so ist $\mathsf{S}_i$ je nach Typ von $\mathsf{S}_{i+1}$ entweder ein L- oder ein S-Suffix.
+\end{definition}
 
 Somit liegen drei verschiedene Typen von Suffixen vor, welche eine Abhängigkeit der Textfolge repräsentieren. Dabei können RMS-Suffixe nicht durch Gleichheit zweier aufeinander folgender Zeichen übertragen werden. Es können maximal $\frac{n}{2}$ RMS-Suffixe vorliegen, da diese durch L-Suffixe definiert sind. Insbesondere schränkt die Zuweisung von Typen zu den Suffixen die Verteilung dieser auf Buckets ein: Ein Bucket $\mathsf{b}_{\textit{c0,c1}}$ kann nur L-Suffixe enthalten, wenn $|c0| \geq |c1|$ gilt, d.h. der Rang von $c0$ größer als der Rang von $c1$ ist. Ebenso können nur S-Suffixe enthalten sein, wenn $|c0| \leq |c1|$. RMS-Suffixe können nicht bei $|c0|=|c1|$, d.h. in b$_{\textit{c0,c0}}$ vorliegen.
 Durch diese Einschränkungen wird eine partielle Ordnung unter den Suffixen erzwungen:
+\begin{lemma}
 	Seien $\mathsf{S}_i, \mathsf{S}_j$ zwei Suffixe. Dann gilt:
 	\begin{itemize}
 		\item $\mathsf{S}_i < \mathsf{S}_j$, falls $\mathsf{S}_i$ ein L-Suffix, $\mathsf{S}_j$ ein S-Suffix ist und $\mathsf{T}[i] = \mathsf{T}[j]$
 		\item $\mathsf{S}_i < \mathsf{S}_j$, falls $\mathsf{S}_i$ ein RMS-Suffix, $\mathsf{S}_j$ ein S-, aber kein RMS-Suffix ist und $\mathsf{T}[i, i+1] = \mathsf{T}[j, j+1]$
 	\end{itemize}
-
-	L- und S-Suffixe können nur gleichzeitig in $\mathsf{b}_{\textit{c0,c0}}$ auftauchen. Wir nehmen an, $\mathsf{S}_i$ und $\mathsf{S}_j$ beginnen mit $c0c0$, gefolgt von beliebig vielen $c0$ und $\mathsf{S}_i, \mathsf{S}_j$ sind ein L- bzw. S-Suffix. Sei $u = \mathsf{T}[i+lcp(i, j)]$ und $v = \mathsf{T}[j+lcp(i, j)]$, d.h. $u \neq v$ ist das erste Zeichen, wo sich $\mathsf{S}_i$ und $\mathsf{S}_j$ unterscheiden. Da $\mathsf{S}_i$ ein L-Suffix ist und sich zuvor vom S-Suffix $\mathsf{S}_j$ nicht unterschieden hat, muss $u \leq c0$ sein. Ebenso gilt $v \geq c0$. Eine der Ungleichungen ist strikt erfüllt, da $u \neq v$, damit ist $\mathsf{S}_i < \mathsf{S}_j$.
+\end{lemma}
+	L- und S-Suffixe können nur gleichzeitig in $\mathsf{b}_{\textit{c0,c0}}$ auftauchen. Wir nehmen an, $\mathsf{S}_i$ und $\mathsf{S}_j$ beginnen mit $c0c0$, gefolgt von beliebig vielen $c0$, und $\mathsf{S}_i, \mathsf{S}_j$ sind ein L- bzw. S-Suffix. Sei $u = \mathsf{T}[i+lcp(i, j)]$ und $v = \mathsf{T}[j+lcp(i, j)]$, d.h. $u \neq v$ sind die ersten Zeichen, wo sich $\mathsf{S}_i$ und $\mathsf{S}_j$ unterscheiden. Da $\mathsf{S}_i$ ein L-Suffix ist und sich zuvor vom S-Suffix $\mathsf{S}_j$ nicht unterschieden hat, muss $u \leq c0$ sein. Ebenso gilt $v \geq c0$. Eine der Ungleichungen ist strikt erfüllt, da $u \neq v$, damit ist $\mathsf{S}_i < \mathsf{S}_j$.
 	Analog gilt für den zweiten Fall: Die ersten beiden Zeichen von $\mathsf{S}_i, \mathsf{S}_j$ sind identisch. Da $\mathsf{S}_i$ ein RMS-Suffix ist, gilt $\mathsf{T}[i] \neq \mathsf{T}[i+1]$. Ebenso gilt $\mathsf{T}[i+1] > \mathsf{T}[i+2]$, da nach der Definition von RMS-Suffixen $\mathsf{S}_{i+2}$ ein L-Suffix sein muss. Jedoch ist $\mathsf{S}_j$ kein RMS-Suffix, sodass $\mathsf{T}[i+2] < \mathsf{T}[i+1] = \mathsf{T}[j+1] \leq \mathsf{T}[j+2]$ und damit $\mathsf{S}_i < \mathsf{S}_j$. 
 
 Um RMS-Suffixe später sortieren zu können, müssen wir zunächst RMS-Teilstrings betrachten.
 
 \begin{definition}
-	Gegeben seien zwei aufeinander folgende RMS-Suffixe $\mathsf{S}_i$ und $\mathsf{S}_j$, d.h. es existiert kein RMS-Suffix $\mathsf{S}_k$ mit $i < k < j$. Wir bezeichnen den Teilstring $\mathsf{T}[i, j+2)$ Als RMS-Teilstring. Für das letzte RMS-Suffix $\mathsf{S}_i$ ($\mathsf{S}_k$ mit $ i < k < n$ ist kein RMS-Suffix) ist der Teilstring $\mathsf{T}[i, n)$ ebenfalls ein RMS-Teilstring.
+	Gegeben seien zwei aufeinander folgende RMS-Suffixe $\mathsf{S}_i$ und $\mathsf{S}_j$, d.h. es existiert kein RMS-Suffix $\mathsf{S}_k$ mit $i < k < j$. Wir bezeichnen den Teilstring $\mathsf{T}[i, j+2)$ als RMS-Teilstring. Für das letzte RMS-Suffix $\mathsf{S}_i$ ($\mathsf{S}_k$ mit $ i < k < n$ ist kein RMS-Suffix) ist der Teilstring $\mathsf{T}[i, n)$ ebenfalls ein RMS-Teilstring.
 \end{definition}
 
 Nun haben wir neben den Suffix-Typen und Buckets auch RMS-Teilstrings kennen gelernt. Damit können wir mit der Beschreibung des Algorithmus beginnen.
