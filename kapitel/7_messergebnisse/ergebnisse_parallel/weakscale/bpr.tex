@@ -1,6 +1,6 @@
 \subsubsection{BPR}
 
-\textbf{Configuration} \hfill Model name: none
+\textbf{Configuration} \hfill Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
 % IMPORT-DATA stats_parallel ../result_weakscale.txt
 % IMPORT-DATA stats_sequential ../../ergebnisse_sequentiell/results.txt
 
@@ -14,7 +14,7 @@
                 height=60mm,
                 title={wiki.txt},
                 xlabel={num threads, input size [200\,MB]},
-                ylabel={SA construction time [s]},
+                ylabel={SA construction time [min]},
                 legend columns=2,
                 legend to name=legend-par-bpr-0,
                 legend style={
@@ -23,28 +23,28 @@
                 },
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="wiki.txt" AND sacheck="ok"
             %% AND (algo="BPR_par" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,32.7019) (2,62.1738) (4,124.893) (8,261.873) };
+            \addplot coordinates { (1,0.543257) (2,1.04248) (4,2.69455) (8,5.00914) (12,8.55647) (16,12.5204) };
             \addlegendentry{algo=BPR\_par};
-            \addplot coordinates { (1,28.4809) (2,53.6872) (4,103.952) (8,222.206) };
+            \addplot coordinates { (1,0.474964) (2,0.890462) (4,1.72981) (8,3.69632) };
             \addlegendentry{algo=DivSufSort\_par\_ref};
-            \addplot coordinates { (1,162.68) (2,211.948) (4,235.913) (8,291.322) (12,331.856) (16,349.492) };
+            \addplot coordinates { (1,2.71662) (2,3.54087) (4,4.03271) (8,4.7199) (12,5.55871) (16,5.86449) };
             \addlegendentry{algo=NaivParallel};
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="wiki.txt" AND sacheck="ok"
             %% AND (algo="BPR" OR algo="BPR_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,31.9364) (2,68.3956) (4,146.597) (8,315.904) };
+            \addplot coordinates { (1,0.532494) (2,1.13966) (4,2.44832) (8,5.26654) (12,10.7542) (16,15.4272) };
             \addlegendentry{algo=BPR};
-            \addplot coordinates { (1,34.7088) (2,75.4986) (4,164.654) (8,407.365) };
+            \addplot coordinates { (1,0.711019) (2,1.50131) (4,2.75402) (8,6.33265) };
             \addlegendentry{algo=BPR\_ref};
         \end{axis}
     \end{tikzpicture}
@@ -59,31 +59,31 @@
                 height=60mm,
                 title={wiki.txt},
                 xlabel={num threads, input size [200\,MB]},
-                ylabel={Extra Memory [MB]},
+                ylabel={Extra Memory [GiB]},
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="wiki.txt" AND sacheck="ok"
             %% AND (algo="BPR_par" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,1022.15) (2,1861.01) (4,3688.84) (8,7340.64) };
+            \addplot coordinates { (1,0.951951) (2,1.7332) (4,3.4355) (8,6.83651) (12,19.647) (16,26.173) };
             \addlegendentry{algo=BPR\_par};
-            \addplot coordinates { (1,0.26492) (2,0.265752) (4,0.267384) (8,0.270648) };
+            \addplot coordinates { (1,0.000246726) (2,0.000247501) (4,0.000249021) (8,0.000252061) };
             \addlegendentry{algo=DivSufSort\_par\_ref};
-            \addplot coordinates { (1,0.0) (2,1677.72) (4,3355.45) (8,6710.9) (12,20132.7) (16,26843.6) };
+            \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) (12,18.75) (16,25) };
             \addlegendentry{algo=NaivParallel};
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="wiki.txt" AND sacheck="ok"
             %% AND (algo="BPR" OR algo="BPR_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,31.9364) (2,68.3956) (4,146.597) (8,315.904) };
+            \addplot coordinates { (1,0.532494) (2,1.13966) (4,2.44832) (8,5.26654) (12,10.7542) (16,15.4272) };
             \addlegendentry{algo=BPR};
-            \addplot coordinates { (1,34.7088) (2,75.4986) (4,164.654) (8,407.365) };
+            \addplot coordinates { (1,0.711019) (2,1.50131) (4,2.75402) (8,6.33265) };
             \addlegendentry{algo=BPR\_ref};
 
             \legend{}
@@ -104,7 +104,7 @@
                 height=60mm,
                 title={dna.txt},
                 xlabel={num threads, input size [200\,MB]},
-                ylabel={SA construction time [s]},
+                ylabel={SA construction time [min]},
                 legend columns=2,
                 legend to name=legend-par-bpr-1,
                 legend style={
@@ -113,28 +113,28 @@
                 },
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="dna.txt" AND sacheck="ok"
             %% AND (algo="BPR_par" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,63.2203) (2,104.68) (4,175.849) };
+            \addplot coordinates { (1,0.569637) (2,1.09372) (4,2.16083) (8,4.4065) (12,8.71249) (16,11.9082) };
             \addlegendentry{algo=BPR\_par};
-            \addplot coordinates { (1,31.0613) (2,60.9584) (4,124.109) (8,308.403) };
+            \addplot coordinates { (1,0.516853) (2,1.01441) (4,2.06209) (8,4.53356) };
             \addlegendentry{algo=DivSufSort\_par\_ref};
-            \addplot coordinates { (1,184.608) (2,241.729) (4,280.063) (8,306.519) (12,348.244) (16,361.277) };
+            \addplot coordinates { (1,3.06848) (2,4.3148) (4,4.73058) (8,5.05918) (12,5.68415) (16,5.68597) };
             \addlegendentry{algo=NaivParallel};
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="dna.txt" AND sacheck="ok"
             %% AND (algo="BPR" OR algo="BPR_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,60.706) (2,129.693) (4,265.296) (8,719.165) (12,1376.45) };
+            \addplot coordinates { (1,0.565245) (2,1.2152) (4,2.53825) (8,6.4462) (12,10.0274) (16,14.4375) };
             \addlegendentry{algo=BPR};
-            \addplot coordinates { (1,37.12) (2,101.594) (4,179.865) (8,382.303) };
+            \addplot coordinates { (1,0.617205) (2,1.37002) (4,2.99629) (8,7.45044) };
             \addlegendentry{algo=BPR\_ref};
 
         \end{axis}
@@ -150,31 +150,31 @@
                 height=60mm,
                 title={dna.txt},
                 xlabel={num threads, input size [200\,MB]},
-                ylabel={Extra Memory [MB]},
+                ylabel={Extra Memory [GiB]},
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="dna.txt" AND sacheck="ok"
             %% AND (algo="BPR_par" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,1424.8) (2,6560.54) (4,12144.5) };
+            \addplot coordinates { (1,0.783537) (2,1.56479) (4,3.12762) (8,6.25495) (12,18.7576) (16,25.0099) };
             \addlegendentry{algo=BPR\_par};
-            \addplot coordinates { (1,0.26492) (2,0.265752) (4,0.267384) (8,0.270648) };
+            \addplot coordinates { (1,0.000246726) (2,0.000247501) (4,0.000249021) (8,0.000252061) };
             \addlegendentry{algo=DivSufSort\_par\_ref};
-            \addplot coordinates { (1,0.0) (2,1677.72) (4,3355.45) (8,6710.9) (12,20132.7) (16,26843.6) };
+            \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) (12,18.75) (16,25) };
             \addlegendentry{algo=NaivParallel};
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="dna.txt" AND sacheck="ok"
             %% AND (algo="BPR" OR algo="BPR_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,60.706) (2,129.693) (4,265.296) (8,719.165) (12,1376.45) };
+            \addplot coordinates { (1,0.565245) (2,1.2152) (4,2.53825) (8,6.4462) (12,10.0274) (16,14.4375) };
             \addlegendentry{algo=BPR};
-            \addplot coordinates { (1,37.12) (2,101.594) (4,179.865) (8,382.303) };
+            \addplot coordinates { (1,0.617205) (2,1.37002) (4,2.99629) (8,7.45044) };
             \addlegendentry{algo=BPR\_ref};
 
             \legend{}
@@ -195,7 +195,7 @@
                 height=60mm,
                 title={commoncrawl.txt},
                 xlabel={num threads, input size [200\,MB]},
-                ylabel={SA construction time [s]},
+                ylabel={SA construction time [min]},
                 legend columns=2,
                 legend to name=legend-par-bpr-2,
                 legend style={
@@ -204,28 +204,28 @@
                 },
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
             %% AND (algo="BPR_par" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,28.288) (2,54.6272) (4,107.847) (8,227.02) (12,460.106) (16,632.826) };
+            \addplot coordinates { (1,0.469155) (2,0.910706) (4,1.81015) (8,3.76797) (12,7.48885) (16,11.141) };
             \addlegendentry{algo=BPR\_par};
-            \addplot coordinates { (1,26.2932) (2,49.1258) (4,94.7354) (8,191.633) };
+            \addplot coordinates { (1,0.438349) (2,0.817589) (4,1.57076) (8,3.18317) };
             \addlegendentry{algo=DivSufSort\_par\_ref};
-            \addplot coordinates { (1,428.21) (2,444.552) (4,528.09) (8,677.753) (12,823.829) (16,930.325) };
+            \addplot coordinates { (1,7.15567) (2,7.39145) (4,8.81336) (8,11.3875) (12,13.2541) (16,15.516) };
             \addlegendentry{algo=NaivParallel};
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
             %% AND (algo="BPR" OR algo="BPR_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,27.5662) (2,60.0913) (4,128.91) (8,279.593) (12,584.363) (16,838.533) };
+            \addplot coordinates { (1,0.459639) (2,0.999954) (4,2.14934) (8,4.66061) (12,9.59213) (16,13.9262) };
             \addlegendentry{algo=BPR};
-            \addplot coordinates { (1,29.4255) (2,71.3821) (4,137.941) (8,302.944) };
+            \addplot coordinates { (1,0.614869) (2,1.06332) (4,2.889) (8,5.03779) };
             \addlegendentry{algo=BPR\_ref};
 
         \end{axis}
@@ -241,31 +241,31 @@
                 height=60mm,
                 title={commoncrawl.txt},
                 xlabel={num threads, input size [200\,MB]},
-                ylabel={Extra Memory [MB]},
+                ylabel={Extra Memory [GiB]},
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
             %% AND (algo="BPR_par" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,1102.64) (2,1958.61) (4,3872.01) (8,7686.62) (12,21625) (16,28795) };
+            \addplot coordinates { (1,1.02691) (2,1.8241) (4,3.60609) (8,7.15872) (12,20.1398) (16,26.8174) };
             \addlegendentry{algo=BPR\_par};
-            \addplot coordinates { (1,0.26492) (2,0.265752) (4,0.267384) (8,0.270648) };
+            \addplot coordinates { (1,0.000246726) (2,0.000247501) (4,0.000249021) (8,0.000252061) };
             \addlegendentry{algo=DivSufSort\_par\_ref};
-            \addplot coordinates { (1,0.0) (2,1677.72) (4,3355.45) (8,6710.9) (12,20132.7) (16,26843.6) };
+            \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) (12,18.75) (16,25) };
             \addlegendentry{algo=NaivParallel};
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
             %% AND (algo="BPR" OR algo="BPR_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,27.5662) (2,60.0913) (4,128.91) (8,279.593) (12,584.363) (16,838.533) };
+            \addplot coordinates { (1,0.459639) (2,0.999954) (4,2.14934) (8,4.66061) (12,9.59213) (16,13.9262) };
             \addlegendentry{algo=BPR};
-            \addplot coordinates { (1,29.4255) (2,71.3821) (4,137.941) (8,302.944) };
+            \addplot coordinates { (1,0.614869) (2,1.06332) (4,2.889) (8,5.03779) };
             \addlegendentry{algo=BPR\_ref};
 
             \legend{}
