@@ -3,10 +3,11 @@
 
 Mit fortlaufendem Fortschritt in der Entwicklung von General-Purpose-GPUs (GPGPUs), insbesondere innerhalb der letzten Jahre, wurde der Gebrauch von Grafikkarten als Koprozessor für grafikunabhängige Algorithmen immer populärer. Dabei ermöglicht die Bauweise der Grafikprozessoren eine hohe Parallelität und beschleunigt die Berechnungen enorm. Entwicklungsumgebungen wie das NVIDIA CUDA Toolkit werden fortlaufend weiterentwickelt und integrieren vor allem für allgemeine GPU-Berechnungen immer mehr Möglichkeiten. Zusätzlich bieten Libraries wie \textit{Thrust} und \textit{CUB} bereits eine Unterstützung allgemeiner Algorithmen auf der Grafikkarte wie Radixsort oder Präfixsummen an.
 
-Auch im Bereich der Suffix-Array-Konstruktionsalgorithmen entstanden für dieses Rechenmodell bereits Ansätze. Dazu gehört unter anderem der Prefix-Doubling Ansatz von Osipov \cite{osipovGPU}, der Skew Ansatz von Deo und Keely \cite{deoGPU} und ein Hybrid beider Varianten von Wang, Baxter und Owens \cite{wangGPU}. Im Rahmen unserer Projektgruppe haben wir uns auf ersteren fokussiert und diesen innerhalb des Frameworks implementiert und evaluiert.\\
-In diesem Kapitel werden wir dazu zunächst den sequentiellen Algorithmus von Osipov vorstellen und an einem Beispiel erläutern, bevor wir auf die Ideen der Parallelisierung und deren Implementierungen, speziell im Bezug auf die GPU, eingehen.
-\subsection{Algorithmus}
+Auch im Bereich der Suffix-Array-Konstruktionsalgorithmen entstanden für dieses Rechenmodell bereits Ansätze. Dazu gehört unter anderem der Prefix-Doubling Ansatz von Osipov \cite{osipovGPU}, der Skew Ansatz von Deo und Keely \cite{deoGPU} und ein Hybrid beider Varianten von Wang, Baxter und Owens \cite{wangGPU}. Im Rahmen unserer Projektgruppe haben wir uns auf ersteren fokussiert und diesen innerhalb des Frameworks implementiert und evaluiert.
 
+In diesem Kapitel werden wir dazu zunächst den sequentiellen Algorithmus von Osipov vorstellen und an einem Beispiel erläutern, bevor wir auf die Ideen der Parallelisierung und deren Implementierungen, speziell im Bezug auf die GPU, eingehen.
+
+\subsection{Algorithmus}
 Die Idee des Algorithmus von Osipov basiert sowohl auf den Prefix-Doublern von Larson und Sadakane \cite{saca:1}, als auch von Manber und Myers \cite{Manber1993}. In Bezug auf Parallelität hat Ersterer das Problem, dass die zu sortierenden Gruppen innerhalb einer Iteration unterschiedliche Längen haben können, wodurch unbalancierte Workloads entstehen. Der Algorithmus von Manber und Myers dagegen hat dieses Problem zwar nicht, sortiert dafür aber bereits fertig sortierte Suffixe erneut. Die Idee ist es nun, beide Ansätze zu kombinieren, also global zu sortieren, allerdings nur mit den Suffixen, die noch nicht fertig sortiert wurden oder für die Sortierung noch benötigt werden. Dabei soll folgendes Lemma helfen:
 \begin{lemma}\label{lem:sort-gruppe}
 Falls in der i-ten Iteration des Manber-Myers Algorithmus gilt, dass
@@ -232,36 +233,36 @@ Für die Parallelisierung wird sowohl auf der CPU, als auch auf der GPU ein zus�
 
 
 \subsubsection{Sortierte Gruppen markieren}
-Für die Markierung von sortierten Gruppen müssen wir ein Suffix sowohl mit seinem Vorgänger, als auch mit seinem Nachfolger vergleichen. Dafür setzen wir in einem ersten Durchlauf für jeden Index im Hilfsarray $\mathsf{aux}$ eine 1, wenn sich der Rang zum Rang des Vorgängers unterscheidet. Da der erste Index keinen Vorgänger besitzt, setzen wir für diesen immer eine 1. Im zweiten Durchlauf können wir den Wert in $\mathsf{aux}$ für Suffix $j$ mit dem Wert seines Nachfolgers in $\mathsf{SA}$ $j+1$ abgleichen. Unterscheiden sich diese beiden Werte, so negieren wir den Rang des Suffixes $j$. Für den letzten Suffix müssen wir nur den Wert in $\mathsf{aux}$ betrachten, da dieser keinen Nachfolger besitzt.
+Für die Markierung von sortierten Gruppen müssen wir ein Suffix sowohl mit seinem Vorgänger, als auch mit seinem Nachfolger vergleichen. Dafür setzen wir in einem ersten Durchlauf für jeden Index im Hilfsarray $\mathsf{aux}$ eine 1, wenn sich der Rang zum Rang des Vorgängers unterscheidet. Da der erste Index keinen Vorgänger besitzt, setzen wir für diesen immer eine 1. Im zweiten Durchlauf können wir den Wert in $\mathsf{aux}$ für Suffix $j$ mit dem Wert seines Nachfolgers in $\mathsf{SA}$ $j+1$ abgleichen. Unterscheiden sich diese beiden Werte, so negieren wir den Rang des Suffixes $j$. Für den letzten Suffix müssen wir nur den Wert in $\mathsf{aux}$ betrachten, da dieser keinen Nachfolger besitzt. Ein Beispiel dafür zeigt Abb. \ref{osipov:mark}.
 Die Operationen beider Durchläufe können parallel ausgeführt werden, weshalb wir diese beiden Durchläufe naiv auf zwei eigenständige Kernel-Methode ausgelagert haben.
 \begin{center}
 \begin{figure}
 \includegraphics[scale=1]{kapitel/saca_algorithmen/osipov/mark_singletons_example.pdf}
 \caption{Beispiel zur parallelen Markierung von sortierten Gruppen. Wie beschrieben, werden zunächst die Indizes ermittelt, deren Rang sich von dem des Vorgängers unterscheidet. Unterscheidet dieser sich zudem noch vom Nachfolger, handelt es sich um eine fertig sortierte Gruppe.}
+\label{osipov:mark}
 \end{figure}
 
 \end{center}
 \subsubsection{Tupel erzeugen}
 Die Erzeugung der Tupel wird in drei Schritte aufgeteilt: Zunächst prüfen wir, für welche Indizes Tupel erstellt werden müssen. Dafür schreiben wir in unser Hilfsarray $\mathsf{aux}$ an Stelle $j$ die Anzahl der erzeugten Tupel, wobei bis zu zwei Tupel (induzierter Suffix, Suffix an Stelle $j$) erzeugt werden können. Wurde $\mathsf{aux}$ komplett befüllt, berechnen wir die exklusive Präfixsumme über alle betrachteten Suffixe dieser Iteration. Der neue Wert in $\mathsf{aux}$ gibt nun an, an welcher Stelle wir die durch Suffix $j$ generierten Tupel einfügen. Im letzten Schritt können wir die Tupel parallel erzeugen und an die entsprechende Position einfügen. 
-Für die Tupel verwalten wir zur einfacheren Nutzung drei Arrays: eines für den Index, eines für den $h$-Rang und das dritte Array für den $2h$-Rang. Um die Anzahl der erzeugten Tupel zu bestimmen, benötigen wir den letzten Index in $\mathsf{aux}$. Da die Anzahl der durch den letzten Suffix erzeugten Tupel durch die Präfixsummenoperation überschrieben wird, berechnet sich die Gesamtzahl der Tupel aus dem Wert des letzten Indizes vor der Präfixsumme und dem Wert nach der Präfixsumme.
+Für die Tupel verwalten wir zur einfacheren Nutzung drei Arrays: eines für den Index, eines für den $h$-Rang und das dritte Array für den $2h$-Rang. Um die Anzahl der erzeugten Tupel zu bestimmen, benötigen wir den letzten Index in $\mathsf{aux}$. Da die Anzahl der durch den letzten Suffix erzeugten Tupel durch die Präfixsummenoperation überschrieben wird, berechnet sich die Gesamtzahl der Tupel aus dem Wert des letzten Indizes vor der Präfixsumme und dem Wert nach der Präfixsumme. Ein Beispiel hierfür ist in Abb. \ref{osipov:create} abgebildet.
 
 Da wir für den leichteren Zugriff auf die Ränge $h$- und $2h$-Ränge separat speichern, müssten wir ein Value-Paar aus Index und $2h$-Rang für alle Tupel generieren, um den Radixsort der CUB-Library nutzen zu können, welcher nur Key-Value-Paare (und einzelne Werte) sortieren kann. Wir haben uns stattdessen dafür entschieden, die $2h$-Ränge erst nach dem Radixsort in sortierter Reihenfolge zu erzeugen, da diese Ränge erst für das Aktualisieren der Ränge benötigt werden. Wir haben für das Befüllen des Hilfsarrays und für die Erzeugung der Tupel nach der Präfixsumme zwei unabhängige Kernel-Methoden geschrieben, da die Präfixsumme einen eigenen Kernel innerhalb der CUB-Library darstellt und der Aufruf von Kernel-Methoden nur durch Host-Methoden (von der CPU aus) möglich ist. 
 \begin{center}
 \begin{figure}
 \includegraphics[scale=1]{kapitel/saca_algorithmen/osipov/create_tuple_example.pdf}
 \caption{Beispiel zur parallelen Erzeugung der zu sortierenden Tupel. Zunächst werden dazu mit Hilfe des $\mathsf{aux}$-Arrays die richtigen Position für die Tupel ermittelt und diese dann von den Threads an die jeweiligen Stellen in der Tupelliste geschrieben.}
+\label{osipov:create}
 \end{figure}
 
 \end{center}
 \subsubsection{Ränge aktualisieren}
-Um die Aktualisierung der Ränge anhand der neuen Sortierung zu parallelisieren, gehen wir wie folgt vor:
-Zunächst ermitteln wir die Position der Tupel, an denen eine neue $h$-Gruppe beginnt. Dafür überprüfen wir für jedes Element in der sortierten Tupelliste, ob sich der Rang von dem seines Vorgängers unterscheidet. Ist dies der Fall, schreiben wir an der korrespondierenden Stelle im $\mathsf{aux}$ den Index des Suffixes, andernfalls eine 0. Haben wir alle Tupel überprüft, berechnen wir auf dem $\mathsf{aux}$ einen Prefixscan mit Maximums-Operator. Anschließend haben wir in diesem dann zu jedem Suffix die Anfangsposition der neuen $h$-Gruppe eingetragen. 
-Anschließend prüfen wir mit den selben Bedingungen wie in der sequentiellen Variante (s. Algorithmus $\ref{alg:osipov}$ Z.19 und 22), ob ein Tupel jetzt Kopf einer neuen 2$h$-Gruppe ist. Ist dies der Fall, überschreiben wir den entsprechenden Wert in $\mathsf{aux}$ mit der Differenz aus der Position des Tupels in der Liste und dem aktuellen Wert in $\mathsf{aux}$ addiert mit dem alten $h$-rank, der sich aus dem Tupel entnehmen lässt. Schließlich berechnen wir erneut auf dem $\mathsf{aux}$ einen Prefixscan mit Maximums-Operator, erhalten dadurch die neuen $2h$-Ränge und können diese dann ins $\mathsf{ISA}$ übernehmen.
-In unserer Implementierung nutzen wir zum befüllen des $\mathsf{aux}$ in beiden Fällen selbst implementierte Kernel Methoden, welche die vorher sortierte Liste der Tupel scannen. Für die Prefixscans nutzen wir dagegen, wie bereits bei der Tupelerzeugung, die in der CUB-Library implementierte Variante.
-\begin{center}
 \begin{figure}
 \includegraphics[scale=0.9]{kapitel/saca_algorithmen/osipov/update_ranks_example.pdf}
 \caption{Beispiel zur Berechnung der neuen Ränge im Parallelen. Dazu werden, wie beschrieben, die Positionen der Gruppenköpfe im $\mathsf{aux}$ berechnet, um anschließend ins $\mathsf{ISA}$ übertragen zu werden.}
+\label{osipov:update}
 \end{figure}
-
-\end{center}
+Um die Aktualisierung der Ränge anhand der neuen Sortierung zu parallelisieren, gehen wir wie folgt vor:
+Zunächst ermitteln wir die Position der Tupel, an denen eine neue $h$-Gruppe beginnt. Dafür überprüfen wir für jedes Element in der sortierten Tupelliste, ob sich der Rang von dem seines Vorgängers unterscheidet. Ist dies der Fall, schreiben wir an der korrespondierenden Stelle im $\mathsf{aux}$ den Index des Suffixes, andernfalls eine 0. Haben wir alle Tupel überprüft, berechnen wir auf dem $\mathsf{aux}$ einen Prefixscan mit Maximums-Operator. Anschließend haben wir in diesem dann zu jedem Suffix die Anfangsposition der neuen $h$-Gruppe eingetragen. 
+Anschließend prüfen wir mit den selben Bedingungen wie in der sequentiellen Variante (s. Algorithmus $\ref{alg:osipov}$ Z.19 und 22), ob ein Tupel jetzt Kopf einer neuen 2$h$-Gruppe ist. Ist dies der Fall, überschreiben wir den entsprechenden Wert in $\mathsf{aux}$ mit der Differenz aus der Position des Tupels in der Liste und dem aktuellen Wert in $\mathsf{aux}$ addiert mit dem alten $h$-rank, der sich aus dem Tupel entnehmen lässt. Schließlich berechnen wir erneut auf dem $\mathsf{aux}$ einen Prefixscan mit Maximums-Operator, erhalten dadurch die neuen $2h$-Ränge und können diese dann ins $\mathsf{ISA}$ übernehmen. Ein Beispiel für dieses Vorgehen, zeigt Abb. \ref{osipov:update}.
+In unserer Implementierung nutzen wir zum befüllen des $\mathsf{aux}$ in beiden Fällen selbst implementierte Kernel Methoden, welche die vorher sortierte Liste der Tupel scannen. Für die Prefixscans nutzen wir dagegen, wie bereits bei der Tupelerzeugung, die in der CUB-Library implementierte Variante.
