@@ -1,9 +1,9 @@
 \subsection{Sortierer}
-Ein \currentauthor{Marvin Böcker} prinzipiell einfacher Ansatz, um das SA zu konstruieren,
+Ein \currentauthor{Marvin Böcker} prinzipiell einfacher Ansatz, um \sa zu konstruieren,
 ist selbstverständlich das Sortieren von Suffixen mittels einem allgemeinen Sortieralgorithmus,
 beispielsweise mit Quicksort oder Radixsort.
 
-Für die Verwendung eines Sortieralgorithmus, um das SA direkt zu konstruieren,
+Für die Verwendung eines Sortieralgorithmus, um \sa direkt zu konstruieren,
 muss eine passende Vergleichsfunktion benutzt werden:
 Nehmen wir an, die Menge die sortiert werden soll, ist bereits ein Array von disjunkten Suffix-Indizes
 \footnote{Dies kann zu Beginn sichergestellt werden, indem das
@@ -25,7 +25,7 @@ def compare(i, j):
 Es ist klar, dass mit einem $\mathcal O(n \log n)$-Sortieralgorithmus wie beispielsweise Merge- oder Introsort
 der gesamte SACA eine Worst-Case-Komplexität von\\ $\mathcal O(n^2 \log n)$ hat, da jeder Suffixvergleich
 eine Worst-Case-Laufzeit von $\mathcal O(n)$ hat.
-Zum Vergleich: Es gibt einige Linearzeitalgorithmen für die SA-Konstruktion, beispielsweise DC3~\cite{saca:9} oder SAIS~\cite{saca:6}.
+Zum Vergleich: Es gibt einige Linearzeitalgorithmen für die \sa-Konstruktion, beispielsweise DC3~\cite{saca:9} oder SAIS~\cite{saca:6}.
 
 Die alleinige Sortierung von ganzen Suffixen ist offensichtlich nicht effizient.
 Viele unserer implementierten Algorithmen verwenden allerdings zum Teil allgemeine Sortierverfahren,
