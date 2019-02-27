@@ -126,12 +126,13 @@ latexplot = true
 
 In order to compare different SACAs with each other, you can run a set of algorithms on a given input file.
 This is achieved by using the \termfont{sacabench batch} command.
+Most of the options available for the command \termfont{sacabench construct} are also valid for this command.
 By default all included algorithms are run, but you can either deselect certain
 algorithm with the \termfont{-{}-blacklist <saca name>} flag or run only certain
 algorithms by using the \termfont{-{}-whitelist <saca name>} command.
+These two options can also be added to the configuration file, as seen in the previous section.
 The selected algorithms are run sequentially on the input text and their memory consumption
 and construction times measured.
-Most of the options available for the command \termfont{sacabench construct} are also valid for this command.
 We also supply tools to convert the resulting JSON file into several types of plots, like bar plots, strong- and weak-scaling plots.
 These plots differ from the ones created by \termfont{sacabench construct}.
 They put the focus on comparing multiple algorithm against each other, instead of providing detailed information about the phases of the executed SACAs.
