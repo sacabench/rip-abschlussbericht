@@ -1,4 +1,5 @@
 \subsection{sacabench construct}
+\label{framework:cli:sacabench-construct}
 
 Mit dem Befehl \texttt{sacabench construct} kann ein ausgewählter Algorithmus ausgeführt werden. 
 \par
@@ -8,7 +9,7 @@ Hierfür kann ein Pfad zu einer Textdatei oder alternativ \termfont{-} für STDI
 \par
 Zusätzlich kann eine ganze Reihe von Optionen angegeben werden. 
 Wie auch bei anderen Subcommands zeigen \termfont{-h} und \termfont{-{}-help} die Hilfe an. 
-Die Option \termfont{-c} bzw. \termfont{-{}-check} wendet zusätzlich zu dem ausgewählten Algorithmus einen weiteren SACA auf die Eingabe an und überprüft, ob die beiden Ergebnisse gleich sind. 
+Die Option \termfont{-c} bzw. \termfont{-{}-check} überprüft, ob das erhaltene Suffix-Array korrekt ist. 
 Ist dies nicht der Fall, wird eine Fehlermeldung angezeigt. 
 Eine Alternative hierzu ist die Option \termfont{-q} oder \termfont{-{}-quick}, welche auch die Korrektheit überprüft, jedoch einen parallelen Algorithmus verwendet. 
 Wird die Option \termfont{-b} oder \termfont{-{}-benchmark} gefolgt von einem Pfad angegeben, wird an diesem Pfad eine JSON-Datei mit den gemessenen Zeiten und Speicherverbrauch angelegt. 
@@ -28,7 +29,7 @@ Die erste Zahl der Ausgabe gibt die genaue Anzahl der Stellen an.
 Ist eine feste Anzahl an Bits gewünscht, kann diese mit der Option \termfont{-F} bzw. \termfont{-{}-fixed} angegeben werden.
 Alternativ kann das Framework das Suffixarray als JSON-Array ausgeben, was zu Debugging-Zwecken besonders hilfreich ist.. 
 Dies ist mit der Option \termfont{-J} oder \termfont{-{}-json} möglich.
-Eine weitere Option, welche dem Subcommand \texttt{sacabench construct} übergeben werden kann, ist \termfont{-m} oder \termfont{-{}-minimum\_sa\_bits} gefolgt von einem UINT Wert. 
+Eine weitere Option, welche dem Subcommand \texttt{sacabench construct} übergeben werden kann, ist \termfont{-m} oder \termfont{-{}-minimum\_sa\_bits} gefolgt von einem unsigned Integer. 
 Dieser Parameter bestimmt die Anzahl der Bits, die für die Datenstrukturen während der Berechnung genutzt werden.
 Durch \termfont{-s} oder \termfont{-{}-sysinfo} werden Information über das System, welches das Benchmarktool ausführt, in die Ergebnisdatei mit aufgenommen.\par
 Anstatt eine Auswahl der genannten Optionen einzeln anzugeben, kann auch eine Konfigurationsdatei eingelesen werden, welche Werte für die zu benutzenden Optionen angibt.
