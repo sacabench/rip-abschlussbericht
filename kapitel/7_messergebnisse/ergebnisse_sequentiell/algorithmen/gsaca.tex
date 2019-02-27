@@ -202,3 +202,11 @@
     \ref{legend-seq-gsaca-2}
 \end{figure}
 \FloatBarrier
+
+Die Diagramme stellen den Suffix-Array-Konstruktionsalgorithmus GSACA der Referenzimplementierung und dem naiven SACA gegebnüber.
+Wie zu sehe ist, sind GSACA und die Referenzimplementierung bei allen drei Eingabetexten schneller als der naive Algorihtmus,
+haben jedoch auch einen höheren Speicherbedarf.
+Dieser ist bei GSACA wiederum größer als bei der Referenzimplementierung.
+Die alternative Variante von GSACA, welche in Abschnitt \ref{gsaca:chapter7} beschrieben wurde, ist hingegen in keinem der Diagrammen aufgeführt.
+Dies liegt an der verlängerten Laufzeit, welche durch den zusätzlichen Aufwand in der Berechnung der Werte von GSIZE entsteht.
+Hierdurch schaffte es diese Variante nicht, in der vorgegebenen maximalen Zeit das Suffix-Array zu berechnen.
