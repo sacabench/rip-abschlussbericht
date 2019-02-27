@@ -277,3 +277,5 @@
     \ref{legend-par-sais-2}
 \end{figure}
 \FloatBarrier
+\currentauthor{Christopher Poeplau}
+\noindent Der PARALLEL\_SAIS skaliert auf allen Texten gut im Verhältnis zur Textgröße und Threadanzahl. Dabei ist er immer schlechter als der DivSufSort\_par\_ref, aber in zwei von drei Fällen besser als der naive Algorithmus, der dafür aber nahezu perfekt skaliert. Aus Zeitgründen konnte das Verhalten des PARALLEL\_SAIS bei der Ausführung auf mehr als acht Kernen nicht weiter analysiert werden. Dort kommt es zu Fehlern und der Algorithmus schafft es nicht, das Suffix-Array zu berechnen. Auch anzumerken ist, dass der parallele Algorithmus immer besser als sein sequentielles Gegenstück ist. Das bedeutet, dass die vorgenommenen Parallelisierungen erfolgreich waren, was auch der guten Skalierung zu entnehmen ist.

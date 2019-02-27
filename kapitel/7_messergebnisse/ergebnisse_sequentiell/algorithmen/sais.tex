@@ -238,3 +238,5 @@
     \ref{legend-seq-sais-2}
 \end{figure}
 \FloatBarrier
+\currentauthor{Christopher Poeplau}
+\noindent Bei allen Laufzeiten fällt auf, dass das Laufzeitverhalten des SAIS-LITE\_ref mit Abstand am besten ist. Grund dafür sind die Optimierungstechniken auf Bit-Ebene, die Yuta Mori bei seiner Implementierung verwendet. Gleichzeitig ist der naive Algorithmus auf allen Texten schlechter als die Referenz- und Eigenimplementierungen. Außerdem bestätigt sich die Beobachtung der Autoren, dass der SADS grundsätzlich schlechter als der SAIS ist. Da die Referenzalgorithmen auf 32 Bit-Typen basieren, schaffen diese nicht das Berechnen der Suffix-Arrays für eine Dateigröße bis zu 4 GB. Beim Extraspeicher ist die Abhängigkeit der Textgröße leicht zu sehen, da für jedes Zeichen der Typ in ein eigenes Bit-Array gespeichert wird und der Tradeoff des SAIS-LITE\_ref wird deutlich, da die deutlich verbesserte Laufzeit dafür sorgt, dass der Extraspeicher der höchste aller verglichenen Algorithmen ist.
