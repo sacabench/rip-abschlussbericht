@@ -59,15 +59,23 @@ in order to measure and compare them fairly.
 
 \subsection{Running a single algorithm}
 
-You can evaluate a single algorithm with the command \termfont{sacabench construct},
-which will run the specified algorithm on the given input file.
+You can evaluate a single algorithm with the command \termfont{sacabench construct} followed by the desired SACA and a path to an input file.
+To get a list of all available Algorithms, you can execute the command \termfont{sacabench list}.
+This will output the names for all available SACAs.
 While the algorithm is running, its memory consumption is measured via the tudostat library\todo{Ist das relevant?}.
 You can also enable checking of the resulting suffix array with a fast suffix array checker~\cite{saca:11} by
-using the \termfont{-c} or \termfont{-q} flag.
-
-After the algorithm is finished, you will find a JSON file containing detailed information about
-the run of the SACA, seperated into SACA-specific phases.
-This file can be converted to a plot on the tudostat website (see Figure \ref{tudostat_phases} as an example).
+using the \termfont{-c} or a parrallel version with the \termfont{-q} flag.
+To generate a JSON file containing detailed information about the run of the selected Algorithm separated into SACA-specific phases,
+the flag \termfont{-b} needs to be added to the command, followed by a destination path to which the report will be saved to.
+This file can be converted to a plot on the tudostat website (see Figure \ref{tudostat_phases} as an example)\todo{Welche Abbildung ist hier gemeint?}.
+If you add the flag \termfont{-{}-rplot}, a plot will be generated automatically after the SACA executed by using a R-script.
+Additionally there is an alternative version of plots, which are generated using LaTex.
+This can be done by adding the flag \termfont{-{}-latexplot}.
+Multiple other flags and options allow to customize the way, the SACA is executed.
+For example it is possible to use a prefix of the given input string. 
+This enables you to use one big input file for tests with a variety of input sizes.
+Also it is possibile to execute the selected SACA multiple times on the same input and to combine the results.
+These and many more options are listed by the tool together with an explanation by adding \termfont{-h} to any subcommand.
 
 \subsection{Comparing multiple algorithms}
 
