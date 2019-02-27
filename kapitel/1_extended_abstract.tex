@@ -67,15 +67,60 @@ You can also enable checking of the resulting suffix array with a fast suffix ar
 using the \termfont{-c} or a parrallel version with the \termfont{-q} flag.
 To generate a JSON file containing detailed information about the run of the selected Algorithm separated into SACA-specific phases,
 the flag \termfont{-b} needs to be added to the command, followed by a destination path to which the report will be saved to.
+To override an existing file at the destination path, the option \termfont{-f} can be used.
 This file can be converted to a plot on the tudostat website (see Figure \ref{tudostat_phases} as an example)\todo{Welche Abbildung ist hier gemeint?}.
 If you add the flag \termfont{-{}-rplot}, a plot will be generated automatically after the SACA executed by using a R-script.
 Additionally there is an alternative version of plots, which are generated using LaTex.
 This can be done by adding the flag \termfont{-{}-latexplot}.
 Multiple other flags and options allow to customize the way, the SACA is executed.
-For example it is possible to use a prefix of the given input string. 
+For example it is possible to use a prefix of the given input string by adding \termfont{-p} together with the desired prefix size. 
 This enables you to use one big input file for tests with a variety of input sizes.
 Also it is possibile to execute the selected SACA multiple times on the same input and to combine the results.
+This can be done by using the flag \termfont{-r} followed by the number of executions.
 These and many more options are listed by the tool together with an explanation by adding \termfont{-h} to any subcommand.
+An example would be:
+
+\termfont{sacabench/sacabench construct -c -b /destination/path/to/result.json -f -p 1K -r 2 -{}-rplot -{}-latexplot BPR /path/to/input}
+
+This command executes the SACA BPR two times on a prefix of the input file of 1 KB, 
+uses the checker to validate the result and writes the resulting JSON file to the given path.
+If there is already a file, it would be replaced by the new file.
+After the SACA finished, plots are generated with both possible options.
+To reduce the number of options, you can define them in a config file in INI format.
+This configuration can be used by adding the flag \termfont{-{}-config} together with the path to the file.
+An example of such a configuration can be seen in \ref{sacabench-construct:config:engl}.
+Using the shown file, the command 
+
+\termfont{sacabench/sacabench construct -{}-config /path/to/config BPR /path/to/input}
+
+is the same as the previous command.
+
+\begin{figure}[!h]
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+fontsize=\footnotesize,
+linenos,
+numbersep=-4mm,
+breaklines,
+escapeinside=@@,
+frame=single,
+framesep=14pt
+]
+{text}
+check = true
+benchmark = /destination/path/to/result.json
+force = true
+prefix = 1K
+repetitions = 2
+rplot = true
+latexplot = true
+\end{minted}
+\caption{Example for a config file for command \texttt{sacabench construct}}
+\label{sacabench-construct:config:engl}
+\end{figure}
 
 \subsection{Comparing multiple algorithms}
 
