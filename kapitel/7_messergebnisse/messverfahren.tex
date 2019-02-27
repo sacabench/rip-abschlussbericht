@@ -4,4 +4,4 @@ Wir messen die Performance der Algorithmen wie folgt: Sei $k$ eine Prefixlänge 
 
 %Run ['../build/sacabench/sacabench', 'batch', '--check', '--force', '--prefix', '10M', '--benchmark', 'measures/pcr_tm29.json', '--blacklist', 'Naiv', '--blacklist', 'Doubling', '../external/datasets/downloads/pcr_tm29']
 
-Dieses Verfahren ist in dem Python Skript \texttt{zbmessung/benchmark.py} implementiert, und die Messung erfolgte für $k$ = 200MiB und $r = 3$. Da $k$ kleiner als 4GiB ist, wird die Länge des internen \texttt{sa\_index} Types automatisch auf 32Bit gesetzt, womit der Speicherverbrauch jedes Algorithmus bei mindesten 1000MiB liegt (1 Byte Text + 4 Byte Suffix Array).
+Dieses Verfahren ist in dem Python Skript \texttt{zbmessung/benchmark.py} implementiert, und die Messung erfolgte für $k$ = 200\,MiB\todo{Wir haben inzwischen verschiedene Größen} und $r = 3$\todo{Aktuell nur eine Wiederholung, oder?}. Da $k$ kleiner als 4\,GiB ist, wird die Länge des internen \texttt{sa\_index} Types automatisch auf 32\,Bit gesetzt, womit der Speicherverbrauch jedes Algorithmus bei mindestens 1000\,MiB liegt (1\,Byte Text + 4\,Byte Suffix Array).

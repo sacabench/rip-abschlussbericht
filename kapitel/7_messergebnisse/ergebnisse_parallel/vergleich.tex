@@ -1,9 +1,7 @@
-\clearpage
-\subsubsection{mSufSort}
+\subsection{Vergleich der parallelen CPU-Implementierungen}
 
 \textbf{Configuration} \hfill Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
-% IMPORT-DATA stats_parallel ../result_weakscale.txt
-% IMPORT-DATA stats_sequential ../../ergebnisse_sequentiell/results.txt
+% IMPORT-DATA stats_parallel result_weakscale.txt
 
 \begin{figure}[ht]
     \centering
@@ -12,12 +10,12 @@
                 name=axis1,
                 cycle list name={exoticlines},
                 width=\textwidth,
-                height=50mm,
+                height=60mm,
                 title={wiki.txt},
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={SA construction time [min]},
                 legend columns=2,
-                legend to name=legend-par-msufsort-0,
+                legend to name=legend-par-all-0,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
@@ -28,34 +26,33 @@
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="wiki.txt" AND sacheck="ok"
-            %% AND (algo="mSufSortV2_par" OR algo="mSufSort_par" OR algo="mSufSort_scan_par" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
+            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V1" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS" OR algo="mSufSortV2_par" OR algo="mSufSort_par" or algo="mSufSort_scan_par")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,0.474964) (2,0.890462) (4,1.72981) (8,3.69632) };
-            \addlegendentry{algo=DivSufSort\_par\_ref};
+            \addplot coordinates { (1,0.543257) (2,1.04248) (4,2.69455) (8,5.00914) (12,8.55647) (16,12.5204) };
+            \addlegendentry{algo=BPR\_par};
+            \addplot coordinates { (1,3.58176) (2,4.88889) (4,6.04923) (8,8.31838) };
+            \addlegendentry{algo=DC3-Parallel-V1};
+            \addplot coordinates { (1,3.09365) (2,4.11916) (4,5.55123) (8,7.75629) };
+            \addlegendentry{algo=DC3-Parallel-V2};
+            \addplot coordinates { (1,1.41234) (2,1.79674) (4,2.28839) (8,3.29598) (12,4.53346) (16,5.42954) (20,6.48599) };
+            \addlegendentry{algo=Deep-Shallow\_par};
+            \addplot coordinates { (1,3.20359) (2,3.69207) (4,4.44643) (8,5.90081) };
+            \addlegendentry{algo=Discarding2Parallel};
+            \addplot coordinates { (1,2.32532) (2,2.82934) (4,3.37798) (8,4.41391) };
+            \addlegendentry{algo=Discarding4Parallel};
             \addplot coordinates { (1,2.71662) (2,3.54087) (4,4.03271) (8,4.7199) (12,5.55871) (16,5.86449) };
             \addlegendentry{algo=NaivParallel};
+            \addplot coordinates { (1,1.07199) (2,2.15225) (4,4.661) (8,10.5053) };
+            \addlegendentry{algo=PARALLEL\_SAIS};
             \addplot coordinates { (1,1.98371) (2,5.60486) (4,13.5215) (8,33.4922) (12,64.5704) (16,98.4107) };
             \addlegendentry{algo=mSufSortV2\_par};
             \addplot coordinates { (1,1.97471) (2,5.6086) (4,11.604) (8,30.8966) (16,96.6604) };
             \addlegendentry{algo=mSufSort\_par};
             \addplot coordinates { (1,1.34111) (2,2.82877) (4,6.07217) (12,24.9377) };
             \addlegendentry{algo=mSufSort\_scan\_par};
-
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
-            %% FROM (
-            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="wiki.txt" AND sacheck="ok"
-            %% AND (algo="mSufSort_ref" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2")
-            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,1.95084) (2,4.27795) (4,9.51012) (8,21.9919) (12,43.3486) (16,86.51) (20,82.9172) };
-            \addlegendentry{algo=mSufSort};
-            \addplot coordinates { (1,1.94875) (2,4.30847) (4,9.63943) (8,22.0164) (12,62.3474) (16,86.5071) (20,83.5823) };
-            \addlegendentry{algo=mSufSortV2};
-            \addplot coordinates { (1,1.55435) (2,3.31015) (4,7.13482) (8,16.0261) (12,29.481) (16,40.4728) (20,58.5878) };
-            \addlegendentry{algo=mSufSort\_scan};
         \end{axis}
     \end{tikzpicture}
-    \par\smallskip
+    \par\bigskip
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[
                 cycle list name={exoticlines},
@@ -63,7 +60,7 @@
                 anchor=outer north west,
                 name=axis2,
                 width=\textwidth,
-                height=50mm,
+                height=60mm,
                 title={wiki.txt},
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={Extra Memory [GiB]},
@@ -73,12 +70,24 @@
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="wiki.txt" AND sacheck="ok"
-            %% AND (algo="mSufSortV2_par" OR algo="mSufSort_par" OR algo="mSufSort_scan_par" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
+            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V1" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS" OR algo="mSufSortV2_par" OR algo="mSufSort_par" or algo="mSufSort_scan_par")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,0.000246726) (2,0.000247501) (4,0.000249021) (8,0.000252061) };
-            \addlegendentry{algo=DivSufSort\_par\_ref};
+            \addplot coordinates { (1,0.951951) (2,1.7332) (4,3.4355) (8,6.83651) (12,19.647) (16,26.173) };
+            \addlegendentry{algo=BPR\_par};
+            \addplot coordinates { (1,4.16667) (2,8.33334) (4,16.6667) (8,33.3334) };
+            \addlegendentry{algo=DC3-Parallel-V1};
+            \addplot coordinates { (1,3.10468) (2,8.33334) (4,16.6667) (8,31.9445) };
+            \addlegendentry{algo=DC3-Parallel-V2};
+            \addplot coordinates { (1,0.00319003) (2,0.00532148) (4,0.00959451) (8,0.0183557) (12,0.0497788) (16,0.0630637) (20,0.0779177) };
+            \addlegendentry{algo=Deep-Shallow\_par};
+            \addplot coordinates { (1,2.34575) (2,4.69158) (4,9.38307) (8,18.766) };
+            \addlegendentry{algo=Discarding2Parallel};
+            \addplot coordinates { (1,3.90825) (2,7.81659) (4,15.6331) (8,31.2661) };
+            \addlegendentry{algo=Discarding4Parallel};
             \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) (12,18.75) (16,25) };
             \addlegendentry{algo=NaivParallel};
+            \addplot coordinates { (1,0.416671) (2,0.524891) (4,0.731684) (8,1.10245) };
+            \addlegendentry{algo=PARALLEL\_SAIS};
             \addplot coordinates { (1,0.217553) (2,0.434904) (4,0.870264) (8,1.76878) (12,6.40874) (16,7.18941) };
             \addlegendentry{algo=mSufSortV2\_par};
             \addplot coordinates { (1,0.217552) (2,0.434841) (4,0.87037) (8,1.77134) (16,7.21053) };
@@ -86,25 +95,13 @@
             \addplot coordinates { (1,0.0237676) (2,0.0470074) (4,0.0930848) (12,0.568154) };
             \addlegendentry{algo=mSufSort\_scan\_par};
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
-            %% FROM (
-            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="wiki.txt" AND sacheck="ok"
-            %% AND (algo="mSufSort_ref" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2")
-            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,0.217544) (2,0.434778) (4,0.87032) (8,1.75387) (12,6.3341) (16,7.10395) (20,7.86432) };
-            \addlegendentry{algo=mSufSort};
-            \addplot coordinates { (1,0.217544) (2,0.434779) (4,0.870323) (8,1.75388) (12,6.33412) (16,7.10398) (20,7.86435) };
-            \addlegendentry{algo=mSufSortV2};
-            \addplot coordinates { (1,0.0237676) (2,0.0472056) (4,0.0940837) (8,0.187833) (12,0.750667) (16,0.750667) (20,0.750676) };
-            \addlegendentry{algo=mSufSort\_scan};
-
             \legend{}
         \end{axis}
     \end{tikzpicture}
 
     \medskip
-    \ref{legend-par-msufsort-0}
+    \ref{legend-par-all-0}
+    \caption{Vergleich der parallelen Implementierungen mit Laufzeit und Speicherbedarf auf wiki.txt}
 \end{figure}
 
 \begin{figure}[ht]
@@ -114,12 +111,12 @@
                 name=axis1,
                 cycle list name={exoticlines},
                 width=\textwidth,
-                height=50mm,
+                height=60mm,
                 title={dna.txt},
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={SA construction time [min]},
                 legend columns=2,
-                legend to name=legend-par-msufsort-1,
+                legend to name=legend-par-all-1,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
@@ -130,12 +127,24 @@
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="dna.txt" AND sacheck="ok"
-            %% AND (algo="mSufSortV2_par" OR algo="mSufSort_par" OR algo="mSufSort_scan_par" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
+            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V1" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS" OR algo="mSufSortV2_par" OR algo="mSufSort_par" or algo="mSufSort_scan_par")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,0.516853) (2,1.01441) (4,2.06209) (8,4.53356) };
-            \addlegendentry{algo=DivSufSort\_par\_ref};
+            \addplot coordinates { (1,0.569637) (2,1.09372) (4,2.16083) (8,4.4065) (12,8.71249) (16,11.9082) };
+            \addlegendentry{algo=BPR\_par};
+            \addplot coordinates { (1,3.41659) (2,4.59337) (4,5.73644) (8,7.96244) };
+            \addlegendentry{algo=DC3-Parallel-V1};
+            \addplot coordinates { (1,3.02187) (2,3.97795) (4,5.28252) (8,7.08082) };
+            \addlegendentry{algo=DC3-Parallel-V2};
+            \addplot coordinates { (1,1.84653) (2,2.47075) (4,3.2711) (8,4.23853) (12,5.92934) (16,9.05611) (20,10.8896) };
+            \addlegendentry{algo=Deep-Shallow\_par};
+            \addplot coordinates { (1,3.2561) (2,3.83204) (4,4.51572) (8,5.42115) };
+            \addlegendentry{algo=Discarding2Parallel};
+            \addplot coordinates { (1,2.50936) (2,3.04948) (4,3.62786) (8,4.52356) };
+            \addlegendentry{algo=Discarding4Parallel};
             \addplot coordinates { (1,3.06848) (2,4.3148) (4,4.73058) (8,5.05918) (12,5.68415) (16,5.68597) };
             \addlegendentry{algo=NaivParallel};
+            \addplot coordinates { (1,1.11013) (2,2.02917) (4,4.40177) (8,9.565) };
+            \addlegendentry{algo=PARALLEL\_SAIS};
             \addplot coordinates { (1,2.85022) (2,5.79023) (4,12.3135) (8,31.7172) (12,61.7462) (16,82.6478) };
             \addlegendentry{algo=mSufSortV2\_par};
             \addplot coordinates { (1,2.3719) (2,5.82869) (4,13.4503) (8,28.3674) (12,61.9608) };
@@ -143,22 +152,9 @@
             \addplot coordinates { (1,1.28145) (2,2.71396) (4,5.78647) (8,12.6513) (12,22.8216) (20,53.0863) };
             \addlegendentry{algo=mSufSort\_scan\_par};
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
-            %% FROM (
-            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="dna.txt" AND sacheck="ok"
-            %% AND (algo="mSufSort_ref" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2")
-            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,2.24159) (2,4.89998) (4,10.725) (8,23.0384) (12,46.5127) (16,91.4593) (20,87.4918) };
-            \addlegendentry{algo=mSufSort};
-            \addplot coordinates { (1,2.25888) (2,4.89013) (4,10.6987) (8,23.1582) (12,66.1913) (16,63.6582) (20,109.773) };
-            \addlegendentry{algo=mSufSortV2};
-            \addplot coordinates { (1,1.45278) (2,3.1275) (4,6.70207) (8,14.5312) (12,40.6898) (16,56.4297) (20,52.8466) };
-            \addlegendentry{algo=mSufSort\_scan};
-
         \end{axis}
     \end{tikzpicture}
-    \par\smallskip
+    \par\bigskip
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[
                 cycle list name={exoticlines},
@@ -166,7 +162,7 @@
                 anchor=outer north west,
                 name=axis2,
                 width=\textwidth,
-                height=50mm,
+                height=60mm,
                 title={dna.txt},
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={Extra Memory [GiB]},
@@ -176,12 +172,24 @@
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="dna.txt" AND sacheck="ok"
-            %% AND (algo="mSufSortV2_par" OR algo="mSufSort_par" OR algo="mSufSort_scan_par" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
+            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V1" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS" OR algo="mSufSortV2_par" OR algo="mSufSort_par" or algo="mSufSort_scan_par")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,0.000246726) (2,0.000247501) (4,0.000249021) (8,0.000252061) };
-            \addlegendentry{algo=DivSufSort\_par\_ref};
+            \addplot coordinates { (1,0.783537) (2,1.56479) (4,3.12762) (8,6.25495) (12,18.7576) (16,25.0099) };
+            \addlegendentry{algo=BPR\_par};
+            \addplot coordinates { (1,4.16667) (2,8.33334) (4,16.6667) (8,33.3334) };
+            \addlegendentry{algo=DC3-Parallel-V1};
+            \addplot coordinates { (1,3.05641) (2,8.33334) (4,16.6667) (8,33.3333) };
+            \addlegendentry{algo=DC3-Parallel-V2};
+            \addplot coordinates { (1,0.00213599) (2,0.00426745) (4,0.00853033) (8,0.0170561) (12,0.0427683) (16,0.0569774) (20,0.0711839) };
+            \addlegendentry{algo=Deep-Shallow\_par};
+            \addplot coordinates { (1,2.34575) (2,4.69158) (4,9.38307) (8,18.766) };
+            \addlegendentry{algo=Discarding2Parallel};
+            \addplot coordinates { (1,3.90825) (2,7.81659) (4,15.6331) (8,31.2661) };
+            \addlegendentry{algo=Discarding4Parallel};
             \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) (12,18.75) (16,25) };
             \addlegendentry{algo=NaivParallel};
+            \addplot coordinates { (1,0.399128) (2,0.48352) (4,0.654059) (8,1.0149) };
+            \addlegendentry{algo=PARALLEL\_SAIS};
             \addplot coordinates { (1,0.470409) (2,0.883763) (4,1.75876) (8,3.59251) (12,12.7297) (16,14.2988) };
             \addlegendentry{algo=mSufSortV2\_par};
             \addplot coordinates { (1,0.470409) (2,0.874455) (4,1.73335) (8,3.57977) (12,12.7243) };
@@ -189,25 +197,13 @@
             \addplot coordinates { (1,0.0937508) (2,0.375003) (4,0.747839) (8,1.48705) (12,2.95112) (20,5.93821) };
             \addlegendentry{algo=mSufSort\_scan\_par};
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
-            %% FROM (
-            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="dna.txt" AND sacheck="ok"
-            %% AND (algo="mSufSort_ref" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2")
-            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,0.4704) (2,0.875001) (4,1.75) (8,3.5) (12,12.6519) (16,14.2148) (20,15.719) };
-            \addlegendentry{algo=mSufSort};
-            \addplot coordinates { (1,0.4704) (2,0.882813) (4,1.76563) (8,3.51563) (12,12.6519) (16,14.2148) (20,15.719) };
-            \addlegendentry{algo=mSufSortV2};
-            \addplot coordinates { (1,0.0937508) (2,0.375001) (4,0.750001) (8,1.5) (12,3) (16,3) (20,6) };
-            \addlegendentry{algo=mSufSort\_scan};
-
             \legend{}
         \end{axis}
     \end{tikzpicture}
 
     \medskip
-    \ref{legend-par-msufsort-1}
+    \ref{legend-par-all-1}
+    \caption{Vergleich der parallelen Implementierungen mit Laufzeit und Speicherbedarf auf dna.txt}
 \end{figure}
 
 \begin{figure}[ht]
@@ -217,12 +213,12 @@
                 name=axis1,
                 cycle list name={exoticlines},
                 width=\textwidth,
-                height=50mm,
+                height=60mm,
                 title={commoncrawl.txt},
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={SA construction time [min]},
                 legend columns=2,
-                legend to name=legend-par-msufsort-2,
+                legend to name=legend-par-all-2,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
@@ -233,12 +229,24 @@
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
-            %% AND (algo="mSufSortV2_par" OR algo="mSufSort_par" OR algo="mSufSort_scan_par" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
+            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V1" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS" OR algo="mSufSortV2_par" OR algo="mSufSort_par" or algo="mSufSort_scan_par")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,0.438349) (2,0.817589) (4,1.57076) (8,3.18317) };
-            \addlegendentry{algo=DivSufSort\_par\_ref};
+            \addplot coordinates { (1,0.469155) (2,0.910706) (4,1.81015) (8,3.76797) (12,7.48885) (16,11.141) };
+            \addlegendentry{algo=BPR\_par};
+            \addplot coordinates { (1,3.47621) (2,5.01502) (4,6.10537) (8,8.42083) };
+            \addlegendentry{algo=DC3-Parallel-V1};
+            \addplot coordinates { (1,2.95908) (2,3.97025) (4,5.25151) (8,7.6797) };
+            \addlegendentry{algo=DC3-Parallel-V2};
+            \addplot coordinates { (1,7.83762) (2,7.19017) (4,9.73639) };
+            \addlegendentry{algo=Deep-Shallow\_par};
+            \addplot coordinates { (1,5.61108) (2,6.40921) (4,7.93302) (8,10.0045) };
+            \addlegendentry{algo=Discarding2Parallel};
+            \addplot coordinates { (1,3.54234) (2,4.24778) (4,5.16101) (8,6.84444) };
+            \addlegendentry{algo=Discarding4Parallel};
             \addplot coordinates { (1,7.15567) (2,7.39145) (4,8.81336) (8,11.3875) (12,13.2541) (16,15.516) };
             \addlegendentry{algo=NaivParallel};
+            \addplot coordinates { (1,0.926488) (2,1.85933) (4,3.9815) (8,8.77113) };
+            \addlegendentry{algo=PARALLEL\_SAIS};
             \addplot coordinates { (1,9.0293) (2,45.6869) (4,88.6449) };
             \addlegendentry{algo=mSufSortV2\_par};
             \addplot coordinates { (1,8.92083) (2,48.8372) (4,87.4626) };
@@ -246,22 +254,9 @@
             \addplot coordinates { (1,3.76219) (2,7.88756) (8,27.9942) (12,52.0484) (16,67.2777) };
             \addlegendentry{algo=mSufSort\_scan\_par};
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
-            %% FROM (
-            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
-            %% AND (algo="mSufSort_ref" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2")
-            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,2.8657) (2,6.24133) (4,12.4546) (8,26.7399) (12,51.1156) (16,91.7424) };
-            \addlegendentry{algo=mSufSort};
-            \addplot coordinates { (1,3.26857) (2,6.18884) (4,12.4494) (8,26.7709) (12,51.6743) (16,71.5554) };
-            \addlegendentry{algo=mSufSortV2};
-            \addplot coordinates { (1,5.4545) (2,11.3727) (4,20.1428) (8,39.0313) (12,68.3349) (16,87.2916) };
-            \addlegendentry{algo=mSufSort\_scan};
-
         \end{axis}
     \end{tikzpicture}
-    \par\smallskip
+    \par\bigskip
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[
                 cycle list name={exoticlines},
@@ -269,7 +264,7 @@
                 anchor=outer north west,
                 name=axis2,
                 width=\textwidth,
-                height=50mm,
+                height=60mm,
                 title={commoncrawl.txt},
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={Extra Memory [GiB]},
@@ -279,12 +274,24 @@
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
-            %% AND (algo="mSufSortV2_par" OR algo="mSufSort_par" OR algo="mSufSort_scan_par" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
+            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V1" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS" OR algo="mSufSortV2_par" OR algo="mSufSort_par" or algo="mSufSort_scan_par")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,0.000246726) (2,0.000247501) (4,0.000249021) (8,0.000252061) };
-            \addlegendentry{algo=DivSufSort\_par\_ref};
+            \addplot coordinates { (1,1.02691) (2,1.8241) (4,3.60609) (8,7.15872) (12,20.1398) (16,26.8174) };
+            \addlegendentry{algo=BPR\_par};
+            \addplot coordinates { (1,4.16667) (2,8.33334) (4,16.6667) (8,33.3334) };
+            \addlegendentry{algo=DC3-Parallel-V1};
+            \addplot coordinates { (1,3.11898) (2,8.33334) (4,16.6667) (8,33.3334) };
+            \addlegendentry{algo=DC3-Parallel-V2};
+            \addplot coordinates { (1,0.00348096) (2,0.00567017) (4,0.0413734) };
+            \addlegendentry{algo=Deep-Shallow\_par};
+            \addplot coordinates { (1,2.34575) (2,4.69158) (4,9.38307) (8,18.766) };
+            \addlegendentry{algo=Discarding2Parallel};
+            \addplot coordinates { (1,3.90825) (2,7.81659) (4,15.6331) (8,31.2661) };
+            \addlegendentry{algo=Discarding4Parallel};
             \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) (12,18.75) (16,25) };
             \addlegendentry{algo=NaivParallel};
+            \addplot coordinates { (1,0.410859) (2,0.513571) (4,0.698684) (8,1.0433) };
+            \addlegendentry{algo=PARALLEL\_SAIS};
             \addplot coordinates { (1,0.20203) (2,0.408223) (4,0.816448) };
             \addlegendentry{algo=mSufSortV2\_par};
             \addplot coordinates { (1,0.202026) (2,0.408001) (4,0.815476) };
@@ -292,24 +299,12 @@
             \addplot coordinates { (1,0.0238568) (2,0.0463518) (8,0.139895) (12,0.196584) (16,0.536444) };
             \addlegendentry{algo=mSufSort\_scan\_par};
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
-            %% FROM (
-            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
-            %% AND (algo="mSufSort_ref" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2")
-            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,0.202018) (2,0.408039) (4,0.81636) (8,1.63092) (12,3.88998) (16,6.51905) };
-            \addlegendentry{algo=mSufSort};
-            \addplot coordinates { (1,0.202022) (2,0.408043) (4,0.816364) (8,1.63093) (12,3.89001) (16,6.51911) };
-            \addlegendentry{algo=mSufSortV2};
-            \addplot coordinates { (1,0.0238568) (2,0.0473121) (4,0.0941944) (8,0.187944) (12,0.375891) (16,0.750891) };
-            \addlegendentry{algo=mSufSort\_scan};
-
             \legend{}
         \end{axis}
     \end{tikzpicture}
 
     \medskip
-    \ref{legend-par-msufsort-2}
+    \ref{legend-par-all-2}
+    \caption{Vergleich der parallelen Implementierungen mit Laufzeit und Speicherbedarf auf commoncrawl.txt}
 \end{figure}
 \FloatBarrier

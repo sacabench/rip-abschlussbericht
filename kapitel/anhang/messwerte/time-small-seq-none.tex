@@ -1,9 +1,9 @@
-\begin{table}
+\begin{table}[h]
+\centering
 \resizebox{\textwidth}{!}{
 \begin{tabular}{lrrrrrrrrrrrrr}
 \toprule
      & \rotatebox[origin=c]{90}{\texttt{cc\_commoncrawl.ascii}} & \rotatebox[origin=c]{90}{\texttt{combined.txt}} & \rotatebox[origin=c]{90}{\texttt{pc\_dblp.xml}} & \rotatebox[origin=c]{90}{\texttt{pc\_dna}} & \rotatebox[origin=c]{90}{\texttt{pc\_english}} & \rotatebox[origin=c]{90}{\texttt{pc\_proteins}} & \rotatebox[origin=c]{90}{\texttt{pc\_sources}} & \rotatebox[origin=c]{90}{\texttt{pcr\_cere}} & \rotatebox[origin=c]{90}{\texttt{pcr\_einstein.en.txt}} & \rotatebox[origin=c]{90}{\texttt{pcr\_kernel}} & \rotatebox[origin=c]{90}{\texttt{pcr\_para}} & \rotatebox[origin=c]{90}{\texttt{tagme\_wiki-disamb30}} & \rotatebox[origin=c]{90}{\texttt{wiki\_all\_vital.txt}} \\
-     & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 \\
 \midrule
     $\text{BPR}$ & 0.56 & {\color{green!60!black}0.57} & 0.60 & {\color{green!60!black}0.58} & {\color{green!60!black}0.57} & {\color{green!60!black}0.51} & {\color{green!60!black}0.45} & {\color{green!60!black}0.58} & 0.71 & {\color{green!60!black}0.52} & {\color{green!60!black}0.59} & {\color{green!60!black}0.55} & {\color{green!60!black}0.55} \\
     $\text{BPR}_{\text{ref}}$ & {\color{green!60!black}0.51} & 0.72 & 0.53 & 0.67 & {\color{green!60!black}0.67} & {\color{green!60!black}0.53} & 0.50 & 0.77 & {\color{green!60!black}0.70} & 0.60 & 0.79 & {\color{green!60!black}0.59} & {\color{green!60!black}0.61} \\
@@ -43,5 +43,9 @@
 \end{tabular}
 }
 \caption{Laufzeit in Minuten Small Sequential}
-\label{messung:tab:mem-small-seq-none}
+\label{messung:tab:time-small-seq-none}
+\begin{tabular}{ll}
+{\color{green}Grün} & Die besten drei Werte.\\
+{\color{red}Rot} & Die schlechtesten drei Werte.\\
+\end{tabular}
 \end{table}

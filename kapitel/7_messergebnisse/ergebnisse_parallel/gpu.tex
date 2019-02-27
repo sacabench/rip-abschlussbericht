@@ -1,0 +1,84 @@
+\subsection{GPU-Implementierungen}
+% IMPORT-DATA result_gpu result_gpu.txt
+
+\begin{figure}[ht]
+    \textbf{Configuration} \hfill Prefix size: 200\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
+    \centering\small
+    \begin{tikzpicture}[trim axis left]
+        \begin{axis}[batchTimePlot,
+            cycle list name={exotic},
+            legend to name=runtime-gpu-0,
+            width=\textwidth,
+            height=50mm,
+            xtick style = {draw=none},
+            title={},
+            bar width=12pt,
+            ylabel={SA construction time [s]},
+            legend style={
+                /tikz/every even column/.append style={column sep=0.5cm,black},
+                /tikz/every even column/.append style={black},
+            },
+            legend columns=2,
+            symbolic x coords={ pc\_dblp.xml.200MB, pc\_dna.200MB, pc\_english.200MB, pc\_sources.200MB, pc\_proteins.200MB },
+            every node near coord/.append style={color=black, rotate=90, anchor=west},
+            ]
+
+            %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, time/1000 AS y
+            %% FROM ( 
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM result_gpu GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE (input="pc_dblp.xml.200MB" OR input="pc_dna.200MB")
+            %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY y
+            \addplot coordinates { (pc\_dna.200MB,0.150050) (pc\_dblp.xml.200MB,0.192818) };
+            \addlegendentry{algo=Osipov\_gpu};
+            \addplot coordinates { (pc\_dblp.xml.200MB,0.31243) (pc\_dna.200MB,0.495012) };
+            \addlegendentry{algo=DivSufSort\_par\_ref};
+            \addplot coordinates { (pc\_dna.200MB,0.680637) (pc\_dblp.xml.200MB,0.910963) };
+            \addlegendentry{algo=Osipov\_parallel\_wp};
+        \end{axis}
+    \end{tikzpicture}
+    \medskip
+    \ref{runtime-gpu-0}
+    \caption{CPU- und GPU-Version des Osipov-Algorithmus im Vergleich mit DivSufSort auf pc\_dblp.xml.200MB und pc\_dna.200MB}
+\end{figure}
+
+\begin{figure}[ht]
+    \textbf{Configuration} \hfill Prefix size: 200\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
+    \centering\small
+    \begin{tikzpicture}[trim axis left]
+        \begin{axis}[batchTimePlot,
+            cycle list name={exotic},
+            legend to name=runtime-gpu-1,
+            width=\textwidth,
+            height=50mm,
+            xtick style = {draw=none},
+            title={},
+            bar width=12pt,
+            ylabel={SA construction time [s]},
+            legend style={
+                /tikz/every even column/.append style={column sep=0.5cm,black},
+                /tikz/every even column/.append style={black},
+            },
+            legend columns=2,
+            symbolic x coords={ pc\_dblp.xml.200MB, pc\_dna.200MB, pc\_english.200MB, pc\_sources.200MB, pc\_proteins.200MB },
+            every node near coord/.append style={color=black, rotate=90, anchor=west},
+            ]
+
+            %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, time/1000AS y
+            %% FROM ( 
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM result_gpu GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE (input="pc_english.200MB" OR input="pc_proteins.200MB")
+            %% GROUP BY MULTIPLOT,x ORDER BY y
+            \addplot coordinates { (pc\_proteins.200MB,0.207323) (pc\_english.200MB,0.285172) };
+            \addlegendentry{algo=Osipov\_gpu};
+            \addplot coordinates { (pc\_proteins.200MB,0.393261) (pc\_english.200MB,0.41671) };
+            \addlegendentry{algo=DivSufSort\_par\_ref};
+            \addplot coordinates { (pc\_proteins.200MB,0.918376) (pc\_english.200MB,1.25025) };
+            \addlegendentry{algo=Osipov\_parallel\_wp};
+        \end{axis}
+    \end{tikzpicture}
+    \medskip
+    \ref{runtime-gpu-1}
+    \caption{CPU- und GPU-Version des Osipov-Algorithmus im Vergleich mit DivSufSort auf pc\_proteins.200MB und pc\_english.200MB}
+\end{figure}
+%TODO Eventuell noch pc_sources
+\FloatBarrier

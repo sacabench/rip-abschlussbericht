@@ -1,3 +1,4 @@
+\clearpage
 \subsubsection{SAIS}
 
 \textbf{Configuration} \hfill Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
@@ -11,7 +12,7 @@
                 name=axis1,
                 cycle list name={exoticlines},
                 width=\textwidth,
-                height=60mm,
+                height=50mm,
                 title={wiki.txt},
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={SA construction time [min]},
@@ -48,7 +49,7 @@
             \addlegendentry{algo=SAIS\_ref};
         \end{axis}
     \end{tikzpicture}
-    \par\bigskip
+    \par\smallskip
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[
                 cycle list name={exoticlines},
@@ -56,7 +57,7 @@
                 anchor=outer north west,
                 name=axis2,
                 width=\textwidth,
-                height=60mm,
+                height=50mm,
                 title={wiki.txt},
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={Extra Memory [GiB]},
@@ -75,15 +76,15 @@
             \addplot coordinates { (1,0.416671) (2,0.524891) (4,0.731684) (8,1.10245) };
             \addlegendentry{algo=PARALLEL\_SAIS};
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="wiki.txt" AND sacheck="ok"
             %% AND (algo="SAIS" OR algo="SAIS_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,1.43424) (2,3.27) (4,7.20641) (8,15.2937) (12,25.1937) (16,39.1132) (20,58.59) };
+            \addplot coordinates { (1,0.118646) (2,0.226865) (4,0.433655) (8,0.804417) (12,1.87826) (16,2.49715) (20,3.09922) };
             \addlegendentry{algo=SAIS};
-            \addplot coordinates { (1,1.43722) (2,3.29104) (4,7.28537) (8,15.3998) };
+            \addplot coordinates { (1,0.0745086) (2,0.141785) (4,0.269095) (8,0.499429) };
             \addlegendentry{algo=SAIS\_ref};
 
             \legend{}
@@ -101,7 +102,7 @@
                 name=axis1,
                 cycle list name={exoticlines},
                 width=\textwidth,
-                height=60mm,
+                height=50mm,
                 title={dna.txt},
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={SA construction time [min]},
@@ -139,7 +140,7 @@
 
         \end{axis}
     \end{tikzpicture}
-    \par\bigskip
+    \par\smallskip
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[
                 cycle list name={exoticlines},
@@ -147,7 +148,7 @@
                 anchor=outer north west,
                 name=axis2,
                 width=\textwidth,
-                height=60mm,
+                height=50mm,
                 title={dna.txt},
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={Extra Memory [GiB]},
@@ -166,15 +167,15 @@
             \addplot coordinates { (1,0.399128) (2,0.48352) (4,0.654059) (8,1.0149) };
             \addlegendentry{algo=PARALLEL\_SAIS};
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="dna.txt" AND sacheck="ok"
             %% AND (algo="SAIS" OR algo="SAIS_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,1.43898) (2,3.0967) (4,6.80811) (8,18.893) (12,24.471) (16,35.2446) (20,56.2837) };
+            \addplot coordinates { (1,0.101103) (2,0.185494) (4,0.356031) (8,0.716865) (12,1.74731) (16,2.34879) (20,2.97291) };
             \addlegendentry{algo=SAIS};
-            \addplot coordinates { (1,1.42846) (2,3.10626) (4,6.79781) (8,14.4639) };
+            \addplot coordinates { (1,0.0708514) (2,0.124751) (4,0.235499) (8,0.481298) };
             \addlegendentry{algo=SAIS\_ref};
 
             \legend{}
@@ -192,7 +193,7 @@
                 name=axis1,
                 cycle list name={exoticlines},
                 width=\textwidth,
-                height=60mm,
+                height=50mm,
                 title={commoncrawl.txt},
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={SA construction time [min]},
@@ -230,7 +231,7 @@
 
         \end{axis}
     \end{tikzpicture}
-    \par\bigskip
+    \par\smallskip
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[
                 cycle list name={exoticlines},
@@ -238,7 +239,7 @@
                 anchor=outer north west,
                 name=axis2,
                 width=\textwidth,
-                height=60mm,
+                height=50mm,
                 title={commoncrawl.txt},
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={Extra Memory [GiB]},
@@ -257,15 +258,15 @@
             \addplot coordinates { (1,0.410859) (2,0.513571) (4,0.698684) (8,1.0433) };
             \addlegendentry{algo=PARALLEL\_SAIS};
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
             %% AND (algo="SAIS" OR algo="SAIS_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,1.10845) (2,2.62984) (4,5.86386) (8,12.867) (12,21.8542) (16,34.6748) (20,47.5984) };
+            \addplot coordinates { (1,0.112834) (2,0.215545) (4,0.400654) (8,0.745269) (12,1.69918) (16,2.18314) (20,2.66373) };
             \addlegendentry{algo=SAIS};
-            \addplot coordinates { (1,1.11668) (2,2.64403) (4,5.9169) (8,13.0888) };
+            \addplot coordinates { (1,0.0728221) (2,0.140844) (4,0.26491) (8,0.498627) };
             \addlegendentry{algo=SAIS\_ref};
 
             \legend{}
@@ -276,3 +277,5 @@
     \ref{legend-par-sais-2}
 \end{figure}
 \FloatBarrier
+\currentauthor{Christopher Poeplau}
+\noindent Der PARALLEL\_SAIS skaliert auf allen Texten gut im Verhältnis zur Textgröße und Threadanzahl. Dabei ist er immer schlechter als der DivSufSort\_par\_ref, aber in zwei von drei Fällen besser als der naive Algorithmus, der dafür aber nahezu perfekt skaliert. Besonders beim Speicherverbrauch zeigt sich, dass die Implementierungen deutlich besser als der naive Algorithmus sind. Aus Zeitgründen konnte das Verhalten des PARALLEL\_SAIS bei der Ausführung auf mehr als acht Kernen nicht weiter analysiert werden. Dort kommt es zu Fehlern und der Algorithmus schafft es nicht, das Suffix-Array zu berechnen. Auch anzumerken ist, dass der parallele Algorithmus immer besser als sein sequentielles Gegenstück ist. Das bedeutet, dass die vorgenommenen Parallelisierungen erfolgreich waren, was auch der guten Skalierung zu entnehmen ist. 
