@@ -12,7 +12,7 @@
                 name=axis1,
                 cycle list name={exoticlines},
                 width=\textwidth,
-                height=60mm,
+                height=50mm,
                 title={wiki.txt},
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={SA construction time [min]},
@@ -51,7 +51,7 @@
             \addlegendentry{algo=DC3\_ref};
         \end{axis}
     \end{tikzpicture}
-    \par\bigskip
+    \par\smallskip
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[
                 cycle list name={exoticlines},
@@ -59,7 +59,7 @@
                 anchor=outer north west,
                 name=axis2,
                 width=\textwidth,
-                height=60mm,
+                height=50mm,
                 title={wiki.txt},
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={Extra Memory [GiB]},
@@ -80,15 +80,15 @@
             \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) (12,18.75) (16,25) };
             \addlegendentry{algo=NaivParallel};
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="wiki.txt" AND sacheck="ok"
             %% AND (algo="DC3" OR algo="DC3_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,3.00654) (2,5.74221) (4,12.3272) (8,28.7747) };
+            \addplot coordinates { (1,3.10468) (2,6.20936) (4,12.4187) (8,24.8374) };
             \addlegendentry{algo=DC3};
-            \addplot coordinates { (1,5.38767) (2,11.1711) (4,23.235) (8,62.1154) };
+            \addplot coordinates { (1,4.59605) (2,9.1921) (4,18.3842) (8,36.7684) };
             \addlegendentry{algo=DC3\_ref};
 
             \legend{}
@@ -106,7 +106,7 @@
                 name=axis1,
                 cycle list name={exoticlines},
                 width=\textwidth,
-                height=60mm,
+                height=50mm,
                 title={dna.txt},
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={SA construction time [min]},
@@ -146,7 +146,7 @@
 
         \end{axis}
     \end{tikzpicture}
-    \par\bigskip
+    \par\smallskip
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[
                 cycle list name={exoticlines},
@@ -154,7 +154,7 @@
                 anchor=outer north west,
                 name=axis2,
                 width=\textwidth,
-                height=60mm,
+                height=50mm,
                 title={dna.txt},
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={Extra Memory [GiB]},
@@ -175,15 +175,15 @@
             \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) (12,18.75) (16,25) };
             \addlegendentry{algo=NaivParallel};
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="dna.txt" AND sacheck="ok"
             %% AND (algo="DC3" OR algo="DC3_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,2.71809) (2,5.60346) (4,11.5744) (8,24.4515) };
+            \addplot coordinates { (1,3.05641) (2,6.11283) (4,12.2257) (8,24.4513) };
             \addlegendentry{algo=DC3};
-            \addplot coordinates { (1,4.11121) (2,8.13608) (4,16.6623) (8,41.2953) };
+            \addplot coordinates { (1,4.37885) (2,8.7577) (4,17.5154) (8,35.0308) };
             \addlegendentry{algo=DC3\_ref};
 
             \legend{}
@@ -201,7 +201,7 @@
                 name=axis1,
                 cycle list name={exoticlines},
                 width=\textwidth,
-                height=60mm,
+                height=50mm,
                 title={commoncrawl.txt},
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={SA construction time [min]},
@@ -241,7 +241,7 @@
 
         \end{axis}
     \end{tikzpicture}
-    \par\bigskip
+    \par\smallskip
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[
                 cycle list name={exoticlines},
@@ -249,7 +249,7 @@
                 anchor=outer north west,
                 name=axis2,
                 width=\textwidth,
-                height=60mm,
+                height=50mm,
                 title={commoncrawl.txt},
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={Extra Memory [GiB]},
@@ -270,15 +270,15 @@
             \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) (12,18.75) (16,25) };
             \addlegendentry{algo=NaivParallel};
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
             %% AND (algo="DC3" OR algo="DC3_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,2.6809) (2,5.64078) (4,11.8365) (8,25.7161) };
+            \addplot coordinates { (1,3.11898) (2,6.23796) (4,12.4759) (8,24.9679) };
             \addlegendentry{algo=DC3};
-            \addplot coordinates { (1,4.84048) (2,10.6046) (4,22.2288) (8,60.4603) };
+            \addplot coordinates { (1,4.6604) (2,9.32081) (4,18.6777) (8,37.3555) };
             \addlegendentry{algo=DC3\_ref};
 
             \legend{}
