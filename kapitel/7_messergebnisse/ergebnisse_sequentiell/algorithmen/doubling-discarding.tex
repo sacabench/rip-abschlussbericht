@@ -13,7 +13,7 @@
                 width=0.5\textwidth,
                 height=48mm,
                 title={wiki.txt},
-                xlabel={input size [200\,MB]},
+                xlabel={input size [GiB]},
                 ylabel={SA construction time [min]},
                 legend columns=2,
                 legend to name=legend-seq-doubling-0,
@@ -23,19 +23,19 @@
                 },
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="wiki.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,2.4246) (2,5.13328) (4,10.9069) (8,23.9962) };
+            \addplot coordinates { (0.195312,2.4246) (0.390625,5.13328) (0.78125,10.9069) (1.5625,23.9962) };
             \addlegendentry{algo=Discarding2};
-            \addplot coordinates { (1,2.22196) (2,4.77061) (4,10.1198) (8,22.3255) };
+            \addplot coordinates { (0.195312,2.22196) (0.390625,4.77061) (0.78125,10.1198) (1.5625,22.3255) };
             \addlegendentry{algo=Discarding4};
-            \addplot coordinates { (1,11.0806) (2,22.9862) (4,47.518) (8,97.2159) };
+            \addplot coordinates { (0.195312,11.0806) (0.390625,22.9862) (0.78125,47.518) (1.5625,97.2159) };
             \addlegendentry{algo=Doubling};
-            \addplot coordinates { (1,2.7048) (2,6.0286) (4,15.8137) (8,28.8136) (12,59.9193) (16,65.215) (20,105.373) };
+            \addplot coordinates { (0.195312,2.7048) (0.390625,6.0286) (0.78125,15.8137) (1.5625,28.8136) (2.34375,59.9193) (3.125,65.215) (3.90625,105.373) };
             \addlegendentry{algo=Naiv};
 
         \end{axis}
@@ -47,23 +47,23 @@
                 width=0.5\textwidth,
                 height=48mm,
                 title={wiki.txt},
-                xlabel={input size [200\,MB]},
+                xlabel={input size [GiB]},
                 ylabel={Extra Memory [GiB]},
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="wiki.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,2.34575) (2,4.6895) (4,9.377) (8,18.752) };
+            \addplot coordinates { (0.195312,2.34575) (0.390625,4.6895) (0.78125,9.377) (1.5625,18.752) };
             \addlegendentry{algo=Discarding2};
-            \addplot coordinates { (1,3.90825) (2,7.8145) (4,15.627) (8,31.252) };
+            \addplot coordinates { (0.195312,3.90825) (0.390625,7.8145) (0.78125,15.627) (1.5625,31.252) };
             \addlegendentry{algo=Discarding4};
-            \addplot coordinates { (1,2.34575) (2,4.6895) (4,9.377) (8,18.752) };
+            \addplot coordinates { (0.195312,2.34575) (0.390625,4.6895) (0.78125,9.377) (1.5625,18.752) };
             \addlegendentry{algo=Doubling};
-            \addplot coordinates { (1,0.0) (2,0.0) (4,0.0) (8,0.0) (12,0.0) (16,0.0) (20,0.0) };
+            \addplot coordinates { (0.195312,0.0) (0.390625,0.0) (0.78125,0.0) (1.5625,0.0) (2.34375,0.0) (3.125,0.0) (3.90625,0.0) };
             \addlegendentry{algo=Naiv};
 
             \legend{}
@@ -83,7 +83,7 @@
                 width=0.5\textwidth,
                 height=48mm,
                 title={dna.txt},
-                xlabel={input size [200\,MB]},
+                xlabel={input size [GiB]},
                 ylabel={SA construction time [min]},
                 legend columns=2,
                 legend to name=legend-seq-doubling-1,
@@ -93,19 +93,19 @@
                 },
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="dna.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,2.32164) (2,4.98423) (4,10.6304) (8,21.3285) };
+            \addplot coordinates { (0.195312,2.32164) (0.390625,4.98423) (0.78125,10.6304) (1.5625,21.3285) };
             \addlegendentry{algo=Discarding2};
-            \addplot coordinates { (1,2.3202) (2,5.09165) (4,10.9035) (8,22.8657) };
+            \addplot coordinates { (0.195312,2.3202) (0.390625,5.09165) (0.78125,10.9035) (1.5625,22.8657) };
             \addlegendentry{algo=Discarding4};
-            \addplot coordinates { (1,5.53637) (2,11.3228) (4,23.2906) (8,47.8121) };
+            \addplot coordinates { (0.195312,5.53637) (0.390625,11.3228) (0.78125,23.2906) (1.5625,47.8121) };
             \addlegendentry{algo=Doubling};
-            \addplot coordinates { (1,3.07022) (2,6.92539) (4,15.1993) (8,31.8829) (12,50.4039) (16,86.2066) (20,90.5095) };
+            \addplot coordinates { (0.195312,3.07022) (0.390625,6.92539) (0.78125,15.1993) (1.5625,31.8829) (2.34375,50.4039) (3.125,86.2066) (3.90625,90.5095) };
             \addlegendentry{algo=Naiv};
 
         \end{axis}
@@ -117,23 +117,23 @@
                 width=0.5\textwidth,
                 height=48mm,
                 title={dna.txt},
-                xlabel={input size [200\,MB]},
+                xlabel={input size [GiB]},
                 ylabel={Extra Memory [GiB]},
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="dna.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,2.34575) (2,4.6895) (4,9.377) (8,18.752) };
+            \addplot coordinates { (0.195312,2.34575) (0.390625,4.6895) (0.78125,9.377) (1.5625,18.752) };
             \addlegendentry{algo=Discarding2};
-            \addplot coordinates { (1,3.90825) (2,7.8145) (4,15.627) (8,31.252) };
+            \addplot coordinates { (0.195312,3.90825) (0.390625,7.8145) (0.78125,15.627) (1.5625,31.252) };
             \addlegendentry{algo=Discarding4};
-            \addplot coordinates { (1,2.34575) (2,4.6895) (4,9.377) (8,18.752) };
+            \addplot coordinates { (0.195312,2.34575) (0.390625,4.6895) (0.78125,9.377) (1.5625,18.752) };
             \addlegendentry{algo=Doubling};
-            \addplot coordinates { (1,0.0) (2,0.0) (4,0.0) (8,0.0) (12,0.0) (16,0.0) (20,0.0) };
+            \addplot coordinates { (0.195312,0.0) (0.390625,0.0) (0.78125,0.0) (1.5625,0.0) (2.34375,0.0) (3.125,0.0) (3.90625,0.0) };
             \addlegendentry{algo=Naiv};
 
             \legend{}
@@ -153,7 +153,7 @@
                 width=0.5\textwidth,
                 height=48mm,
                 title={commoncrawl.txt},
-                xlabel={input size [200\,MB]},
+                xlabel={input size [GiB]},
                 ylabel={SA construction time [min]},
                 legend columns=2,
                 legend to name=legend-seq-doubling-2,
@@ -163,19 +163,19 @@
                 },
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,4.39624) (2,9.27186) (4,20.3309) (8,43.9922) };
+            \addplot coordinates { (0.195312,4.39624) (0.390625,9.27186) (0.78125,20.3309) (1.5625,43.9922) };
             \addlegendentry{algo=Discarding2};
-            \addplot coordinates { (1,3.39922) (2,7.21615) (4,15.8578) (8,34.3377) };
+            \addplot coordinates { (0.195312,3.39922) (0.390625,7.21615) (0.78125,15.8578) (1.5625,34.3377) };
             \addlegendentry{algo=Discarding4};
-            \addplot coordinates { (1,13.7193) (2,30.3425) (4,66.562) };
+            \addplot coordinates { (0.195312,13.7193) (0.390625,30.3425) (0.78125,66.562) };
             \addlegendentry{algo=Doubling};
-            \addplot coordinates { (1,7.14747) (2,11.1463) (4,26.6099) (8,62.0999) };
+            \addplot coordinates { (0.195312,7.14747) (0.390625,11.1463) (0.78125,26.6099) (1.5625,62.0999) };
             \addlegendentry{algo=Naiv};
 
         \end{axis}
@@ -187,23 +187,23 @@
                 width=0.5\textwidth,
                 height=48mm,
                 title={commoncrawl.txt},
-                xlabel={input size [200\,MB]},
+                xlabel={input size [GiB]},
                 ylabel={Extra Memory [GiB]},
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,2.34575) (2,4.6895) (4,9.377) (8,18.752) };
+            \addplot coordinates { (0.195312,2.34575) (0.390625,4.6895) (0.78125,9.377) (1.5625,18.752) };
             \addlegendentry{algo=Discarding2};
-            \addplot coordinates { (1,3.90825) (2,7.8145) (4,15.627) (8,31.252) };
+            \addplot coordinates { (0.195312,3.90825) (0.390625,7.8145) (0.78125,15.627) (1.5625,31.252) };
             \addlegendentry{algo=Discarding4};
-            \addplot coordinates { (1,2.34575) (2,4.6895) (4,9.377) };
+            \addplot coordinates { (0.195312,2.34575) (0.390625,4.6895) (0.78125,9.377) };
             \addlegendentry{algo=Doubling};
-            \addplot coordinates { (1,0.0) (2,0.0) (4,0.0) (8,0.0) };
+            \addplot coordinates { (0.195312,0.0) (0.390625,0.0) (0.78125,0.0) (1.5625,0.0) };
             \addlegendentry{algo=Naiv};
 
             \legend{}
