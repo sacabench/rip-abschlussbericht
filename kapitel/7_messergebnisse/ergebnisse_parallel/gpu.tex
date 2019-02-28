@@ -28,11 +28,11 @@
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM result_gpu GROUP BY algo, input, prefix, rep_id
             %% ) WHERE (input="pc_dblp.xml.200MB" OR input="pc_dna.200MB")
             %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY y
-            \addplot coordinates { (pc\_dna.200MB,0.150050) (pc\_dblp.xml.200MB,0.192818) };
+            \addplot coordinates { (pc\_dna.200MB,9.30329) (pc\_dblp.xml.200MB,11.5691) };
             \addlegendentry{algo=Osipov\_gpu};
-            \addplot coordinates { (pc\_dblp.xml.200MB,0.31243) (pc\_dna.200MB,0.495012) };
+            \addplot coordinates { (pc\_dblp.xml.200MB,18.7458) (pc\_dna.200MB,29.7007) };
             \addlegendentry{algo=DivSufSort\_par\_ref};
-            \addplot coordinates { (pc\_dna.200MB,0.680637) (pc\_dblp.xml.200MB,0.910963) };
+            \addplot coordinates { (pc\_dna.200MB,40.8382) (pc\_dblp.xml.200MB,54.6578) };
             \addlegendentry{algo=Osipov\_parallel\_wp};
         \end{axis}
     \end{tikzpicture}
@@ -63,16 +63,16 @@
             every node near coord/.append style={color=black, rotate=90, anchor=west},
             ]
 
-            %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, time/1000AS y
+            %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, time/1000 AS y
             %% FROM ( 
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM result_gpu GROUP BY algo, input, prefix, rep_id
             %% ) WHERE (input="pc_english.200MB" OR input="pc_proteins.200MB")
             %% GROUP BY MULTIPLOT,x ORDER BY y
-            \addplot coordinates { (pc\_proteins.200MB,0.207323) (pc\_english.200MB,0.285172) };
+            \addplot coordinates { (pc\_proteins.200MB,12.4394) (pc\_english.200MB,17.1103) };
             \addlegendentry{algo=Osipov\_gpu};
-            \addplot coordinates { (pc\_proteins.200MB,0.393261) (pc\_english.200MB,0.41671) };
+            \addplot coordinates { (pc\_proteins.200MB,23.5957) (pc\_english.200MB,25.0026) };
             \addlegendentry{algo=DivSufSort\_par\_ref};
-            \addplot coordinates { (pc\_proteins.200MB,0.918376) (pc\_english.200MB,1.25025) };
+            \addplot coordinates { (pc\_proteins.200MB,55.1025) (pc\_english.200MB,75.315) };
             \addlegendentry{algo=Osipov\_parallel\_wp};
         \end{axis}
     \end{tikzpicture}

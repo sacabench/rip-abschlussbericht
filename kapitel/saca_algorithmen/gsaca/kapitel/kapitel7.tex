@@ -4,17 +4,17 @@
 % Einleitung / Ziel der Optimierung
 Nachdem in den vorherigen Kapitel die Einzelheiten zu GSACA vorgestellt wurden, werden in diesem Kapitel Optimierungen und Änderungen am Algorithmus vorgestellt.
 Dabei wurde das Augenmerk auf eine Reduktion des Speicherverbrauchs gelegt.
-Ausgangspunkt war eine abgewandelte Implementierung des GSACA-Algorithmus, in dem die Liste GSIZE als Vektor gespeichert wurde.
-Wie zuvor beschrieben, speichert GSIZE die Größen der Gruppen.
+Ausgangspunkt war eine abgewandelte Implementierung des GSACA-Algorithmus, in dem die Liste \gsize als Vektor gespeichert wurde.
+Wie zuvor beschrieben, speichert \gsize die Größen der Gruppen.
 Dabei ist die eigentliche Größe lediglich am Startindex der Gruppe gespeichert, der Rest der Gruppeneinträge ist 0.
 Hierdurch bot dieser Bestandteil des Algorithmus einen guten Einstiegspunkt, um den verbrauchten Speicherplatz zu verringern.
 Die Idee zur Verbesserung, die verfolgt wurde, war, die Größe der einzelnen Elemente dieses Arrays zu reduzieren.
 Ursprünglich wurden alle Elemente des Vektors als Integer gespeichert, so dass je nach Größe der Integer bis zu 64 Bit pro Eintrag benötigt wurden.
 Durch geschickte Kodierung der Elemente gelang es, diese Größe auf zwei Bit pro Eintrag zu reduzieren. \par
 % Beschreibung der Optimierung
-Wie auch in der alten Version, wurden die Einträge in der neuen GSIZE-Liste mit geringerem Speicherverbrauch als Vektor gespeichert.
+Wie auch in der alten Version, wurden die Einträge in der neuen \gsize-Liste mit geringerem Speicherverbrauch als Vektor gespeichert.
 Jedoch wurden sie nicht als Integer sondern als boolsche Werte gespeichert.
-Je zwei aufeinanderfolgende Bool-Werte kodieren dabei einen Eintrag in GSIZE, somit enthält der Vektor zwar doppelt so viele Einträge wie zuvor, aber jeder Eintrag belegt nur ein Bit.
+Je zwei aufeinanderfolgende Bool-Werte kodieren dabei einen Eintrag in \gsize, somit enthält der Vektor zwar doppelt so viele Einträge wie zuvor, aber jeder Eintrag belegt nur ein Bit.
 Das erste Bit kennzeichnet den Start einer Gruppe.
 Ist es auf true gesetzt, ist das entsprechende Element an dem Index das erste Element der Gruppe.
 In der ursprünglichen Version enthielte dieser Index die Anzahl der Elemente der Gruppe.
@@ -45,7 +45,7 @@ Jetzt konnte zwar die Implementierung einfach ausgetauscht werden, jedoch konnte
 Um dies zu tun wurde als drittes die Klasse GSIZE\_COMPARE erstellt.
 Auch diese Klasse enthielt die gleichen Methoden wie GSIZE\_LIST und GSIZE\_BOOL und konnte so ohne große Änderungen vom Algorithmus verwendet werden.
 GSIZE\_COMPARE verwaltet je eine Instanz der beiden anderen Klassen und leitet alle Operationen an beide weiter.
-Verwendet GSACA nun eine Instanz dieser dritten Klasse und nutzt diese beispielsweise um einen Wert von GSIZE auszulesen, wird der Wert an dem abgefragten Index sowohl von GSIZE\_LIST als auch von GSIZE\_BOOL ausgelesen.
+Verwendet GSACA nun eine Instanz dieser dritten Klasse und nutzt diese beispielsweise um einen Wert von \gsize auszulesen, wird der Wert an dem abgefragten Index sowohl von GSIZE\_LIST als auch von GSIZE\_BOOL ausgelesen.
 Auch beim Setzen eines neuen Wertes wendet GSIZE\_COMPARE diese Änderungen auf beide Implementierungen an.
 Auf diese Art können in jedem Schritt die Werte von der alten und der neuen Variante verglichen werden.
 Außerdem lässt sich bei Abweichungen direkt feststellen, in welchem Schritt es passiert ist, warum es gescheitert ist und, aufgrund der Richtigkeit von GSIZE\_LIST, welcher Wert eigentlich in GSIZE\_BOOL enthalten sein müsste.
@@ -55,12 +55,12 @@ Leider benötigt die neue Version GSIZE\_BOOL aber erheblich mehr Re\-chen\-auf\
 Durch diesen Ansatz konnte der Speicherverbrauch im Vergleich zu der vorherigen Implementierung als Vektor reduziert werden.
 Aufgrund der benötigten Umrechnung der Werte erhöhte sich jedoch die Laufzeit gegenüber dem vorherigen Ansatz deutlich.
 Die Ergebnisse von Laufzeit- und Speicherverbrauchsmessungen auf Datensätzen verschiedener Größe lässt sich in \ref{compare_gsize_results} sehen.
-Beide wurden Varianten drei mal ausgeführt, um Schwankungen auszugleichen.
+Beide Varianten wurden drei mal ausgeführt, um Schwankungen auszugleichen.
 Die gemessenen Werte beziehen sich dabei auf die Ausführungsdauer des Algorithmus und beziehen nicht die Initialisierungsphase oder das Einlesen und Vorbereiten der Texte mit ein.
 Als Grundlage diente der Text \textit{english} des \textit{Pizza\&Chili Corpus} \cite{testdaten:pizzachilli2007}.
 Wegen dieser starken Erhöhung der Laufzeit bei gleich\-zeitig nur relativ moderater Reduktion des Speicherverbrauchs ist der untersuchte Ansatz als keine sinnvolle Optimierung von GSACA anzusehen.
 Jedoch hat sich der beschriebene Ansatz zum Vergleichen mehrerer alternativen Implementierungen als praktisch erwiesen.
 Durch die parallele Ausführung mehrerer Varianten konnten schnell Abweichungen und Fehler gefunden werden.
-Zusätz\-lich hatten die beiden Implementierungen von GSIZE nach jeder Operation den gleichen Zustand, so dass sich Unterschiede schnell untersuchen lassen konnten und der für die Ungleichheit verantwortlich Schritt reproduzierbar verglichen werden konnte. \par
+Zusätz\-lich hatten die beiden Implementierungen von \gsize nach jeder Operation den gleichen Zustand, so dass sich Unterschiede schnell untersuchen lassen konnten und der für die Ungleichheit verantwortlich Schritt reproduzierbar verglichen werden konnte. \par
 
 \input{kapitel/saca_algorithmen/gsaca/tables/gsize_compare_results}

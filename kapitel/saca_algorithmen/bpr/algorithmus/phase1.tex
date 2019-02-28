@@ -12,7 +12,7 @@ Da die Sortierung der Buckets durch den Schlüssel \coded gegeben ist, können i
 	\caption[Tabelle \emph{bkt} zur Bestimmung der Bucket-Größen und -Positionen]{Tabelle \emph{bkt} zur Bestimmung der Bucket-Größen und -Positionen. Die Anzahl der Vorkommen eines Präfix im Text ist in Zeile 2 angegeben. Zeile 3 beinhaltet die kumulierte Anzahl und bestimmt damit die linke Grenze des nachfolgenden Buckets.}
 	\label{fig:bkt}
 \end{figure}
-Der entsprechende Stand der Verarbeitung für den Text \(\inputtext = \covfefefe\) ist in Abbildung \ref{fig:bkt} zu sehen. Die kumulierte Größe aller Buckets bis einschließlich Bucket \(j\) legt gleichzeitig die linke Grenze des Buckets \(j+1\) fest. In einem weiteren Durchlauf können jetzt alle Suffixe \(\suffix{0}, \ldots, \suffix{n-1}\) im vorläufigen Suffix-Array \sa einsortiert werden. Das Suffix-Array beinhaltet dabei für ein Suffix \suffix{i} mit \(0 \leq i < n\) nicht das gesamte Suffix als String, sondern lediglich den Index \(i\) des Suffixes. Abbildung \ref{fig:buckets_initial} zeigt die initiale Einteilung der Buckets für \(d=2\). Zur besseren Visualisierung sind hier in dem Array die Suffixe anstatt der bloßen Indizes angegeben.\par\smallskip
+Der entsprechende Stand der Verarbeitung für den Text \(\inputtext = \covfefefe\) ist in Abbildung \ref{fig:bkt} zu sehen. Die kumulierte Größe aller Buckets bis einschließlich Bucket \(j\) legt gleichzeitig die linke Grenze des Buckets \(j+1\) fest. In einem weiteren Durchlauf können jetzt alle Suffixe \(\suffix{0}, \ldots, \suffix{n-1}\) im vorläufigen Suffix-Array \sa einsortiert werden. Abbildung \ref{fig:buckets_initial} zeigt die initiale Einteilung der Buckets für \(d=2\). Zur besseren Visualisierung sind hier in dem Array die Suffixe anstatt der bloßen Indizes angegeben.\par\smallskip
 \begin{figure}[ht]
 	\resizebox{\textwidth}{!}{
 		\includegraphics{kapitel/saca_algorithmen/bpr/algorithmus/phase1/sa_initial/image.pdf}
@@ -22,7 +22,7 @@ Der entsprechende Stand der Verarbeitung für den Text \(\inputtext = \covfefefe
 	\label{fig:buckets_initial}
 \end{figure}
 Wie bereits zuvor erwähnt, wollen wir in der zweiten Phase des Algorithmus die Buckets verfeinern, indem eine weitere Gruppierung jedes bestehenden Buckets aufgebaut wird.\par
-\begin{wrapfigure}[15]{r}{0.42\textwidth}
+\begin{wrapfigure}[16]{r}{0.42\textwidth}
 	\vspace{-1em}
 	\resizebox{0.42\textwidth}{!}{
 		\includegraphics{kapitel/saca_algorithmen/bpr/algorithmus/phase1/buckets_initial_plain/image.pdf}
