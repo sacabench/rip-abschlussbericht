@@ -38,7 +38,7 @@ while there are some $\mathcal O(n)$ algorithms available.
 For the last year we (re-)implemented eleven SACAs~\cite{saca:3,saca:11,saca:5,saca:9,saca:1,saca:8,saca:4,saca:7,saca:10,saca:6,saca:2}
 in modern C++ in order to create faster and more memory efficient implementations,
 and although our attempts were mostly not successful,
-we created a sophisticated benchmark framework for SACAs, \emph{\sacabench}, in the process.
+we created a sophisticated benchmark framework for SACAs, \emph{\sacabench}~\cite{sacabench:github}, in the process.
 
 In this paper we introduce \sacabench and highlight its features,
 as well as document some of the optimiziation strategies we used to implement the SACAs.
@@ -48,10 +48,11 @@ as well as document some of the optimiziation strategies we used to implement th
 \sacabench is a CMake/C++14 project which contains many different SACAs.
 There are both sequential algorithms and parallel algorithms included
 and we also include the reference implementations for all of the algorithms, if one exists.
+It is also possible to include a new or another existing SACA with \sacabench;
+See the \emph{README} in our GitHub repository~\cite{sacabench:github} for more information.
 You are able to run a single, a subset of, or all of the algorithms, depending on your needs.
 Time and memory consumption is automatically measured and can be output as JSON.
 We also include tools to convert the JSON-format to graphs for a visual comparison of the algorithms.
-Most of the graphs in this paper have been generated using SACABench directly\todo{Is that so?}.
 
 This is the most important aspect of our framework:
 the possibility to easily run many SACAs on the same input text on the same hardware
@@ -141,7 +142,7 @@ These plots can be used to compare the algorithms fairly.
 \section{SACA Overview}
 
 There are many SACAs that operate using different principles.
-The most na\"ive SACA uses a general purpose sorting algorithm to sort the suffices of the input text.
+The most na\"ive SACA uses a general purpose sorting algorithm to sort the suffixes of the input text.
 Since a string comparison is $\mathcal O (n)$ in the worst-case, this would give $\mathcal O (n^2 \log n)$ runtime.
 Even though this is a sub-optimal time bound,
 there are several algorithms\footnote{e.g. Deep-Shallow, mSufSort, ...} in SACABench which don't improve on this
@@ -168,7 +169,7 @@ Since the suffixes of $\mathsf b_{\alpha\sigma}$ are essentially the same as $\m
 with only one (the same) character added in front of them,
 their relative ordering is the same as the suffixes in $\mathsf b_\sigma$.
 This method is used in e.g. Deep-Shallow~\cite{saca:4} and 
-Bucket Pointer Refinement~\cite{saca:2}\todo{more sacas? correct refs?}.
+Bucket Pointer Refinement~\cite{saca:2}.
 
 Another method of induction relies on the property of L- and S-Type suffixes and
 is most prominently used in the SAIS-Algorithm.
@@ -188,17 +189,17 @@ In the next iteration one can look at the suffixes that start two positions late
 and so on.
 After $\mathcal O(\log n)$ iterations (since we double the prefix size in every iteration),
 all the suffixes are sorted.
-This method is used by qsufsort~\cite{unknown}\todo{fix ref} and the
+This method is used by qsufsort~\cite{qsufsort} and the
 doubling/discarding algorithm originally developed for use with external memory~\cite{saca:11}.
 
 \bigskip
 
 There are also some recursive algorithms, which mostly operate on a shared principle:
 %
-\paragraph{Recursive} Some algorithms, such as DC3~\cite{xxx} and SAIS~\cite{xxx}\todo{ref?} require to sort a
+\paragraph{Recursive} Some algorithms, such as DC3~\cite{saca:9} and SAIS~\cite{saca:6} require to sort a
 partial set of suffixes as part of their task to sort the entire suffix array.
 As they are able to do this by calling themselves with a different input, they are called \emph{recursive algorithms}.
-DC3 sorts exactly $^2\!/\!_3$ of the suffixes by recursion, while SAIS sorts all the LMS suffices by recursion,
+DC3 sorts exactly $^2\!/\!_3$ of the suffixes by recursion, while SAIS sorts all the LMS suffixes by recursion,
 if their ordering cannot be decided by looking at their first character.
 After this step, the ordering of the other suffixes can be induced.
 
@@ -216,7 +217,7 @@ Prefix Doubling is a SACA which works purely by the above described method \emph
 In every iteration the SA is refined and double the amount of characters are considered for sorting.
 This directly influenced qsufsort, which improved its performance~\cite{hermann?}.
 BPR incorporated some ideas of inducing with prefix doubling and is therefore on the edge of those two paradigms.
-Its inducing is based on the copy-technique by Seward~\cite{seward2000}\todo{right ref?}.
+Its inducing is based on the copy-technique by Seward~\cite{seward2000}.
 This technique is also used by Deep-Shallow, which uses string-sorting instead of prefix doubling.
 It influenced divsufsort, which \todo{Olli? Adde hier mal shit}.
 mSufSort is another inducing-SACA, but since it constructs the \emph{inverse suffix array} instead of the SA,
@@ -251,7 +252,8 @@ However, when implementing SACAs, avoiding unnecessary cache misses can signific
 
 To maximize throughput, multiple characters of the input (8 bit each) can be processed as a whole by
 interpreting them as integer numbers (64 bit, or even up to 512 bit by using vector operations).
-Algorithms using wordpacking techniques are the Osipov algorithm \todo{Referenz}, Doubling \todo{Referenz}, Discarding \todo{Referenz} and QSufSort \todo{Referenz}.
+Algorithms using wordpacking techniques are the Osipov algorithm~\cite{osipovGPU},
+Doubling~\cite{saca:11}, Discarding~\cite{saca:11} and QSufSort~\cite{saca:1}.
 
 \subsection{Sorting Algorithms}
 
