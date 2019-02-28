@@ -1,6 +1,7 @@
-\begin{table}
+\begin{table}[h]
+\centering
 \resizebox{\textwidth}{!}{
-\begin{tabular}{lrrrrrrrrrrrrrrrrrrrrr}
+\begin{tabular}{lccccccccccccccccccccc}
 \toprule
      & \multicolumn{7}{c}{\rotatebox[origin=c]{90}{\texttt{commoncrawl.txt}}} & \multicolumn{7}{c}{\rotatebox[origin=c]{90}{\texttt{dna.txt}}} & \multicolumn{7}{c}{\rotatebox[origin=c]{90}{\texttt{wiki.txt}}} \\
      & 1 & 2 & 4 & 8 & 12 & 16 & 20 & 1 & 2 & 4 & 8 & 12 & 16 & 20 & 1 & 2 & 4 & 8 & 12 & 16 & 20 \\
@@ -23,4 +24,11 @@
 }
 \caption{\sa Korrektheit Large Parallel Strong-Scaling}
 \label{messung:tab:sa-chk-large-par-strong}
+\begin{tabular}{cl}
+\cmarkc & \sa wurde korrekt berechnet.\\
+\xmarkc & \sa wurde falsch berechnet.\\
+{\color{orange}\faClockO} & Berechnung hat Zeitlimit des Systems erreicht.\\
+{\color{purple}\faFloppyO} & Berechnung hat Speicherlimit des Systems erreicht.\\
+{\color{violet}\faBolt} & Berechnung brach mit einem Laufzeitfehler ab.\\
+\end{tabular}
 \end{table}
