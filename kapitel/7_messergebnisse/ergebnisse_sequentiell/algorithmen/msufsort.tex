@@ -1,6 +1,6 @@
+\clearpage
 \subsubsection{mSufSort}
-
-\textbf{Configuration} \hfill Model name: none
+\textbf{Configuration} \hfill Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
 % IMPORT-DATA stats2 ../results.txt
 
 \begin{figure}[ht]
@@ -10,33 +10,33 @@
                 name=axis1,
                 cycle list name={exoticlines},
                 width=0.5\textwidth,
-                height=65mm,
+                height=48mm,
                 title={wiki.txt},
-                xlabel={input size [200\,MB]},
-                ylabel={SA construction time [s]},
+                xlabel={input size [GiB]},
+                ylabel={SA construction time [min]},
                 legend columns=2,
-                legend to name=legend0,
+                legend to name=legend-seq-msufsort-0,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
                 },
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="wiki.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="wiki.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="MSufSort_ref" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,100.71) (4,239.464) };
+            \addplot coordinates { (0.195312,0.782517) (0.390625,1.68203) (0.78125,4.35543) };
             \addlegendentry{algo=MSufSort\_ref};
-            \addplot coordinates { (2,359.928) (4,778.531) (8,2125.23) };
+            \addplot coordinates { (0.195312,2.7048) (0.390625,6.0286) (0.78125,15.8137) (1.5625,28.8136) (2.34375,59.9193) (3.125,65.215) (3.90625,105.373) };
             \addlegendentry{algo=Naiv};
-            \addplot coordinates { (2,255.246) (4,570.945) (8,1311.17) };
+            \addplot coordinates { (0.195312,1.95084) (0.390625,4.27795) (0.78125,9.51012) (1.5625,21.9919) (2.34375,43.3486) (3.125,86.51) (3.90625,82.9172) };
             \addlegendentry{algo=mSufSort};
-            \addplot coordinates { (2,255.166) (4,571.527) (8,1314.4) };
+            \addplot coordinates { (0.195312,1.94875) (0.390625,4.30847) (0.78125,9.63943) (1.5625,22.0164) (2.34375,62.3474) (3.125,86.5071) (3.90625,83.5823) };
             \addlegendentry{algo=mSufSortV2};
-            \addplot coordinates { (2,190.476) (4,406.667) (8,930.986) };
+            \addplot coordinates { (0.195312,1.55435) (0.390625,3.31015) (0.78125,7.13482) (1.5625,16.0261) (2.34375,29.481) (3.125,40.4728) (3.90625,58.5878) };
             \addlegendentry{algo=mSufSort\_scan};
 
         \end{axis}
@@ -46,27 +46,27 @@
                 anchor=outer north west,
                 name=axis2,
                 width=0.5\textwidth,
-                height=65mm,
+                height=48mm,
                 title={wiki.txt},
-                xlabel={input size [200\,MB]},
-                ylabel={Extra Memory [MB]},
+                xlabel={input size [GiB]},
+                ylabel={Extra Memory [GiB]},
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="wiki.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="wiki.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="MSufSort_ref" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,1705.22) (4,3463.59) };
+            \addplot coordinates { (0.195312,0.791069) (0.390625,1.58811) (0.78125,3.22572) };
             \addlegendentry{algo=MSufSort\_ref};
-            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addplot coordinates { (0.195312,0.0) (0.390625,0.0) (0.78125,0.0) (1.5625,0.0) (2.34375,0.0) (3.125,0.0) (3.90625,0.0) };
             \addlegendentry{algo=Naiv};
-            \addplot coordinates { (2,466.839) (4,934.499) (8,1883.2) };
+            \addplot coordinates { (0.195312,0.217544) (0.390625,0.434778) (0.78125,0.87032) (1.5625,1.75387) (2.34375,6.3341) (3.125,7.10395) (3.90625,7.86432) };
             \addlegendentry{algo=mSufSort};
-            \addplot coordinates { (2,466.8409) (4,934.503) (8,1883.21) };
+            \addplot coordinates { (0.195312,0.217544) (0.390625,0.434779) (0.78125,0.870323) (1.5625,1.75388) (2.34375,6.33412) (3.125,7.10398) (3.90625,7.86435) };
             \addlegendentry{algo=mSufSortV2};
-            \addplot coordinates { (2,50.6866) (4,101.0216) (8,201.685) };
+            \addplot coordinates { (0.195312,0.0237676) (0.390625,0.0472056) (0.78125,0.0940837) (1.5625,0.187833) (2.34375,0.750667) (3.125,0.750667) (3.90625,0.750676) };
             \addlegendentry{algo=mSufSort\_scan};
 
             \legend{}
@@ -74,7 +74,7 @@
     \end{tikzpicture}
 
     \medskip
-    \ref{legend0}
+    \ref{legend-seq-msufsort-0}
 \end{figure}
 
 \begin{figure}[ht]
@@ -84,33 +84,33 @@
                 name=axis1,
                 cycle list name={exoticlines},
                 width=0.5\textwidth,
-                height=65mm,
+                height=48mm,
                 title={dna.txt},
-                xlabel={input size [200\,MB]},
-                ylabel={SA construction time [s]},
+                xlabel={input size [GiB]},
+                ylabel={SA construction time [min]},
                 legend columns=2,
-                legend to name=legend1,
+                legend to name=legend-seq-msufsort-1,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
                 },
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="dna.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="dna.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="MSufSort_ref" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,124.343) (4,261.448) };
+            \addplot coordinates { (0.195312,0.987919) (0.390625,2.05667) (0.78125,4.34736) };
             \addlegendentry{algo=MSufSort\_ref};
-            \addplot coordinates { (2,413.268) (4,908.502) (8,1904.01) };
+            \addplot coordinates { (0.195312,3.07022) (0.390625,6.92539) (0.78125,15.1993) (1.5625,31.8829) (2.34375,50.4039) (3.125,86.2066) (3.90625,90.5095) };
             \addlegendentry{algo=Naiv};
-            \addplot coordinates { (2,292.438) (4,636.469) (8,1399) };
+            \addplot coordinates { (0.195312,2.24159) (0.390625,4.89998) (0.78125,10.725) (1.5625,23.0384) (2.34375,46.5127) (3.125,91.4593) (3.90625,87.4918) };
             \addlegendentry{algo=mSufSort};
-            \addplot coordinates { (2,292.912) (4,635.184) (8,1379.92) };
+            \addplot coordinates { (0.195312,2.25888) (0.390625,4.89013) (0.78125,10.6987) (1.5625,23.1582) (2.34375,66.1913) (3.125,63.6582) (3.90625,109.773) };
             \addlegendentry{algo=mSufSortV2};
-            \addplot coordinates { (2,189.093) (4,405.562) (8,873.064) };
+            \addplot coordinates { (0.195312,1.45278) (0.390625,3.1275) (0.78125,6.70207) (1.5625,14.5312) (2.34375,40.6898) (3.125,56.4297) (3.90625,52.8466) };
             \addlegendentry{algo=mSufSort\_scan};
 
         \end{axis}
@@ -120,27 +120,27 @@
                 anchor=outer north west,
                 name=axis2,
                 width=0.5\textwidth,
-                height=65mm,
+                height=48mm,
                 title={dna.txt},
-                xlabel={input size [200\,MB]},
-                ylabel={Extra Memory [MB]},
+                xlabel={input size [GiB]},
+                ylabel={Extra Memory [GiB]},
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="dna.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="dna.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="MSufSort_ref" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,2107.9) (4,4215.7) };
+            \addplot coordinates { (0.195312,0.981613) (0.390625,1.96313) (0.78125,3.92618) };
             \addlegendentry{algo=MSufSort\_ref};
-            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addplot coordinates { (0.195312,0.0) (0.390625,0.0) (0.78125,0.0) (1.5625,0.0) (2.34375,0.0) (3.125,0.0) (3.90625,0.0) };
             \addlegendentry{algo=Naiv};
-            \addplot coordinates { (2,939.525) (4,1879.05) (8,3758.1) };
+            \addplot coordinates { (0.195312,0.4704) (0.390625,0.875001) (0.78125,1.75) (1.5625,3.5) (2.34375,12.6519) (3.125,14.2148) (3.90625,15.719) };
             \addlegendentry{algo=mSufSort};
-            \addplot coordinates { (2,947.914) (4,1895.83) (8,3774.87) };
+            \addplot coordinates { (0.195312,0.4704) (0.390625,0.882813) (0.78125,1.76563) (1.5625,3.51563) (2.34375,12.6519) (3.125,14.2148) (3.90625,15.719) };
             \addlegendentry{algo=mSufSortV2};
-            \addplot coordinates { (2,402.654) (4,805.307) (8,1610.61) };
+            \addplot coordinates { (0.195312,0.0937508) (0.390625,0.375001) (0.78125,0.750001) (1.5625,1.5) (2.34375,3) (3.125,3) (3.90625,6) };
             \addlegendentry{algo=mSufSort\_scan};
 
             \legend{}
@@ -148,7 +148,7 @@
     \end{tikzpicture}
 
     \medskip
-    \ref{legend1}
+    \ref{legend-seq-msufsort-1}
 \end{figure}
 
 \begin{figure}[ht]
@@ -158,33 +158,33 @@
                 name=axis1,
                 cycle list name={exoticlines},
                 width=0.5\textwidth,
-                height=65mm,
+                height=48mm,
                 title={commoncrawl.txt},
-                xlabel={input size [200\,MB]},
-                ylabel={SA construction time [s]},
+                xlabel={input size [GiB]},
+                ylabel={SA construction time [min]},
                 legend columns=2,
-                legend to name=legend2,
+                legend to name=legend-seq-msufsort-2,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
                 },
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="MSufSort_ref" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,95.1224) (4,200.163) };
+            \addplot coordinates { (0.195312,0.738372) (0.390625,1.58835) (0.78125,3.33703) };
             \addlegendentry{algo=MSufSort\_ref};
-            \addplot coordinates { (2,666.038) (4,1590.11) (8,4111.56) };
+            \addplot coordinates { (0.195312,7.14747) (0.390625,11.1463) (0.78125,26.6099) (1.5625,62.0999) };
             \addlegendentry{algo=Naiv};
-            \addplot coordinates { (2,365.856) (4,732.675) (8,1577) };
+            \addplot coordinates { (0.195312,2.8657) (0.390625,6.24133) (0.78125,12.4546) (1.5625,26.7399) (2.34375,51.1156) (3.125,91.7424) };
             \addlegendentry{algo=mSufSort};
-            \addplot coordinates { (2,362.98) (4,730.806) (8,1571.1) };
+            \addplot coordinates { (0.195312,3.26857) (0.390625,6.18884) (0.78125,12.4494) (1.5625,26.7709) (2.34375,51.6743) (3.125,71.5554) };
             \addlegendentry{algo=mSufSortV2};
-            \addplot coordinates { (2,503.176) (4,966.132) (8,1813.2) };
+            \addplot coordinates { (0.195312,5.4545) (0.390625,11.3727) (0.78125,20.1428) (1.5625,39.0313) (2.34375,68.3349) (3.125,87.2916) };
             \addlegendentry{algo=mSufSort\_scan};
 
         \end{axis}
@@ -194,27 +194,27 @@
                 anchor=outer north west,
                 name=axis2,
                 width=0.5\textwidth,
-                height=65mm,
+                height=48mm,
                 title={commoncrawl.txt},
-                xlabel={input size [200\,MB]},
-                ylabel={Extra Memory [MB]},
+                xlabel={input size [GiB]},
+                ylabel={Extra Memory [GiB]},
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1000000 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" AND thread_count<9
+            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="MSufSort_ref" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (2,1689.38) (4,3387.6) };
+            \addplot coordinates { (0.195312,0.792106) (0.390625,1.57336) (0.78125,3.15495) };
             \addlegendentry{algo=MSufSort\_ref};
-            \addplot coordinates { (2,0.0) (4,0.0) (8,0.0) };
+            \addplot coordinates { (0.195312,0.0) (0.390625,0.0) (0.78125,0.0) (1.5625,0.0) };
             \addlegendentry{algo=Naiv};
-            \addplot coordinates { (2,438.129) (4,876.56) (8,1751.19) };
+            \addplot coordinates { (0.195312,0.202018) (0.390625,0.408039) (0.78125,0.81636) (1.5625,1.63092) (2.34375,3.88998) (3.125,6.51905) };
             \addlegendentry{algo=mSufSort};
-            \addplot coordinates { (2,438.133) (4,876.564) (8,1751.2) };
+            \addplot coordinates { (0.195312,0.202022) (0.390625,0.408043) (0.78125,0.816364) (1.5625,1.63093) (2.34375,3.89001) (3.125,6.51911) };
             \addlegendentry{algo=mSufSortV2};
-            \addplot coordinates { (2,50.801) (4,101.14) (8,201.804) };
+            \addplot coordinates { (0.195312,0.0238568) (0.390625,0.0473121) (0.78125,0.0941944) (1.5625,0.187944) (2.34375,0.375891) (3.125,0.750891) };
             \addlegendentry{algo=mSufSort\_scan};
 
             \legend{}
@@ -222,8 +222,16 @@
     \end{tikzpicture}
 
     \medskip
-    \ref{legend2}
+    \ref{legend-seq-msufsort-2}
 \end{figure}
 \FloatBarrier
 
-Es wurden alle drei sequentiellen Varianten des MSufSort parallelisiert. In den Experimenten \ref{legend0}, \ref{legend1} und \ref{legend2} ist jeweils der naive Algorithmus am langsamsten, was bedeutet, dass zumindest alle Varianten benutzbar sind. In \ref{legend0} und \ref{legend1} ist die Scan-Variante am schnellsten, insbesondere bei dem DNA Eingabetext erkennt man auch eine deutlich flacher verlaufende Kurve, vermutlich durch die lineare Laufzeit in einem der Sortierer. Dieser (Scan-)Sortierer profitiert auch insbesondere von sehr kleinen Alphabeten, da dann weniger Cache-Misses auftreten. Die beiden anderen Varianten unterscheiden sich fast gar nicht. In \ref{legend2} liegt die Scan-Variante oberhalb versetzt zu den anderen Varianten, skaliert aber zumindest nicht schlechter und liegt näher an den normalen MSufSort Varianten als am naiven Sortierer.
+Es wurden alle drei sequentiellen Varianten des MSufSort parallelisiert.
+In \todo{Fix these legends wtf} den Experimenten \ref{legend-seq-msufsort-0}, \ref{legend-seq-msufsort-1} und \ref{legend-seq-msufsort-2} ist jeweils der naive Algorithmus am langsamsten, was bedeutet,
+dass zumindest alle Varianten benutzbar sind. In \ref{legend-seq-msufsort-0} und \ref{legend-seq-msufsort-1} ist die Scan-Variante am schnellsten,
+insbesondere bei dem DNA Eingabetext erkennt man auch eine deutlich flacher verlaufende Kurve,
+vermutlich durch die lineare Laufzeit in einem der Sortierer.
+Dieser (Scan-)Sortierer profitiert auch insbesondere von sehr kleinen Alphabeten,
+da dann weniger Cache-Misses auftreten. Die beiden anderen Varianten unterscheiden sich fast gar nicht.
+In \ref{legend-seq-msufsort-2} liegt die Scan-Variante oberhalb versetzt zu den anderen Varianten,
+skaliert aber zumindest nicht schlechter und liegt näher an den normalen MSufSort Varianten als am naiven Sortierer.

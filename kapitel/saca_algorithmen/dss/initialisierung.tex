@@ -42,7 +42,7 @@ $\mathsf{Bucket\_RMS}$ &                           &                           &
 \end{table}
 
 
-Als nächstes werden die Präfixsummen für $\mathsf{BUCK\-ET\_L}$ und $\mathsf{BUCK\-ET\_RMS}$ berechnet. Dabei werden für $\mathsf{BUCKET\_L}[c0]$ die Mengen der Buckets aller vorherigen Symbole $c_i$ aufaddiert (inkl. $\mathsf{BUCKET\_S}$ und $\mathsf{BUCKET\_RMS}$). Für die Buckets $\mathsf{BUCKET\_RMS}[c0,c1]$ hingegen muss die Präfixsumme über alle vorigen $\mathsf{BUCK\-ET\_RMS}[c_i,c_j]$  mit $c_i \leq c0, c_j <= c1$ berechnet werden. Dies führt dazu, dass $\mathsf{BUCKET\_L}[c0]$ die linkeste Position jedes $\mathsf{b}_{c0}$ enthält. Für $\mathsf{BUCKET\_RMS}[c0,c1]$ wird die rechteste Position der RMS-Suffixe in Relation zu anderen RMS-Suffixen abgespeichert, d.h. die Positionen sind aus dem Intervall $[0,m)$. Tabelle \ref{table:prefixsum} gibt die initiale Größe der Buckets sowie die berechneten Präfixsummen für den Beispielstring an.
+Als nächstes werden die Präfixsummen für $\mathsf{BUCK\-ET\_L}$ und $\mathsf{BUCK\-ET\_RMS}$ berechnet. Dabei werden für $\mathsf{BUCKET\_L}[c0]$ die Mengen der Buckets aller vorherigen Symbole $c_i$ aufaddiert (inkl. $\mathsf{BUCKET\_S}$ und $\mathsf{BUCKET\_RMS}$). Für die Buckets $\mathsf{BUCKET\_RMS}[c0,c1]$ hingegen muss die Präfixsumme über alle vorigen $\mathsf{BUCK\-ET\_RMS}[c_i,c_j]$  mit $c_i \leq c0, c_j \leq c1$ berechnet werden. Dies führt dazu, dass $\mathsf{BUCKET\_L}[c0]$ die linkeste Position jedes $\mathsf{b}_{c0}$ enthält. Für $\mathsf{BUCKET\_RMS}[c0,c1]$ wird die rechteste Position der RMS-Suffixe in Relation zu anderen RMS-Suffixen abgespeichert, d.h. die Positionen sind aus dem Intervall $[0,m)$. Tabelle \ref{table:prefixsum} gibt die initiale Größe der Buckets sowie die berechneten Präfixsummen für den Beispielstring an.
 
 Bevor wir mit dem vollständigen Sortieren der RMS-Suffixe beginnen, werden die Referenzen in $\mathsf{PAb}$ auf diese nach den ersten zwei Zeichen sortiert. Die Referenz auf das letzte RMS-Suffix wird an den Anfang des jeweiligen Buckets gesetzt, da kein nachfolgendes RMS-Suffix für dieses Suffix vorhanden ist, welcher jedoch für den Vergleich von RMS-Teilstrings benötigt wird. Nach dieser Sortierung zeigt $\mathsf{BUCKET\_RMS}[c0,c1]$ auf die linkeste Position aus $[0,m)$. In Tabelle \ref{table:bucket-order} sind die Referenzen auf die RMS-Suffixe aus unserem Beispiel derart sortiert.
 
@@ -56,7 +56,7 @@ Bevor wir mit dem vollständigen Sortieren der RMS-Suffixe beginnen, werden die 
 		$\mathsf{SA}$ & \cellcolor[HTML]{32CB00}0 & \cellcolor[HTML]{32CB00}2 & \cellcolor[HTML]{32CB00}3 & \cellcolor[HTML]{32CB00}1 & 0 & 0 & 0 & 0 & 0 & 0 & 0  & 2  & 4  & 8  & 10 \\ \hline
 	\end{tabular}	\newline
 
-	\caption{Finaler Schritt der Initialisierung: Sortierte Referenzen \textit{PAb} auf Indizes der RMS-Suffixe für den Beispielstring caabaccaabacaa\$.}
+	\caption{Finaler Schritt der Initialisierung: Sortierte Referenzen $\mathsf{PAb}$ auf Indizes der RMS-Suffixe für den Beispielstring caabaccaabacaa\$.}
 	\label{table:bucket-order}
 \end{table}
 
