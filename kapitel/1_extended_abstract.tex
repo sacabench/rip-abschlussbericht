@@ -46,7 +46,7 @@ as well as document some of the optimiziation strategies we used to implement th
 \section{Benchmark Tool}
 
 \sacabench is a CMake/C++14 project which contains many different SACAs.
-There are both sequential algorithms and parallel algorithms included
+There are both sequential and parallel algorithms included
 and we also include the reference implementations for all of the algorithms, if one exists.
 It is also possible to include a new or another existing SACA with \sacabench;
 See the \emph{README} in our GitHub repository~\cite{sacabench:github} for more information.
@@ -196,7 +196,7 @@ doubling/discarding algorithm originally developed for use with external memory~
 
 There are also some recursive algorithms, which mostly operate on a shared principle:
 %
-\paragraph{Recursive} Some algorithms, such as DC3~\cite{saca:9} and SAIS~\cite{saca:6} require to sort a
+\paragraph{Recursive} Some algorithms such as DC3~\cite{saca:9} and SAIS~\cite{saca:6} require to sort a
 partial set of suffixes as part of their task to sort the entire suffix array.
 As they are able to do this by calling themselves with a different input, they are called \emph{recursive algorithms}.
 DC3 sorts exactly $^2\!/\!_3$ of the suffixes by recursion, while SAIS sorts all the LMS suffixes by recursion,
@@ -257,8 +257,12 @@ Doubling~\cite{saca:11}, Discarding~\cite{saca:11} and QSufSort~\cite{saca:1}.
 
 \subsection{Sorting Algorithms}
 
-Many SACAs use sorting algorithms at some point, so for the benchmark a variety of sorting algorithms were implemented so that all SACAs can use them. Included are some versions of quicksort, bucketsort and versions of radixsort.  This is especially interesting for naive parallelization, where one may just switch from a sequential sorting algorithm to a parallel one and thereby improve performance.
-Besides our own implemented sorting algorithms some external sorting algorithms are also included. Most of those external sorting algorithms are made for parallel use.
+Many SACAs use sorting algorithms at some point. For the benchmark a variety of sorting algorithms were implemented so that all SACAs can use them.
+We include some versions of quicksort, bucketsort and radixsort.
+This is especially interesting for naive parallelization, where one may just switch from a sequential sorting algorithm to a parallel one
+and thereby improve performance.
+Besides our own implemented sorting algorithms some external sorting algorithms are also included.
+Most of those external sorting algorithms are made for parallel use.
 
 \subsubsection{Binary vs. ternary comparison-based sort}
 
