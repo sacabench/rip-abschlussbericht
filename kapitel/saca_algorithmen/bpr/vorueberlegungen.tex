@@ -20,7 +20,7 @@ Damit einige der Schritte im späteren Verlauf des Algorithmus im Bezug auf Indi
 \end{definition}
 
 Ist das zugrunde liegende Alphabet außerdem total geordnet, so können auch die Suffixe eines Strings anhand dieser Ordnung sortiert werden.
-Der Vergleich zweier Symbole des Alphabets bezüglich der Ordnung wird dadurch vereinfacht, dass jedem Symbol mit der Funktion \effective (Definition \ref{def:effective_alphabet} auf Seite \pageref{def:effective_alphabet}) eine natürliche Zahl als Rang zugewiesen wird.
+Der Vergleich zweier Symbole des Alphabets bezüglich der Ordnung wird dadurch vereinfacht, dass jedem Symbol mit der Funktion \effective (Definition \ref{def:effective_alphabet}) eine natürliche Zahl als Rang zugewiesen wird.
 
 Während für einzelne Symbole die Verwendung des effektiven Alphabets gegenüber dem direkten Vergleich keinen wesentlichen Vorteil erzielt, ergibt sich bei dem lexikographischen Vergleich zweier Strings bereits eine andere Situation: Auf Basis der Ränge der einzelnen Symbole kann auch ganzen Strings eine ganzzahlige Codierung zugewiesen werden, welche den Vergleich beschleunigt.
 
@@ -36,4 +36,4 @@ Auch Kodierungen für Strings größerer Länge als \(d\) können auf diese Weis
     \coded(\suffix{i+1}) = (|\Sigma| + 1) \cdot \left( \coded(\suffix{i}) \text{ mod } (|\Sigma| + 1)^{d-1}\right) + \effective(\inputtextplus[i+d])
 \end{equation}
 Man beachte hier, dass für zwei aufeinanderfolgende Suffixe \suffix{i} und \suffix{i+1} lediglich das erste Symbol aus \suffix{i} aus der Kodierung entfernt werden muss (mittels mod \((|\Sigma| + 1)^{d-1}\)), woraufhin die Wertigkeit aller verbleibenden Symbole jeweils um eine Stelle ansteigt. Zuletzt muss nur noch der Rang des letzten Symbols aus \suffix{i+1} hinzu addiert werden.\par\smallskip
-Wie viele andere Algorithmen zur Konstruktion von Suffixarrays, arbeitet auch \bpr mit einer Unterteilung des Suffixarrays in sogenannte Buckets (Definition \ref{def:bucket} auf Seite \pageref{def:bucket}). Die Unterteilung des Arrays in Buckets ist erforderlich, um das Suffixarray schrittweise sortieren zu können, indem bestehende Buckets durch Aufteilung weiter verfeinert werden.
+Wie viele andere Algorithmen zur Konstruktion von Suffix-Arrays, arbeitet auch \bpr mit einer Unterteilung des Suffix-Arrays in sogenannte Buckets (Definition \ref{def:bucket} auf Seite \pageref{def:bucket}). Die Unterteilung des Arrays in Buckets ist erforderlich, um das Suffix-Array schrittweise sortieren zu können, indem bestehende Buckets durch Aufteilung weiter verfeinert werden.
