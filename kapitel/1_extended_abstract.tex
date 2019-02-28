@@ -255,6 +255,13 @@ interpreting them as integer numbers (64 bit, or even up to 512 bit by using vec
 Algorithms using wordpacking techniques are the Osipov algorithm~\cite{osipovGPU},
 Doubling~\cite{saca:11}, Discarding~\cite{saca:11} and QSufSort~\cite{saca:1}.
 
+\subsection{Utilization of a GPU}
+
+Since GPUs feature many more cores than modern desktop or even server CPUs,
+we include a prefix doubling SACA which uses CUDA to run on the GPU~\cite{osipovGPU}.
+We show that this algorithm outperformes the parallel DivSufSort implementation.
+\todo{Olli? Hermann? vlt noch was ergänzen}
+
 \subsection{Sorting Algorithms}
 
 Many SACAs use sorting algorithms at some point. For the benchmark a variety of sorting algorithms were implemented so that all SACAs can use them.
