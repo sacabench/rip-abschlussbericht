@@ -37,13 +37,13 @@ Dann wird dieses Zeichen aus seiner aktuellen Gruppe entfernt und in eine neue, 
 Am Schluss der while-Schleife wird das Zeichen, auf den der \prevpointer des aktuellen Zeichens zeigt, zum betrachteten Element für die nächste Iteration der while-Schleife.\\
 
 Im folgenden wird die erste Iteration der zweiten Phase exemplarisch am Beispiel Banane durchlaufen:\\
-SA[1] = 7\\
+\sa[1] = 7\\
 for-Schleife wird mit $i$ = 1 begonnen\\
 $j$ = \sa[$i$] - 1 = \sa[1] - 1 = 6\\
 $j$ $\neq$ 0, in while-Schleife wird eingetreten\\
 $sr$ = |\{\$, anane, ane, b\}| = 4\\
-SA[$sr$ + 1] = nil, daher wird die 1. Iteration der for-Schleife nicht abgebrochen\\
-SA[$sr$ + 1] = $j$ = 6\\
+\sa[$sr$ + 1] = nil, daher wird die 1. Iteration der for-Schleife nicht abgebrochen\\
+\sa[$sr$ + 1] = $j$ = 6\\
 $j$ wird aus der aktuellen Gruppe entfernt und in eine neue Gruppe eingefügt, die ein direkter Vorgänger der aktuellen Gruppe ist. Da $j$ das einzige Element dieser Gruppe ist, findet keine Änderung statt.\\
 $j$ = prev($j$) = 4. Die nächste Iteration der while-Schleife wird mit $j$ = 4 durchlaufen.
 
