@@ -261,8 +261,8 @@ Doubling~\cite{saca:11}, Discarding~\cite{saca:11} and QSufSort~\cite{saca:1}.
 \subsection{Utilization of a GPU}
 
 Since GPUs feature many more cores than modern desktop or even server CPUs,
-we include a prefix doubling SACA which uses CUDA to run on the GPU~\cite{osipovGPU}.
-We show that this algorithm outperformes the parallel DivSufSort implementation.
+we include a prefix doubling SACA which uses CUDA and the CUB-Framework to run on the GPU~\cite{osipovGPU}.
+We show that this algorithm outperformes the parallel DivSufSort implementation, although the required and available memory on current GPUs still restricts the algorithm to far smaller input sizes than CPU SACAs are capable of. Further research of GPU SACAs should be considered, as we could hardly find any (working) reference algorithms to compare our implementation with (and development of GPUs shows higher performance improvements than CPU development\todo{entweder belegen oder entfernen.}).
 \todo{Olli? Hermann? vlt noch was ergänzen}
 
 \subsection{Sorting Algorithms}
