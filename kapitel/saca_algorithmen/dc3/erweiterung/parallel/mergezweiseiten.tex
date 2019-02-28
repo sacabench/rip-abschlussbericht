@@ -1,4 +1,4 @@
 \subparagraph*{Merge von zwei Seiten}
 \label{dc3:erweiterung:parallel:mergezweiseiten}
 
-In diesem Abschnitt beschreiben wir eine einfache Parallelisierung des naiven Mergealgorithmus mit zwei Threads. Sei dazu $n$ die Größe des Ausgabearrays $C$. Damit beide Threads unabhängig voneinander arbeiten, mergt der erste Thread von links insgesamt $x$ Schritte und der andere Thread mergt von rechts insgesamt $n-x$ Schritte. Da der erste Thread in die ersten $x$ Positionen von $C$ und der zweite Thread an die letzten $n-x$ Positionen schreibt, arbeiten beide Threads unabhängig voneinander.
+In diesem Abschnitt beschreiben wir eine einfache Parallelisierung des naiven Merge-Algorithmus mit zwei Threads. Sei dazu $n$ die Größe des Ausgabearrays $\mathsf{C}$. Damit beide Threads unabhängig voneinander arbeiten, vereinigt der erste Thread von links insgesamt $x$ Schritte und der andere Thread vereinigt von rechts insgesamt $n-x$ Schritte. Da der erste Thread in die ersten $x$ Positionen von $\mathsf{C}$ und der zweite Thread an die letzten $n-x$ Positionen schreibt, arbeiten beide Threads unabhängig voneinander.
