@@ -74,6 +74,8 @@
 
     \medskip
     \ref{legend-seq-msufsort-0}
+    \caption{mSufSort Varianten auf wiki.txt}
+    \label{msufsort_seq_1}
 \end{figure}
 
 \begin{figure}[ht]
@@ -148,6 +150,8 @@
 
     \medskip
     \ref{legend-seq-msufsort-1}
+    \caption{mSufSort Varianten auf dna.txt}
+    \label{msufsort_seq_2}
 \end{figure}
 
 \begin{figure}[ht]
@@ -222,15 +226,12 @@
 
     \medskip
     \ref{legend-seq-msufsort-2}
+    \caption{mSufSort Varianten auf commoncrawl.txt}
+	\label{msufsort_seq_3}
 \end{figure}
 \FloatBarrier
 
-Es wurden alle drei sequentiellen Varianten des MSufSort parallelisiert.
-In \todo{Fix these legends wtf} den Experimenten \ref{legend-seq-msufsort-0}, \ref{legend-seq-msufsort-1} und \ref{legend-seq-msufsort-2} ist jeweils der naive Algorithmus am langsamsten, was bedeutet,
-dass zumindest alle Varianten benutzbar sind. In \ref{legend-seq-msufsort-0} und \ref{legend-seq-msufsort-1} ist die Scan-Variante am schnellsten,
-insbesondere bei dem DNA Eingabetext erkennt man auch eine deutlich flacher verlaufende Kurve,
-vermutlich durch die lineare Laufzeit in einem der Sortierer.
-Dieser (Scan-)Sortierer profitiert auch insbesondere von sehr kleinen Alphabeten,
-da dann weniger Cache-Misses auftreten. Die beiden anderen Varianten unterscheiden sich fast gar nicht.
-In \ref{legend-seq-msufsort-2} liegt die Scan-Variante oberhalb versetzt zu den anderen Varianten,
+In den Experimenten \ref{msufsort_seq_1}, \ref{msufsort_seq_2} und \ref{msufsort_seq_3} ist jeweils der naive Algorithmus langsamer als mSufSort_scan und die Referenzimplementierung. Die beiden anderen Varianten, mSufSort und mSufSortV2 sind teilweise ähnlich schlecht wie der naive SACA. Auf allen drei Texten ist jedoch die Referenzimplementierung jeweils deutlich am schnellsten; diese funktioniert aber nur für bis zu 800 Megabyte Eingabegröße. In \ref{msufsort_seq_1} und \ref{msufsort_seq_2} ist von den drei eigenen mSufSort-Varianten die Scan-Variante am schnellsten und hat auf allen drei Texten den geringsten Speicherverbrauch.
+Die beiden anderen Varianten unterscheiden sich nur geringfügig in Laufzeit und Speicherverbrauch. Die Referenzimplementierung hat dagegen auf allen Eingaben den größten Speicherverbrauch, insbesondere bei Commoncrawl im Vergleich zur Scan-Variante.
+In \ref{msufsort_seq_3} liegt die Scan-Variante nach oben versetzt zu den anderen Varianten,
 skaliert aber zumindest nicht schlechter und liegt näher an den normalen MSufSort Varianten als am naiven Sortierer.
