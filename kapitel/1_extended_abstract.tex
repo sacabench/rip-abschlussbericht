@@ -140,7 +140,7 @@ These plots can be used to compare the algorithms fairly.
 
 \subsection{Adding additional SACAs}
 
-A standardized interface for SACAs allows to easily add new implementations. Implementing this interface as a class requires static attributes for the name and a description of the SACA in order to be used via our commandline tool. Additionally the attribute for extra sentinels specifies, how many sentinels are added at the end of the input text by our framework, aiding in a more simple handling of corner cases. The realization of the member function \termfont{construct\_sa} represents the specified SACA, containing the needed calls to correctly compute the \sa. Registering the SACA in the corresponding file allows the \sacabench framework to access the provided class, giving access to all features of our benchmark tool for the added algorithm.
+A standardized interface for SACAs allows to easily add new implementations. Implementing this interface requires attributes for the name and a description of the SACA in order to be used via our commandline tool. Additionally the attribute for extra sentinels specifies, how many sentinels are added at the end of the input text by our framework, aiding in a more simple handling of corner cases. The realization of the corresponding member function represents the specified SACA, containing the added algorithm to correctly compute the \sa. Registering the SACA within our framework allows \sacabench to access the provided implementation, giving access to all features of our benchmark tool for the added algorithm.
 See the \emph{README} in our GitHub repository~\cite{sacabench:github} for the detailed specification of our interface.
 \section{SACA Overview}
 
@@ -222,7 +222,7 @@ This directly influenced qsufsort, which improved its performance~\cite{hermann?
 BPR incorporated some ideas of inducing with prefix doubling and is therefore on the edge of those two paradigms.
 Its inducing is based on the copy-technique by Seward~\cite{seward2000}.
 This technique is also used by Deep-Shallow, which uses string-sorting instead of prefix doubling.
-It influenced divsufsort, which sorts it's RMS (rightmost S-Type) suffixes in order to induce the remaining S- and after that all L-Type suffixes.
+It influenced divsufsort, which sorts its RMS (rightmost S-Type) substrings before it completely sorts all RMS suffixes. Given the correct order of the RMS suffixes, all remaining S-Type suffixes get induced in one pass and all L-Type suffixes in a second pass.
 mSufSort is another inducing-SACA, but since it constructs the \emph{inverse suffix array} instead of the SA,
 it's not derived from any other SACA.
 SAIS/SADS take inducing one step further than DivSufSort and induce most suffixes after a recursion step.
