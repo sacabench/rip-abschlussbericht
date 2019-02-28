@@ -1,0 +1,383 @@
+\subsection{Vergleich der eigenen Implementierungen}
+% IMPORT-DATA results_sequential results.txt
+
+\begin{figure}[ht]
+    \textbf{Configuration} \hfill Input file: wiki.txt \hfill Prefix size: 1600\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
+    \centering\small
+    \begin{tikzpicture}[trim axis left]
+        \begin{axis}[batchTimePlot,
+            cycle list name={exotic},
+            legend to name=runtime-all-0,
+            width=\textwidth,
+            height=60mm,
+            xtick style = {draw=none},
+            xticklabel pos=upper,
+            title={},
+            bar width=12pt,
+            ylabel={SA construction time [min]},
+            legend style={
+                /tikz/every even column/.append style={column sep=0.5cm,black},
+                /tikz/every even column/.append style={black},
+            },
+            legend columns=2,
+            symbolic x coords={ wiki.txt },
+            every node near coord/.append style={color=black, rotate=90, anchor=west},
+            ]
+
+            %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, time/1000/60 AS y
+            %% FROM ( 
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="wiki.txt" AND prefix=1677721600
+            %% AND (algo="BPR" OR algo="Deep-Shallow" OR algo="Deep-Shallow_bb" OR algo="DivSufSort" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2" OR algo="SACA-K" OR algo="SAIS" OR algo="SADS" OR algo="qsufsort" OR algo="DC3" OR algo="DC3-Lite" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4" OR algo="nzSufSort" OR algo="Osipov_sequential_wp")
+            %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY y
+            \addplot coordinates { (wiki.txt,5.26654) };
+            \addlegendentry{algo=BPR};
+            \addplot coordinates { (wiki.txt,13.1462) };
+            \addlegendentry{algo=SACA-K};
+            \addplot coordinates { (wiki.txt,14.5018) };
+            \addlegendentry{algo=Deep-Shallow\_bb};
+            \addplot coordinates { (wiki.txt,15.2937) };
+            \addlegendentry{algo=SAIS};
+            \addplot coordinates { (wiki.txt,16.0261) };
+            \addlegendentry{algo=mSufSort\_scan};
+            \addplot coordinates { (wiki.txt,17.3743) };
+            \addlegendentry{algo=Deep-Shallow};
+            \addplot coordinates { (wiki.txt,21.9919) };
+            \addlegendentry{algo=mSufSort};
+            \addplot coordinates { (wiki.txt,22.0164) };
+            \addlegendentry{algo=mSufSortV2};
+            \addplot coordinates { (wiki.txt,22.3255) };
+            \addlegendentry{algo=Discarding4};
+            \addplot coordinates { (wiki.txt,23.9962) };
+            \addlegendentry{algo=Discarding2};
+            \addplot coordinates { (wiki.txt,24.3801) };
+            \addlegendentry{algo=SADS};
+            \addplot coordinates { (wiki.txt,26.6607) };
+            \addlegendentry{algo=Osipov\_sequential\_wp};
+            \addplot coordinates { (wiki.txt,27.6101) };
+            \addlegendentry{algo=qsufsort};
+            \addplot coordinates { (wiki.txt,28.7747) };
+            \addlegendentry{algo=DC3};
+            \addplot coordinates { (wiki.txt,38.0502) };
+            \addlegendentry{algo=DivSufSort};
+            \addplot coordinates { (wiki.txt,97.2159) };
+            \addlegendentry{algo=Doubling};
+        \end{axis}
+    \end{tikzpicture}
+    \begin{tikzpicture}[trim axis left]
+        \begin{axis}[batchTimePlot,
+            cycle list name={exotic},
+            width=\textwidth,
+            height=60mm,
+            xtick style = {draw=none},
+            y dir=reverse,
+            title={},
+            bar width=12pt,
+            ylabel={Extra Memory [GiB]},
+            legend style={
+                /tikz/every even column/.append style={column sep=0.5cm,black},
+                /tikz/every even column/.append style={black},
+            },
+            legend columns=2,
+            symbolic x coords={ wiki.txt },
+            every node near coord/.append style={color=black, rotate=90, anchor=east, /pgf/number format/fixed},
+            ]
+
+            %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, memPeak/1024/1024/1024 AS y
+            %% FROM ( 
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="wiki.txt" AND prefix=1677721600
+            %% AND (algo="BPR" OR algo="Deep-Shallow" OR algo="Deep-Shallow_bb" OR algo="DivSufSort" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2" OR algo="SACA-K" OR algo="SAIS" OR algo="SADS" OR algo="qsufsort" OR algo="DC3" OR algo="DC3-Lite" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4" OR algo="nzSufSort" OR algo="Osipov_sequential_wp")
+            %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY time
+            \addplot coordinates { (wiki.txt,6.319) };
+            \addlegendentry{algo=BPR};
+            \addplot coordinates { (wiki.txt,1.7929) };
+            \addlegendentry{algo=SACA-K};
+            \addplot coordinates { (wiki.txt,0.0180314) };
+            \addlegendentry{algo=Deep-Shallow\_bb};
+            \addplot coordinates { (wiki.txt,0.804417) };
+            \addlegendentry{algo=SAIS};
+            \addplot coordinates { (wiki.txt,0.187833) };
+            \addlegendentry{algo=mSufSort\_scan};
+            \addplot coordinates { (wiki.txt,0.0181133) };
+            \addlegendentry{algo=Deep-Shallow};
+            \addplot coordinates { (wiki.txt,1.75387) };
+            \addlegendentry{algo=mSufSort};
+            \addplot coordinates { (wiki.txt,1.75388) };
+            \addlegendentry{algo=mSufSortV2};
+            \addplot coordinates { (wiki.txt,31.252) };
+            \addlegendentry{algo=Discarding4};
+            \addplot coordinates { (wiki.txt,18.752) };
+            \addlegendentry{algo=Discarding2};
+            \addplot coordinates { (wiki.txt,4.09191) };
+            \addlegendentry{algo=SADS};
+            \addplot coordinates { (wiki.txt,43.7463) };
+            \addlegendentry{algo=Osipov\_sequential\_wp};
+            \addplot coordinates { (wiki.txt,6.252) };
+            \addlegendentry{algo=qsufsort};
+            \addplot coordinates { (wiki.txt,24.8374) };
+            \addlegendentry{algo=DC3};
+            \addplot coordinates { (wiki.txt,3.81545) };
+            \addlegendentry{algo=DivSufSort};
+            \addplot coordinates { (wiki.txt,18.752) };
+            \addlegendentry{algo=Doubling};
+
+            \legend{}
+        \end{axis}
+    \end{tikzpicture}
+    \medskip
+    \ref{runtime-all-0}
+\end{figure}
+
+\begin{figure}[ht]
+    \textbf{Configuration} \hfill Input file: dna.txt \hfill Prefix size: 1600\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
+    \centering\small
+    \begin{tikzpicture}[trim axis left]
+        \begin{axis}[batchTimePlot,
+            cycle list name={exotic},
+            legend to name=runtime-all-1,
+            width=\textwidth,
+            height=60mm,
+            xtick style = {draw=none},
+            xticklabel pos=upper,
+            title={},
+            bar width=12pt,
+            ylabel={SA construction time [min]},
+            legend style={
+                /tikz/every even column/.append style={column sep=0.5cm,black},
+                /tikz/every even column/.append style={black},
+            },
+            legend columns=2,
+            symbolic x coords={ dna.txt },
+            every node near coord/.append style={color=black, rotate=90, anchor=west},
+            ]
+
+            %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, time/1000/60 AS y
+            %% FROM ( 
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="dna.txt" AND prefix=1677721600
+            %% AND (algo="BPR" OR algo="Deep-Shallow" OR algo="Deep-Shallow_bb" OR algo="DivSufSort" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2" OR algo="SACA-K" OR algo="SAIS" OR algo="SADS" OR algo="qsufsort" OR algo="DC3" OR algo="DC3-Lite" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4" OR algo="nzSufSort" OR algo="Osipov_sequential_wp")
+            %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY y
+            \addplot coordinates { (dna.txt,6.4462) };
+            \addlegendentry{algo=BPR};
+            \addplot coordinates { (dna.txt,12.0125) };
+            \addlegendentry{algo=SACA-K};
+            \addplot coordinates { (dna.txt,14.5312) };
+            \addlegendentry{algo=mSufSort\_scan};
+            \addplot coordinates { (dna.txt,15.4772) };
+            \addlegendentry{algo=Deep-Shallow\_bb};
+            \addplot coordinates { (dna.txt,18.6786) };
+            \addlegendentry{algo=qsufsort};
+            \addplot coordinates { (dna.txt,18.893) };
+            \addlegendentry{algo=SAIS};
+            \addplot coordinates { (dna.txt,19.1414) };
+            \addlegendentry{algo=Deep-Shallow};
+            \addplot coordinates { (dna.txt,21.3285) };
+            \addlegendentry{algo=Discarding2};
+            \addplot coordinates { (dna.txt,22.8657) };
+            \addlegendentry{algo=Discarding4};
+            \addplot coordinates { (dna.txt,23.0384) };
+            \addlegendentry{algo=mSufSort};
+            \addplot coordinates { (dna.txt,23.1582) };
+            \addlegendentry{algo=mSufSortV2};
+            \addplot coordinates { (dna.txt,24.4515) };
+            \addlegendentry{algo=DC3};
+            \addplot coordinates { (dna.txt,24.6533) };
+            \addlegendentry{algo=Osipov\_sequential\_wp};
+            \addplot coordinates { (dna.txt,31.0041) };
+            \addlegendentry{algo=SADS};
+            \addplot coordinates { (dna.txt,42.5506) };
+            \addlegendentry{algo=DivSufSort};
+            \addplot coordinates { (dna.txt,47.8121) };
+            \addlegendentry{algo=Doubling};
+        \end{axis}
+    \end{tikzpicture}
+    \begin{tikzpicture}[trim axis left]
+        \begin{axis}[batchTimePlot,
+            cycle list name={exotic},
+            width=\textwidth,
+            height=60mm,
+            xtick style = {draw=none},
+            y dir=reverse,
+            title={},
+            bar width=12pt,
+            ylabel={Extra Memory [GiB]},
+            legend style={
+                /tikz/every even column/.append style={column sep=0.5cm,black},
+                /tikz/every even column/.append style={black},
+            },
+            legend columns=2,
+            symbolic x coords={ dna.txt },
+            every node near coord/.append style={color=black, rotate=90, anchor=east, /pgf/number format/fixed},
+            ]
+
+            %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, memPeak/1024/1024/1024 AS y
+            %% FROM ( 
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="dna.txt" AND prefix=1677721600
+            %% AND (algo="BPR" OR algo="Deep-Shallow" OR algo="Deep-Shallow_bb" OR algo="DivSufSort" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2" OR algo="SACA-K" OR algo="SAIS" OR algo="SADS" OR algo="qsufsort" OR algo="DC3" OR algo="DC3-Lite" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4" OR algo="nzSufSort" OR algo="Osipov_sequential_wp")
+            %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY time
+            \addplot coordinates { (dna.txt,6.25229) };
+            \addlegendentry{algo=BPR};
+            \addplot coordinates { (dna.txt,1.72991) };
+            \addlegendentry{algo=SACA-K};
+            \addplot coordinates { (dna.txt,1.5) };
+            \addlegendentry{algo=mSufSort\_scan};
+            \addplot coordinates { (dna.txt,0.017046) };
+            \addlegendentry{algo=Deep-Shallow\_bb};
+            \addplot coordinates { (dna.txt,6.252) };
+            \addlegendentry{algo=qsufsort};
+            \addplot coordinates { (dna.txt,0.716865) };
+            \addlegendentry{algo=SAIS};
+            \addplot coordinates { (dna.txt,0.0170461) };
+            \addlegendentry{algo=Deep-Shallow};
+            \addplot coordinates { (dna.txt,18.752) };
+            \addlegendentry{algo=Discarding2};
+            \addplot coordinates { (dna.txt,31.252) };
+            \addlegendentry{algo=Discarding4};
+            \addplot coordinates { (dna.txt,3.5) };
+            \addlegendentry{algo=mSufSort};
+            \addplot coordinates { (dna.txt,3.51563) };
+            \addlegendentry{algo=mSufSortV2};
+            \addplot coordinates { (dna.txt,24.4513) };
+            \addlegendentry{algo=DC3};
+            \addplot coordinates { (dna.txt,43.75) };
+            \addlegendentry{algo=Osipov\_sequential\_wp};
+            \addplot coordinates { (dna.txt,3.96975) };
+            \addlegendentry{algo=SADS};
+            \addplot coordinates { (dna.txt,3.39691) };
+            \addlegendentry{algo=DivSufSort};
+            \addplot coordinates { (dna.txt,18.752) };
+            \addlegendentry{algo=Doubling};
+
+            \legend{}
+        \end{axis}
+    \end{tikzpicture}
+    \medskip
+    \ref{runtime-all-1}
+\end{figure}
+
+\begin{figure}[ht]
+    \textbf{Configuration} \hfill Input file: commoncrawl.txt \hfill Prefix size: 1600\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
+    \centering\small
+    \begin{tikzpicture}[trim axis left]
+        \begin{axis}[batchTimePlot,
+            cycle list name={exotic},
+            legend to name=runtime-all-2,
+            width=\textwidth,
+            height=60mm,
+            xtick style = {draw=none},
+            xticklabel pos=upper,
+            title={},
+            bar width=12pt,
+            ylabel={SA construction time [min]},
+            legend style={
+                /tikz/every even column/.append style={column sep=0.5cm,black},
+                /tikz/every even column/.append style={black},
+            },
+            legend columns=2,
+            symbolic x coords={ commoncrawl.txt },
+            every node near coord/.append style={color=black, rotate=90, anchor=west},
+            ]
+
+            %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, time/1000/60 AS y
+            %% FROM ( 
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="commoncrawl.txt" AND prefix=1677721600
+            %% AND (algo="BPR" OR algo="Deep-Shallow" OR algo="Deep-Shallow_bb" OR algo="DivSufSort" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2" OR algo="SACA-K" OR algo="SAIS" OR algo="SADS" OR algo="qsufsort" OR algo="DC3" OR algo="DC3-Lite" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4" OR algo="nzSufSort" OR algo="Osipov_sequential_wp")
+            %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY y
+            \addplot coordinates { (commoncrawl.txt,4.66061) };
+            \addlegendentry{algo=BPR};
+            \addplot coordinates { (commoncrawl.txt,11.8154) };
+            \addlegendentry{algo=SACA-K};
+            \addplot coordinates { (commoncrawl.txt,12.867) };
+            \addlegendentry{algo=SAIS};
+            \addplot coordinates { (commoncrawl.txt,21.6143) };
+            \addlegendentry{algo=SADS};
+            \addplot coordinates { (commoncrawl.txt,25.7161) };
+            \addlegendentry{algo=DC3};
+            \addplot coordinates { (commoncrawl.txt,26.7399) };
+            \addlegendentry{algo=mSufSort};
+            \addplot coordinates { (commoncrawl.txt,26.7709) };
+            \addlegendentry{algo=mSufSortV2};
+            \addplot coordinates { (commoncrawl.txt,32.9371) };
+            \addlegendentry{algo=qsufsort};
+            \addplot coordinates { (commoncrawl.txt,34.3377) };
+            \addlegendentry{algo=Discarding4};
+            \addplot coordinates { (commoncrawl.txt,37.8495) };
+            \addlegendentry{algo=Osipov\_sequential\_wp};
+            \addplot coordinates { (commoncrawl.txt,39.0313) };
+            \addlegendentry{algo=mSufSort\_scan};
+            \addplot coordinates { (commoncrawl.txt,43.9922) };
+            \addlegendentry{algo=Discarding2};
+            \addplot coordinates { (commoncrawl.txt,56.6159) };
+            \addlegendentry{algo=DivSufSort};
+        \end{axis}
+    \end{tikzpicture}
+    \begin{tikzpicture}[trim axis left]
+        \begin{axis}[batchTimePlot,
+            cycle list name={exotic},
+            width=\textwidth,
+            height=60mm,
+            xtick style = {draw=none},
+            y dir=reverse,
+            title={},
+            bar width=12pt,
+            ylabel={Extra Memory [GiB]},
+            legend style={
+                /tikz/every even column/.append style={column sep=0.5cm,black},
+                /tikz/every even column/.append style={black},
+            },
+            legend columns=2,
+            symbolic x coords={ commoncrawl.txt },
+            every node near coord/.append style={color=black, rotate=90, anchor=east, /pgf/number format/fixed},
+            ]
+
+            %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, memPeak/1024/1024/1024 AS y
+            %% FROM ( 
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="commoncrawl.txt" AND prefix=1677721600
+            %% AND (algo="BPR" OR algo="Deep-Shallow" OR algo="Deep-Shallow_bb" OR algo="DivSufSort" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2" OR algo="SACA-K" OR algo="SAIS" OR algo="SADS" OR algo="qsufsort" OR algo="DC3" OR algo="DC3-Lite" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4" OR algo="nzSufSort" OR algo="Osipov_sequential_wp")
+            %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY time
+            \addplot coordinates { (commoncrawl.txt,6.35691) };
+            \addlegendentry{algo=BPR};
+            \addplot coordinates { (commoncrawl.txt,1.71848) };
+            \addlegendentry{algo=SACA-K};
+            \addplot coordinates { (commoncrawl.txt,0.745269) };
+            \addlegendentry{algo=SAIS};
+            \addplot coordinates { (commoncrawl.txt,3.91508) };
+            \addlegendentry{algo=SADS};
+            \addplot coordinates { (commoncrawl.txt,24.9679) };
+            \addlegendentry{algo=DC3};
+            \addplot coordinates { (commoncrawl.txt,1.63092) };
+            \addlegendentry{algo=mSufSort};
+            \addplot coordinates { (commoncrawl.txt,1.63093) };
+            \addlegendentry{algo=mSufSortV2};
+            \addplot coordinates { (commoncrawl.txt,6.252) };
+            \addlegendentry{algo=qsufsort};
+            \addplot coordinates { (commoncrawl.txt,31.252) };
+            \addlegendentry{algo=Discarding4};
+            \addplot coordinates { (commoncrawl.txt,43.7461) };
+            \addlegendentry{algo=Osipov\_sequential\_wp};
+            \addplot coordinates { (commoncrawl.txt,0.187944) };
+            \addlegendentry{algo=mSufSort\_scan};
+            \addplot coordinates { (commoncrawl.txt,18.752) };
+            \addlegendentry{algo=Discarding2};
+            \addplot coordinates { (commoncrawl.txt,4.21944) };
+            \addlegendentry{algo=DivSufSort};
+
+            \legend{}
+        \end{axis}
+    \end{tikzpicture}
+    \medskip
+    \ref{runtime-all-2}
+\end{figure}
+\FloatBarrier
+
+
+
+%****************************************************************************************
+%
+% Hier der Text über die Laufzeit der eigenen Algos
+%
+%****************************************************************************************
