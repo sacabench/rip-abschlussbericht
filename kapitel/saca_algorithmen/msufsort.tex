@@ -2,7 +2,7 @@
 
 \subsection{Einleitung}
 
-In \currentauthor{Rosa Pink} diesem Abschnitt wird ein Algorithmus, oder vielmehr eine Sammlung aus Algorithmen, vorgestellt, die in \glqq An Efficient, Versatile Approach to Suffix Sorting\grqq \cite{Maniscalco}\todo{Missing reference} beschrieben sind. Dabei liegt der Fokus nicht auf der exakten Wiedergabe des Papers, sondern auf weiterführenden Beispielen und Erläuterungen, sowie einer Erweiterung des dort bereits angegebenen Pseudocodes. Zudem wird auf die Implementierung im Rahmen der Projektgruppe eingegangen und ein Beispiel angehängt, das zum besseren Verständnis beitragen sollte.\\
+In \currentauthor{Rosa Pink} diesem Abschnitt wird ein Algorithmus, oder vielmehr eine Sammlung aus Algorithmen, vorgestellt, die in \glqq An Efficient, Versatile Approach to Suffix Sorting\grqq \cite{saca:8} beschrieben sind. Dabei liegt der Fokus nicht auf der exakten Wiedergabe des Papers, sondern auf weiterführenden Beispielen und Erläuterungen, sowie einer Erweiterung des dort bereits angegebenen Pseudocodes. Zudem wird auf die Implementierung im Rahmen der Projektgruppe eingegangen und ein Beispiel angehängt, das zum besseren Verständnis beitragen sollte.\\
 
 Bei der Entwicklung dieses Algorithmus' wurden von Maniscalco et al. drei Ziele verfolgt:\\
 1. \textbf{Kurze Laufzeit} - der Algorithmus soll mit anderen SACAs mithalten können. Er soll außerdem besonders schnell die Burrows-Wheeler Transformation \cite{BWT} berechnen können, die zur verlustfreien Kompression von Texten verwendet werden kann.\\
@@ -76,7 +76,7 @@ until chainStack = @$\emptyset$@
 \label{uChain}
 \end{listing}
 
-In Algorithmus \ref{uChain} (aus \cite{Maniscalco})\todo{kaputte referenz} wird der Pseudocode des $u$-Chain Bucket-Sort mSufSort dargestellt.
+In Algorithmus \ref{uChain} (aus \cite{saca:8}) wird der Pseudocode des $u$-Chain Bucket-Sort mSufSort dargestellt.
 Zu Beginn werden die initialen $u$-Chains der Länge 1 gebildet und sortiert auf den Stack gelegt. Danach werden solange $u$-Chains auf dem Stack abgearbeitet, bis dieser leer ist, und damit alle Suffixe im \isa einen Rang zugewiesen bekommen haben.
 Es wird in jedem Schleifendurchlauf ein $u$-Chain-Tupel vom Stack genommen. Handelt es sich dabei um ein Singleton, so wird direkt ein Rang zugewiesen. Wenn die $u$-Chain mehrere Einträge hat, so wird die $u$-Chain \textit{verfeinert}. Das bedeutet, es werden Sub-Chains erstellt die jeweils ein Zeichen mehr berücksichtigen. Die Länge von $u$ erhöht sich also um 1. Diese Sub-Chains werden dann, sobald die $u$-Chain durchlaufen wurde, sortiert und auf den Stack gelegt. Daher werden sie im nächsten Durchlauf als erstes abgearbeitet, und sollten durch die Verfeinerung Singletons entstanden sein, werden diese nun entsprechend Ränge zugewiesen bekommen.\\
 
