@@ -1,8 +1,7 @@
 \subsection{Effizienz}
 \label{bpr:effizienz}
 
-%TODO Auf Evaluationskapitel verweisen
-Im Bezug auf die Effizienz des hier beschriebenen Algorithmus muss zwischen der asymptotischen Worst-Case Analyse und der Effizienz in realen Anwendungsszenarien unterschieden werden. Es existieren bereits andere Verfahren mit sehr guten theoretischen Laufzeitschranken von \(\Theta(n)\) \cite{saca:9} (DC3, \cref{algorithm:dc3}) sowie praxisnähere Algorithmen mit einer Laufzeitkomplexität von \(\O(n \log n)\) \cite{saca:5} (DivSufSort, \cref{algorithm:divsufsort}), wobei \(n\) die Länge des Eingabestrings ist. Da es aber in der Praxis durchaus vorstellbar ist, dass Algorithmen mit schlechterer asymptotischer Laufzeit für reale Anwendungszwecke schneller sind, werden wir uns im Kapitel Evaluation mit praktischen Laufzeitmessungen im Vergleich zu anderen Algorithmen auseinandersetzen.\par
+Im Bezug auf die Effizienz des hier beschriebenen Algorithmus muss zwischen der asymptotischen Worst-Case Analyse und der Effizienz in realen Anwendungsszenarien unterschieden werden. Es existieren bereits andere Verfahren mit sehr guten theoretischen Laufzeitschranken von \(\Theta(n)\) \cite{saca:9} (DC3, \cref{algorithm:dc3}) sowie praxisnähere Algorithmen mit einer Laufzeitkomplexität von \(\O(n \log n)\) \cite{saca:5} (DivSufSort, \cref{algorithm:divsufsort}), wobei \(n\) die Länge des Eingabestrings ist. Da es aber in der Praxis durchaus vorstellbar ist, dass Algorithmen mit schlechterer asymptotischer Laufzeit für reale Anwendungszwecke schneller sind, werden wir uns in \cref{ergebnisse} mit praktischen Laufzeitmessungen im Vergleich zu anderen Algorithmen auseinandersetzen.\par
 Gerade in der Praxis ist allerdins nicht nur die Laufzeitkomplexität, sondern auch die Speicherkomplexität von hoher Bedeutung. Die nachfolgende Analyse beschäftigt sich daher insbesondere auch mit dem Speicherbedarf des \bpr-Algorithmus.
 
 \input{kapitel/saca_algorithmen/bpr/effizienz/theorie}

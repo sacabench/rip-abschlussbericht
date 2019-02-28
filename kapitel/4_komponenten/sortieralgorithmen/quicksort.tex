@@ -8,10 +8,10 @@ Der Algorithmus erreicht zwar mit $\mathcal O(n^2)$ im Gegensatz zu anderen
 vergleichsbasierten Sortieralgorithmen eine schlechtere Worst-Case Laufzeit,
 aber in der Praxis ist Quicksort besser als andere Algorithmen.
 
-Das Vorgehen ist dabei wie folgt: Sei $A$ das zu sortierende Array.
+Das Vorgehen ist dabei wie folgt: Sei $\mathsf{A}$ das zu sortierende Array.
 Es wird ein geeignetes Pivotelement $p$ bestimmt und das Array durch Vertauschungen in
-zwei Bereiche $A_{\text{left}}$ und $A_{\text{right}}$ aufgeteilt.
-Dabei soll für alle $i$ gelten, dass $A_{\text{left}}[i] \le p$ und $A_{\text{right}}[i] > p$.
+zwei Bereiche $\mathsf{A}_{\text{left}}$ und $\mathsf{A}_{\text{right}}$ aufgeteilt.
+Dabei soll für alle $i$ gelten, dass $\mathsf{A}_{\text{left}}[i] \le p$ und $\mathsf{A}_{\text{right}}[i] > p$.
 Die beiden Teilarrays werden anschließend rekursiv sortiert.
 Der Rekursionsabbruch erfolgt, wenn das Eingabearray eine Größe von $0$ oder $1$ besitzt.
 In diesen Fällen ist die Eingabe bereits sortiert.
@@ -43,13 +43,13 @@ Anschließend beschreiben wir wie möglichst effizient das Pivotelement gewonnen
 Ternary Quicksort ist eine Variante des Quicksort, die besonders geeignet ist,
 wenn in der Eingabe mehrere gleiche Elemente vorkommen~\cite{ternary_quicksort}.
 Wir wählen hier wieder ein geeignetes Pivotelement $p$.
-Statt die Eingabe in zwei Bereiche aufzuteilen, teilen wir die Eingabe in drei Bereiche $A_{\text{left}}$, $A_{\text{middle}}$ und $A_{\text{right}}$ auf (siehe \cref{fg:ternary_partitions}).
-In $A_{\text{left}}$ sind alle Elemente enthalten, die echt kleiner sind als $p$.
-In $A_{\text{middle}}$ sind alle Elemente enthalten, die gleich $p$ sind, und in $A_{\text{right}}$ sind alle Elemente enthalten, die größer als $p$ sind.
+Statt die Eingabe in zwei Bereiche aufzuteilen, teilen wir die Eingabe in drei Bereiche $\mathsf{A}_{\text{left}}$, $\mathsf{A}_{\text{middle}}$ und $\mathsf{A}_{\text{right}}$ auf (siehe \cref{fg:ternary_partitions}).
+In $\mathsf{A}_{\text{left}}$ sind alle Elemente enthalten, die echt kleiner sind als $p$.
+In $\mathsf{A}_{\text{middle}}$ sind alle Elemente enthalten, die gleich $p$ sind, und in $\mathsf{A}_{\text{right}}$ sind alle Elemente enthalten, die größer als $p$ sind.
 Die Größe dieser Bereiche lässt sich durch Zählen der Elemente bestimmen.
 Anschließend können die Elemente durch Vertauschen in den richtigen Bereich geschrieben werden.
 
-Nachdem wir alle Elemente in die drei Bereiche aufgeteilt haben, müssen $A_{\text{left}}$ und $A_{\text{right}}$ rekursiv sortiert werden.
+Nachdem wir alle Elemente in die drei Bereiche aufgeteilt haben, müssen $\mathsf{A}_{\text{left}}$ und $\mathsf{A}_{\text{right}}$ rekursiv sortiert werden.
 
 \begin{figure}[!h]
 	\centering
@@ -70,7 +70,7 @@ Nachdem wir alle Elemente in die drei Bereiche aufgeteilt haben, müssen $A_{\te
 	\draw[decorate, decoration={mirror, brace,amplitude=10pt}] (8.1,0) -- (9.9,0) node[midway, below = 10pt] {$A_\text{right}$};
 	\end{scope}
 	\end{tikzpicture}
-	\caption[Partitionen bei ternary Quicksort]{Partitionen bei ternärem Quicksort. (Abbildung ähnlich in \cite{ternary_quicksort}.)}
+	\caption[Partitionen bei ternary Quicksort]{Partitionen bei ternary Quicksort. (Abbildung ähnlich in \cite{ternary_quicksort}.)}
 	\label{fg:ternary_partitions}
 \end{figure}
 

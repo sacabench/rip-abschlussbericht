@@ -6,6 +6,6 @@ In der ersten Phase werden Triplets aufgestellt und diese anschließend sortiert
 
 Die zweite Phase stellt Paare auf, welche erneut mit Hilfe von \emph{Radix-Sort} sortiert werden. Dies benötigt eine Laufzeit von $T(n) = \mathcal{O}(n)$.
 
-In der dritten Phase werden beide Mengen $SA_{0}$ und $SA_{12}$ jeweils einmal durchlaufen und einfache Vergleiche ausgeführt. Dies führt ebenfalls zu einer Laufzeit von $T(n) = \mathcal{O}(n)$.
+In der dritten Phase werden beide Mengen $\sa_{0}$ und $\sa_{12}$ jeweils einmal durchlaufen und einfache Vergleiche ausgeführt. Dies führt ebenfalls zu einer Laufzeit von $T(n) = \mathcal{O}(n)$.
 
-Also weist jede Phase eine Laufzeit von $\mathcal{O}(n)$ auf. Im \emph{Worst-Case} sind die lexikographischen Namen aus der ersten Phase jedoch nicht eindeutig, sodass ein rekursiver Aufruf erfolgt. Dabei wird der Algorithmus mit einer Textlänge von $2n/3$ aufgerufen. Zusammengefasst erhalten wir somit für den gesamten Algorithmus eine Laufzeit von $T(n) = \mathcal{O}(n) + T(2n/3)$. Da der Faktor $2/3$ kleiner als $1$ ist, lässt sich diese Rekursionsgleichung zu $T(n) = \mathcal{O}(n)$ auflösen. Somit ist die Laufzeit des \emph{DC3}-Algorithmus linear.
+Also weist jede Phase eine Laufzeit von $\mathcal{O}(n)$ auf. Im \emph{Worst-Case} sind die lexikographischen Namen aus der ersten Phase jedoch nicht eindeutig, sodass ein rekursiver Aufruf erfolgt. Dabei wird der Algorithmus mit einer Textlänge von $\frac{2n}{3}$ aufgerufen. Zusammengefasst erhalten wir somit für den gesamten Algorithmus eine Laufzeit von $T(n) = \mathcal{O}(n) + T(\frac{2n}{3})$. Da der Faktor $\frac{2}{3}$ kleiner als $1$ ist, lässt sich diese Rekursionsgleichung zu $T(n) = \mathcal{O}(n)$ auflösen. Somit ist die Laufzeit des \emph{DC3}-Algorithmus linear.
