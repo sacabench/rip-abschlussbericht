@@ -3,7 +3,7 @@
 \newcommand{\ltr}[1]{\ensuremath{ltr(\mathsf{b}_{#1})}\xspace}
 \newcommand{\rtl}[1]{\ensuremath{rtl(\mathsf{b}_{#1})}\xspace}
 
-Die \bpr Variante von Schürmann und Stoye \cite{saca:2} beschreibt einen komplett sequentiellen Algorithmus zur Konstruktion von {Suf\-fix\-arrays}.
+Die \bpr Variante von Schürmann und Stoye \cite{saca:2} beschreibt einen komplett sequentiellen Algorithmus zur Konstruktion von {Suf\-fix}-Arrays.
 Die Autoren haben zudem nicht die Intention geäußert, den Algorithmus durch die Verwendung entsprechender Teilalgorithmen grundlegend parallelisierbar zu konzipieren.
 Deshalb ist es Teil der Zielsetzung der Projektgruppe, \bpr auf Parallelisierbarkeit zu untersuchen und mit bekannten anderen Verfahren zu vergleichen.\par\smallskip
 Bei genauerer Betrachtung des Algorithmus fällt auf, dass sich einige der eingesetzten Komponenten durch parallele Algorithmen ersetzen lassen, was die Laufzeit auf Multicore-Systemen positiv beeinflusst.
@@ -20,7 +20,7 @@ In einem erneuten parallelen Scan befüllt dann jeder Thread den ihm zugewiesene
 
 \paragraph{Vergleichsbasierte Verfeinerung der Buckets}
 Die vergleichsbasierte Verfeinerung zweier Buckets \bucket{p} und \bucket{q} geschieht intuitiv unabhängig voneinander, was eine hohe Parallelisierbarkeit dieser Aufgabe vermuten lässt.
-Schließlich sind zu jedem Zeitpunkt alle Buckets im Suffixarray disjunkt, was ein konfliktfreies paralleles Sortieren auf Bucketebene zulassen würde.
+Schließlich sind zu jedem Zeitpunkt alle Buckets im Suffix-Array disjunkt, was ein konfliktfreies paralleles Sortieren auf Bucketebene zulassen würde.
 Tatsächlich werden aber als Sortierschlüssel die Einträge des Bucket-Pointer Arrays \bptr verwendet, welche nach Abschluss jedes Sortiervorgangs aktualisiert werden.\par
 Während des Sortiervorgangs auf einem Bucket \bucket{p} sind daher Lesezugriffe auf beliebige Elemente in \bptr erforderlich und nicht nur auf solche, die mit Elementen aus \bucket{p} korrespondieren.
 Insbesondere kann es dabei vorkommen, dass Einträge aus \bptr gelesen werden, die zu Elementen aus \bucket{q} gehören.
@@ -36,7 +36,7 @@ Die einzlenen Buckets werden auf diese Weise weiterhin sequentiell verarbeitet, 
 Um überflüssige Synchronisation zwischen Threads zu vermeiden, werden nur Buckets mit mehr als 5000 Elementen parallel sortiert.
 
 \paragraph{Copy-Technik}
-Die Copy-Technik \cite{seward2000} (\cref{bpr:seward}) dient in der sequentiellen Variante von \bpr dazu, den hohen Aufwand für vergleichsbasiertes Sortieren auf großen Teilen des Suffixarrays zu vermeiden, indem die Reihenfolge bislang unsortierter Buckets anhand der Reihenfolge der Suffixe bereits vollständig sortierter Buckets induziert wird.
+Die Copy-Technik \cite{seward2000} (\cref{bpr:seward}) dient in der sequentiellen Variante von \bpr dazu, den hohen Aufwand für vergleichsbasiertes Sortieren auf großen Teilen des Suffix-Arrays zu vermeiden, indem die Reihenfolge bislang unsortierter Buckets anhand der Reihenfolge der Suffixe bereits vollständig sortierter Buckets induziert wird.
 \afterpage{
     \clearpage
     \begin{landscape}
@@ -196,7 +196,7 @@ Die Copy-Technik \cite{seward2000} (\cref{bpr:seward}) dient in der sequentielle
         \end{figure}
     \end{landscape}
 }
-Da dieser Algorithmus in der Variante der Tiefe 2 (also mit Induzierung Vor-Vorgänger-Substrings) zwischen den beiden Schritten konfligierende Zugriffe auf das Suffixarray beinhaltet (\cref{fig:seward:parallel}), kann keine triviale Parallelisierung auf Basis der Schritte (Left-to-Right Scan und Right-to-Left Scan jedes Level-1-Buckets) vorgenommen werden.
+Da dieser Algorithmus in der Variante der Tiefe 2 (also mit Induzierung Vor-Vorgänger-Substrings) zwischen den beiden Schritten konfligierende Zugriffe auf das Suffix-Array beinhaltet (\cref{fig:seward:parallel}), kann keine triviale Parallelisierung auf Basis der Schritte (Left-to-Right Scan und Right-to-Left Scan jedes Level-1-Buckets) vorgenommen werden.
 Die grundsätzlichen Abhängigkeiten erlauben es nicht, dass der Right-to-Left Scan \rtl{p} auf einem Bucket \bucket{p} vor dem Right-to-Left Scan aller Buckets \bucket{p^\prime} mit \(p^\prime < p\) durchgeführt wird.
 Jeder Right-to-Left Scan basiert somit auf allen Right-to-Left Scans lexikographisch kleinerer Level-1-Buckets:
 \[\forall p:~\forall p^\prime < p:~\rtl{p^\prime} \prec \rtl{p}\]

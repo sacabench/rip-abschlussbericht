@@ -1,3 +1,4 @@
+\clearpage
 \subsubsection{Deep-Shallow}
 \textbf{Configuration} \hfill Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
 % IMPORT-DATA stats_parallel ../result_weakscale.txt
@@ -10,7 +11,7 @@
                 name=axis1,
                 cycle list name={exoticlines},
                 width=\textwidth,
-                height=60mm,
+                height=50mm,
                 title={wiki.txt},
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={SA construction time [min]},
@@ -45,7 +46,7 @@
             \addlegendentry{algo=Deep-Shallow\_ref};
         \end{axis}
     \end{tikzpicture}
-    \par\bigskip
+    \par\smallskip
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[
                 cycle list name={exoticlines},
@@ -53,7 +54,7 @@
                 anchor=outer north west,
                 name=axis2,
                 width=\textwidth,
-                height=60mm,
+                height=50mm,
                 title={wiki.txt},
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={Extra Memory [GiB]},
@@ -72,13 +73,13 @@
             \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) (12,18.75) (16,25) };
             \addlegendentry{algo=NaivParallel};
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="wiki.txt" AND sacheck="ok"
             %% AND (algo="Deep-Shallow_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,0.572572) (2,1.26708) (4,2.77311) };
+            \addplot coordinates { (1,0.00236637) (2,0.00471019) (4,0.00939793) };
             \addlegendentry{algo=Deep-Shallow\_ref};
 
             \legend{}
@@ -96,7 +97,7 @@
                 name=axis1,
                 cycle list name={exoticlines},
                 width=\textwidth,
-                height=60mm,
+                height=50mm,
                 title={dna.txt},
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={SA construction time [min]},
@@ -132,7 +133,7 @@
 
         \end{axis}
     \end{tikzpicture}
-    \par\bigskip
+    \par\smallskip
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[
                 cycle list name={exoticlines},
@@ -140,7 +141,7 @@
                 anchor=outer north west,
                 name=axis2,
                 width=\textwidth,
-                height=60mm,
+                height=50mm,
                 title={dna.txt},
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={Extra Memory [GiB]},
@@ -159,13 +160,13 @@
             \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) (12,18.75) (16,25) };
             \addlegendentry{algo=NaivParallel};
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="dna.txt" AND sacheck="ok"
             %% AND (algo="Deep-Shallow_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,0.641739) (2,1.35715) (4,2.89482) };
+            \addplot coordinates { (1,0.00234376) (2,0.00468751) (4,0.00937501) };
             \addlegendentry{algo=Deep-Shallow\_ref};
 
             \legend{}
@@ -183,7 +184,7 @@
                 name=axis1,
                 cycle list name={exoticlines},
                 width=\textwidth,
-                height=60mm,
+                height=50mm,
                 title={commoncrawl.txt},
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={SA construction time [min]},
@@ -219,7 +220,7 @@
 
         \end{axis}
     \end{tikzpicture}
-    \par\bigskip
+    \par\smallskip
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[
                 cycle list name={exoticlines},
@@ -227,7 +228,7 @@
                 anchor=outer north west,
                 name=axis2,
                 width=\textwidth,
-                height=60mm,
+                height=50mm,
                 title={commoncrawl.txt},
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={Extra Memory [GiB]},
@@ -246,13 +247,13 @@
             \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) (12,18.75) (16,25) };
             \addlegendentry{algo=NaivParallel};
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
             %% AND (algo="Deep-Shallow_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,0.640794) (2,1.43003) (4,3.24651) };
+            \addplot coordinates { (1,0.00239389) (2,0.00473988) (4,0.00945246) };
             \addlegendentry{algo=Deep-Shallow\_ref};
 
             \legend{}

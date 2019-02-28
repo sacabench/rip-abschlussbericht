@@ -2,39 +2,38 @@
 
 \currentauthor{Christopher Poeplau}
 
-Der Suffix Array Induced Sorting-Algorithmus ist unter den Induzierern einzuordnen. Dabei verfolgt er einen rekursiven Ansatz, um eine lineare Laufzeit bei der Berechnung des Suffix-Arrays zu erzielen. Im Folgenden wird diese Strategie beleuchtet und anhand eines Beispiels nachvollzogen.
+Der \textbf{Suffix Array Induced Sorting-Algorithmus}\cite[Kap.~4]{saca:6} (kurz: SAIS) ist unter den Induzierern einzuordnen. Dabei verfolgt er einen rekursiven Ansatz, um eine lineare Laufzeit bei der Berechnung des Suffix-Arrays zu erzielen. Im Folgenden wird diese Strategie beleuchtet und anhand eines Beispiels nachvollzogen.
 
 \subsection{Framework}
 \label{saisAlg}
 
 
 \begin{figure}[h]
-\begin{minted}[escapeinside=@@,numbers=left]{python}
+\begin{minted}[escapeinside=@@,numbers=left,breaklines]{python}
 def SAIS(T,SA):
 # T is the input string;
 # SA is the output suffix array of T
-# t: array[@$0..n-1$@] of boolean;
-# P@$_1$@, T@$_1$@: array[@$0..n_1-1$@] of integer; # @$n_1=\Vert S_1 \Vert$@
-# B: array[@$0..\Vert \Sigma (T)\Vert-1$@] of integer;
-Scan T once to classify all the characters as L- or S-type
-into t;
+# t: array[@$0,n-1$@] of boolean;
+# P@$_1$@, T@$_1$@: array[@$0,n_1-1$@] of integer;
+# B: array[@$0,|\Sigma (T)|-1$@] of integer;
+Scan T once to classify all the characters as L- or S-type into t;
 Scan t once to find all the LMS-substrings in T into P@$_1$@;
 Induced sort all the LMS-substrings using P@$_1$@ and B;
-Name each LMS-substring in T by its bucket index to get a
-new shortened string T@$_1$@;
+Name each LMS-substring in T by its bucket index to get a new shortened string T@$_1$@;
 if Each character in T@$_1$@ is unique
   Directly compute SA@$_1$@ from T@$_1$@;
 else
   SAIS(T@$_1$@, SA@$_1$@); # Fire a recursive call
 Induce SA from SA@$_1$@ 
 \end{minted}
+\caption{SAIS-Framework}
 \end{figure}
 
 
-\noindent Der oben stehende Algorithmus~\cite[Fig.~1]{saca:6} berechnet das Suffix-Array des Strings $T$. Grundsätzlich ist das Problem in zwei Teile aufgeteilt. Das Reduzieren des Problems zu Teilproblemen (Divide and Conquer) und das Induzieren der LMS-Substrings und der Teilsuffix-Arrays. Am deutlichsten wird die Funktionsweise des Algorithmus durch ein Beispiel.
+\noindent Der oben stehende Algorithmus~\cite[Fig.~1]{saca:6} berechnet das Suffix-Array des Strings \textit{T}. Grundsätzlich ist das Problem in zwei Teile aufgeteilt. Das Reduzieren des Problems zu Teilproblemen (Divide and Conquer) und das Induzieren der LMS-Substrings und der Teilsuffix-Arrays. Am deutlichsten wird die Funktionsweise des Algorithmus durch ein Beispiel.
 
 \subsection{Verfahren}
-Sei $T=caabaccaabacaa\$$ der String zu dem das Suffix-Array konstruiert werden soll und $SA$ das zugehörige Suffix-Array. Zunächst wird für jedes Zeichen des Strings $T$ der Typ $t$, nach den Definitionen aus Kap.~\ref{section:induzierer}, ermittelt.
+Sei $T=caabaccaabacaa\$$ der String zu dem das Suffix-Array konstruiert werden soll und \textit{SA} das zugehörige Suffix-Array. Zunächst wird für jedes Zeichen des Strings \textit{T} der Typ \textit{t}, nach den Definitionen aus Kap.~\ref{section:induzierer}, ermittelt.
 
 \begin{center}
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
@@ -48,7 +47,7 @@ Sei $T=caabaccaabacaa\$$ der String zu dem das Suffix-Array konstruiert werden s
 \bigskip
 Der nächste Schritt besteht daraus, alle LMS-Substrings zu finden. Besonders am SAIS ist, dass die LMS-Substrings eine variable Länge besitzen. Diese Länge wird beim später beschriebenen SADS beschränkt. Diese Schritte besitzen eine obere Laufzeitschranke von $\mathcal{O}(n)$, da ein einmaliger Durchlauf von rechts nach links ausreicht, um alle Typen(L, S und LMS) zu bestimmen.
 
-\noindent Für die LMS variabler Länger ergibt sich folgende Berechnung, wobei der Anfang des LMS durch einen Stern gekennzeichnet ist. Das Ende des LMS-Substrings ergibt sich aus dem nächstfolgenden Stern bzw. dem Ende des Wortes.
+\noindent Für die LMS-Substrings variabler Länge ergibt sich folgende Berechnung, wobei der Anfang des LMS durch einen Stern gekennzeichnet ist. Das Ende des LMS-Substrings ergibt sich aus dem nächstfolgenden Stern bzw. dem Ende des Wortes.
 
 \begin{center}
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
@@ -61,7 +60,7 @@ Der nächste Schritt besteht daraus, alle LMS-Substrings zu finden. Besonders am
   \end{tabular}
 \end{center}
 \bigskip
-Nachdem die LMS-Substrings bestimmt sind, folgt das Unterteilen in Buckets und Buckettypen. Die verschiedenen im Text vorkommenden Zeichen bilden die  $Basisbuckets$. Jeder dieser $Basisbuckets$ ist außerdem in einen L- und einen S-Teil aufgeteilt. Der L-Teil eines Buckets steht immer vor dem S-Teil eines Buckets. Außerdem ist die Bucketgröße proportional zu der entsprechenden Anzahl der im Text vorkommenden Zeichen. Die Buckets selbst sind lexikographisch sortiert.
+Nachdem die LMS-Substrings bestimmt sind, folgt das Unterteilen in Buckets und Buckettypen. Die verschiedenen im Text vorkommenden Zeichen bilden die  \textit{Basisbuckets}. Jeder dieser  \textit{Basisbuckets} ist außerdem in einen L- und einen S-Teil aufgeteilt. Der L-Teil eines Buckets steht immer vor dem S-Teil eines Buckets. Außerdem ist die Bucketgröße gleich der entsprechenden Anzahl der im Text vorkommenden Zeichen. Die Buckets selbst sind lexikographisch sortiert.
 
 \begin{center}
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
@@ -106,7 +105,7 @@ Nachdem die LMS-Substrings bestimmt sind, folgt das Unterteilen in Buckets und B
 \end{center}
 \bigskip
 
-\noindent Die Zahlen $1$ und $7$ werden demselben Bucket zugeordnet, da diese noch nicht sortiert werden konnten. Analog dazu wird der 14 der $kleinste$ Bucket zugeordnet, da das $\$$-Zeichen das lexikographisch kleinste Zeichen ist. Auf den so gewonnenen String $T_1$ wird nun der SAIS angewendet. Zunächst werden die LMS-Indizes $\{4, 2\}$ ihren $S-Buckets$ zugeordnet. Es folgt eine Iteration von links nach rechts. Entspricht das Vorgängerzeichen Typ $L$, wird es an der nächst linken freien Position des jeweiligen Buckets eingeordnet. Anschließend folgt eine Iteration von rechts nach links, bei der das Vorängerzeichen an der nächst rechten freien Position einsortiert wird, wenn es vom Typ $S$ ist.
+\noindent Die Zahlen $1$ und $7$ werden demselben Bucket zugeordnet, da diese noch nicht sortiert werden konnten. Analog dazu wird der 14 der \textit{kleinste} Bucket zugeordnet, da das $\$$-Zeichen das lexikographisch kleinste Zeichen ist. Auf den so gewonnenen String $T_1$ wird nun der SAIS angewendet. Zunächst werden die LMS-Indizes $\{4, 2\}$ ihren \textit{Buckets} zugeordnet. Es folgt eine Iteration von links nach rechts. Entspricht das Vorgängerzeichen Typ $L$, wird es an der nächst linken freien Position des jeweiligen Buckets eingeordnet. Anschließend folgt eine Iteration von rechts nach links, bei der das Vorgängerzeichen an der nächst rechten freien Position einsortiert wird, wenn es vom Typ $S$ ist.
 
 \begin{center}
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
@@ -126,7 +125,7 @@ $Buckets$ & 0 & \multicolumn{1}{c}{1} & & 2 & 3 \\ \hline
 
 \noindent Es ist zu beachten, dass die rot markierte $2$ im zweiten Durchlauf von der $0$ überschrieben wird, im nächsten Schritt aber direkt wieder von der $3$ induziert wird. \\
 Das Ergebnis des Induzierens ist das Suffix-Array $SA_1 = \{4, 2, 0, 3, 1\}$. Damit kann auf die ursprüngliche Reihenfolge geschlossen werden. Demnach ist das sortierte LMS-Array: $\{14, 7, 1, 10, 4\}$ \\
-Die Rekursionstiefe von $1$ ändert sich wieder auf die Tiefe von $0$ und das ursprüngliche Problem wird gelöst, da jetzt die Reihenfolge eindeutig bestimmt ist. Analog zum Rekursionsschritt, werden zunächst die LMS-Indizes in die jeweiligen $S-Buckets$ einsortiert, um dann durch eine links-rechts und rechts-links-Iteration das Suffix-Array $SA$ zu berechnen:
+Die Rekursionstiefe von $1$ ändert sich wieder auf die Tiefe von $0$ und das ursprüngliche Problem wird gelöst, da jetzt die Reihenfolge eindeutig bestimmt ist. Analog zum Rekursionsschritt, werden zunächst die LMS-Indizes in die jeweiligen \textit{S-Buckets} einsortiert, um dann durch eine links-rechts und rechts-links-Iteration das Suffix-Array $SA$ zu berechnen:
 
 \begin{center}
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
@@ -150,7 +149,7 @@ Von links nach rechts ergibt sich das endgültige Suffix-Array \\
 $SA = \{14, 13, 12, 7, 1, 8, 2, 10, 4, 9, 3, 11, 6, 0, 5\}$.
 
 \subsection{Optimierungsmöglichkeiten}
-Der SAIS benötigt nur noch an zwei Stellen Extra-Speicher. Zum einen benötigen die Buckets zusätzlichen Speicher in Größe der Alphabetgröße. Zum anderen benötigt der SAIS einen Bitvektor, um die L- und S-Typen zu speichern. Alle anderen Berechnungen geschehen $on the fly$, benötigen also keinen Extra-Speicher. So können die LMS-Typen leicht berechnet werden, indem sich vom aktuellen Typ des Zeichens der Vorgänger angeschaut wird. Wenn dieser vom Typ L ist, dann ist das Zeichen ein LMS. Im Zuge des nächsten Semesters sollen auch die Berechnungen der Typen "on the fly" geschehen, sodass der Bitvektor wegfällt. Aufwändig an dieser Stelle ist, dass momentan noch geteilte Schleifen, die das Wort von rechts nach links bzw. von links nach rechts durchlaufen kompaktifiziert werden müssen, damit die Typen, die berechnet wurden für alle Berechnungsschritte genutzt werden können. Interessant an dieser Stelle ist der Kompromiss zwischen Laufzeit und Extra-Speicher. Der Algorithmus kann auf Grund des Designs unseres Frameworks nicht nur für 8-Bit, sondern auch für 16-, 32-, 48-Bittypen usw. ausgeführt werden.
+Der SAIS benötigt nur noch an zwei Stellen Extra-Speicher. Zum einen benötigen die Buckets zusätzlichen Speicher in Größe der Alphabetgröße. Zum anderen benötigt der SAIS einen Bitvektor, um die L- und S-Typen zu speichern. Alle anderen Berechnungen geschehen \textit{on the fly}, benötigen also keinen Extra-Speicher. So können die LMS-Typen leicht berechnet werden, indem sich vom aktuellen Typ des Zeichens der Vorgänger angeschaut wird. Wenn dieser vom Typ L ist, dann ist das Zeichen ein LMS. Aufwändig an dieser Stelle ist, dass momentan noch geteilte Schleifen, die das Wort von rechts nach links bzw. von links nach rechts durchlaufen kompaktifiziert werden müssen, damit die Typen, die berechnet wurden für alle Berechnungsschritte genutzt werden können. Interessant an dieser Stelle ist der Kompromiss zwischen Laufzeit und Extra-Speicher. Der Algorithmus kann auf Grund des Designs unseres Frameworks nicht nur für 8-Bit, sondern auch für 16-, 32-, 48-Bittypen usw. ausgeführt werden.
 
 \newpage
 
