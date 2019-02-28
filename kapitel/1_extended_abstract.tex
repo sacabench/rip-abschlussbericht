@@ -142,7 +142,7 @@ These plots can be used to compare the algorithms fairly.
 \section{SACA Overview}
 
 There are many SACAs that operate using different principles.
-The most na\"ive SACA uses a general purpose sorting algorithm to sort the suffices of the input text.
+The most na\"ive SACA uses a general purpose sorting algorithm to sort the suffixes of the input text.
 Since a string comparison is $\mathcal O (n)$ in the worst-case, this would give $\mathcal O (n^2 \log n)$ runtime.
 Even though this is a sub-optimal time bound,
 there are several algorithms\footnote{e.g. Deep-Shallow, mSufSort, ...} in SACABench which don't improve on this
@@ -199,7 +199,7 @@ There are also some recursive algorithms, which mostly operate on a shared princ
 \paragraph{Recursive} Some algorithms, such as DC3~\cite{saca:9} and SAIS~\cite{saca:6} require to sort a
 partial set of suffixes as part of their task to sort the entire suffix array.
 As they are able to do this by calling themselves with a different input, they are called \emph{recursive algorithms}.
-DC3 sorts exactly $^2\!/\!_3$ of the suffixes by recursion, while SAIS sorts all the LMS suffices by recursion,
+DC3 sorts exactly $^2\!/\!_3$ of the suffixes by recursion, while SAIS sorts all the LMS suffixes by recursion,
 if their ordering cannot be decided by looking at their first character.
 After this step, the ordering of the other suffixes can be induced.
 
