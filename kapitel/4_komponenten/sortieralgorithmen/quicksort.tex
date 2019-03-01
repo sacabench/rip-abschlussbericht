@@ -76,13 +76,14 @@ Nachdem wir alle Elemente in die drei Bereiche aufgeteilt haben, müssen $\maths
 
 \subsubsection{Auswahl des Pivotelements}
 
-Es gibt unterschiedliche Ansätze, um in den hier beschriebenen Quicksort-Varianten das Pivotelement zu wählen.
+Es gibt unterschiedliche Ansätze, um in den hier beschriebenen Quicksort- Varianten das Pivotelement zu wählen.
 Das Problem ist der Trade-Off zwischen aufwändiger Pivot-Wahl (Pivotwahl hat hohe Laufzeit) und
 degeneriertem Quicksort durch eine schlechte Wahl des Pivotelements (Quicksort hat hohe Laufzeit).
 
 Einfache Ansätze sind es das erste, mittlere oder das letzte Element der Eingabe zu wählen.
 Diese Ansätze sind problematisch, wenn das gewählte Pivotelement ein sehr kleines oder ein sehr großes Element ist.
-Dadurch wird die Eingabe nicht in zwei annähernd gleich große Bereiche aufgeteilt und die rekursiven Aufrufe werden ineffizient (degeneriertes Quicksort).
+Dadurch wird die Eingabe nicht in zwei annähernd gleich große Bereiche aufgeteilt und
+die rekursiven Aufrufe werden ineffizient (degeneriertes Quicksort).
 
 Daher verwenden wir im Quicksort und im Ternary Quicksort eine verbesserte Variante~\cite{ternary_quicksort}.
 Falls die Größe des Eingabearrays kleiner als ein bestimmter Threshold ist,

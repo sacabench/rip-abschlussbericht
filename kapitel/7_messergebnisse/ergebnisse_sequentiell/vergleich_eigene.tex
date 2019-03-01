@@ -28,7 +28,7 @@
             %% FROM ( 
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
             %% ) WHERE input="wiki.txt" AND prefix=1677721600
-            %% AND (algo="GSACA" OR algo="BPR" OR algo="Deep-Shallow" OR algo="Deep-Shallow_bb" OR algo="DivSufSort" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2" OR algo="SACA-K" OR algo="SAIS" OR algo="SADS" OR algo="qsufsort" OR algo="DC3" OR algo="DC3-Lite" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4" OR algo="nzSufSort" OR algo="Osipov_sequential_wp")
+            %% AND (algo="GSACA" OR algo="BPR" OR algo="Deep-Shallow_bb" OR algo="DivSufSort" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2" OR algo="SACA-K" OR algo="SAIS" OR algo="SADS" OR algo="qsufsort" OR algo="DC3" OR algo="DC3-Lite" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4" OR algo="nzSufSort")
             %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY y
             \addplot coordinates { (wiki.txt,5.26654) };
             \addlegendentry{algo=BPR};
@@ -40,8 +40,6 @@
             \addlegendentry{algo=SAIS};
             \addplot coordinates { (wiki.txt,16.0261) };
             \addlegendentry{algo=mSufSort\_scan};
-            \addplot coordinates { (wiki.txt,17.3743) };
-            \addlegendentry{algo=Deep-Shallow};
             \addplot coordinates { (wiki.txt,18.0422) };
             \addlegendentry{algo=GSACA};
             \addplot coordinates { (wiki.txt,21.9919) };
@@ -54,8 +52,6 @@
             \addlegendentry{algo=Discarding2};
             \addplot coordinates { (wiki.txt,24.3801) };
             \addlegendentry{algo=SADS};
-            \addplot coordinates { (wiki.txt,26.6607) };
-            \addlegendentry{algo=Osipov\_sequential\_wp};
             \addplot coordinates { (wiki.txt,27.6101) };
             \addlegendentry{algo=qsufsort};
             \addplot coordinates { (wiki.txt,28.7747) };
@@ -89,7 +85,7 @@
             %% FROM ( 
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
             %% ) WHERE input="wiki.txt" AND prefix=1677721600
-            %% AND (algo="GSACA" OR algo="BPR" OR algo="Deep-Shallow" OR algo="Deep-Shallow_bb" OR algo="DivSufSort" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2" OR algo="SACA-K" OR algo="SAIS" OR algo="SADS" OR algo="qsufsort" OR algo="DC3" OR algo="DC3-Lite" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4" OR algo="nzSufSort" OR algo="Osipov_sequential_wp")
+            %% AND (algo="GSACA" OR algo="BPR" OR algo="Deep-Shallow_bb" OR algo="DivSufSort" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2" OR algo="SACA-K" OR algo="SAIS" OR algo="SADS" OR algo="qsufsort" OR algo="DC3" OR algo="DC3-Lite" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4" OR algo="nzSufSort")
             %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY time
             \addplot coordinates { (wiki.txt,6.319) };
             \addlegendentry{algo=BPR};
@@ -101,8 +97,6 @@
             \addlegendentry{algo=SAIS};
             \addplot coordinates { (wiki.txt,0.187833) };
             \addlegendentry{algo=mSufSort\_scan};
-            \addplot coordinates { (wiki.txt,0.0181133) };
-            \addlegendentry{algo=Deep-Shallow};
             \addplot coordinates { (wiki.txt,25) };
             \addlegendentry{algo=GSACA};
             \addplot coordinates { (wiki.txt,1.75387) };
@@ -115,8 +109,6 @@
             \addlegendentry{algo=Discarding2};
             \addplot coordinates { (wiki.txt,4.09191) };
             \addlegendentry{algo=SADS};
-            \addplot coordinates { (wiki.txt,43.7463) };
-            \addlegendentry{algo=Osipov\_sequential\_wp};
             \addplot coordinates { (wiki.txt,6.252) };
             \addlegendentry{algo=qsufsort};
             \addplot coordinates { (wiki.txt,24.8374) };
@@ -161,7 +153,7 @@
             %% FROM ( 
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
             %% ) WHERE input="dna.txt" AND prefix=1677721600
-            %% AND (algo="GSACA" OR algo="BPR" OR algo="Deep-Shallow" OR algo="Deep-Shallow_bb" OR algo="DivSufSort" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2" OR algo="SACA-K" OR algo="SAIS" OR algo="SADS" OR algo="qsufsort" OR algo="DC3" OR algo="DC3-Lite" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4" OR algo="nzSufSort" OR algo="Osipov_sequential_wp")
+            %% AND (algo="GSACA" OR algo="BPR" OR algo="Deep-Shallow_bb" OR algo="DivSufSort" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2" OR algo="SACA-K" OR algo="SAIS" OR algo="SADS" OR algo="qsufsort" OR algo="DC3" OR algo="DC3-Lite" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4" OR algo="nzSufSort")
             %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY y
             \addplot coordinates { (dna.txt,6.4462) };
             \addlegendentry{algo=BPR};
@@ -177,8 +169,6 @@
             \addlegendentry{algo=qsufsort};
             \addplot coordinates { (dna.txt,18.893) };
             \addlegendentry{algo=SAIS};
-            \addplot coordinates { (dna.txt,19.1414) };
-            \addlegendentry{algo=Deep-Shallow};
             \addplot coordinates { (dna.txt,21.3285) };
             \addlegendentry{algo=Discarding2};
             \addplot coordinates { (dna.txt,22.8657) };
@@ -189,8 +179,6 @@
             \addlegendentry{algo=mSufSortV2};
             \addplot coordinates { (dna.txt,24.4515) };
             \addlegendentry{algo=DC3};
-            \addplot coordinates { (dna.txt,24.6533) };
-            \addlegendentry{algo=Osipov\_sequential\_wp};
             \addplot coordinates { (dna.txt,31.0041) };
             \addlegendentry{algo=SADS};
             \addplot coordinates { (dna.txt,42.5506) };
@@ -222,7 +210,7 @@
             %% FROM ( 
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
             %% ) WHERE input="dna.txt" AND prefix=1677721600
-            %% AND (algo="GSACA" OR algo="BPR" OR algo="Deep-Shallow" OR algo="Deep-Shallow_bb" OR algo="DivSufSort" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2" OR algo="SACA-K" OR algo="SAIS" OR algo="SADS" OR algo="qsufsort" OR algo="DC3" OR algo="DC3-Lite" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4" OR algo="nzSufSort" OR algo="Osipov_sequential_wp")
+            %% AND (algo="GSACA" OR algo="BPR" OR algo="Deep-Shallow_bb" OR algo="DivSufSort" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2" OR algo="SACA-K" OR algo="SAIS" OR algo="SADS" OR algo="qsufsort" OR algo="DC3" OR algo="DC3-Lite" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4" OR algo="nzSufSort")
             %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY time
             \addplot coordinates { (dna.txt,6.25229) };
             \addlegendentry{algo=BPR};
@@ -238,8 +226,6 @@
             \addlegendentry{algo=qsufsort};
             \addplot coordinates { (dna.txt,0.716865) };
             \addlegendentry{algo=SAIS};
-            \addplot coordinates { (dna.txt,0.0170461) };
-            \addlegendentry{algo=Deep-Shallow};
             \addplot coordinates { (dna.txt,18.752) };
             \addlegendentry{algo=Discarding2};
             \addplot coordinates { (dna.txt,31.252) };
@@ -250,8 +236,6 @@
             \addlegendentry{algo=mSufSortV2};
             \addplot coordinates { (dna.txt,24.4513) };
             \addlegendentry{algo=DC3};
-            \addplot coordinates { (dna.txt,43.75) };
-            \addlegendentry{algo=Osipov\_sequential\_wp};
             \addplot coordinates { (dna.txt,3.96975) };
             \addlegendentry{algo=SADS};
             \addplot coordinates { (dna.txt,3.39691) };
@@ -294,7 +278,7 @@
             %% FROM ( 
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
             %% ) WHERE input="commoncrawl.txt" AND prefix=1677721600
-            %% AND (algo="GSACA" OR algo="BPR" OR algo="Deep-Shallow" OR algo="Deep-Shallow_bb" OR algo="DivSufSort" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2" OR algo="SACA-K" OR algo="SAIS" OR algo="SADS" OR algo="qsufsort" OR algo="DC3" OR algo="DC3-Lite" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4" OR algo="nzSufSort" OR algo="Osipov_sequential_wp")
+            %% AND (algo="GSACA" OR algo="BPR" OR algo="Deep-Shallow_bb" OR algo="DivSufSort" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2" OR algo="SACA-K" OR algo="SAIS" OR algo="SADS" OR algo="qsufsort" OR algo="DC3" OR algo="DC3-Lite" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4" OR algo="nzSufSort")
             %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY y
             \addplot coordinates { (commoncrawl.txt,4.66061) };
             \addlegendentry{algo=BPR};
@@ -316,8 +300,6 @@
             \addlegendentry{algo=qsufsort};
             \addplot coordinates { (commoncrawl.txt,34.3377) };
             \addlegendentry{algo=Discarding4};
-            \addplot coordinates { (commoncrawl.txt,37.8495) };
-            \addlegendentry{algo=Osipov\_sequential\_wp};
             \addplot coordinates { (commoncrawl.txt,39.0313) };
             \addlegendentry{algo=mSufSort\_scan};
             \addplot coordinates { (commoncrawl.txt,43.9922) };
@@ -349,7 +331,7 @@
             %% FROM ( 
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
             %% ) WHERE input="commoncrawl.txt" AND prefix=1677721600
-            %% AND (algo="GSACA" OR algo="BPR" OR algo="Deep-Shallow" OR algo="Deep-Shallow_bb" OR algo="DivSufSort" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2" OR algo="SACA-K" OR algo="SAIS" OR algo="SADS" OR algo="qsufsort" OR algo="DC3" OR algo="DC3-Lite" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4" OR algo="nzSufSort" OR algo="Osipov_sequential_wp")
+            %% AND (algo="GSACA" OR algo="BPR" OR algo="Deep-Shallow_bb" OR algo="DivSufSort" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2" OR algo="SACA-K" OR algo="SAIS" OR algo="SADS" OR algo="qsufsort" OR algo="DC3" OR algo="DC3-Lite" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4" OR algo="nzSufSort")
             %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY time
             \addplot coordinates { (commoncrawl.txt,6.35691) };
             \addlegendentry{algo=BPR};
@@ -371,8 +353,6 @@
             \addlegendentry{algo=qsufsort};
             \addplot coordinates { (commoncrawl.txt,31.252) };
             \addlegendentry{algo=Discarding4};
-            \addplot coordinates { (commoncrawl.txt,43.7461) };
-            \addlegendentry{algo=Osipov\_sequential\_wp};
             \addplot coordinates { (commoncrawl.txt,0.187944) };
             \addlegendentry{algo=mSufSort\_scan};
             \addplot coordinates { (commoncrawl.txt,18.752) };
