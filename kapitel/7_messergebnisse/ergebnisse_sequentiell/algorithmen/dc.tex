@@ -80,6 +80,8 @@
 
     \medskip
     \ref{legend-seq-dc-0}
+    \caption{Algorithmen, die auf Difference Cover basieren, auf wiki.txt}
+    \label{fig-seq-dc-0}
 \end{figure}
 
 \begin{figure}[ht]
@@ -158,6 +160,8 @@
 
     \medskip
     \ref{legend-seq-dc-1}
+    \caption{Algorithmen, die auf Difference Cover basieren, auf dna.txt}
+    \label{fig-seq-dc-1}
 \end{figure}
 
 \begin{figure}[ht]
@@ -232,5 +236,13 @@
 
     \medskip
     \ref{legend-seq-dc-2}
+    \caption{Algorithmen, die auf Difference Cover basieren, auf commoncrawl.txt}
+    \label{fig-seq-dc-2}
 \end{figure}
 \FloatBarrier
+
+In \currentauthor{Johannes Bahne} \cref{fig-seq-dc-0,fig-seq-dc-1,fig-seq-dc-2} sind die Implementierungen, die in dem \sacabench Framework umgesetzt worden sind, miteinander verglichen worden. Auffällig ist, dass die Implementierung des DC3 der Projektgruppe als einziger Algorithmus den naiven Algorithmus bezüglich der Laufzeit auf allen Testdaten schlägt. Die Referenzimplementierung des DC3 und der DC7 sind jedoch nur auf dem \texttt{commoncrawl.txt} besser als der naive. Auf allen Eingabetexten belegen der nzSufSort und der DC3-Lite die letzten Plätze bezüglich der Laufzeit.
+
+Dafür benötigen die Implementierungen des nzSufSort und DC3-Lite nur sehr geringen zusätzlichen Speicher zur Berechnung des Suffix-Arrays. Daher belegen die beiden Algorithmen nach dem naiven Algorithmus den zweiten und dritten Platz. Allerdings sind die Laufzeiten der beiden Implementierungen so schlecht, dass sie bereits vor $1$ GiB Eingabegröße das Zeitlimit des Messsystems überschreiten. Die Algorithmen DC3 und DC7 benötigen ab einer Größe von knapp $1,6$ GiB mehr Speicherplatz als auf dem Messsystem vorhanden, sodass sie ab dieser Eingabegröße ebenfalls abbrechen.
+
+Auffällig ist ebenfalls, dass der Speicherverbrauch der Implementierung des DC3 der Projektgruppe geringer ist als der der Referenzimplementierung. Der DC7 benötigt sogar noch weniger Extra-Speicher. Dies liegt daran, dass die Rekursionstiefe des DC7 geringer ist, als die des DC3. Da die dritte Phase des DC7 jedoch nicht effizient programmiert worden ist, ist die Laufzeit des DC7 schlechter als die des DC3.
