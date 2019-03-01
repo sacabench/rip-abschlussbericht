@@ -1,28 +1,28 @@
 \section{nzSufSort}
 \label{algorithm:nzSufSort}
 
-In \currentauthor{Nico Bertram} diesem Kapitel wird der \emph{nzSufSort} vorgestellt. Dieser wurde in ~\cite{saca:10} vorgestellt und kombiniert den Difference Cover Ansatz, welcher in \cref{dc3:vorueberlegungen} vorgestellt wurde, mit der L/S-Typisierung. Durch eine speichereffiziente Implementierung benötigt der Algorithmus bis auf den Speicherbereich für den Eingabetext und den Speicherbereich für das Suffixarray nur konstanten zusätzlichen Speicher, wenn das Alphabet des Eingabetextes eine konstante Größe besitzt. Außerdem wird eine Laufzeit von $O(n)$ erreicht. Dieser Algorithmus besitzt also eine theoretisch optimale Laufzeitschranke und ist möglichst leichtgewichtig. \\
-Da in der referenzierten Arbeit viele Schritte des Algorithmus unklar beschrieben wurden, oder teilweise ausgelassen wurden, war es eine Herausforderung diese Schritte zu implementieren. Daher wird in diesem Kapitel der Algorithmus vollständig und verständlich beschrieben und jeder Schritt an einem Beispiel erläutert. \\
+In \currentauthor{Nico Bertram} diesem Kapitel wird der \emph{nzSufSort} vorgestellt. Dieser wurde in ~\cite{saca:10} vorgestellt und kombiniert den Difference Cover Ansatz, welcher in \cref{dc3:vorueberlegungen} vorgestellt wurde, mit der L/S-Typisierung. Durch eine speichereffiziente Implementierung benötigt der Algorithmus bis auf den Speicherbereich für den Eingabetext und den Speicherbereich für das Suffix-Array nur konstanten zusätzlichen Speicher, wenn das Alphabet des Eingabetextes eine konstante Größe besitzt. Außerdem wird eine Laufzeit von $\mathcal O(n)$ erreicht. Dieser Algorithmus besitzt also eine theoretisch optimale Laufzeitschranke und ist möglichst leichtgewichtig. \par
+Da in der referenzierten Arbeit viele Schritte des Algorithmus unklar beschrieben, oder teilweise ausgelassen wurden, war es eine Herausforderung diese Schritte zu implementieren. Daher wird in diesem Kapitel der Algorithmus vollständig und verständlich beschrieben und jeder Schritt an einem Beispiel erläutert. \par
 
 \subsection{Einleitung}
 
 \subsubsection{Grundlagen}
 
-Um das Suffixarray zu konstruieren wird zunächst das Suffixarray der S-Typ-Positionen, welches wir mit $SA_S$ bezeichnen, mit dem Difference Cover Ansatz bestimmt. Aus $SA_S$ lässt sich dann durch einen Links-Induktions-Scan das vollständige Suffixarray $SA$ konstruieren. Um $SA_S$ zu konstruieren wird ähnlich zum DC3 der Eingabetext in Triplets aufgeteilt. Im Unterschied zum DC3 werden aber nicht alle Positionen des Eingabetextes berücksichtigt, sondern nur die zu sortierenden S-Typ-Positionen. \\
-Wir bezeichnen einen Teilstring $T[i,j)$ als \textit{S-String}, wenn $i$ und $j-1$ S-Typ-Positionen sind. Um die Ordnung zwischen zwei S-Strings $t$ und $t'$ festzulegen wird die übliche lexikographische Ordnung verwendet. Falls aber $t$ und $t'$ unterschiedliche Längen besitzen und ein String ein Präfix des anderen ist, erhält der kürzere String eine höhere Ordnung.  Eine Konkatenation von $k$ S-Strings bezeichnen wir als $Z_k$-String. Dann entsprechen die Triplets im DC3 hier den $Z_3$-Strings. \\
-Auf diese Weise lässt sich $t_{12}$ ähnlich definieren wie im DC3: $t_{12}$ enthält die lexikographischen Ränge aller $i$-ten $Z_3$-Strings, wobei $t_{12}$ in die Mengen mit $i \text{ modulo } 3 = 1$ und $i \text{ modulo } 3 = 2$ aufgeteilt ist und diese konkateniert werden. Analog enthält $t_0$ die lexikographischen Ränge aller $i$-ten $Z_3$-Strings mit $i \text{ modulo } 3 = 0$. Die Länge von $t_0$ bezeichnen wir mit $n_0$, bzw. die Länge von $t_{12}$ mit $n_{12}$.\\
-Die Positionsarrays $p_0$ und $p_{12}$ enthalten die Indizes aller S-Typ-Positionen, wobei $p_0$ die $i$-ten S-Typ-Positionen mit $i \text{ modulo } 3 = 0$ und $p_{12}$ die $i$-ten S-Typ-Positionen mit $i \text{ modulo } 3 \ne 0$ enthält, wobei hier wie bei $t_{12}$ in die Mengen mit $i \text{ modulo } 3 = 1$ und $i \text{ modulo } 3 = 2$ aufgeteilt wird und diese Mengen konkateniert werden. \\
+Um das Suffix-Array zu konstruieren wird zunächst das Suffix-Array der S-Typ-Positionen, welches wir mit $\sa_{S}$ bezeichnen, mit dem Difference Cover Ansatz bestimmt. Aus $\sa_{S}$ lässt sich dann durch einen Links-Induktions-Scan das vollständige Suffix-Array $\sa$ konstruieren. Um $\sa_{S}$ zu konstruieren wird ähnlich zum DC3 der Eingabetext in Triplets aufgeteilt. Im Unterschied zum DC3 werden aber nicht alle Positionen des Eingabetextes berücksichtigt, sondern nur die zu sortierenden S-Typ-Positionen. \par
+Wir bezeichnen einen Teilstring $\mathsf{T}[i,j)$ als \textit{S-String}, wenn $i$ und $j-1$ S-Typ-Positionen sind. Um die Ordnung zwischen zwei S-Strings $\mathsf{T}_{1}$ und $\mathsf{T}_{2}$ festzulegen, wird die übliche lexikographische Ordnung verwendet. Falls aber $\mathsf{T}_{1}$ und $\mathsf{T}_{2}$ unterschiedliche Längen besitzen und ein String ein Präfix des anderen ist, erhält der kürzere String eine höhere Ordnung.  Eine Konkatenation von $k$ S-Strings bezeichnen wir als $Z_k$-String. Dann entsprechen die Triplets im DC3 hier den $Z_3$-Strings. \par
+Auf diese Weise lässt sich $\mathsf{T}_{12}$ ähnlich definieren wie im DC3: $\mathsf{T}_{12}$ enthält die lexikographischen Ränge aller $i$-ten $Z_3$-Strings, wobei $\mathsf{T}_{12}$ in die Mengen mit $i \text{ modulo } 3 = 1$ und $i \text{ modulo } 3 = 2$ aufgeteilt ist und diese konkateniert werden. Analog enthält $\mathsf{T}_{0}$ die lexikographischen Ränge aller $i$-ten $Z_3$-Strings mit $i \text{ modulo } 3 = 0$. Die Länge von $\mathsf{T}_{0}$ bezeichnen wir mit $n_0$, bzw. die Länge von $\mathsf{T}_{12}$ mit $n_{12}$.\par
+Die Positions-Arrays $\mathsf{P}_0$ und $\mathsf{P}_{12}$ enthalten die Indizes aller S-Typ-Positionen, wobei $\mathsf{P}_0$ die $i$-ten S-Typ-Positionen mit $i \text{ modulo } 3 = 0$ und $\mathsf{P}_{12}$ die $i$-ten S-Typ-Positionen mit $i \text{ modulo } 3 \ne 0$ enthält, wobei hier wie bei $\mathsf{T}_{12}$ in die Mengen mit $i \text{ modulo } 3 = 1$ und $i \text{ modulo } 3 = 2$ aufgeteilt wird und diese Mengen konkateniert werden. \par
 
 \subsubsection{Überblick über den Algorithmus}
 
-Der Algorithmus lässt sich in zwei Phasen aufteilen. In der ersten Phase wird $t_{12}$ berechnet und das Suffixarray $SA_{12}$ von $t_{12}$ mit der speichereffizienten Variante DC3-Lite des DC3 berechnet. In der zweiten Phase wird $t_0$ berechnet und mithilfe von $t_0$ und $ISA_{12}$ das Suffixarray $SA_0$ von $t_0$ analog zum DC3 induziert. Anschließend werden $SA_0$ und $SA_{12}$ vereinigt und damit $SA_S$ berechnet. Im letzten Schritt wird durch einen Links-Induktions-Scan das Suffixarray $SA$ konstruiert. \\
+Der Algorithmus lässt sich in zwei Phasen aufteilen. In der ersten Phase wird $\mathsf{T}_{12}$ berechnet und das Suffix-Array $\sa_{12}$ von $\mathsf{T}_{12}$ mit der speichereffizienten Variante DC3-Lite des DC3 berechnet. In der zweiten Phase wird $\mathsf{T}_{0}$ berechnet und mithilfe von $\mathsf{T}_{0}$ und $\mathsf{ISA}_{12}$ das Suffix-Array $\sa_0$ von $\mathsf{T}_{0}$ analog zum DC3 induziert. Anschließend werden $\sa_0$ und $\sa_{12}$ vereinigt und damit $\sa_{S}$ berechnet. Im letzten Schritt wird durch einen Links-Induktions-Scan das Suffix-Array $\sa$ konstruiert. \par
 
 \subsubsection{Methoden und Techniken}
 \label{nzSufSort:intro:methods}
 
-Bevor wir den Algorithmus im Detail beschreiben, werden zunächst einige Methoden und Techniken, die häufiger im Algorithmus verwendet werden, vorgestellt. \\
-Zunächst beschreiben wir eine Funktion \texttt{retrieve\_s\_string}, die für eine gegebene S-Typ-Position $i$ den S-String, der bei $i$ beginnt, ausgibt. Dazu müssen wir die nächste S-Typ-Position $j$ finden. Diese kann entweder die direkt auf $i$ folgende Position sein, wenn $T[i]=T[j]$ gilt. Ansonsten lassen sich die Typen, der auf $i$ folgenden Positionen, mit dem Ausdruck L*S*L beschreiben. Wir suchen zunächst die erste L-Typ-Position $k$ nach der gesuchten S-Typ-Position $j$. Für die Position $k$ muss die Bedingung $T[k-1] < T[k]$ gelten, da $T[k-1]$ eine S-Typ-Position und $T[k]$ eine L-Typ-Position ist. Anschließend suchen wir die Position $j$ mit $i < j < k$, indem wir von $k-1$ ausgehend in Richtung $i$ die erste Position $j$ suchen, für die $T[j-1] > T[j]$ gilt. Dies ist die gesuchte S-Typ-Position $j$, da sich vor $k$ nur ein Block von S-Typ-Positionen gefolgt von einem Block von L-Typ-Positionen befindet. Da $T[j-1] > T[j]$ gilt, ist $j-1$ eine L-Typ-Position und $j$ damit die erste S-Typ-Position nach $i$. \\
-Nun stellen wir eine Technik vor, um die lexikographischen Ränge der S-Typ-Positionen und zusätzliche benötigte Speicherbereiche effizient abzuspeichern. Diese werden wir im Algorithmus für das Bestimmen der lexikographischen Ränge und das Vereinigen der Suffixarrays $SA_0$ und $SA_{12}$ verwenden. Wir teilen dazu den Speicherbereich von $SA$ analog zum Eingabetext in S-Typ-Positionen und L-Typ-Positionen ein. Für einen Index $i$ gilt, dass $SA[i]$ eine S-Typ-Position ist, wenn $T[i]$ eine S-Typ-Position ist. Ansonsten ist $SA[i]$ eine L-Typ-Position. Wir bezeichnen $SA[i]$ und $T[i]$ als \textit{Geschwister}. Um den lexikographischen Rang einer S-Typ-Position $i$ abzuspeichern, reicht es diese im Geschwister von $T[i]$ abzuspeichern. Die zusätzlichen Speicherbereiche können nun in den Geschwistern der L-Typ-Positionen $T[i]$ abgespeichert werden. Da die L- und S-Typen von $T$ eindeutig definiert sind, ist die Position an der ein Element in $SA$ gespeichert wird eindeutig bestimmt. Um aber auf ein einzelnes Element zugreifen zu können, muss im schlimmsten Fall das ganze $SA$ von rechts durchlaufen werden, um die L- und S-Typen zu bestimmen.
+Bevor wir den Algorithmus im Detail beschreiben, werden zunächst einige Methoden und Techniken, die häufiger im Algorithmus verwendet werden, vorgestellt. \par
+Zunächst beschreiben wir eine Funktion \texttt{retrieve\_s\_string}, die für eine gegebene S-Typ-Position $i$ den S-String, der bei $i$ beginnt, ausgibt. Dazu müssen wir die nächste S-Typ-Position $j$ finden. Diese kann entweder die direkt auf $i$ folgende Position sein, wenn $\mathsf{T}[i]=\mathsf{T}[j]$ gilt. Ansonsten lassen sich die Typen der auf $i$ folgenden Positionen mit dem Ausdruck L*S*L beschreiben. Wir suchen zunächst die erste L-Typ-Position $k$ nach der gesuchten S-Typ-Position $j$. Für die Position $k$ muss die Bedingung $\mathsf{T}[k-1] < \mathsf{T}[k]$ gelten, da $\mathsf{T}[k-1]$ eine S-Typ-Position und $\mathsf{T}[k]$ eine L-Typ-Position ist. Anschließend suchen wir die Position $j$ mit $i < j < k$, indem wir von $k-1$ ausgehend in Richtung $i$ die erste Position $j$ suchen, für die $\mathsf{T}[j-1] > \mathsf{T}[j]$ gilt. Dies ist die gesuchte S-Typ-Position $j$, da sich vor $k$ nur ein Block von S-Typ-Positionen gefolgt von einem Block von L-Typ-Positionen befindet. Da $\mathsf{T}[j-1] > \mathsf{T}[j]$ gilt, ist $j-1$ eine L-Typ-Position und $j$ damit die erste S-Typ-Position nach $i$. \par
+Nun stellen wir eine Technik vor, um die lexikographischen Ränge der S-Typ-Positionen und zusätzliche benötigte Speicherbereiche effizient abzuspeichern. Diese werden wir im Algorithmus für das Bestimmen der lexikographischen Ränge und das Vereinigen der Suffix-Arrays $\sa_0$ und $\sa_{12}$ verwenden. Wir teilen dazu den Speicherbereich von $\sa$ analog zum Eingabetext in S-Typ-Positionen und L-Typ-Positionen ein. Für einen Index $i$ gilt, dass $\sa[i]$ eine S-Typ-Position ist, wenn $\mathsf{T}[i]$ eine S-Typ-Position ist. Ansonsten ist $\sa[i]$ eine L-Typ-Position. Wir bezeichnen $\sa[i]$ und $\mathsf{T}[i]$ als \textit{Geschwister}. Um den lexikographischen Rang einer S-Typ-Position $i$ abzuspeichern, reicht es, diese im Geschwister von $\mathsf{T}[i]$ abzuspeichern. Die zusätzlichen Speicherbereiche können nun in den Geschwistern der L-Typ-Positionen $\mathsf{T}[i]$ abgespeichert werden. Da die L- und S-Typen von $\mathsf{T}$ eindeutig definiert sind, ist die Position, an der ein Element in $\sa$ gespeichert wird, eindeutig bestimmt. Um aber auf ein einzelnes Element zugreifen zu können, muss im schlimmsten Fall das ganze $\sa$ von rechts durchlaufen werden, um die L- und S-Typen zu bestimmen.
 
 \subsection{Algorithmus}
 
@@ -30,16 +30,25 @@ In diesem Abschnitt werden wir den \emph{nzSufSort} beschreiben. Dazu werden die
 
 \subsubsection{Vorberechnung}
 
-Für den Algorithmus muss gelten, dass es höchstens so viele S-Typ-Positionen wie L-Typ-Positionen geben darf. Also muss die Anzahl der S-Typ-Positionen durch $\lfloor n/2 \rfloor$ beschränkt sein. Dies wird benötigt, damit der Algorithmus die Speicherschranke einhält. Falls diese Bedingung nicht gilt, lässt sich der Eingabetext durch eine Vorberechnung in diese Form bringen. \\
-Dazu wird zunächst durch einen Rechtsdurchlauf die Anzahl der S-Typ-Positionen bestimmt. Diese Anzahl wird in das Feld \texttt{count\_s\_type\_pos} geschrieben. Falls diese größer als $\lfloor n/2 \rfloor$ ist, werden die Zeichen des Textes so überschrieben, dass sich die Ordnung der Zeichen umdreht. Also falls für zwei Positionen $i$ und $j$ vorher $T[i] \le T[j]$ galt, gilt nach dem Überschreiben $T[i] \ge T[j]$ und umgekehrt. Dadurch dreht sich die Ordnung der Suffixe des Textes ebenfalls um. Also muss am Ende des Algorithmus das Suffixarray $SA$ ebenfalls umgedreht werden. \\
+Für den Algorithmus muss gelten, dass es höchstens so viele S-Typ-Positionen wie L-Typ-Positionen geben darf. Also muss die Anzahl der S-Typ-Positionen durch $\lfloor \frac{n}{2} \rfloor$ beschränkt sein. Dies wird benötigt, damit der Algorithmus die Speicherschranke einhält. Falls diese Bedingung nicht gilt, lässt sich der Eingabetext durch eine Vorberechnung in diese Form bringen. \par
+Dazu wird zunächst durch einen Rechtsdurchlauf die Anzahl der S-Typ-Positionen bestimmt. 
+Diese Anzahl wird in das Feld \texttt{count\_s\_type\_pos} geschrieben. 
+Falls die Anzahl größer als $\lfloor \frac{n}{2} \rfloor$ ist, werden die Zeichen des Textes so überschrieben, dass sich die Ordnung der Zeichen umdreht. 
+Also falls für zwei Positionen $i$ und $j$ vorher 
+$\mathsf{T}[i] \le \mathsf{T}[j]$ 
+galt, 
+gilt nach dem Überschreiben $\mathsf{T}[i] \ge \mathsf{T}[j]$ und umgekehrt. 
+Dadurch dreht sich die Ordnung der Suffixe des Textes ebenfalls um. 
+Also muss am Ende des Algorithmus das Suffix-Array $\sa$ ebenfalls umgedreht werden. \par
 
 Wenn man die Vorberechnung auf den Beispieltext anwendet, sieht man, dass es mehr S-Typ-Positionen als L-Typ-Positionen im Beispieltext gibt.
 
 \begin{table}[H]
+	\footnotesize
 	\centering
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
-		$T[i]$ & c & a & a & b & a & c & c & a & a & b & a & c & a & a & \$ & \$ & \$ \\
+		$\mathsf{T}[i]$ & c & a & a & b & a & c & c & a & a & b & a & c & a & a & \$ & \$ & \$ \\
 		$Typ$ & L & S & S & L & S & L & L & S & S & L & S & L & L & L & S & S & S
 	\end{tabular}
 \end{table}
@@ -47,83 +56,90 @@ Wenn man die Vorberechnung auf den Beispieltext anwendet, sieht man, dass es meh
 Also wird der Eingabetext entsprechend transformiert.
 
 \begin{table}[H]
+	\footnotesize
 	\centering
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
-		$T[i]$ & a & c & c & b & c & a & a & c & c & b & c & a & c & c & d & d & d \\
+		$\mathsf{T}[i]$ & a & c & c & b & c & a & a & c & c & b & c & a & c & c & d & d & d \\
 		$Typ$ & S & L & L & S & L & S & S & L & L & S & L & S & S & S & L & L & L
 	\end{tabular}
 \end{table}
 
 \subsubsection{Erste Phase}
 
-In der ersten Phase des nzSufSort berechnen wir zunächst den reduzierten Text $t_{12}$. Dies funktioniert ähnlich wie im DC3, indem wir zunächst das Positionsarray der S-Typ-Positionen $p_{12}$ berechnen. Dieses wird mit der Inplace-Variante des Radixsort \cref{sort:radix:inplace} anhand der $Z_3$-Strings sortiert und die lexikographischen Ränge der S-Typ-Positionen werden anhand der Sortierung bestimmt. \\
+In der ersten Phase des nzSufSort berechnen wir zunächst den reduzierten Text $\mathsf{T}_{12}$. Dies funktioniert ähnlich wie im DC3, indem wir zunächst das Positions-Array der S-Typ-Positionen $\mathsf{P}_{12}$ berechnen. Dieses wird mit der Inplace-Variante des Radixsort \cref{sort:radix:inplace} anhand der $Z_3$-Strings sortiert und die lexikographischen Ränge der S-Typ-Positionen werden anhand der Sortierung bestimmt. \par
 
-Im ersten Schritt muss das Positionsarray $p_{12}$ der S-Typ-Positionen in die ersten $n_{12}$ Elemente von $SA$ berechnet werden. Die S-Typ-Positionen lassen sich einfach durch einen Rechtsdurchlauf durch $T$ bestimmen. Anhand von  \texttt{count\_s\_type\_pos} lässt sich zu einer S-Typ-Position $i$ ermitteln, ob diese die $j$-te S-Typ-Position mit $j \text{ modulo } 3 = 1$ oder $j \text{ modulo } 3 = 2$ ist. Falls $j \text{ modulo } 3 = 1$ ist, wird $i$ an Position $\frac{j}{3}$ der ersten Hälfte von $p_{12}$ geschrieben, falls $j \text{ modulo } 3 = 2$ ist an Position $\frac{j}{3}$ der zweiten Hälfte. \\
-In der folgenden Tabelle sehen wir das Positionsarray des Beispieltextes. Der Index $j$ bezeichnet die $j$-te S-Typ-Position und das Positionsarray ist aufgeteilt in die Mengen mit $j \text{ modulo } 3 = 1$ und $j \text{ modulo } 3 = 2$.
+Im ersten Schritt muss das Positions-Array $\mathsf{P}_{12}$ der S-Typ-Positionen in die ersten $n_{12}$ Elemente von $\sa$ berechnet werden. Die S-Typ-Positionen lassen sich einfach durch einen Rechtsdurchlauf durch $\mathsf{T}$ bestimmen. Anhand von  \texttt{count\_s\_type\_pos} lässt sich zu einer S-Typ-Position $i$ ermitteln, ob diese die $j$-te S-Typ-Position mit $j \text{ modulo } 3 = 1$ oder $j \text{ modulo } 3 = 2$ ist. Falls $j \text{ modulo } 3 = 1$ ist, wird $i$ an Position $\frac{j}{3}$ der ersten Hälfte von $\mathsf{P}_{12}$ geschrieben, falls $j \text{ modulo } 3 = 2$ ist an Position $\frac{j}{3}$ der zweiten Hälfte. \par
+In der folgenden Tabelle sehen wir das Positions-Array des Beispieltextes. Der Index $j$ bezeichnet die $j$-te S-Typ-Position und das Positions-Array ist aufgeteilt in die Mengen mit $j \text{ modulo } 3 = 1$ und $j \text{ modulo } 3 = 2$.
 
 \begin{table}[H]
+	\footnotesize
 	\centering
 	\begin{tabular}{c| c c c || c c }
 		$j$ & 1 & 4 & 7 & 2 & 5 \\
-		$p_{12}[j]$ & 3 & 9 & 13 & 5 & 11 
+		$\mathsf{P}_{12}[j]$ & 3 & 9 & 13 & 5 & 11 
 	\end{tabular}
 \end{table}
 
-Im zweiten Schritt müssen wir die Inplace-Variante des Radixsort aufrufen. Da die $Z_3$-Strings an den Positionen, die in $p_{12}$ gespeichert sind, unterschiedliche Längen besitzen, müssen wir die Längen dieser Strings bestimmen und speichern diese im Speicherbereich der Größe $n_{12}$ direkt hinter $p_{12}$ in $SA$ ab. Dieses Längenarray bezeichnen wir mit $h_{12}$. Da für die $j$-te S-Typ-Position die Endposition des zugehörigen $Z_3$-Strings die S-Typ-Position mit $j+3$ ist, lässt sich $h_{12}$ durch $p_{12}[i+1]-p_{12}[i]+1$ berechnen, falls $j$ nicht die letzte S-Typ-Position bezüglich modulo $3$ ist. Ansonsten wird der Wert durch $n-p_{12}[i]+1$ gebildet. \\
-In der folgenden Tabelle sehen wir das aus $p_{12}$ berechnete Array $h_{12}$.
+Im zweiten Schritt müssen wir die Inplace-Variante des Radixsort aufrufen. Da die $Z_3$-Strings an den Positionen, die in $\mathsf{P}_{12}$ gespeichert sind, unterschiedliche Längen besitzen, müssen wir die Längen dieser Strings bestimmen und speichern diese im Speicherbereich der Größe $n_{12}$ direkt hinter $\mathsf{P}_{12}$ in $\sa$ ab. Dieses Längenarray bezeichnen wir mit $\mathsf{H}_{12}$. Da für die $j$-te S-Typ-Position die Endposition des zugehörigen $Z_3$-Strings die S-Typ-Position mit $j+3$ ist, lässt sich $\mathsf{H}_{12}$ durch $\mathsf{P}_{12}[i+1]-\mathsf{P}_{12}[i]+1$ berechnen, falls $j$ nicht die letzte S-Typ-Position bezüglich modulo $3$ ist. Ansonsten wird der Wert durch $n-\mathsf{P}_{12}[i]+1$ gebildet. \par
+In der folgenden Tabelle sehen wir das aus $\mathsf{P}_{12}$ berechnete Array $\mathsf{H}_{12}$.
 
 \begin{table}[H]
+	\footnotesize
 	\centering
 	\begin{tabular}{c| c c c || c c }
 		$j$ & 1 & 4 & 7 & 2 & 5 \\
-		$p_{12}[j]$ & 3 & 9 & 13 & 5 & 11 \\
-		$h_{12}[j]$ & 7 & 5 & 4 & 7 & 6 
+		$\mathsf{P}_{12}[j]$ & 3 & 9 & 13 & 5 & 11 \\
+		$\mathsf{H}_{12}[j]$ & 7 & 5 & 4 & 7 & 6 
 	\end{tabular}
 \end{table}
 
-Um $p_{12}$ zu sortieren, werden wir die Positionen von $p_{12}$ im Speicherbereich der Größe $n_{12}$ direkt hinter $h_{12}$ in $SA$ sortieren. Dabei verwenden wir eine Variation des Inplace-Radixsort, in dem das letzte Bucket nicht sortiert wird. Dieses Bucket enthält die $Z_3$-Strings, deren Längen kürzer als die aktuell betrachtete Position im Radixsort sind. Für den Aufruf von Radixsort benötigen wir noch eine \texttt{key\_function} und eine \texttt{compare\_function}. Die \texttt{key\_function} gibt das Zeichen von $T$ an der aktuell betrachteten Position zurück, falls die Position kleiner oder gleich der Länge des $Z_3$-Strings ist. Ansonsten wird $|\Sigma| +1$ zurückgegeben, damit diese ins letzte Bucket einsortiert werden. Dadurch wird die oben beschriebene Ordnung zwischen $Z_3$-Strings beibehalten. Die \texttt{compare\_function} gibt den Rest der $Z_3$-Strings ab der aktuell betrachteten Position zurück. \\
-In der folgenden Tabelle sehen wir das sortierte Positionsarray $p_{12}$. Die Indizes $i$ bezeichnen hier die Position in $p_{12}$.
+Um $\mathsf{P}_{12}$ zu sortieren, werden wir die Positionen von $\mathsf{P}_{12}$ im Speicherbereich der Größe $n_{12}$ direkt hinter $\mathsf{H}_{12}$ in $\sa$ sortieren. Dabei verwenden wir eine Variation des Inplace-Radixsort, in dem das letzte Bucket nicht sortiert wird. Dieses Bucket enthält die $Z_3$-Strings, deren Längen kürzer als die aktuell betrachtete Position im Radixsort sind. Für den Aufruf von Radixsort benötigen wir noch eine \texttt{key\_function} und eine \texttt{compare\_function}. Die \texttt{key\_function} gibt das Zeichen von $\mathsf{T}$ an der aktuell betrachteten Position zurück, falls die Position kleiner oder gleich der Länge des $Z_3$-Strings ist. Ansonsten wird $|\Sigma| +1$ zurückgegeben, damit diese ins letzte Bucket einsortiert werden. Dadurch wird die oben beschriebene Ordnung zwischen $Z_3$-Strings beibehalten. Die \texttt{compare\_function} gibt den Rest der $Z_3$-Strings ab der aktuell betrachteten Position zurück. \par
+In der folgenden Tabelle sehen wir das sortierte Positions-Array $\mathsf{P}_{12}$. Die Indizes $i$ bezeichnen hier die Position in $\mathsf{P}_{12}$.
 
 \begin{table}[H]
+	\footnotesize
 	\centering
 	\begin{tabular}{c| c c c c c }
 		$i$ & 0 & 1 & 2 & 3 & 4 \\
-		$p_{12}[i]$ & 5 & 11 & 3 & 9 & 13 
+		$\mathsf{P}_{12}[i]$ & 5 & 11 & 3 & 9 & 13 
 	\end{tabular}
 \end{table}
 
-Mit dem sortierten Positionsarray $p_{12}$ lässt sich nun $t_{12}$ berechnen. Dazu werden wir durch Vergleiche der $Z_3$-Strings in $p_{12}$ die lexikographischen Ränge bestimmen und diese wie in \cref{nzSufSort:intro:methods} bereits beschrieben in die S-Typ-Positionen von $SA$ schreiben. Damit $p_{12}$ nicht überschrieben wird, schreiben wir diesen Speicherbereich umgedreht in L-Typ-Positionen von $SA$. Dann können wir $p_{12}$ durchlaufen, indem wir von rechts nach links die Typen von $T$ bestimmen und von zwei aufeinanderfolgenden Positionen $i$ und $j$ in $p_{12}$ die jeweiligen $Z_3$-Strings $t_i$ und $t_j$ bestimmen. Falls $t_i < t_j$ erhält $t_i$ einen kleineren lexikographischen Rang beginnend ab $1$. Bei Gleichheit erhalten $t_i$ und $t_j$ den gleichen lexikographischen Rang. Der lexikographische Rang von $t_i$ wird dann an Position $i$ von $SA$ geschrieben. Nachdem alle lexikographischen Ränge bestimmt und in die S-Typ-Positionen von $SA$ geschrieben wurden, teilen wir die lexikographischen Ränge in die beiden Mengen auf, so dass in der ersten Gruppe alle $j$-ten S-Typ-Positionen mit $j \text{ modulo } 3 = 1$ stehen und in der zweiten alle $j$-ten S-Typ-Positionen mit $j \text{ modulo } 3 = 2$. Diese schreiben wir zunächst in die L-Typ-Positionen, anschließend werden diese ans Ende von $SA$ kopiert und zuletzt umgedreht an den Beginn von $SA$ geschrieben, um zu vermeiden, dass benötigter Speicher überschrieben wird. Dann steht in den ersten $n_{12}$ Positionen von $SA$ der reduzierte Text $t_{12}$. \\
-In den folgenden Tabellen wird die Berechnung von $t_{12}$ am Beispieltext veranschaulicht. Zur Übersicht werden die Elemente von $t_{12}$ in rot markiert und die berechneten lexikographischen Ränge in blau. Die Einträge von $SA$, die für den jeweiligen Schritt der Berechnung unbedeutend sind, werden mit $-$ bezeichnet.\\
-Zunächst wird der Zustand zu Beginn der Berechnung gezeigt. In $SA$ ist zunächst nur das Positionsarray $p_{12}$ gespeichert.
+Mit dem sortierten Positions-Array $\mathsf{P}_{12}$ lässt sich nun $\mathsf{T}_{12}$ berechnen. Dazu werden wir durch Vergleiche der $Z_3$-Strings in $\mathsf{P}_{12}$ die lexikographischen Ränge bestimmen und diese - wie in \cref{nzSufSort:intro:methods} bereits beschrieben - in die S-Typ-Positionen von $\sa$ schreiben. Damit $\mathsf{P}_{12}$ nicht überschrieben wird, schreiben wir diesen Speicherbereich umgedreht in L-Typ-Positionen von $\sa$. Dann können wir $\mathsf{P}_{12}$ durchlaufen, indem wir von rechts nach links die Typen von $\mathsf{T}$ bestimmen und von zwei aufeinanderfolgenden Positionen $i$ und $j$ in $\mathsf{P}_{12}$ die jeweiligen $Z_3$-Strings $\mathsf{T}_i$ und $\mathsf{T}_j$ bestimmen. Falls $\mathsf{T}_i < \mathsf{T}_j$ erhält $\mathsf{T}_i$ einen kleineren lexikographischen Rang beginnend ab $1$. Bei Gleichheit erhalten $\mathsf{T}_i$ und $\mathsf{T}_j$ den gleichen lexikographischen Rang. Der lexikographische Rang von $\mathsf{T}_i$ wird dann an Position $i$ von $\sa$ geschrieben. Nachdem alle lexikographischen Ränge bestimmt und in die S-Typ-Positionen von $\sa$ geschrieben wurden, teilen wir die lexikographischen Ränge in die beiden Mengen auf, sodass in der ersten Gruppe alle $j$-ten S-Typ-Positionen mit $j \text{ modulo } 3 = 1$ stehen und in der zweiten alle $j$-ten S-Typ-Positionen mit $j \text{ modulo } 3 = 2$. Diese schreiben wir zunächst in die L-Typ-Positionen, anschließend werden diese ans Ende von $\sa$ kopiert und zuletzt umgedreht an den Beginn von $\sa$ geschrieben, um zu vermeiden, dass benötigter Speicher überschrieben wird. Dann steht in den ersten $n_{12}$ Positionen von $\sa$ der reduzierte Text $\mathsf{T}_{12}$. \par
+In den folgenden Tabellen wird die Berechnung von $\mathsf{T}_{12}$ am Beispieltext veranschaulicht. Zur Übersicht werden die Elemente von $\mathsf{T}_{12}$ in rot markiert und die berechneten lexikographischen Ränge in blau. Die Einträge von $\sa$, die für den jeweiligen Schritt der Berechnung unbedeutend sind, werden mit '$-$' bezeichnet.\par
+Zunächst wird der Zustand zu Beginn der Berechnung gezeigt. In $\sa$ ist zunächst nur das Positions-Array $\mathsf{P}_{12}$ gespeichert.
 
 \begin{table}[H]
+	\footnotesize
 	\centering
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
-		$SA[i]$ & \textcolor{red}{5} & \textcolor{red}{11} & \textcolor{red}{3} & \textcolor{red}{9} & \textcolor{red}{13} & - & - & - & - & - & - & - & - & - & - & - & - \\
+		$\sa[i]$ & \textcolor{red}{5} & \textcolor{red}{11} & \textcolor{red}{3} & \textcolor{red}{9} & \textcolor{red}{13} & - & - & - & - & - & - & - & - & - & - & - & - \\
 		$Typ$ & S & L & L & S & L & S & S & L & L & S & L & S & S & S & L & L & L
 	\end{tabular}
 \end{table}
 
-Anschließend wird das Positionsarray $p_{12}$ umgedreht in den L-Typ-Positionen von $SA$ von rechts nach links gespeichert.
+Anschließend wird das Positions-Array $\mathsf{P}_{12}$ umgedreht in den L-Typ-Positionen von $\sa$ von rechts nach links gespeichert.
 
 \begin{table}[H]
+	\footnotesize
 	\centering
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
-		$SA[i]$ & - & - & - & - & - & - & - & - & \textcolor{red}{13} & - & \textcolor{red}{9} & - & - & - & \textcolor{red}{3} & \textcolor{red}{11} & \textcolor{red}{5} \\
+		$\sa[i]$ & - & - & - & - & - & - & - & - & \textcolor{red}{13} & - & \textcolor{red}{9} & - & - & - & \textcolor{red}{3} & \textcolor{red}{11} & \textcolor{red}{5} \\
 		$Typ$ & S & L & L & S & L & S & S & L & L & S & L & S & S & S & L & L & L
 	\end{tabular}
 \end{table}
 
-Im nächsten Schritt wird $p_{12}$ durchlaufen und die lexikographischen Ränge der $Z_3$-Strings, die an den jeweiligen Positionen von $p_{12}$ beginnen, bestimmt und in die S-Typ-Positionen von $SA$ geschrieben.
+Im nächsten Schritt wird $\mathsf{P}_{12}$ durchlaufen und die lexikographischen Ränge der $Z_3$-Strings, die an den jeweiligen Positionen von $\mathsf{P}_{12}$ beginnen, bestimmt und in die S-Typ-Positionen von $\sa$ geschrieben.
 
 \begin{table}[H]
+	\footnotesize
 	\centering
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
-		$SA[i]$ & - & - & - & \textcolor{blue}{3} & - & \textcolor{blue}{1} & - & - & \textcolor{red}{13} & \textcolor{blue}{4} & \textcolor{red}{9} & \textcolor{blue}{2} & - & \textcolor{blue}{5} & \textcolor{red}{3} & \textcolor{red}{11} & \textcolor{red}{5} \\
+		$\sa[i]$ & - & - & - & \textcolor{blue}{3} & - & \textcolor{blue}{1} & - & - & \textcolor{red}{13} & \textcolor{blue}{4} & \textcolor{red}{9} & \textcolor{blue}{2} & - & \textcolor{blue}{5} & \textcolor{red}{3} & \textcolor{red}{11} & \textcolor{red}{5} \\
 		$Typ$ & S & L & L & S & L & S & S & L & L & S & L & S & S & S & L & L & L
 	\end{tabular}
 \end{table}
@@ -131,199 +147,217 @@ Im nächsten Schritt wird $p_{12}$ durchlaufen und die lexikographischen Ränge 
 Nun müssen die lexikographischen Ränge in die L-Typ-Positionen geschrieben werden.
 
 \begin{table}[H]
+	\footnotesize
 	\centering
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
-		$SA[i]$ & - & - & - & - & - & - & - & - & \textcolor{blue}{1} & - & \textcolor{blue}{2} & - & - & - & \textcolor{blue}{3} & \textcolor{blue}{4} & \textcolor{blue}{5} \\
+		$\sa[i]$ & - & - & - & - & - & - & - & - & \textcolor{blue}{1} & - & \textcolor{blue}{2} & - & - & - & \textcolor{blue}{3} & \textcolor{blue}{4} & \textcolor{blue}{5} \\
 		$Typ$ & S & L & L & S & L & S & S & L & L & S & L & S & S & S & L & L & L
 	\end{tabular}
 \end{table}
 
-Die lexikographischen Ränge werden anschließend an das Ende von $SA$ kopiert.
+Die lexikographischen Ränge werden anschließend an das Ende von $\sa$ kopiert.
 
 \begin{table}[H]
+	\footnotesize
 	\centering
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
-		$SA[i]$ & - & - & - & - & - & - & - & - & - & - & - & - & \textcolor{blue}{1} & \textcolor{blue}{2} & \textcolor{blue}{3} & \textcolor{blue}{4} & \textcolor{blue}{5} \\
+		$\sa[i]$ & - & - & - & - & - & - & - & - & - & - & - & - & \textcolor{blue}{1} & \textcolor{blue}{2} & \textcolor{blue}{3} & \textcolor{blue}{4} & \textcolor{blue}{5} \\
 		$Typ$ & S & L & L & S & L & S & S & L & L & S & L & S & S & S & L & L & L
 	\end{tabular}
 \end{table}
 
-Im letzten Schritt werden die lexikographischen Ränge von rechts nach links an den Anfang von $SA$ geschrieben. Dabei werden die Gruppen der $i$ten S-Typ-Positionen mit $i \text{ modulo } 3 = 1$ und $i \text{ modulo } 3 = 2$ umgedreht. Dadurch steht am Ende der Berechnung der lexikographischen Ränge am Beginn von $SA$ der reduzierte Text $t_{12}$.
+Im letzten Schritt werden die lexikographischen Ränge von rechts nach links an den Anfang von $\sa$ geschrieben. Dabei werden die Gruppen der $i$-ten S-Typ-Positionen mit $i \text{ modulo } 3 = 1$ und $i \text{ modulo } 3 = 2$ umgedreht. Dadurch steht am Ende der Berechnung der lexikographischen Ränge am Beginn von $\sa$ der reduzierte Text $\mathsf{T}_{12}$.
 
 \begin{table}[H]
+	\footnotesize
 	\centering
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
-		$SA[i]$ & \textcolor{blue}{3} & \textcolor{blue}{4} & \textcolor{blue}{5} & \textcolor{blue}{1} & \textcolor{blue}{2} & - & - & - & - & - & - & - & - & - & - & - & - \\
+		$\sa[i]$ & \textcolor{blue}{3} & \textcolor{blue}{4} & \textcolor{blue}{5} & \textcolor{blue}{1} & \textcolor{blue}{2} & - & - & - & - & - & - & - & - & - & - & - & - \\
 		$Typ$ & S & L & L & S & L & S & S & L & L & S & L & S & S & S & L & L & L
 	\end{tabular}
 \end{table}
 
-Im letzten Schritt der ersten Phase wird das Suffixarray $SA_{12}$ von $t_{12}$ durch einen Aufruf des DC3-Lite \cref{dc3:lite} bestimmt, falls die lexikographischen Ränge nicht eindeutig sind. Falls die lexikographischen Ränge eindeutig sind, entspricht $t_{12}$ dem $ISA_{12}$. Also kann $SA_{12}$ in diesem Fall direkt berechnet werden, indem das Inverse von $SA_{12}$ berechnet wird. \\
-In der folgenden Tabelle sehen wir das Suffixarray $SA_{12}$ von $t_{12}$. Da die lexikographischen Ränge von $t_{12}$ eindeutig waren, war kein Aufruf des DC3-Lite nötig.
+Im letzten Schritt der ersten Phase wird das Suffix-Array $\sa_{12}$ von $\mathsf{T}_{12}$ durch einen Aufruf des DC3-Lite \cref{dc3:lite} bestimmt, falls die lexikographischen Ränge nicht eindeutig sind. Falls die lexikographischen Ränge eindeutig sind, entspricht $\mathsf{T}_{12}$ dem $\mathsf{ISA}_{12}$. Also kann $\sa_{12}$ in diesem Fall direkt berechnet werden, indem das Inverse von $\sa_{12}$ berechnet wird. \par
+In der folgenden Tabelle sehen wir das Suffix-Array $\sa_{12}$ von $\mathsf{T}_{12}$. Da die lexikographischen Ränge von $\mathsf{T}_{12}$ eindeutig waren, war kein Aufruf des DC3-Lite nötig.
 
 \begin{table}[H]
+	\footnotesize
 	\centering
 	\begin{tabular}{c| c c c c c }
 		$i$ & 0 & 1 & 2 & 3 & 4 \\
-		$SA_{12}[i]$ & 3 & 4 & 0 & 1 & 2 
+		$\sa_{12}[i]$ & 3 & 4 & 0 & 1 & 2 
 	\end{tabular}
 \end{table}
 
 \subsubsection{Zweite Phase}
 
-In der zweiten Phase berechnen wir $SA_0$, das Suffixarray von $t_0$, indem wir zunächst $t_0$ analog zu $t_{12}$ berechnen. Anschließend wird $SA_0$ aus $SA_{12}$ und $t_0$ analog zum DC3 induziert. $SA_0$ und $SA_{12}$ werden zum Suffixarray der S-Typ-Positionen $SA_S$ vereinigt und schließlich durch einen Links-Induktions-Scan das vollständige Suffixarray $SA$ konstruiert. \\
-Im ersten Schritt der zweiten Phase berechnen wir $t_0$ analog zu $t_{12}$, indem wir zunächst das Positionsarray $p_0$ berechnen, dieses anschließend mit Radixsort sortieren und die lexikographischen Ränge der Positionen bestimmen. Bei der Bestimmung der lexikographischen Ränge ist zu beachten, dass das Suffixarray $SA_{12}$ nicht überschrieben werden darf und daher ebenfalls in den L-Typ-Positionen von $SA$ gespeichert werden muss. Der berechnete reduzierte Text $t_0$ ist dann wie folgt.
+In der zweiten Phase berechnen wir $\sa_0$, das Suffix-Array von $\mathsf{T}_{0}$, indem wir zunächst $\mathsf{T}_{0}$ analog zu $\mathsf{T}_{12}$ berechnen. Anschließend wird $\sa_0$ aus $\sa_{12}$ und $\mathsf{T}_{0}$ analog zum DC3 induziert. $\sa_0$ und $\sa_{12}$ werden zum Suffix-Array der S-Typ-Positionen $\sa_{S}$ vereinigt und schließlich durch einen Links-Induktions-Scan das vollständige Suffix-Array $\sa$ konstruiert. \par
+Im ersten Schritt der zweiten Phase berechnen wir $\mathsf{T}_{0}$ analog zu $\mathsf{T}_{12}$, indem wir zunächst das Positions-Array $\mathsf{P}_0$ berechnen, dieses anschließend mit Radixsort sortieren und die lexikographischen Ränge der Positionen bestimmen. Bei der Bestimmung der lexikographischen Ränge ist zu beachten, dass das Suffix-Array $\sa_{12}$ nicht überschrieben werden darf und daher ebenfalls in den L-Typ-Positionen von $\sa$ gespeichert werden muss. Der berechnete reduzierte Text $\mathsf{T}_{0}$ ist dann wie folgt.
 
 \begin{table}[H]
+	\footnotesize
 	\centering
 	\begin{tabular}{c| c c c }
 		$i$ & 0 & 1 & 2 \\
-		$t_0[i]$ & 1 & 2 & 3 
+		$\mathsf{T}_{0}[i]$ & 1 & 2 & 3 
 	\end{tabular}
 \end{table}
 
-Dann lässt sich durch Induzieren wie im DC3 \cref{dc3:algorithmus:phase2} aus $t_0$ und $SA_{12}$ das Suffixarray $SA_0$ bestimmen.
+Dann lässt sich durch Induzieren wie im DC3 \cref{dc3:algorithmus:phase2} aus $\mathsf{T}_{0}$ und $\sa_{12}$ das Suffix-Array $\sa_0$ bestimmen.
 
 \begin{table}[H]
+	\footnotesize
 	\centering
 	\begin{tabular}{c| c c c }
 		$i$ & 0 & 1 & 2 \\
-		$SA_0[i]$ & 0 & 1 & 2 
+		$\sa_0[i]$ & 0 & 1 & 2 
 	\end{tabular}
 \end{table}
 
-Um $SA_0$ und $SA_{12}$ vereinigen zu können, müssen wir die $Z_3$-Strings der Positionen des ursprünglichen Textes $T$ miteinander vergleichen. $SA_0$ und $SA_{12}$ beziehen sich aber auf die reduzierten Texte $t_0$ und $t_{12}$. Wir müssen also zunächst erneut $p_0$ und $p_{12}$ berechnen und anschließend die Positionen von $SA_0$ und $SA_{12}$ mit $p_0$ und $p_{12}$ aktualisieren, damit diese sich auf $T$ beziehen. \\
-Die Positionsarrays $p_0$ und $p_{12}$ werden folgend zusammen mit den aktualisierten Suffixarrays $SA_0$ und $SA_{12}$ dargestellt. 
+Um $\sa_0$ und $\sa_{12}$ vereinigen zu können, müssen wir die $Z_3$-Strings der Positionen des ursprünglichen Textes $\mathsf{T}$ miteinander vergleichen. $\sa_0$ und $\sa_{12}$ beziehen sich aber auf die reduzierten Texte $\mathsf{T}_{0}$ und $\mathsf{T}_{12}$. Wir müssen also zunächst erneut $\mathsf{P}_0$ und $\mathsf{P}_{12}$ berechnen und anschließend die Positionen von $\sa_0$ und $\sa_{12}$ mit $\mathsf{P}_0$ und $\mathsf{P}_{12}$ aktualisieren, damit sich diese auf $\mathsf{T}$ beziehen. \par
+Die Positions-Arrays $\mathsf{P}_0$ und $\mathsf{P}_{12}$ werden folgend zusammen mit den aktualisierten Suffix-Arrays $\sa_0$ und $\sa_{12}$ dargestellt. 
 
 \begin{table}[H]
+	\footnotesize
 	\centering
 	\begin{tabular}{c| c c c }
 		$i$ & 0 & 1 & 2 \\
-		$p_0[i]$ & 0 & 6 & 12 \\
-		$SA_0[i]$ & 0 & 6 & 12 
+		$\mathsf{P}_0[i]$ & 0 & 6 & 12 \\
+		$\sa_0[i]$ & 0 & 6 & 12 
 	\end{tabular}
 \end{table}
 \begin{table}[H]
+	\footnotesize
 	\centering
 	\begin{tabular}{c| c c c c c }
 		$i$ & 0 & 1 & 2 & 3 & 4 \\
-		$p_{12}[i]$ & 3 & 9 & 13 & 5 & 11 \\
-		$SA_{12}[i]$ & 5 & 11 & 3 & 9 & 13 
+		$\mathsf{P}_{12}[i]$ & 3 & 9 & 13 & 5 & 11 \\
+		$\sa_{12}[i]$ & 5 & 11 & 3 & 9 & 13 
 	\end{tabular}
 \end{table}
 
-Der nächste Schritt ist es nun $SA_0$ und $SA_{12}$ zu vereinigen. Dazu benötigen wir das $ISA_0$ und $ISA_{12}$ der S-Typ-Positionen von $T$. Dieses wird mit der in \cref{nzSufSort:intro:methods} beschriebenen Technik in die S-Typ-Positionen berechnet, indem wir zunächst $SA_0$ und $SA_{12}$ umgedreht von rechts nach links in die L-Typ-Positionen von $SA$ schreiben. Dabei müssen wir uns in dem Feld $h$ merken, welches die erste Position von $SA_0$ ist. Anschließend lässt sich durch einen Durchlauf von rechts $ISA_0$ und $ISA_{12}$ bestimmen. Dabei werden nicht die lexikographischen Ränge der Suffixe gespeichert, sondern die Positionen von $SA_0$ und $SA_{12}$ in $SA$, damit man direkt auf die Elemente von $SA_0$ und $SA_{12}$ zugreifen kann. Da $SA_0$ und $SA_{12}$ umgedreht in $SA$ abgespeichert wurden, dreht sich auch die Ordnung der Elemente in $ISA_0$ und $ISA_{12}$ um. Für Positionen $i$ und $j$ die in $ISA_0$ gespeichert sind gilt $S_i$ < $S_j$, wenn $ISA_0[i] > ISA_0[j]$. Analog für $ISA_{12}$. \\
-Nun können wir $SA_0$ und $SA_{12}$ von rechts nach links durchlaufen und die Positionen im vereinigten Suffixarray bestimmen. Dazu teilen wir die Positionen von $SA_{12}$ in die \textit{Rest-$1$} und in die \textit{Rest-$2$} Mengen auf. In der Rest-$1$ Menge sind die $k$-ten S-Typ-Positionen mit $k \text{ modulo } 3 = 1$ und in der Rest-$2$ Menge sind die $k$-ten S-Typ-Positionen mit $k \text{ modulo } 3 = 2$. Um zu bestimmen zu welcher Menge eine Position $i$ in $SA_{12}$ gehört, bestimmen wir mit der Funktion \texttt{retrieve\_s\_string} die nächste S-Typ-Position $j$ von $i$. In $SA[j]$ steht die Information an welcher Position in $SA$ der Eintrag im dazugehörigen $SA_0$ bzw. $SA_{12}$ gespeichert ist. Durch einen Vergleich mit $h$ lässt sich nun herausfinden, ob $j$ in $SA_0$ oder $SA_{12}$ gespeichert ist. Wenn $j$ in $SA_0$ gespeichert ist, gehört $i$ zu der Rest-$2$ Menge, ansonsten zu der Rest-$1$ Menge. \\ 
-Wir vergleichen nun Positionen $i$ in $SA_0$ mit Positionen $j$ in $SA_{12}$. Ist $j$ in der Rest-$1$ Menge vergleichen wir zunächst die $Z_1$-Strings $t_i$ und $t_j$. Falls die Strings ungleich sind, ist die Position im vereinigten Suffixarray direkt bestimmt. Bei Gleichheit müssen wir die Ordnung der Suffixe der Endpositionen von $t_i$ und $t_j$ in $ISA_0$ und $ISA_{12}$ vergleichen. Falls $j$ in der Rest-$2$ Menge ist, verfahren wir analog zum ersten Fall nur dass $t_i$ und $t_j$ hier die $Z_2$-Strings sind. \\
-Die Positionen in $SA_0$ und $SA_{12}$ werden auf diese Weise mit den Positionen im vereinigten Suffixarray überschrieben. Indem wir nun $ISA_0$ und $ISA_{12}$ durchlaufen und die Positionen mit den Positionen aus $SA_0$ und $SA_{12}$ überschreiben, haben wir das $ISA_S$ der S-Typ-Positionen von $T$ berechnet. Dieses wird an das Ende von $SA$ kopiert. \\
-Das Vereinigen von $SA_0$ und $SA_{12}$ wird nun am Beispieltext demonstriert. Zu Beginn sind $SA_0$ und $SA_{12}$ hintereinander in $SA$ gespeichert. Die Elemente von $SA_0$ werden im Folgenden immer in rot und die Elemente von $SA_{12}$ immer in blau markiert sein. 
+Der nächste Schritt ist es nun, $\sa_0$ und $\sa_{12}$ zu vereinigen. Dazu benötigen wir das $\mathsf{ISA}_0$ und $\mathsf{ISA}_{12}$ der S-Typ-Positionen von $\mathsf{T}$. Dieses wird mit der in \cref{nzSufSort:intro:methods} beschriebenen Technik in die S-Typ-Positionen berechnet, indem wir zunächst $\sa_0$ und $\sa_{12}$ umgedreht von rechts nach links in die L-Typ-Positionen von $\sa$ schreiben. Dabei müssen wir uns in dem Feld $h$ merken, welches die erste Position von $\sa_0$ ist. Anschließend lässt sich durch einen Durchlauf von rechts $\mathsf{ISA}_0$ und $\mathsf{ISA}_{12}$ bestimmen. Dabei werden nicht die lexikographischen Ränge der Suffixe gespeichert, sondern die Positionen von $\sa_0$ und $\sa_{12}$ in $\sa$, damit man direkt auf die Elemente von $\sa_0$ und $\sa_{12}$ zugreifen kann. Da $\sa_0$ und $\sa_{12}$ umgedreht in $\sa$ abgespeichert wurden, dreht sich auch die Ordnung der Elemente in $\mathsf{ISA}_0$ und $\mathsf{ISA}_{12}$ um. Für Positionen $i$ und $j$ die in $\mathsf{ISA}_0$ gespeichert sind gilt $\suffix{i}$ < $\suffix{j}$, wenn $\mathsf{ISA}_0[i] > \mathsf{ISA}_0[j]$. Analog für $\mathsf{ISA}_{12}$. \par
+Nun können wir $\sa_0$ und $\sa_{12}$ von rechts nach links durchlaufen und die Positionen im vereinigten Suffix-Array bestimmen. Dazu teilen wir die Positionen von $\sa_{12}$ in die \textit{Rest-$1$} und in die \textit{Rest-$2$} Mengen auf. In der Rest-$1$ Menge sind die $k$-ten S-Typ-Positionen mit $k \text{ modulo } 3 = 1$ und in der Rest-$2$ Menge sind die $k$-ten S-Typ-Positionen mit $k \text{ modulo } 3 = 2$. Um zu bestimmen zu welcher Menge eine Position $i$ in $\sa_{12}$ gehört, bestimmen wir mit der Funktion \texttt{retrieve\_s\_string} die nächste S-Typ-Position $j$ von $i$. In $\sa[j]$ steht die Information an welcher Position in $\sa$ der Eintrag im dazugehörigen $\sa_0$ bzw. $\sa_{12}$ gespeichert ist. Durch einen Vergleich mit $h$ lässt sich nun herausfinden, ob $j$ in $\sa_0$ oder $\sa_{12}$ gespeichert ist. Wenn $j$ in $\sa_0$ gespeichert ist, gehört $i$ zu der Rest-$2$ Menge, ansonsten zu der Rest-$1$ Menge. \par
+Wir vergleichen nun Positionen $i$ in $\sa_0$ mit Positionen $j$ in $\sa_{12}$. Ist $j$ in der Rest-$1$ Menge, vergleichen wir zunächst die $Z_1$-Strings $\mathsf{T}_i$ und $\mathsf{T}_j$. Falls die Strings ungleich sind, ist die Position im vereinigten Suffix-Array direkt bestimmt. Bei Gleichheit müssen wir die Ordnung der Suffixe der Endpositionen von $\mathsf{T}_i$ und $\mathsf{T}_j$ in $\mathsf{ISA}_0$ und $\mathsf{ISA}_{12}$ vergleichen. Falls $j$ in der Rest-$2$ Menge ist, verfahren wir analog zum ersten Fall, nur dass $t_i$ und $t_j$ hier die $Z_2$-Strings sind. \par
+Die Positionen in $\sa_0$ und $\sa_{12}$ werden auf diese Weise mit den Positionen im vereinigten Suffix-Array überschrieben. Indem wir nun $\mathsf{ISA}_0$ und $\mathsf{ISA}_{12}$ durchlaufen und die Positionen mit den Positionen aus $\sa_0$ und $\sa_{12}$ überschreiben, haben wir das $\mathsf{ISA}_S$ der S-Typ-Positionen von $\mathsf{T}$ berechnet. Dieses wird an das Ende von $\sa$ kopiert. \par
+Das Vereinigen von $\sa_0$ und $\sa_{12}$ wird nun am Beispieltext demonstriert. Zu Beginn sind $\sa_0$ und $\sa_{12}$ hintereinander in $\sa$ gespeichert. Die Elemente von $\sa_0$ werden im Folgenden immer in rot und die Elemente von $\sa_{12}$ immer in blau markiert sein. 
 
 \begin{table}[H]
+	\footnotesize
 	\centering
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
-		$SA[i]$ & \textcolor{red}{0} & \textcolor{red}{6} & \textcolor{red}{12} & \textcolor{blue}{5} & \textcolor{blue}{11} & \textcolor{blue}{3} & \textcolor{blue}{9} & \textcolor{blue}{13} & - & - & - & - & - & - & - & - & - \\
+		$\sa[i]$ & \textcolor{red}{0} & \textcolor{red}{6} & \textcolor{red}{12} & \textcolor{blue}{5} & \textcolor{blue}{11} & \textcolor{blue}{3} & \textcolor{blue}{9} & \textcolor{blue}{13} & - & - & - & - & - & - & - & - & - \\
 		$Typ$ & S & L & L & S & L & S & S & L & L & S & L & S & S & S & L & L & L
 	\end{tabular}
 \end{table}
 
-$SA_0$ und $SA_{12}$ werden zu Beginn umgedreht von rechts nach links in die L-Typ-Positionen von $SA$ kopiert. Im Feld $h$ wird die Startposition von $SA_0$ in $SA$ gespeichert. Dies ist im Beispiel die Position $7$.
+$\sa_0$ und $\sa_{12}$ werden zu Beginn umgedreht von rechts nach links in die L-Typ-Positionen von $\sa$ kopiert. Im Feld $h$ wird die Startposition von $\sa_0$ in $\sa$ gespeichert. Dies ist im Beispiel die Position $7$.
 
 \begin{table}[H]
+	\footnotesize
 	\centering
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
-		$SA[i]$ & - & - & \textcolor{red}{12} & - & \textcolor{red}{6} & - & - & \textcolor{red}{0} & \textcolor{blue}{13} & - & \textcolor{blue}{9} & - & - & - & \textcolor{blue}{3} & \textcolor{blue}{11} & \textcolor{blue}{5} \\
+		$\sa[i]$ & - & - & \textcolor{red}{12} & - & \textcolor{red}{6} & - & - & \textcolor{red}{0} & \textcolor{blue}{13} & - & \textcolor{blue}{9} & - & - & - & \textcolor{blue}{3} & \textcolor{blue}{11} & \textcolor{blue}{5} \\
 		$Typ$ & S & L & L & S & L & S & S & L & L & S & L & S & S & S & L & L & L
 	\end{tabular}
 \end{table}
 
-Nun werden $ISA_0$ und $ISA_{12}$ berechnet und in die S-Typ-Positionen von $SA$ geschrieben. Die Elemente von $ISA_0$ sind im Folgenden mit gelb und die Elemente von $ISA_{12}$ mit grün markiert.
+Nun werden $\mathsf{ISA}_0$ und $\mathsf{ISA}_{12}$ berechnet und in die S-Typ-Positionen von $\sa$ geschrieben. Die Elemente von $\mathsf{ISA}_0$ sind im Folgenden mit orange und die Elemente von $\mathsf{ISA}_{12}$ mit grün markiert.
 
 \begin{table}[H]
+	\footnotesize
 	\centering
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
-		$SA[i]$ & \textcolor{yellow}{7} & - & \textcolor{red}{12} & \textcolor{green}{14} & \textcolor{red}{6} & \textcolor{green}{16} & \textcolor{yellow}{4} & \textcolor{red}{0} & \textcolor{blue}{13} & \textcolor{green}{10} & \textcolor{blue}{9} & \textcolor{green}{15} & \textcolor{yellow}{2} & \textcolor{green}{8} & \textcolor{blue}{3} & \textcolor{blue}{11} & \textcolor{blue}{5} \\
+		$\sa[i]$ & \textcolor{orange}{7} & - & \textcolor{red}{12} & \textcolor{green}{14} & \textcolor{red}{6} & \textcolor{green}{16} & \textcolor{orange}{4} & \textcolor{red}{0} & \textcolor{blue}{13} & \textcolor{green}{10} & \textcolor{blue}{9} & \textcolor{green}{15} & \textcolor{orange}{2} & \textcolor{green}{8} & \textcolor{blue}{3} & \textcolor{blue}{11} & \textcolor{blue}{5} \\
 		$Typ$ & S & L & L & S & L & S & S & L & L & S & L & S & S & S & L & L & L
 	\end{tabular}
 \end{table}
 
-Indem wir $SA_0$ und $SA_{12}$ von rechts nach links durchlaufen, berechnen wir durch Vergleiche der $Z_1$-Strings, bzw. $Z_2$-Strings die Positionen im vereinigten Suffixarray. 
+Indem wir $\sa_0$ und $\sa_{12}$ von rechts nach links durchlaufen, berechnen wir durch Vergleiche der $Z_1$-Strings, bzw. $Z_2$-Strings die Positionen im vereinigten Suffix-Array. 
 
 \begin{table}[H]
+	\footnotesize
 	\centering
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
-		$SA[i]$ & \textcolor{yellow}{7} & - & \textcolor{red}{6} & \textcolor{green}{14} & \textcolor{red}{2} & \textcolor{green}{16} & \textcolor{yellow}{4} & \textcolor{red}{1} & \textcolor{blue}{7} & \textcolor{green}{10} & \textcolor{blue}{5} & \textcolor{green}{15} & \textcolor{yellow}{2} & \textcolor{green}{8} & \textcolor{blue}{4} & \textcolor{blue}{3} & \textcolor{blue}{0} \\
+		$\sa[i]$ & \textcolor{orange}{7} & - & \textcolor{red}{6} & \textcolor{green}{14} & \textcolor{red}{2} & \textcolor{green}{16} & \textcolor{orange}{4} & \textcolor{red}{1} & \textcolor{blue}{7} & \textcolor{green}{10} & \textcolor{blue}{5} & \textcolor{green}{15} & \textcolor{orange}{2} & \textcolor{green}{8} & \textcolor{blue}{4} & \textcolor{blue}{3} & \textcolor{blue}{0} \\
 		$Typ$ & S & L & L & S & L & S & S & L & L & S & L & S & S & S & L & L & L
 	\end{tabular}
 \end{table}
 
-Nun verknüpfen wir $ISA_0$ und $ISA_{12}$ mit den Positionen von $SA_0$ und $SA_{12}$ im vereinigten Suffixarray. Dadurch erhalten wir das inverse Suffixarray der S-Typ-Positionen $ISA_S$.
+Nun verknüpfen wir $\mathsf{ISA}_0$ und $\mathsf{ISA}_{12}$ mit den Positionen von $\sa_0$ und $\sa_{12}$ im vereinigten Suffix-Array. Dadurch erhalten wir das inverse Suffix-Array der S-Typ-Positionen $\mathsf{ISA}_S$.
 
 \begin{table}[H]
+	\footnotesize
 	\centering
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
-		$SA[i]$ & \textcolor{yellow}{1} & - & \textcolor{red}{6} & \textcolor{green}{4} & \textcolor{red}{2} & \textcolor{green}{0} & \textcolor{yellow}{2} & \textcolor{red}{1} & \textcolor{blue}{7} & \textcolor{green}{5} & \textcolor{blue}{5} & \textcolor{green}{3} & \textcolor{yellow}{6} & \textcolor{green}{7} & \textcolor{blue}{4} & \textcolor{blue}{3} & \textcolor{blue}{0} \\
+		$\sa[i]$ & \textcolor{orange}{1} & - & \textcolor{red}{6} & \textcolor{green}{4} & \textcolor{red}{2} & \textcolor{green}{0} & \textcolor{orange}{2} & \textcolor{red}{1} & \textcolor{blue}{7} & \textcolor{green}{5} & \textcolor{blue}{5} & \textcolor{green}{3} & \textcolor{orange}{6} & \textcolor{green}{7} & \textcolor{blue}{4} & \textcolor{blue}{3} & \textcolor{blue}{0} \\
 		$Typ$ & S & L & L & S & L & S & S & L & L & S & L & S & S & S & L & L & L
 	\end{tabular}
 \end{table}
 
-Zuletzt wird das $ISA_S$ an das Ende von $SA$ kopiert. 
+Zuletzt wird das $\mathsf{ISA}_S$ an das Ende von $\sa$ kopiert. 
 
 \begin{table}[H]
+	\footnotesize
 	\centering
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
-		$SA[i]$ & - & - & - & - & - & - & - & - & - & 1 & 4 & 0 & 2 & 5 & 3 & 6 & 7 \\
+		$\sa[i]$ & - & - & - & - & - & - & - & - & - & 1 & 4 & 0 & 2 & 5 & 3 & 6 & 7 \\
 		$Typ$ & S & L & L & S & L & S & S & L & L & S & L & S & S & S & L & L & L
 	\end{tabular}
 \end{table}
 
-Durch einen Durchlauf durch $ISA_S$ lässt sich das Inverse $SA_S$ berechnen, das Suffixarray der S-Typ-Positionen von $T$. Für den nächsten Schritt muss noch das Positionsarray $p$ der S-Typ-Positionen in $T$ berechnet werden, damit die Positionen in $SA_S$ auf $T$ aktualisiert werden. \\
-Im Beispiel wird zunächst gezeigt wie $ISA_S$ zu $SA_S$ invertiert wurde.
+Durch einen Durchlauf durch $\mathsf{ISA}_S$ lässt sich das inverse Suffixarray $\sa_{S}$ berechnen, das Suffix-Array der S-Typ-Positionen von $\mathsf{T}$. Für den nächsten Schritt muss noch das Positions-Array $\mathsf{P}$ der S-Typ-Positionen in $\mathsf{T}$ berechnet werden, damit die Positionen in $\sa_{S}$ auf $\mathsf{T}$ aktualisiert werden. \\
+Im Beispiel wird zunächst gezeigt, wie $\mathsf{ISA}_S$ zu $\sa_{S}$ invertiert wurde.
 
 \begin{table}[H]
+	\footnotesize
 	\centering
 	\begin{tabular}{c| c c c c c c c c }
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7\\
-		$SA_S[i]$ & 2 & 0 & 3 & 5 & 1 & 4 & 6 & 7 
+		$\sa_{S}[i]$ & 2 & 0 & 3 & 5 & 1 & 4 & 6 & 7 
 	\end{tabular}
 \end{table}
 
-Anschließend wird das Positionsarray $p$ berechnet und $SA_S$ mit den Positionen in $p$ verknüpft. 
+Anschließend wird das Positions-Array $\mathsf{P}$ berechnet und $\sa_{S}$ mit den Positionen in $\mathsf{P}$ verknüpft. 
 
 \begin{table}[H]
+	\footnotesize
 	\centering
 	\begin{tabular}{c| c c c c c c c c }
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7\\
-		$p$ & 0 & 3 & 5 & 6 & 9 & 11 & 12 & 13\\
-		$SA_S[i]$ & 5 & 0 & 6 & 11 & 3 & 9 & 12 & 13 
+		$\mathsf{P}$ & 0 & 3 & 5 & 6 & 9 & 11 & 12 & 13\\
+		$\sa_{S}[i]$ & 5 & 0 & 6 & 11 & 3 & 9 & 12 & 13 
 	\end{tabular}
 \end{table}
 
-Im letzten Schritt muss nun aus dem Suffixarray der S-Typ-Positionen $SA_S$ das vollständige Suffixarray $SA$ konstruiert werden. Dies geschieht durch einen Links-Induktions-Scan. Dabei werden die Suffixe der S-Typ-Positionen in den S-Teil ihrer Buckets kopiert. Um zu einer S-Typ-Position $k=SA[i]$ speichereffizient bestimmen zu können, ob $h=SA[i]-1$ eine L-Typ-Position ist, vergleichen wir zunächst $T[k]$ und $T[h]$. Gilt $T[h] > T[k]$ ist $h$ eine L-Typ-Position. Gilt $T[h] = T[k]$, ist h nur dann eine L-Typ-Position, wenn $k$ eine L-Typ-Position war. Dies lässt sich in konstanter Zeit erreichen, wenn wir den Bucketpointer $b$ vom Zeichen $T[k]$ mit der Position $i$ vergleichen. Ist $i < b$, befindet sich $i$ im L-Teil des Buckets. Also ist $k$ eine L-Typ-Position. In allen anderen Fällen ist $k$ eine S-Typ-Position. \\
-Das fertig konstruierte Suffixarray des transformierten Beispieltextes ist dann wie folgt. 
+Im letzten Schritt muss nun aus dem Suffix-Array der S-Typ-Positionen $\sa_{S}$ das vollständige Suffix-Array $\sa$ konstruiert werden. Dies geschieht durch einen Links-Induktions-Scan. Dabei werden die Suffixe der S-Typ-Positionen in den S-Teil ihrer Buckets kopiert. Um zu einer S-Typ-Position $k=\sa[i]$ speichereffizient bestimmen zu können, ob $h=\sa[i]-1$ eine L-Typ-Position ist, vergleichen wir zunächst $\mathsf{T}[k]$ und $\mathsf{T}[h]$. Gilt $\mathsf{T}[h] > \mathsf{T}[k]$, ist $h$ eine L-Typ-Position. Gilt $\mathsf{T}[h] = \mathsf{T}[k]$, ist h nur dann eine L-Typ-Position, wenn $k$ eine L-Typ-Position war. Dies lässt sich in konstanter Zeit erreichen, wenn wir den Bucketpointer $b$ vom Zeichen $\mathsf{T}[k]$ mit der Position $i$ vergleichen. Ist $i < b$, befindet sich $i$ im L-Teil des Buckets. Also ist $k$ eine L-Typ-Position. In allen anderen Fällen ist $k$ eine S-Typ-Position. \par
+Das fertig konstruierte Suffix-Array des transformierten Beispieltextes ist dann wie folgt. 
 
 \begin{table}[H]
+	\footnotesize
 	\centering
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
-		$SA[i]$ & 5 & 0 & 6 & 11 & 3 & 9 & 4 & 10 & 2 & 8 & 1 & 7 & 12 & 13 & 14 & 15 & 16 
+		$\sa[i]$ & 5 & 0 & 6 & 11 & 3 & 9 & 4 & 10 & 2 & 8 & 1 & 7 & 12 & 13 & 14 & 15 & 16 
 	\end{tabular}
 \end{table}
 
-Um das Beispiel zu vervollständigen, muss das $SA$ noch umgedreht werden, da der Beispieltext transformiert wurde. Dies ist das fertige $SA$ vom Beispieltext.
+Um das Beispiel zu vervollständigen, muss das $\sa$ noch umgedreht werden, da der Beispieltext transformiert wurde. Dies ist das fertige $\sa$ vom Beispieltext.
 
 \begin{table}[H]
+	\footnotesize
 	\centering
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
-		$SA[i]$ & 16 & 15 & 14 & 13 & 12 & 7 & 1 & 8 & 2 & 10 & 4 & 9 & 3 & 11 & 6 & 0 & 5 
+		$\sa[i]$ & 16 & 15 & 14 & 13 & 12 & 7 & 1 & 8 & 2 & 10 & 4 & 9 & 3 & 11 & 6 & 0 & 5 
 	\end{tabular}
 \end{table}

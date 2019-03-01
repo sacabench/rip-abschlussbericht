@@ -1,13 +1,44 @@
-\newpage
 \subsection{Das Vorgehen}
 \label{gsaca:chapter2}
 %
-Bevor der konkrete Algorithmus pr{\"a}sentiert  wird, wird in diesem Kapitel das allgemeine Vorgehen beschrieben. Das Suffix Array f{\"u}r ein gegebenes Wort wird in zwei Phasen konstruiert.\\
+Bevor der konkrete Algorithmus präsentiert  wird, wird in diesem Kapitel das allgemeine Vorgehen beschrieben. 
+Das Suffix-Array für ein gegebenes Wort wird in zwei Phasen konstruiert.
+Folgende Definitionen werden hierfür benötigt:
 
-Phase 1: Einteilung der Buchstaben in Gruppen und Bestimmung von sogenannten Gruppenkontexten f{\"u}r jede Gruppe. Ein Gruppenkontext ist ein Teilstring des originalen Wortes, so dass dieser Teilstring der Pr{\"a}fix eines Suffixes ist. Dieser Pr{\"a}fix umfasst den Beginn des Suffixes bis zu der Stelle, an der der Rest des Suffixes selbst ein Gruppenkontext ist. F{\"u}r das Wort Banane haben wir beispielsweise die beiden Suffixe Banane und anane. Wie im Beispiel zu sehen sein wird, ist der berechnete Gruppenkontext von anane anane selbst. Da der Gruppenkontext von Banane der Pr{\"a}fix bis zum n{\"a}chsten Gruppenkontext ist, und anane der Gruppenkontext von anane ist, ist der Gruppenkontext von Banane nur B. Zus{\"a}tzlich zu der Einteilung in Gruppen werden diese Gruppen lexikografisch nach ihren Gruppenkontexten sortiert. 
-Am Anfang wird eine Tabelle mit den Buchstaben des Wortes, den Indices, den Kontexten und den Gruppen als Zeilen gebildet. Dann werden die initialen Gruppenkontexte aus den einzelnen Buchstaben des Wortes in lexikografischer Ordnung erstellt, beginnend mit dem Terminationssymbol \$. Die initialen Gruppen sind die Indices der Buchstaben des Gruppenkontextes im Wort. Anschlie{\ss}end werden f{\"u}r jede Gruppe in lexikographisch absteigender Reihenfolge die Buchstaben an den Indices dieser Gruppen im Wort betrachtet und deren direkte Vorg{\"a}ngergruppe im Wort bestimmt. Es wird ein \prevpointer, also ein Zeiger auf den Index des Vorg{\"a}ngers von dem gerade betrachteten Index, gespeichert und der Kontext der Vorg{\"a}ngergruppe um den gerade betrachteten Kontext erweitert. Bei dem Fall, dass nicht alle Buchstaben aus dieser Gruppe Vorg{\"a}nger der initial betrachteten Gruppe sind, sondern nur ein Teil von der Vorg{\"a}ngergruppe getroffen wurde, findet nur bei dem getroffenen Teil der Vorg{\"a}ngergruppe eine Kontexterweiterung statt. In diesem Fall muss die Vorg{\"a}ngergruppe aufgeteilt werden und eine neue Gruppe, bestehend aus der Teilgruppe mit erweitertem Kontext, wird direkt nach der Teilgruppe ohne Kontexterweiterung hinzugef{\"u}gt. \\
+\begin{definition}\textbf{$\widehat{i}$}\\
+Für einen String S der Länge n sei i ein Index zwischen 1 und n. Dann bezeichnet $\widehat{i}$ den Index des nächsten lexikografisch kleineren Suffix.
+\end{definition}
 
-Phase 2: Die zuvor in Phase 1 berechnete Gruppenstruktur wird genutzt, um das finale Suffix Array zu erstellen. Hierzu werden die Gruppen in lexikografisch aufsteigender Reihenfolge durchlaufen.
-Als erstes wird eine Tabelle gebildet mit den Buchstaben, den Indices, den Gruppen aus Phase 1 und den Startpositionen der Suffixe nach ihrer aktuellen Gruppe geordnet als Zeilen. Die Liste der Startpositionen SA ist zun{\"a}chst leer f{\"u}r alle Indices.
-Danach wird SA[1] auf das Zeichen der ersten Gruppe (normalerweise das Terminationssymbol \$) gesetzt.
-Anschlie{\ss}end wird {\"u}ber SA iteriert. Dazu wird in jedem Durchlauf das Zeichen des originalen Wortes an der Position, die in SA gespeichert ist, gesucht und das vorherige Zeichen betrachtet. Dann wird die Kette der \prevpointer ausgehend von diesem Zeichen durchlaufen, bis diese leer ist und die Indices der gefundenen Zeichen in SA gespeichert. 
+\begin{definition}\textbf{Gruppenkontext}\\
+Sei S ein String. Dann ist der Substring S[i..$\widehat{i}$] ein Gruppenkontext, also der Präfix eines Suffixes bis zum Beginn des nachfolgenden lexikografisch kleineren Suffixes.
+\end{definition}
+
+\begin{definition}\textbf{Gruppe}\\
+Sei S ein String und C ein Gruppenkontext. Dann bezeichnet die zu C gehörende Gruppe die Menge der Startindices aller Vorkommen von C im String S.
+\end{definition}
+
+Für das Wort Banane haben wir beispielsweise die beiden Suffixe \textit{Banane} und \textit{anane}.  
+Da der Gruppenkontext vom Suffix \textit{Banane} der Präfix bis zum nächsten lexikografisch kleineren Suffix ist, umfasst der Gruppenkontext von \textit{Banane} nur den Buchstaben \textit{B}. 
+Die Gruppe des Gruppenkontextes \textit{B} umfasst die Startindices aller Vorkommen dieses Gruppenkontextes.
+In diesem Fall besteht diese Gruppe also nur aus dem Index 1.
+
+Die initialen Gruppenkontexte sind die einzelnen Buchstaben des Wortes in lexikografischer Reihenfolge, beginnend mit dem Terminalsymbol \$.
+Hieraus ergeben sich die anfänglichen Gruppen als Mengen der Indices der Vorkommen des entsprechenden Buchstabens im Wort.
+Anschließend bearbeitet der Algorithmus die Gruppen in lexikografisch absteigender Reihenfolge. 
+Dazu wird für jeden Buchstaben der Gruppe das direkte vorherige Zeichen im Wort betrachtet.
+Die Gruppe, zu der dieses vorherige Zeichen gehört, wird als Vorgängergruppe bezeichnet.
+Der Gruppenkontext dieser Vorgängergruppe wird nun um den Kontext der aktuell vom Algorithmus bearbeiteten Gruppe erweitert.
+Dies bedeutet, dass der Gruppenkontext der Vorgängergruppe ersetzt wird durch die Konkatenation aus dem vorherigen Kontext der Vorgängergruppe und dem Kontext der aktuellen Gruppe.
+Zusätzlich wird ein sogenannten \prevpointer gespeichert.
+Dies ist ein Zeiger von einem Buchstaben zu dem Beginn des Gruppenkontext des direkt vorherigen Zeichens beginnt.
+Es kann vorkommen, dass nicht alle Buchstaben der Vorgängergruppe im Wort direkt vor den Buchstaben der aktuell durch den Algorithmus bearbeiteten Gruppe liegen.
+Falls nur ein Teil von der Vorgängergruppe getroffen wurde, findet nur bei dem getroffenen Teil der Vorgängergruppe eine Kontexterweiterung statt und sie wird in zwei Gruppen aufgeteilt.
+Die erste Gruppe ist die Teilgruppe mit erweitertem Kontext, sie wird als Nachfolger der Teilgruppe ohne Kontexterweiterung hinzugefügt. 
+Durch dieses Vorgehen werden iterativ alle Gruppen bearbeitet, deren Kontexte erweitert und gegebenenfalls in neue Gruppen aufgeteilt.\\
+
+In der zweiten Phase wird die zuvor in Phase 1 berechnete Gruppenstruktur genutzt, um das finale Suffix-Array zu erstellen. 
+Hierzu werden die Gruppen durchlaufen, diesmal allerdings in lexikografisch aufsteigender Reihenfolge.
+Zu Beginn ist \sa leer für alle Indices, bis auf die erste Stelle, an der der Index des Terminationssymbols \$ steht.
+Anschließend wird über \sa iteriert.
+Dazu wird in jedem Durchlauf das Zeichen des originalen Wortes an der Position, die in \sa gespeichert ist, gesucht und das vorherige Zeichen betrachtet. 
+Dann wird die Kette der \prevpointer ausgehend von diesem Zeichen durchlaufen, bis diese leer ist und die Indices der gefundenen Zeichen in \sa gespeichert. 

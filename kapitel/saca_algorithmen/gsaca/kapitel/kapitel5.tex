@@ -2,41 +2,79 @@
 \subsection{Implementierung}
 \label{gsaca:chapter5}
 %
-In diesem Kapitel werden einige Details f\�r die Implementierung besprochen. \\
+In diesem Kapitel werden einige Details für die Implementierung besprochen. \\
 
-Wie Uwe Baier in seiner Abhandlung \�ber GSACA beschreibt, werden f\�r eine Umsetzung des Algorithmus  insgesamt folgende sechs Arrays ben\�tigt:\\
-SA enth{\"a}lt die nach der Reihenfolge der Gruppen sortierten Startpositionen der Suffixe. \\
-ISA ist die inverse Permutation zum Array SA. \\
-GSIZE speichert die Anzahl der Elemente jeder Gruppe. Diese wird am Anfang der Gruppe gespeichert und bis zur Ende mit Nullen aufgef{\"u}llt.\\
-GLINK enth{\"a}lt Zeiger von den Suffixen zu den ersten Elementen ihrer entsprechenden Gruppen. \\
-PREV beinhaltet die in Phase 1 berechneten \prevpointer, die zu Beginn des Algorithmus alle mit nil initialisiert sind.\\
-PC z{\"a}hlt die \prevpointer von einer Gruppe zu einer anderen. Die Werte sind alle mit 0 initialisiert.\\
-Die anf{\"a}nglichen Werte der Arrays f{\"u}r das zuvor vorgestellte Beispiel Banane sind in Tabelle \ref{fig_datastructures} zu sehen.\\
+Wie Uwe Baier in seiner Abhandlung über GSACA beschreibt, werden für eine Umsetzung des Algorithmus insgesamt folgende sechs Arrays benötigt:\\
+\sa enthält die nach der Reihenfolge der Gruppen sortierten Startpositionen der Suffixe. \\
+\isa ist die inverse Permutation zum Array \sa. \\
+\gsize speichert die Anzahl der Elemente jeder Gruppe. 
+Diese wird am Anfang der Gruppe gespeichert und bis zur Ende mit Nullen aufgefüllt.\\
+\glink enthält Zeiger von den Suffixen zu den ersten Elementen ihrer entsprechenden Gruppen. \\
+\prev beinhaltet die in Phase 1 berechneten \prevpointer, die zu Beginn des Algorithmus alle mit nil initialisiert sind.\\
+\pc zählt die \prevpointer von einer Gruppe zu einer anderen. 
+Die Werte sind alle mit 0 initialisiert.\\
+Die anfänglichen Werte der Arrays für das zuvor vorgestellte Beispiel Banane sind in Tabelle \ref{fig_datastructures} zu sehen.\\
 
 \input{kapitel/saca_algorithmen/gsaca/tables/datastructures}
 
 Der Autor beschreibt weiterhin, wie man diese Datenstrukturen nutzen kann, um verschiedene Aufgaben des Algorithmus effizient umzusetzen.\\
 
-Das erste Problem, welches angesprochen wird, ist die initiale Sortierung der Gruppen nach absteigender Reihenfolge in Zeile 4. Hierzu sei die Variable $gs$ der Startindex der aktuellen Gruppe und $ge$ der Endindex. Um nun zur n{\"a}chsten Gruppe zu gelangen, wird der neue Endindex der n{\"a}chsten Gruppe auf den direkten Vorg{\"a}nger des Startindex der aktuellen Gruppe gesetzt, also ist $ge_{neu}$ = $gs$ - 1. Der neue Startindex $gs_{neu}$ kann bestimmt werden, indem zu dem neuen Endindex das Element aus dem Suffix Array SA gesucht und f{\"u}r dieses mit GLINK der Zeiger auf das erste Element der Gruppe bestimmt wird. Somit ist $gs_{neu}$ = GLINK[SA[$gs - a$]]. Das Bestimmen der Gruppengrenzen der n{\"a}chsten Gruppe geschieht in O(1) und die Iteration {\"u}ber alle Gruppen ben{\"o}tigt somit O(n) Zeit.\\
+Das erste Problem, welches angesprochen wird, ist die initiale Sortierung der Gruppen nach absteigender lexikografischer Reihenfolge. 
+Hierzu sei die Variable $gs$ der Startindex der aktuellen Gruppe und $ge$ der Endindex. 
+Um nun zur nächsten Gruppe zu gelangen, wird der neue Endindex der nächsten Gruppe auf den direkten Vorgänger des Startindex der aktuellen Gruppe gesetzt, also ist $ge_{neu}$ = $gs$ - 1. 
+Der neue Startindex $gs_{neu}$ kann bestimmt werden, indem zu dem neuen Endindex das Element aus dem Suffix-Array \sa gesucht und für dieses mit \glink der Zeiger auf das erste Element der Gruppe bestimmt wird. 
+Somit ist $gs_{neu}$ = \glink[\sa[$gs - a$]]. 
+Das Bestimmen der Gruppengrenzen der nächsten Gruppe geschieht in $\mathcal O(1)$ und die Iteration über alle Gruppen benötigt somit $\mathcal O(n)$ Zeit.\\
 
-Als n{\"a}chstes wird beschrieben, wie sich der \prevpointer f{\"u}r ein Element in Zeile 6 berechnen l{\"a}sst. Der \prevpointer f{\"u}r ein Index kann bestimmt werden, indem der vorherige Index betrachtet wird. Von diesem neuen Index ausgehend wird die Kette der \prevpointer so lange verfolgt, bis ein Index gefunden ist, dessen zugeh{\"o}riges Zeichen im Wort zu einer niedrigeren oder der gleichen Gruppe geh{\"o}rt wie die Gruppe des urspr{\"u}nglich betrachteten Index. Ob eine Gruppe kleiner als eine andere Gruppe ist, kann {\"u}ber die Liste GLINK {\"u}berpr{\"u}ft werden. Falls der gefundene Index zu einer kleineren Gruppe geh{\"o}rt, wurde das Element, auf den der \prevpointer des Elements am urspr{\"u}nglichen Index zeigt, gefunden. Falls der gefundene Index aber zur gleichen Gruppe geh{\"o}rt, wird dieses Verfahren mit diesem neuen Index als Ausgangspunkt durchgef{\"u}hrt. Auf das dann gefundene Element wird von den \prevpointern aller so in einem Schritt betrachteten Indices gezeigt. Dieses als \textit{pointer jumping} bekannte Verfahren ben{\"o}tigt O(n) Zeit.\\
-Dieses Vorgehen kann am Beispiel aus Kapitel \ref{gsaca:chapter3} gezeigt werden. In Tabelle \ref{gsaca:fig_banane_1_2} ist die zweite Iteration der ersten Phase dargestellt. Zu Beginn der zweiten Iteration wurde die Gruppe n schon betrachtet, in dieser Iteration wird also die Gruppe e untersucht. Der entsprechende Index im Wort ist 6, daher wird der vorherige Index 5 betrachtet. Das Zeichen an diesem neuen Index ist n und der \prevpointer zeigt auf das Zeichen a an Index 4. Dieses Element geh{\"o}rt zu einer niedrigeren Gruppe, daher wurde der \prevpointer von Index 6 bestimmt.\\
+Als nächstes wird beschrieben, wie sich der \prevpointer für ein Element berechnen lässt. 
+Der \prevpointer für ein Index kann bestimmt werden, indem der vorherige Index betrachtet wird. 
+Von diesem neuen Index ausgehend wird die Kette der \prevpointer so lange verfolgt, bis ein Index gefunden ist, dessen zugehöriges Zeichen im Wort zu einer niedrigeren oder der gleichen Gruppe gehört wie die Gruppe des ursprünglich betrachteten Index. 
+Ob eine Gruppe kleiner als eine andere Gruppe ist, kann über die Liste \glink überprüft werden. 
+Falls der gefundene Index zu einer kleineren Gruppe gehört, wurde das Element, auf den der \prevpointer des Elements am ursprünglichen Index zeigt, gefunden. 
+Falls der gefundene Index aber zur gleichen Gruppe gehört, wird dieses Verfahren mit diesem neuen Index als Ausgangspunkt durchgeführt. 
+Auf das dann gefundene Element wird von den \prevpointern aller so in einem Schritt betrachteten Indices gezeigt. 
+Dieses als \textit{pointer jumping} bekannte Verfahren benötigt $\mathcal O(n)$ Zeit.\\
+Dieses Vorgehen kann am Beispiel aus Kapitel \ref{gsaca:chapter3} gezeigt werden. 
+In Tabelle \ref{gsaca:fig_banane_1_2} ist die zweite Iteration der ersten Phase dargestellt. 
+Zu Beginn der zweiten Iteration wurde die Gruppe \textit{n} schon betrachtet, in dieser Iteration wird also die Gruppe \textit{e} untersucht. 
+Der entsprechende Index im Wort ist 6, daher wird der vorherige Index 5 betrachtet. 
+Das Zeichen an diesem neuen Index ist \textit{n} und der \prevpointer zeigt auf das Zeichen \textit{a} an Index 4. 
+Dieses Element gehört zu einer niedrigeren Gruppe, daher wurde der \prevpointer von Index 6 bestimmt.\\
 
-Anschlie{\ss}end wird im Originalpaper das Problem behandelt, wie die Gruppen und Teilgruppen in den Zeilen 7 und 8 erstellt werden k{\"o}nnen. Dies geschieht in zwei Schritten. Zun{\"a}chst wird das Array PC  und dabei gleichzeitig das Set P erstellt. Dieser erste Schritt geschieht, indem alle Elemente des Wortes durchlaufen und deren \prevpointer betrachtet werden. W{\"a}hrenddessen wird f{\"u}r ein Element $i$ der Wert an PC[PREV[$i$]] um 1 inkrementiert und falls PC[PREV[$i$]] zuvor 0 war, wird PREV[$i$] in das Set P aufgenommen.\\
-F{\"u}r das Beispiel aus Kapitel \ref{gsaca:chapter3} funktioniert das folgenderma{\ss}en:\\
-PREV[1] = 0\\
-PREV[2] = 0\\
-PREV[3] = 2 $\Rightarrow$ PC[2] = 1 und P = P $\cup$ \{2\} = \{2\}\\
-PREV[4] = 2 $\Rightarrow$ PC[2] = 2\\
-PREV[5] = 4 $\Rightarrow$ PC[4] = 1 und P = P $\cup$ \{4\} = \{2, 4\}\\
-PREV[6] = 4 $\Rightarrow$ PC[4] = 2\\
-PREV[7] = 0\\
-In einem zweiten Schritt werden nun die Teilmengen von P gebildet, in denen auf jedes Element einer Teilmenge gleich oft von einem \prevpointer gezeigt wurde. Dazu wird das Set P durchlaufen, solange es nicht leer ist. In jeder Iteration wird f{\"u}r jedes Element aus P der Wert an der entsprechender Stelle in der Liste PC um 1 dekrementiert. Wenn der Wert von PC 0 wird, wird das Element aus dem Set P entfernt und zu einem neuen Set P\textsubscript{l} hinzugef{\"u}gt, wobei der Subscript $l$ dem Index der Iteration entspricht. \\
+Anschließend wird im Originalpaper das Problem behandelt, wie im nächsten Teil des Algorithmus die Gruppen und Teilgruppen erstellt werden können. 
+Dies geschieht in zwei Schritten. 
+Zunächst wird das Array \pc und dabei gleichzeitig das Set P erstellt. 
+Dieser erste Schritt geschieht, indem alle Elemente des Wortes durchlaufen und deren \prevpointer betrachtet werden. 
+Währenddessen wird für ein Element $i$ der Wert an \pc[\prev[$i$]] um 1 inkrementiert und falls \pc[\prev[$i$]] zuvor 0 war, wird \prev[$i$] in das Set P aufgenommen.\\
+Für das Beispiel aus Kapitel \ref{gsaca:chapter3} funktioniert das folgendermaßen:\\
+\prev[1] = 0\\
+\prev[2] = 0\\
+\prev[3] = 2 $\Rightarrow$ \pc[2] = 1 und P = P $\cup$ \{2\} = \{2\}\\
+\prev[4] = 2 $\Rightarrow$ \pc[2] = 2\\
+\prev[5] = 4 $\Rightarrow$ \pc[4] = 1 und P = P $\cup$ \{4\} = \{2, 4\}\\
+\prev[6] = 4 $\Rightarrow$ \pc[4] = 2\\
+\prev[7] = 0\\
+In einem zweiten Schritt werden nun die Teilmengen von P gebildet, in denen auf jedes Element einer Teilmenge gleich oft von einem \prevpointer gezeigt wurde. 
+Dazu wird das Set P durchlaufen, solange es nicht leer ist. 
+In jeder Iteration wird für jedes Element aus P der Wert an der entsprechender Stelle in der Liste \pc um 1 dekrementiert. 
+Wenn der Wert von \pc 0 wird, wird das Element aus dem Set P entfernt und zu einem neuen Set P\textsubscript{l} hinzugefügt, wobei der Subscript $l$ dem Index der Iteration entspricht. \\
 Angewendet auf das Beispiel passiert folgendes:\\
-Vor der 1. Iteration: PC[2] = PC[4] = 2\\
-1. Iteration: PC[2] = 1 und PC[4] = 1 $\Rightarrow$ P\textsubscript{1} = \{\} \\
-2. Iteration: PC[2] = 0 und PC[4] = 0 $\Rightarrow$ P\textsubscript{2} = \{2, 4\}\\
+Vor der 1. Iteration: \pc[2] = \pc[4] = 2\\
+1. Iteration: \pc[2] = 1 und \pc[4] = 1 $\Rightarrow$ P\textsubscript{1} = \{\} \\
+2. Iteration: \pc[2] = 0 und \pc[4] = 0 $\Rightarrow$ P\textsubscript{2} = \{2, 4\}\\
 
-Danach beleuchtet der Autor, wie die Suffixe in den Zeilen 10 bis 12 neu angeordnet werden k{\"o}nnen. In der for-Schleife werden alle Teilmengen des Sets P durchlaufen, welche im vorherigen Schritt erstellt wurden. Um ein Element $p$ aus einer dieser Teilmengen zu entfernen, wird es zun{\"a}chst mit dem letzten Element seiner Gruppe unter Hilfe von SA und ISA getauscht. Das letzte Element der Gruppe von $p$ ist bestimmbar durch GLINK[$p$] + GSIZE[GLINK[$p$]], da GLINK auf das erste Element einer Gruppe zeigt und GSIZE die Gr{\"o}{\ss}e der Gruppe beinhaltet. Nun ist das Element $p$ das letzte Element seiner Gruppe. Indem der Wert in GSIZE[GLINK[$p$]] um 1 dekrementiert wird, wird das Element $p$ quasi aus seiner Gruppe entfernt. Im Anschluss muss GLINK[$p$] auf GLINK[$p$] + GSIZE[GLINK[$p$]] gesetzt werden, so dass es wieder auf den Beginn der neuen Gruppe zeigt. Abschlie{\ss}end wird auch die Gr{\"o}{\ss}e der neuen Gruppe angepasst, indem GSIZE[GLINK[$p$]] erh{\"o}ht wird.\\
+Danach geht der Autor darauf ein, wie die Suffixe neu angeordnet werden können. 
+In der for-Schleife werden alle Teilmengen des Sets P durchlaufen, welche im vorherigen Schritt erstellt wurden. 
+Um ein Element $p$ aus einer dieser Teilmengen zu entfernen, wird es zunächst mit dem letzten Element seiner Gruppe unter Hilfe von \sa und \isa getauscht. 
+Das letzte Element der Gruppe von $p$ ist bestimmbar durch \glink[$p$] + \gsize[\glink[$p$]], da \glink auf das erste Element einer Gruppe zeigt und \gsize die Größe der Gruppe beinhaltet. 
+Nun ist das Element $p$ das letzte Element seiner Gruppe. 
+Indem der Wert in \gsize[\glink[$p$]] um 1 dekrementiert wird, wird das Element $p$ quasi aus seiner Gruppe entfernt. 
+Im Anschluss muss \glink[$p$] auf \glink[$p$] + \gsize[\glink[$p$]] gesetzt werden, so dass es wieder auf den Beginn der neuen Gruppe zeigt. 
+Abschließend wird auch die Größe der neuen Gruppe angepasst, indem \gsize[\glink[$p$]] erhöht wird.\\
 
-Zum Schluss werden kurz verschiedene Einzelheiten zu Phase 2 in den Zeilen 14 bis 21?3 erkl{\"a}rt. Es wird gesagt, dass der Wert $sr$, welcher die Anzahl der Suffixe aus niedrigeren Gruppen darstellt, aus SA und ISA berechnet werden kann. Au{\ss}erdem f{\"u}hrt der Autor auf, dass die {\"U}berpr{\"u}fung aus Zeile 19, ob ein Element bereits im Suffix Array enthalten ist, durchgef{\"u}hrt werden kann, indem {\"u}berpr{\"u}ft wird, ob die Liste ISA an dem Index den Wert 0 enth{\"a}lt. Zuletzt wird das Vorgehen f{\"u}r Zeile 22 n{\"a}her erl{\"a}utert. Um ein Element $j$ aus seiner aktuellen Gruppe zu entfernen und als direkten Nachfolger zu einer neuen Gruppe hinzuzuf{\"u}gen, wird zun{\"a}chst der Wert von SA[ISA[$j$]] in der Variable $sr$ gespeichert. Anschlie{\ss}end wird dieser Wert SA[ISA[$j$]] inkrementiert, das Element $j$ in SA[$sr$] gespeichert und ISA[$j$] auf 0 gesetzt. Wie zuvor beschrieben, f{\"u}hrt dies dazu, dass die {\"U}berpr{\"u}fung aus Zeile 19 feststellt, dass $j$ bereits in SA enthalten ist.
+Zum Schluss werden kurz verschiedene Einzelheiten zu Phase 2 erklärt. 
+Es wird gesagt, dass der Wert $sr$, welcher die Anzahl der Suffixe aus niedrigeren Gruppen darstellt, aus \sa und \isa berechnet werden kann. 
+Außerdem führt der Autor auf, dass die Überprüfung, ob ein Element bereits im Suffix-Array enthalten ist, durchgeführt werden kann, indem überprüft wird, ob die Liste \isa an dem Index den Wert 0 enthält. 
+Um ein Element $j$ aus seiner aktuellen Gruppe zu entfernen und als direkten Nachfolger zu einer neuen Gruppe hinzuzufügen, wird zunächst der Wert von \sa[\isa[$j$]] in der Variable $sr$ gespeichert. 
+Anschließend wird dieser Wert \sa[\isa[$j$]] inkrementiert, das Element $j$ in \sa[$sr$] gespeichert und \isa[$j$] auf 0 gesetzt. 
+Dies führt dazu, dass die zuvor erwähnte Überprüfung feststellt, dass $j$ bereits in \sa enthalten ist.

@@ -1,6 +1,6 @@
 \begin{enumerate}
 \item 
-Erzeuge anfängliche Zeichenpaar-Textposition Tupel. Sie entsprechen Präfixen der Länge 2.
+Erzeuge anfängliche Zeichenpaar-Textposition-Tupel. Sie entsprechen Präfixen der Länge 2.
 \begin{center}
 \small\begin{tabular}{lrrrrrrrrrrrrrr}
     \toprule 
@@ -27,7 +27,7 @@ Sortiere $S$ lexikografisch.
 \end{center}
 
 \item 
-Benenne die Paare in $S$ lexikografische um ($U$ = name($S$)).
+Benenne die Paare in $S$ lexikografisch um ($U$ = name($S$)).
 \begin{center}
 \small\begin{tabular}{lrrrrrrrrrrrrrr}
     \toprule 
@@ -44,22 +44,22 @@ Die anfängliche Zuordnung der Namen zu Präfixen ist somit:
 \begin{center}
 \small\begin{tabular}{rl}
 \toprule 
-Name & Präfix \\
+Name & Präfix\\
 \midrule 
   $1$ & $a\$$\\
   $2$ & $aa$\\
-  $2$ & $aa$\\
-  $2$ & $aa$\\
-  $5$ & $ab$\\
   $5$ & $ab$\\
   $7$ & $ac$\\
-  $7$ & $ac$\\
+\bottomrule 
+\end{tabular}
+\small\begin{tabular}{rl}
+\toprule 
+Name & Präfix\\
+\midrule 
   $9$ & $ba$\\
-  $9$ & $ba$\\
-  $11$ & $ca$\\
-  $11$ & $ca$\\
   $11$ & $ca$\\
   $14$ & $cc$\\
+  &\\
 \bottomrule 
 \end{tabular}
 \end{center}
@@ -72,7 +72,7 @@ Iteriere bis zu $\ceil{\log_2 n} = 4$ mal.
 Beginne Iteration $k = 1$.
 
 \item 
-Markiere alle einzigartigen Namen in U (Grün in der Tabelle).
+Markiere alle einzigartigen Namen in U (grün in der Tabelle).
 \begin{center}
 \small\begin{tabular}{lrrrrrrrrrrrrrr}
     \toprule 
@@ -86,56 +86,7 @@ Markiere alle einzigartigen Namen in U (Grün in der Tabelle).
 \end{center}
 
 \item 
-Merge P in die Sequenz U. Die Tupel sind dabei immer einzigartig.
-\begin{center}
-\small\begin{tabular}{l}
-    \toprule 
-    $P$\\
-    \midrule 
-    $c$ \\
-    $i$ \\
-    \bottomrule 
-\end{tabular}
-\end{center}
-\begin{center}
-$\Rightarrow$
-\end{center}
-\begin{center}
-\small\begin{tabular}{lrrrrrrrrrrrrrr}
-    \toprule 
-    $U$ & \textcolor{gray}{0} & \textcolor{gray}{1} & \textcolor{gray}{2} & \textcolor{gray}{3} & \textcolor{gray}{4} & \textcolor{gray}{5} & \textcolor{gray}{6} & \textcolor{gray}{7} & \textcolor{gray}{8} & \textcolor{gray}{9} & \textcolor{gray}{10} & \textcolor{gray}{11} & \textcolor{gray}{12} & \textcolor{gray}{13}\\
-    \midrule 
-    $c$ & $1$ & $2$ & $2$ & $2$ & $5$ & $5$ & $7$ & $7$ & $9$ & $9$ & $11$ & $11$ & $11$ & $14$ \\
-    $i$ & $13$ & $1$ & $7$ & $12$ & $2$ & $8$ & $4$ & $10$ & $3$ & $9$ & $0$ & $6$ & $11$ & $5$ \\
-    $Uniq.$ & $$\cmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\xmarkc$$ & $$\cmarkc$$ \\
-    \bottomrule 
-\end{tabular}
-\end{center}
-
-\item 
-Die Zuordnung der Namen zu Präfixen für diesen Schritt ist somit:
-\begin{center}
-\small\begin{tabular}{rl}
-\toprule 
-Name & Präfix \\
-\midrule 
-  $1$ & $a\$$\\
-  $2$ & $aa$\\
-  $2$ & $aa$\\
-  $2$ & $aa$\\
-  $5$ & $ab$\\
-  $5$ & $ab$\\
-  $7$ & $ac$\\
-  $7$ & $ac$\\
-  $9$ & $ba$\\
-  $9$ & $ba$\\
-  $11$ & $ca$\\
-  $11$ & $ca$\\
-  $11$ & $ca$\\
-  $14$ & $cc$\\
-\bottomrule 
-\end{tabular}
-\end{center}
+Merge P in die Sequenz U. Keine Änderung, da P leer ist.
 
 \item 
 Sortiere $U$ anhand $(i \mod 2^k, i \div 2^k)$.
@@ -152,14 +103,11 @@ Sortiere $U$ anhand $(i \mod 2^k, i \div 2^k)$.
 \end{center}
 
 \item 
-Setze $P$ auf die leere Sequenz zurück.
-
-\item 
 Iteriere durch U.
 \begin{itemize}
-\item Falls der Namen einzigartig ist, und einer der beiden Vorgängernamen einzigartig ist, füge ihn zu F hinzu.
-\item Falls der Namen einzigartig ist, und keiner der beiden Vorgängernamen einzigartig ist, füge ihn zu P hinzu.
-\item Sonst bilde aus den Namen und seinen Nachfolger ein Paar, und füge es zu S hinzu.
+\item Falls der Name einzigartig ist und einer der beiden Vorgängernamen einzigartig ist, füge ihn zu F hinzu.
+\item Falls der Name einzigartig ist und keiner der beiden Vorgängernamen einzigartig ist, füge ihn zu P hinzu.
+\item Sonst bilde aus dem Namen und seinem Nachfolger ein Paar, und füge es zu S hinzu.
 \end{itemize}
 
 \begin{center}
@@ -184,18 +132,6 @@ $ 1$ & 13 & $$\cmarkc$$  &            & $( 1,13)$ &       \\
 \bottomrule 
 \end{tabular}
 \end{center}
-\item 
-$F$ nach diesem Schritt:
-\begin{center}
-\small\begin{tabular}{l}
-    \toprule 
-    $F$\\
-    \midrule 
-    $c$ \\
-    $i$ \\
-    \bottomrule 
-\end{tabular}
-\end{center}
 
 \item 
 Überprüfe ob $S$ leer ist.
@@ -216,7 +152,7 @@ Sortiere $S$ lexikografisch.
 \end{center}
 
 \item 
-Benenne die Paare in $S$ lexikografische um ($U$ = name2($S$)).
+Benenne die Paare in $S$ lexikografisch um.
 \begin{center}
 \small\begin{tabular}{lrrrrrrrrrrrr}
     \toprule 
@@ -231,7 +167,7 @@ Benenne die Paare in $S$ lexikografische um ($U$ = name2($S$)).
 Beginne Iteration $k = 2$.
 
 \item 
-Markiere alle einzigartigen Namen in U (Grün in der Tabelle).
+Markiere alle einzigartigen Namen in U.
 \begin{center}
 \small\begin{tabular}{lrrrrrrrrrrrr}
     \toprule 
@@ -245,7 +181,7 @@ Markiere alle einzigartigen Namen in U (Grün in der Tabelle).
 \end{center}
 
 \item 
-Merge P in die Sequenz U. Die Tupel sind dabei immer einzigartig.
+Merge P in die Sequenz U und setze P zurück. Die Tupel sind dabei immer einzigartig.
 \begin{center}
 \small\begin{tabular}{lrr}
     \toprule 
@@ -281,17 +217,21 @@ Name & Präfix \\
   $1$ & $a\$\$\$$\\
   $2$ & $aa\$\$$\\
   $3$ & $aaba$\\
-  $3$ & $aaba$\\
-  $5$ & $abac$\\
   $5$ & $abac$\\
   $7$ & $acaa$\\
   $8$ & $acca$\\
+\bottomrule 
+\end{tabular}
+\small\begin{tabular}{rl}
+\toprule 
+Name & Präfix \\
+\midrule 
   $9$ & $baca$\\
   $10$ & $bacc$\\
   $11$ & $caa\$$\\
   $12$ & $caab$\\
-  $12$ & $caab$\\
   $14$ & $ccaa$\\
+  &\\
 \bottomrule 
 \end{tabular}
 \end{center}
@@ -311,15 +251,7 @@ Sortiere $U$ anhand $(i \mod 2^k, i \div 2^k)$.
 \end{center}
 
 \item 
-Setze $P$ auf die leere Sequenz zurück.
-
-\item 
 Iteriere durch U.
-\begin{itemize}
-\item Falls der Namen einzigartig ist, und einer der beiden Vorgängernamen einzigartig ist, füge ihn zu F hinzu.
-\item Falls der Namen einzigartig ist, und keiner der beiden Vorgängernamen einzigartig ist, füge ihn zu P hinzu.
-\item Sonst bilde aus den Namen und seinen Nachfolger ein Paar, und füge es zu S hinzu.
-\end{itemize}
 
 \begin{center}
 \small\begin{tabular}{rrcccc}
@@ -357,7 +289,7 @@ $F$ nach diesem Schritt:
 \end{center}
 
 \item 
-Überprüfe ob $S$ leer ist.
+Überprüfe, ob $S$ leer ist.
 $\Rightarrow$ Nein, mache weiter.
 
 \item 
@@ -375,7 +307,7 @@ Sortiere $S$ lexikografisch.
 \end{center}
 
 \item 
-Benenne die Paare in $S$ lexikografische um ($U$ = name2($S$)).
+Benenne die Paare in $S$ lexikografisch um.
 \begin{center}
 \small\begin{tabular}{lrrrrrr}
     \toprule 
@@ -390,7 +322,7 @@ Benenne die Paare in $S$ lexikografische um ($U$ = name2($S$)).
 Beginne Iteration $k = 3$.
 
 \item 
-Markiere alle einzigartigen Namen in U (Grün in der Tabelle).
+Markiere alle einzigartigen Namen in U.
 \begin{center}
 \small\begin{tabular}{lrrrrrr}
     \toprule 
@@ -404,7 +336,7 @@ Markiere alle einzigartigen Namen in U (Grün in der Tabelle).
 \end{center}
 
 \item 
-Merge P in die Sequenz U. Die Tupel sind dabei immer einzigartig.
+Merge P in die Sequenz U und setze P zurück.
 \begin{center}
 \small\begin{tabular}{lr}
     \toprule 
@@ -414,11 +346,7 @@ Merge P in die Sequenz U. Die Tupel sind dabei immer einzigartig.
     $i$ & $10$ \\
     \bottomrule 
 \end{tabular}
-\end{center}
-\begin{center}
-$\Rightarrow$
-\end{center}
-\begin{center}
+~$\Rightarrow$~
 \small\begin{tabular}{lrrrrrrr}
     \toprule 
     $U$ & \textcolor{gray}{0} & \textcolor{gray}{1} & \textcolor{gray}{2} & \textcolor{gray}{3} & \textcolor{gray}{4} & \textcolor{gray}{5} & \textcolor{gray}{6}\\
@@ -441,9 +369,16 @@ Name & Präfix \\
   $4$ & $aabaccaa$\\
   $5$ & $abacaa\$\$$\\
   $6$ & $abaccaab$\\
+\bottomrule 
+\end{tabular}
+\small\begin{tabular}{rl}
+\toprule 
+Name & Präfix \\
+\midrule 
   $7$ & $acaa\$\$\$\$$\\
   $12$ & $caabacaa$\\
   $13$ & $caabacca$\\
+  &\\
 \bottomrule 
 \end{tabular}
 \end{center}
@@ -463,15 +398,7 @@ Sortiere $U$ anhand $(i \mod 2^k, i \div 2^k)$.
 \end{center}
 
 \item 
-Setze $P$ auf die leere Sequenz zurück.
-
-\item 
 Iteriere durch U.
-\begin{itemize}
-\item Falls der Namen einzigartig ist, und einer der beiden Vorgängernamen einzigartig ist, füge ihn zu F hinzu.
-\item Falls der Namen einzigartig ist, und keiner der beiden Vorgängernamen einzigartig ist, füge ihn zu P hinzu.
-\item Sonst bilde aus den Namen und seinen Nachfolger ein Paar, und füge es zu S hinzu.
-\end{itemize}
 
 \begin{center}
 \small\begin{tabular}{rrcccc}
@@ -502,8 +429,8 @@ $F$ nach diesem Schritt:
 \end{center}
 
 \item 
-Überprüfe ob $S$ leer ist.
-$\Rightarrow$ Ja, beende Algorithmus.
+Überprüfe, ob $S$ leer ist.
+$\Rightarrow$ Ja, beende den Algorithmus.
 \item 
 Sortiere $F$ lexikografisch.
 \begin{center}
@@ -518,7 +445,7 @@ Sortiere $F$ lexikografisch.
 \end{center}
 
 \item 
-Gebe finales Suffix Array aus.
+Gib finales Suffix Array aus:
 \begin{center}
 \small\begin{tabular}{rl}
 \toprule 

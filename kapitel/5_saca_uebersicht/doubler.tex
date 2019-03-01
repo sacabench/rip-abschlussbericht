@@ -1,0 +1,19 @@
+\subsection{Doubler}
+\label{sec:ansatz:doubler}
+Der \currentauthor{Oliver Magiera und Marvin Löbel} erste besprochene Ansatz behandelt das Doubling, auch Prefix-Doubling genannt.
+Die grundsätzliche Idee ist es, für jedes $T_i$ nur einen Präfix von $2^k$ Zeichen zu betrachten und lexikographisch zu sortieren. Falls die so betrachteten $T[i, i + 2^k)$ Strings paarweise verschieden sind, ergibt sich aus ihren Startindizen $i$ das gesuchte Suffix-Array. 
+
+Der Prozess wird iterativ durchgeführt, und beginnt bei $k = 1$. Falls nach einer Sortierung individuelle Präfixe mehr als einmal vorkommen, sprich nicht \textit{eindeutig} sind, wird der Vorgang mit $k + 1$ wiederholt. Erst wenn alle Suffixe eindeutig sortiert sind, endet das Prefix-Doubling.
+
+Da die Länge und Häufigkeit von gemeinsamen Prefixen somit das Laufzeitverhalten von Doubling-Algorithmen beeinflusst, definieren wir für sie relevante Kenngrößen:
+
+$\textbf{Lcp}(i, j)$ bezeichnet die längste gemeinsamen Präfix Länge (\textbf{longest common prefix}) zwischen $\sa[i]$ und $\sa[j]$, und ist $0$ wenn $i, j \notin [0, n)$ oder die beiden Suffixe keinen gemeinsamen Präfix haben. Für jedes $\suffix i$ definieren wir $\textbf{dps}(i) = 1 + \max\{\text{lcp}(i - 1, i), \text{lcp}(i, i + 1)\}$ als charakteristische Präfixlänge (\textbf{distinguishing prefix size}). Wir definieren:
+\begin{gather*}
+\text{maxlcp} := \max_{i \in [0, n)} \text{lcp}(i, i + 1) 
+\qquad\qquad
+\log \text{dps} := \frac{1}{n} \sum_{i \in [0, n)} \log(\text{dps}(i))
+\end{gather*}
+
+Umgangssprachlich drückt maxlcp aus, welche maximale Prefixlänge das Doubling erreichen muss, während $\log \text{dps}$ die durchschnittlichen Anzahl an Doubling-Schritten ausdrückt.
+
+Um ein Suffix-Array für $\inputtext$ zu bestimmen, müssen alle Suffixe $\suffix i$ lexikographisch sortiert werden. Wir stellen fest, dass hierfür von der Sortierfunktion jeweils nur ein Präfix von bis zu $\text{dps}(i)$ Zeichen von $\suffix i$ betrachtet werden muss.

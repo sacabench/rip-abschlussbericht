@@ -1,52 +1,29 @@
 \subsection{Implementierung}
+\label{qsufsort:impl}
 \subsubsection{Naive Variante}
-Der qSufSort wurde zunächst in seiner naiven Variante implementiert, also ohne die von den Autoren vorgeschlagenen Verbesserungen aus Kapitel 5.1.3. Der Algorithmus bekommt, wie auch die anderen implementierten Algorithmen innerhalb des Frameworks, den Text \mintinline{cpp}{text}, das dazugehörige Alphabet Objekt \mintinline{cpp}{alphabet} und das bereits allokierte Outputarray \mintinline{cpp}{out_sa} übergeben. Für den übergebenen Text wird vom Algorithmus gefordert, dass dieser mit genau einem Senitel Symbol, in unserem Fall endet. Darüber hinaus wird das letzte Bit eines Registers reserviert um auch negative Zahlen darstellen zu können.\\
-Zu Beginn wird überprüft, ob der Text mindestens zwei Zeichen beinhaltet, falls nicht, terminiert der Algorithmus trivialerweise. Andernfalls werden zunächst die beiden Hilfsarrays $V$ und $L$ allokiert. Mit Hilfe des ternary Quicksort wird dann der Text anhand des ersten Zeichens sortiert. Die daraus resultierende Sortierung wird in \mintinline{cpp}{out_sa} gespeichert. Darauf aufbauend werden dann die Inhalte der Hilfsarrays initialisiert. Der Präfixzähler $h$ wird auf 1 gesetzt und die Prefix Doubling Phase startet. \\
-Dabei wird die Variable \mintinline{cpp}{counter} verwendet, die den aktuell betrachteten Index in \mintinline{cpp}{out_sa} speichert. Beginnt an dieser Stelle eine sortierte Gruppe, ist also der Eintrag im $L$ Array negativ, überspringen wir diese indem wir die Länge dieser Gruppe auf den aktuellen \mintinline{cpp}{counter} drauf addieren. Andernfalls handelt es sich um eine unsortierte Gruppe, die wir wieder mit Hilfe des ternary Quicksort wie in Kapitel 5.1.2 beschrieben sortieren. Auf Basis dieser Sortierung aktualisieren wir dann die Gruppennummern.\\ 
-Ist \mintinline{cpp}{counter} größer als die Länge von \mintinline{cpp}{out_sa}, terminiert die Schleife und wir aktualisieren die Gruppenlängen, verdoppeln $h$ und überprüfen dann anhand der Länge der ersten sortieren Gruppe, ob das Array komplett sortiert ist. Ist dem so, terminiert der Algorithmus und in \mintinline{cpp}{out_sa} steht das fertig sortierte Suffix-Array. Andernfalls wird die Schleife erneut durchlaufen, bis das Array komplett sortiert ist.\\
-Das Grundgerüst der Implementierung lässt sich damit wie folgt darstellen:\\
-\newpage
-\begin{samepage}
-\begin{minted}[escapeinside=||,mathescape=true, frame= single]{cpp}
-qSufSort(string_span text, alphabet alp, span<sa_index> out_sa){
-        size_t n = text.size();
-        if (n < 2) return;  
-        auto V = util::make_container<sa_index>(n);
-        auto L = util::make_container<ssize_t>(n);           
-        size_t h = 0;
-        bool is_sorted = false;
-        ternary_quicksort(out_sa);
-        init_additional_arrays(text, out_sa, V, L, h);
-        ++h;
-        while (!is_sorted) {
-            sa_index counter = 0;
-            while (counter < out_sa.size()) {
-                if (L[counter] < 0) {
-                    counter -= L[counter];
-                }
-                else {
-                   ternary_quicksort(out_sa.slice(
-                   counter, counter + L[counter]));
-           	update_group_ranks(out_sa, V);
-                   counter += L[counter];
-                }
-            }
-            update_L(out_sa, V, L);
-            h = h * 2;
-            is_sorted = (size_t(-L[0]) == n);
-         }
-    }
-\end{minted}
-\end{samepage}
+Der qSufSort wurde zunächst in seiner naiven Variante implementiert, also ohne die von den Autoren vorgeschlagenen Verbesserungen aus Kapitel \ref{qsufsort:improv}. Der Algorithmus bekommt, wie auch die anderen implementierten Algorithmen innerhalb des Frameworks, den Text \mintinline{cpp}{text}, das dazugehörige Alphabetobjekt \mintinline{cpp}{alphabet} und das bereits allokierte Outputarray \mintinline{cpp}{out_sa} übergeben. Für den übergebenen Text wird vom Algorithmus gefordert, dass dieser mit genau einem Senitel Symbol endet. Darüber hinaus wird das letzte Bit eines Wertes reserviert um auch negative Zahlen darstellen zu können.
+
+Zu Beginn wird überprüft, ob der Text mindestens zwei Zeichen beinhaltet, falls nicht, terminiert der Algorithmus trivialerweise. Andernfalls werden zunächst die beiden Hilfsarrays $\mathsf{V}$ und $\mathsf{L}$ allokiert. Mit Hilfe des ternary Quicksort wird dann der Text anhand des ersten Zeichens sortiert. Die daraus resultierende Sortierung wird in \mintinline{cpp}{out_sa} gespeichert. Darauf aufbauend werden dann die Inhalte der Hilfsarrays initialisiert. Der Präfixzähler $h$ wird auf 1 gesetzt und die Prefix-Doubling Phase startet. 
+
+Dabei wird die Variable \mintinline{cpp}{counter} verwendet, die den aktuell betrachteten Index in \mintinline{cpp}{out_sa} speichert. Beginnt an dieser Stelle eine sortierte Gruppe, ist also der Eintrag im $\mathsf{L}$ Array negativ, überspringen wir diese, indem wir den aktuellen Counter \mintinline{cpp}{counter} um die Länge dieser Gruppe inkrementieren. Andernfalls handelt es sich um eine unsortierte Gruppe, die wir wieder mit Hilfe des Ternary Quicksort sortieren. Auf Basis dieser Sortierung aktualisieren wir dann die Gruppennummern.
+
+Ist \mintinline{cpp}{counter} größer als die Länge von \mintinline{cpp}{out_sa}, terminiert die Schleife und wir aktualisieren die Gruppenlängen, verdoppeln $h$ und überprüfen dann anhand der Länge der ersten sortierten Gruppe, ob das Array komplett sortiert ist. Ist dem so, terminiert der Algorithmus und in \mintinline{cpp}{out_sa} steht das fertig sortierte Suffix-Array. Andernfalls wird die Schleife erneut durchlaufen, bis das Array komplett sortiert ist.
+
 \subsubsection{Optimierung}
-Ausgehend von der naiven Implementierung, wurden die von Autoren vorgeschlagenen praktischen Verbesserungen implementiert. \\
-Durch die erste Verbesserung, die Reduzierung auf ein Hilfsarray, konnte das zusätzliche Hilfsarray $L$ eingespart werden. Stattdessen mussten die negativen Längen der sortierten Gruppen im Ausgabearray \mintinline{cpp}{out_sa} gespeichert werden. Da dieses aber vom Framework vorgegeben aus \mintinline{text}{unsigned int} besteht, wurde das letzte Bit vom Algorithmus reserviert und falls nötig mit einer Bitmaske überschrieben um \glqq negative\grqq{} Werte darzustellen. Das nach Terminierung des Prefix Doublings errechnete ISA wurde dann mit der simplen ISA2SA Variante ins Array \mintinline{cpp}{out_sa} invertiert. \\
-Die zweite Verbesserung, die Kombination auf Sortieren und Updaten, ersetzt den expliziten Aufruf des ternary Quicksort innerhalb des Prefix Doublings durch eine Funktion, die selbst die Partitionsfunktion des ternary Quicksort aufruft um die resultierenden Intervallgrenzen der Equal-Partition zum Updaten der Gruppen nutzen zu können.\\
-Die dritte und letzte Verbesserung, die Beschleunigung der initialen Sortierung mit Hilfe von Wordpacking, transformiert nach Aufruf des Algorithmus den Text in das Ausgabearray \mintinline{cpp}{out_sa}, da das Textobjekt unveränderbar ist. Die resultierende Transformation wird dann, anders als von den Autoren vorgeschlagen, mit Hilfe des ternary Quicksort anstatt eines Bucketsort sortiert. Zum einen da dieser unabhängig von der resultierenden Alphabetgröße durch das Wordpacking funktioniert und zum anderen Evaluierungen innerhalb unseres Frameworks gezeigt haben, dass dieser in diesem Fall die beste Laufzeit bietet.
+Ausgehend von der naiven Implementierung, wurden die von Autoren vorgeschlagenen praktischen Verbesserungen implementiert. 
+
+Durch die erste Verbesserung, die Reduzierung auf ein Hilfsarray, konnte das zusätzliche Hilfsarray $\mathsf{L}$ eingespart werden. Stattdessen mussten die negativen Längen der sortierten Gruppen im Ausgabearray \mintinline{cpp}{out_sa} gespeichert werden. Da dieses innerhalb des Frameworks aus \mintinline{text}{unsigned int} besteht, wurde das letzte Bit vom Algorithmus reserviert, und falls nötig mit einer Bitmaske überschrieben, um \glqq negative\grqq{} Werte darzustellen. Das nach Terminierung des Prefix-Doublings errechnete ISA wurde dann mit der simplen ISAtoSA Variante ins Array \mintinline{cpp}{out_sa} invertiert. 
+
+Die zweite Verbesserung, die Kombination von Sortieren und Updaten, ersetzt den expliziten Aufruf des ternary Quicksort innerhalb des Prefix-Doublings durch eine Funktion, die selbst die Partitionsfunktion des ternary Quicksort aufruft um die resultierenden Intervallgrenzen der Equal-Partition zum Updaten der Gruppen nutzen zu können.
+
+Die dritte und letzte Verbesserung, die Beschleunigung der initialen Sortierung mit Hilfe von Wordpacking, transformiert nach Aufruf des Algorithmus den Text in das Ausgabearray \mintinline{cpp}{out_sa}, da das Textobjekt unveränderbar ist. Die resultierende Transformation wird dann, anders als von den Autoren vorgeschlagen, mit Hilfe des ternary Quicksort anstatt eines Bucketsort sortiert. Gründe dafür sind zum einen, da dieser unabhängig von der resultierenden Alphabetgröße durch das Wordpacking funktioniert und zum anderen Evaluierungen innerhalb unseres Frameworks gezeigt haben, dass dieser in diesem Fall die beste Laufzeit bietet.
 \subsubsection{Ergebnisse}
 Die Evaluierung der Verbesserungen in Bezug auf die naive Variante der Implementierung ergab, dass vor allem die erste Verbesserung, die Reduzierung auf ein Hilfsarray, eine signifikante Laufzeit- und Speicherverbesserung ermöglichte.
-Auch die zweite und dritte Verbesserung konnten die Laufzeit des Codes verbessern, letztere speziell auf großen Daten.\\
-Die Referenzimplementierung des qSufSort von Jesper Larsson wurde in C verfasst, konnte also leicht in das von uns in C++ geschriebene Framework eingebunden werden. Da allerdings Code als Eingabe neben dem bereits zu einem \mintinline{text}{int} Array transformieren Text und dem allokierten Speicher für das Ausgabearray, die Größe des Arrays und die minimalen und maximalen Werte des Alphabets benötigt, bedarf es vor Aufruf der Referenzimplementierung einer Vorverarbeitung der vom Framework gegebenen Eingabedaten. \\
-Im Vergleich zu unserer Implementierung verbraucht die Referenzimplementierung bei allen getesteten Instanzen mehr Speicher. Dazu sei aber erwähnt, dass diese standardmäßig den 64-Bit \mintinline{text}{int} Typen verwendet, also bei Instanzen kleiner $2^{32}$ Byte, doppelt so viel Speicher benutzt als nötig, während sich unsere eigene Implementierung je nach Größe des Textes einen geeigneten \mintinline{cpp}{int} Typen wählt. \\
-Anders sieht es bei der Laufzeit aus: hier schlägt die Referenzimplementierung unsere eigene Variante auf den meisten Instanzen. \\
+Auch die zweite und dritte Verbesserung konnten die Laufzeit des Codes verbessern, letztere speziell auf großen Daten.
+
+Die Referenzimplementierung des qSufSort von Jesper Larsson wurde in C verfasst, konnte also leicht in das von uns in C++ geschriebene Framework eingebunden werden. Da allerdings der Code als Eingabe neben dem bereits zu einem \mintinline{text}{int}-Array transformierten Text und dem allokierten Speicher für das Ausgabearray, die Größe des Arrays und die minimalen und maximalen Werte des Alphabets benötigt, bedarf es vor Aufruf der Referenzimplementierung einer Vorverarbeitung der vom Framework gegebenen Eingabedaten. \\
+Im Vergleich zu unserer Implementierung verbraucht die Referenzimplementierung bei allen getesteten Instanzen mehr Speicher. Dazu sei aber erwähnt, dass diese standardmäßig den 64-Bit \mintinline{text}{int}-Typen verwendet, also bei Instanzen kleiner $2^{32}$ Byte doppelt so viel Speicher benutzt als nötig, während sich unsere eigene Implementierung je nach Größe des Textes einen geeigneten \mintinline{text}{int}-Typen wählt. 
+
+Anders sieht es bei der Laufzeit aus: hier schlägt die Referenzimplementierung unsere eigene Variante auf den meisten Instanzen. 
+
 Genauere Benchmark Ergebnisse und Vergleiche werden in Kapitel \ref{ergebnisse} gezeigt.
