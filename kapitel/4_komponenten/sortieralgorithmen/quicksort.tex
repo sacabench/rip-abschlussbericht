@@ -65,38 +65,15 @@ Nachdem wir alle Elemente in die drei Bereiche aufgeteilt haben, müssen $\maths
 	\node at (5.5, 0.5) {=};
 	\node at (9, 0.5) {>};
 	
-	\draw[red] (6,0.5) -- (6,2) node[above] {\texttt{p}};
+	\draw[red] (6,0.5) -- (6,2) node[above] {$p$};
 	
 	\begin{scope}[yshift=-10pt]
-	\draw[decorate, decoration={mirror, brace,amplitude=10pt}] (0.1,0) -- (2.9,0) node[midway, below = 10pt] {$A_\text{left}$};
-	\draw[decorate, decoration={mirror, brace,amplitude=10pt}] (3.1,0) -- (7.9,0) node[midway, below = 10pt] {$A_\text{middle}$};
-	\draw[decorate, decoration={mirror, brace,amplitude=10pt}] (8.1,0) -- (9.9,0) node[midway, below = 10pt] {$A_\text{right}$};
+	\draw[decorate, decoration={mirror, brace,amplitude=10pt}] (0.1,0) -- (2.9,0) node[midway, below = 10pt] {$\mathsf A_\text{left}$};
+	\draw[decorate, decoration={mirror, brace,amplitude=10pt}] (3.1,0) -- (7.9,0) node[midway, below = 10pt] {$\mathsf A_\text{middle}$};
+	\draw[decorate, decoration={mirror, brace,amplitude=10pt}] (8.1,0) -- (9.9,0) node[midway, below = 10pt] {$\mathsf A_\text{right}$};
 	\end{scope}
 	\end{tikzpicture}
 	\caption[Partitionen bei ternary Quicksort]{Partitionen bei ternary Quicksort. (Abbildung ähnlich in \cite{ternary_quicksort}.)}
-	\label{fg:ternary_partitions}
-\end{figure}
-
-\begin{figure}[!h]
-	\centering
-	\begin{tikzpicture}
-	\draw (0,0) -- (10,0) -- (10,1) -- (0,1) -- cycle;
-	\draw (3,0) -- (3,1);
-	\draw (8,0) -- (8,1);
-	
-	\node at (1.5, 0.5) {<};
-	\node at (5.5, 0.5) {=};
-	\node at (9, 0.5) {>};
-	
-	\draw[red] (6,0.5) -- (6,2) node[above] {\texttt{p}};
-	
-	\begin{scope}[yshift=-10pt]
-	\draw[decorate, decoration={mirror, brace,amplitude=10pt}] (0.1,0) -- (2.9,0) node[midway, below = 10pt] {$A_\text{left}$};
-	\draw[decorate, decoration={mirror, brace,amplitude=10pt}] (3.1,0) -- (7.9,0) node[midway, below = 10pt] {$A_\text{middle}$};
-	\draw[decorate, decoration={mirror, brace,amplitude=10pt}] (8.1,0) -- (9.9,0) node[midway, below = 10pt] {$A_\text{right}$};
-	\end{scope}
-	\end{tikzpicture}
-	\caption[Partitionen bei ternärem Quicksort]{Partitionen bei ternärem Quicksort. (Abbildung ähnlich in \cite{ternary_quicksort}.)}
 	\label{fg:ternary_partitions}
 \end{figure}
 
