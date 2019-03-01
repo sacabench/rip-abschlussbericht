@@ -3,13 +3,13 @@
 
 \crefname{enumi}{Fall}{Fälle}
 
-Im vorherigen Kapitel ist die Theorie über den \emph{DC3}-Algorithmus erläutert worden. Anhand des folgenden Beispiels soll diese Theorie verdeutlicht werden. Dazu wenden wir den Algorithmus mit dem String T = caabaccaabacaa\$ an.
+In diesem Kapitel wollen wir die Theorie des \emph{DC3}-Al\-go\-rith\-mus anhand eines Beispieles verdeutlichen. Dazu wenden wir den Al\-go\-rith\-mus auf den String \inputtext = caabaccaabacaa\$ an, um das gesuchte Suffix-Array zu erhalten.
 
 \begin{table}[H]
 	\centering
 	\begin{tabular}{c| c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 \\
-		$T[i]$ & c & a & a & b & a & c & c & a & a & b & a & c & a & a & \$
+		$\inputtext[i]$ & c & a & a & b & a & c & c & a & a & b & a & c & a & a & \$
 	\end{tabular}
 \end{table}
 
@@ -19,7 +19,7 @@ Bei der ersten Phase werden alle Triplets beginnend in Positionen\\$i \text{ mod
 	\centering
 	\begin{tabular}{c| c c c c c ||  c c c c c }
 		$i$ & 1 & 4 & 7 & 10 & 13 & 2 & 5 & 8 & 11 & 14\\
-		$T[i, i+2]$ & aab & acc & aab & aca & a\$\$ & aba & cca & aba & caa & \$\$\$
+		$\inputtext[i, i+2]$ & aab & acc & aab & aca & a\$\$ & aba & cca & aba & caa & \$\$\$
 	\end{tabular}
 	\caption{Triplets $i \text{ modulo } 3 \neq 0$}
 	\label{tab:unsortierteTriplets}
@@ -31,7 +31,7 @@ Dabei fällt auf, dass die Triplets an der Stelle $i = 13$ und $i = 14$ mit Sent
 	\centering
 	\begin{tabular}{c| c c c c c c c c c c}
 		$i$ & 14 & 13 & 1 & 7 & 2 & 8 & 10 & 4 & 11 & 5\\
-		$T[i, i+2]$ & \$\$\$ & a\$\$ & aab & aab & aba & aba & aca & acc & caa & cca 
+		$\inputtext[i, i+2]$ & \$\$\$ & a\$\$ & aab & aab & aba & aba & aca & acc & caa & cca 
 	\end{tabular}
 	\caption{sortierte Triplets $i \text{ modulo } 3 \neq 0$}
 	\label{tab:sortierteTriplets}
@@ -43,38 +43,38 @@ Nun können wir die lexikographischen Namen vergeben. Dafür werden die Position
 	\centering
 	\begin{tabular}{c| c c c c c c c c c c}
 		$i$ & 1 & 4 & 7 & 10 & 13 & 2 & 5 & 8 & 11 & 14\\
-		$t_{12}$ & 2 & 5 & 2 & 4 & 1 & 3 & 7 & 3 & 6 & 0
+		$\mathsf{T}_{12}$ & 2 & 5 & 2 & 4 & 1 & 3 & 7 & 3 & 6 & 0
 	\end{tabular}
 	\caption{Vergabe der lexikographischen Namen}
 	\label{tab:lexNamen}
 \end{table}
 
-Hier ist zu erkennen, dass mehrere Triplets den gleichen lexikographischen Namen erhalten haben. Somit haben wir noch nicht die endgültige Reihenfolge ermitteln können. Dafür rufen wir den Algorithmus rekursiv mit diesen lexikographischen Namen $t_{12} = 2524137360$ auf. Als Ergebnis der Rekursion erhalten wir $SA_{12} = [9, 4, 2, 0, 7, 5, 3, 1, 8, 6]$. Das Ergebnis lässt sich so deuten, dass sich das kleinste Triplet an Stelle 9 von $t_{12}$ befindet, das der Position $i = 14$ aus dem Ausgangstext $T$ entspricht, also $SA_{12} = [14, 13, 7, 1, 8, 2, 10, 4, 11, 5]$. 
+Hier ist zu erkennen, dass mehrere Triplets den gleichen lexikographischen Namen erhalten haben. Somit haben wir noch nicht die endgültige Reihenfolge ermitteln können. Dafür rufen wir den Algorithmus rekursiv mit diesen lexikographischen Namen $\mathsf{T}_{12} = 2524137360$ auf. Als Ergebnis der Rekursion erhalten wir $\sa_{12} = [9, 4, 2, 0, 7, 5, 3, 1, 8, 6]$. Das Ergebnis lässt sich so deuten, dass sich das kleinste Triplet an Stelle 9 von $\mathsf{T}_{12}$ befindet, das der Position $i = 14$ aus dem Ausgangstext \inputtext entspricht, also $\sa_{12} = [14, 13, 7, 1, 8, 2, 10, 4, 11, 5]$. 
 
-Damit ist die erste Phase des Algorithmus abgeschlossen und wir gehen über zur zweiten Phase. Dafür werden zunächst die Ränge bestimmt mit Hilfe des inversen Suffix-Arrays, das sich wie folgt berechnen lässt: $SA_{12}[i] = j$ genau dann, wenn $ISA_{12}[j] = i$.
+Damit ist die erste Phase des Algorithmus abgeschlossen und wir gehen über zur zweiten Phase. Dafür werden zunächst die Ränge bestimmt mit Hilfe des inversen Suffix-Arrays, das sich wie folgt berechnen lässt: $\sa_{12}[i] = j$ genau dann, wenn $\isa_{12}[j] = i$.
 
 \begin{table}[H]
 	\centering
 	\begin{tabular}{c| c c c c c c c c c c}
 		$i$ & 1 & 4 & 7 & 10 & 13 & 2 & 5 & 8 & 11 & 14 \\
-		${ISA}_{12}$ & 4 & 8 & 3 & 7 & 2 & 6 & 10 & 5 & 9 & 1
+		$\isa_{12}$ & 4 & 8 & 3 & 7 & 2 & 6 & 10 & 5 & 9 & 1
 	\end{tabular}
 	\caption{Ränge der Suffixe $i \text{ modulo } 3 \neq 0$}
 	\label{tab:ergebnis_rek}
 \end{table}
 
-Im Anschluss lassen sich die Suffixe $i \text{ modulo } 3 = 0$ mit Hilfe des Aus\-gangs\-text\-es $T$ und der Ränge ${ISA}_{12}$ sortieren. An diesem Beispiel kann man die Theorie gut verdeutlichen. Denn anstatt sich - wie in der ersten Phase - erneut Triplets anzuschauen und möglicherweise vor dem Problem zu stehen, gleiche Triplets zu erhalten, wird die eindeutige Sortierung aus der ersten Phase genutzt. Schaut man sich das Zeichen 'c' an der ersten und siebten Position von $T$ an, muss man sich nur die Ränge der Suffixe an der jeweils nächsten Position anschauen. Daraus lässt sich erschließen, dass das Suffix an Position $i = 6$ kleiner als das Suffix an Position $i = 0$ ist, weil der Rang des Suffixes an $i = 7$ kleiner ist als das an $i = 1$.
+Im Anschluss lassen sich die Suffixe $i \text{ modulo } 3 = 0$ mit Hilfe des Aus\-gangs\-text\-es \inputtext und der Ränge $\isa_{12}$ sortieren. An diesem Beispiel kann man die Theorie gut verdeutlichen. Denn anstatt sich - wie in der ersten Phase - erneut Triplets anzuschauen und möglicherweise vor dem Problem zu stehen, gleiche Triplets zu erhalten, wird die eindeutige Sortierung aus der ersten Phase genutzt. Schaut man sich das Zeichen 'c' an der ersten und siebten Position von \inputtext an, muss man sich nur die Ränge der Suffixe an der jeweils nächsten Position anschauen. Daraus lässt sich erschließen, dass das Suffix an Position $i = 6$ kleiner als das Suffix an Position $i = 0$ ist, weil der Rang des Suffixes an $i = 7$ kleiner ist als das an $i = 1$.
 
 \begin{table}[H]
 	\centering
 	\begin{tabular}{c| c c c c c}
 		$i$ & 12 & 9 & 3 & 6 & 0 \\
-		$(T[i], {ISA}_{12}[i+1])$  & (a, 2) & (b, 7) & (b, 8) & (c, 3) &  (c, 4)
+		$(\inputtext[i], \isa_{12}[i+1])$  & (a, 2) & (b, 7) & (b, 8) & (c, 3) &  (c, 4)
 	\end{tabular}
-	\caption{Sortierte Paare $(T[i], {ISA}_{12}[i+1]), i \text{ modulo } 3 = 0$}
+	\caption{Sortierte Paare $(\inputtext[i], \isa_{12}[i+1]), i \text{ modulo } 3 = 0$}
 	\label{tab:SA01}
 \end{table}
 
-Als Ergebnis erhalten wir $SA_{0} = [12, 9, 3, 6, 0]$ - wie in der \cref{tab:SA01} nachzuvollziehen ist.
+Als Ergebnis erhalten wir $\sa_{0} = [12, 9, 3, 6, 0]$ - wie in der \cref{tab:SA01} nachzuvollziehen ist.
 
-Nun können wir in der dritten Phase die bereits sortierten Mengen $SA_{0}$ und $SA_{12}$ mergen. Dafür stellen wir - wie im vorherigen Kapitel \ref{dc3:algorithmus:beispiel} beschrieben - die benötigten Paare und Triplets auf, je nachdem, welcher der \crefrange{option1}{option4} zutrifft. Als erstes vergleichen wir die beiden Suffixe beginnend in $SA_{12}[i = 0] = 14$ und $SA_{0}[j = 0] = 12$. Da $14$ modulo $3 = 2$ ist - also \cref{option2} zutrifft -, stellen wir die Triplets $(\$,\$,0)$ und $(a,a,1)$ auf. Der Vergleich ergibt, dass das Suffix startend in $SA_{12}[i = 0] = 14$ kleiner ist. Somit wird dem Suffix-Array $SA$ der Index $14$ hinzugefügt und als nächstes $SA_{12}[i = 1] = 13$ mit $SA_{0}[j = 0] = 12$ verglichen. $13$ modulo $3$ ergibt $1$. Das heißt, der \cref{option1} ist eingetreten und wir vergleichen die Paare $(a,1)$ und $(a, 2)$. So werden beide Mengen einmal durchlaufen und wir erhalten am Ende das endgültige Suffix-Array $SA = [14, 13, 12, 7, 1, 8, 2, 10, 4, 9, 3, 11, 6, 0, 5]$.
+Nun können wir in der dritten Phase die bereits sortierten Mengen $\sa_{0}$ und $\sa_{12}$ mergen. Dafür stellen wir - wie im vorherigen Kapitel \ref{dc3:algorithmus:beispiel} beschrieben - die benötigten Paare und Triplets auf, je nachdem, welcher der \crefrange{option1}{option4} zutrifft. Als erstes vergleichen wir die beiden Suffixe beginnend in $\sa_{12}[i = 0] = 14$ und $\sa_{0}[j = 0] = 12$. Da $14$ modulo $3 = 2$ ist - also \cref{option2} zutrifft -, stellen wir die Triplets $(\$,\$,0)$ und $(a,a,1)$ auf. Der Vergleich ergibt, dass das Suffix startend in $\sa_{12}[i = 0] = 14$ kleiner ist. Somit wird dem Suffix-Array \sa der Index $14$ hinzugefügt und als nächstes $\sa_{12}[i = 1] = 13$ mit $\sa_{0}[j = 0] = 12$ verglichen. $13$ modulo $3$ ergibt $1$. Das heißt, der \cref{option1} ist eingetreten und wir vergleichen die Paare $(a,1)$ und $(a, 2)$. So werden beide Mengen einmal durchlaufen und wir erhalten am Ende das endgültige Suffix-Array $\sa = [14, 13, 12, 7, 1, 8, 2, 10, 4, 9, 3, 11, 6, 0, 5]$.

@@ -1,0 +1,24 @@
+\section{Zusammenfassung}
+
+Wir \currentauthor{Janina Michaelis und Marvin Böcker} haben das Tool SACABench vorgestellt, welches viele verschiedene SACAs enthält.
+Durch dieses Commandline Tool können alle Algorithmen inklusiv bestehender Referenzimplementationen einfach ausgeführt werden
+und in Laufzeit und Speicherverbrauch auf Texten mit verschiedenen Eigenschaften gegeneinander getestet werden.
+
+Es wurden gemeinsame Komponenten wie beispielsweise verschiedene Sortierverfahren ausgelagert und optimiert,
+um doppelten Code zu verhindern und bessere Implementierungen dieser Algorithmen zu erreichen.
+
+Zusammenfassend sieht es so aus, dass unsere Implementierung teils einen besseren Speicherverbrauch vorweist,
+dafür aber meistens eine schlechtere Laufzeit als die Referenz hat.
+Insgesamt wurde das Ziel, die angegebenen Algorithmen zu implementieren und
+durch ein Benchmark-Framework miteinander zu vergleichen, erreicht.
+Es zeigt sich, dass DivSufSort immernoch auf den meisten Texten der schnellste SACA ist.
+
+Im zweiten Semester haben wir eine Auswahl von Algorithmen auf GPU und CPU parallelisiert:
+zuerst wurde dabei eine naive Parallelisierung versucht, indem die Sortieralgorithmen in den SACAs durch
+parallele Varianten ersetzt wurden, beispielsweise den parallelen ips4o\todo{ref} oder
+den stabilen Sortierer aus der GNU Standardbibliothek.
+Dabei dominieren die Sortierer aus der Standardbibliothek klar.
+
+Zuletzt wurden komplexere Parallelisierungen der SACAs verfolgt, wie beispielsweise für pSAIS
+oder Deep-Shallow: 
+Diese zeigen jedoch noch Optimierungspotential.

@@ -1,42 +1,52 @@
 \subsection{Verbesserungen}
+\label{qsufsort:improv}
 \subsubsection{Reduzierung auf ein Hilfsarray}
-Der Sinn und Zweck des Arrays $L$ ist es vor dem tatsächlichen Aufruf des ternary Quicksorts innerhalb der Schleife bereits sortierte kombinierte Gruppen in konstanter Zeit überspringen und zudem die Grenzen der unsortierten Gruppen für genau diesen Aufruf setzen zu können. Letzteres lässt sich allerdings implizit über über die Gruppennummern des $V$ Arrays lösen. Können wir also zudem einen alternativen Speicherort für die Längen der kombinierten sortierten Gruppen finden, können wir uns das Hilfsarray $L$ sparen.\\
-Was bei den Bereichen der kombinierten sortierten Gruppen auffällt ist, dass der korrespondierende Bereich im Ergebnisarray SA nicht mehr verändert wird, da sich die sortierten Gruppen laut Definition bereits an der richtigen Stelle in SA befinden. Daher können wir genau diesen Bereich nutzen um dort die Länge der kombinierten sortierten Gruppen zu lagern.\\
-Problem dabei ist, dass wir wenn der Algorithmus terminiert keine gültige Lösung in Array SA gespeichert haben, da diese überschrieben wurde. Jedoch können wir die Lösung mit Hilfe des Hilfsarrays $V$ rekonstruieren, da es sich dabei um das inverse Suffix-Array handelt. Mit einer der in Kapitel \ref{isa2sa} vorgestellten Techniken lässt sich dieses nach Abschluss der Berechnung in das eigentliche Suffix-Array transformieren.\\
+Der Sinn und Zweck des Arrays $\mathsf{L}$ ist es vor dem tatsächlichen Aufruf des Ternary Quicksorts innerhalb der Schleife bereits sortierte kombinierte Gruppen in konstanter Zeit überspringen und zudem die Grenzen der unsortierten Gruppen für genau diesen Aufruf setzen zu können. Letzteres lässt sich allerdings implizit über über die Gruppennummern des $\mathsf{V}$ Arrays lösen. Können wir also zudem einen alternativen Speicherort für die Längen der kombinierten sortierten Gruppen finden, können wir uns das Hilfsarray $\mathsf{L}$ sparen.
+
+Was bei den Bereichen der kombinierten sortierten Gruppen auffällt ist, dass der korrespondierende Bereich im Ergebnisarray $\sa$ nicht mehr verändert wird, da sich die sortierten Gruppen laut Definition bereits an der richtigen Stelle in $\sa$ befinden. Daher können wir genau diesen Bereich nutzen um dort die Länge der kombinierten sortierten Gruppen zu lagern.
+
+Das Problem, das dabei entsteht ist, dass bei Terminierung keine gültige Lösung in $\sa$ steht, das diese überschrieben wurde. Jedoch können wir die Lösung mit Hilfe des Hilfsarrays $\mathsf{V}$ rekonstruieren, da es sich dabei um das inverse Suffix-Array handelt. Mit einer der in Kapitel \ref{isa2sa} vorgestellten Techniken lässt sich dieses nach Abschluss der Berechnung in das eigentliche Suffix-Array transformieren.
 
 
-% Um also das Suffix-Array aus $V$ berechnen zu können, setzen wir lediglich nach Terminierung des Algorithmus $SA[V[i]]=i$ und erhalten dadurch unser Ergebnisarray, im Folgendem anhand des Beispiels aus 3.3 gezeigt:\\
+
+% Um also das Suffix-Array aus $\mathsf{V}$ berechnen zu können, setzen wir lediglich nach Terminierung des Algorithmus $SA[V[i]]=i$ und erhalten dadurch unser Ergebnisarray, im Folgendem anhand des Beispiels aus 3.3 gezeigt:\\
 %\begin{center}
 %\begin{tabular}{| c | c  c  c  c  c  c  c  c  c |}
 %\hline
 %$X$&H&O&N&G&K&O&N&G&\$ \\
 %$i$&0&1&2&3&4&5&6&7&8 \\
 %\hline
-%$V[i]$&3&8&6&2&4&7&5&1&0 \\
+%$\mathsf{V}[i]$&3&8&6&2&4&7&5&1&0 \\
 %\hline
 %$SA[i]$&8&7&3&0&4&6&2&5&1 \\
 %\hline
 %\end{tabular}
 %\end{center}
 %\vspace{4pt}
-Um diese jetzt noch während der Berechnung unterscheiden zu können, ob es sich bei einem Eintrag in SA um die bisherige Position eines unsortierten Elements oder um die Länge einer kombinierten sortierten Gruppe handelt, negieren wir wie zuvor auch schon letzteres.\\
-Da wir nun also alternative Wege haben, um an die Informationen aus $L$ zu kommen und diese im Falle von kombinierten sortierten Gruppen speichern können, können wir uns dieses sparen. Dies hat in erster Linie positive Auswirkungen auf den Speicherverbrauch. Dadurch, dass wir bereits allokierten Speicher in Form der Bereiche in $SA$ verwenden, können wir unseren Speicherverbrauch von drei Arrays der Länge $n+1$ auf lediglich zwei reduzieren. Die benötigten Rechenoperationen erhöhen sich dagegen. Zum einen dadurch, dass das Ermitteln der Länge unsortierter Gruppen mehr Zugriffe als vorher benötigt, zum anderen durch die benötigte Invertierung des $V$ Arrays um das Suffix-Array rekonstruieren zu können. Für eine verbesserte Laufzeit spricht allerdings, dass dadurch, das wir lediglich auf zwei Arrays arbeiten, unsere Implementierung womöglich cache-freundlicher arbeitet.
+Um diese jetzt noch während der Berechnung unterscheiden zu können, ob es sich bei einem Eintrag in $\sa$ um die bisherige Position eines unsortierten Elements oder um die Länge einer kombinierten sortierten Gruppe handelt, negieren wir wie zuvor auch schon letzteres.\\
+Da wir nun also alternative Wege haben, um an die Informationen aus $\mathsf{L}$ zu kommen und diese im Falle von kombinierten sortierten Gruppen speichern können, können wir uns dieses sparen. Dies hat in erster Linie positive Auswirkungen auf den Speicherverbrauch. Dadurch, dass wir bereits allokierten Speicher in Form der Bereiche in $\sa$ verwenden, können wir unseren Speicherverbrauch von drei Arrays der Länge $n+1$ auf lediglich zwei reduzieren. Die benötigten Rechenoperationen erhöhen sich dagegen. Zum einen dadurch, dass das Ermitteln der Länge unsortierter Gruppen mehr Zugriffe als vorher benötigt, zum anderen durch die benötigte Invertierung des $\mathsf{V}$ Arrays um das Suffix-Array rekonstruieren zu können. Für eine verbesserte Laufzeit spricht allerdings, dass dadurch, das wir lediglich auf zwei Arrays arbeiten, unsere Implementierung womöglich cache-freundlicher arbeitet.
 \subsubsection{Sortieren und Updaten kombinieren}
-Ausgehend davon, dass wir noch das Hilfsarray $L$ mitführen, berechnen wir dieses und das Hilfsarray $V$ nach jedem Sortieraufruf separat mittels Durchlaufs durch das bisherige Suffix-Array $SA$. Ziel ist es, diese Aktualisierungen schon bereits während der Sortierung durchführen zu können um sich weitere Durchläufe des Arrays sparen zu können. \\
-Zunächst können wir feststellen, dass das Aktualisieren der maximalen kombinierten sortierten Gruppen zum Beginn des nachfolgenden Sortieraufrufs verschoben werden kann.  \\
-Um darauf aufbauend die gesamte Aktualisierung in die Sortierung einpflegen zu können, gehen wir wie folgt vor:
+Ausgehend davon, dass wir noch das Hilfsarray $\mathsf{L}$ mitführen, berechnen wir dieses und das Hilfsarray $\mathsf{V}$ nach jedem Sortieraufruf separat mittels Durchlaufs durch das bisherige $\sa$. Ziel ist es, diese Aktualisierungen schon bereits während der Sortierung durchführen zu können, um sich weitere Durchläufe durch die Arrays sparen zu können. 
+
+Zunächst können wir feststellen, dass das Aktualisieren der maximalen kombinierten sortierten Gruppen zum Beginn des nachfolgenden Sortieraufrufs verschoben werden kann.  
+
+Um darauf aufbauend die gesamte Aktualisierung in die Sortierung übernehmen zu können, gehen wir wie folgt vor:
 \begin{enumerate}
-\item Teile das Array $A$ wie gewohnt nach dem Pivotelement in $A_l$, $A_e$ und $A_g$ auf
-\item Sortiere $A_l$ rekursiv
-\item Aktualisiere die Gruppennummern und -längen der Elemente in $A_e$
-\item Sortiere $A_g$ rekursiv
+\item Teile das Array $A$ wie gewohnt nach dem Pivotelement in $A_{left}$, $A_{middle}$ und $A_{right}$ auf
+\item Sortiere $A_{left}$ rekursiv
+\item Aktualisiere die Gruppennummern und -längen der Elemente in $A_{middle}$
+\item Sortiere $A_{right}$ rekursiv
 \end{enumerate}
 
-Dadurch, dass bei der Aktualisierung von $V$ die neuen Gruppennummern lediglich kleiner werden können, kann es sein, dass falls wir zuerst den \glqq Gleich\grqq{}- oder \glqq Größer\grqq{}-Teil updaten, es dazu kommen kann, dass ein Suffix eine niedrigere Gruppennummer zugewiesen bekommt als ein anderes Suffix vor ihm in SA. Da diese als Keys für die Sortierung dienen, hätten wir dabei einen ungültigen Zustand. Daher fangen wir zunächst beim \glqq Kleiner\grqq{}-Teil an. \\
+Aktualisieren wir zuerst den \glqq Gleich\grqq{}- oder \glqq Größer\grqq{}-Teil, kann es passieren, dass 
+ein Suffix eine niedrigere Gruppennummer zugewiesen bekommt als ein anderes Suffix vor ihm in SA, da 
+Gruppennummern lediglich kleiner werden können. Da diese als Keys für die Sortierung dienen, hätten wir dabei einen ungültigen Zustand. Daher fangen wir zunächst beim \glqq Kleiner\grqq{}-Teil an. \\
+
+%Dadurch, dass bei der Aktualisierung von $\mathsf{V}$ die neuen Gruppennummern lediglich kleiner werden können, kann es sein, dass falls wir zuerst den \glqq Gleich\grqq{}- oder \glqq Größer\grqq{}-Teil updaten, es dazu kommen kann, dass ein Suffix eine niedrigere Gruppennummer zugewiesen bekommt als ein anderes Suffix vor ihm in SA. Da diese als Keys für die Sortierung dienen, hätten wir dabei einen ungültigen Zustand. Daher fangen wir zunächst beim \glqq Kleiner\grqq{}-Teil an. \\
 Dies beeinflusst dennoch den Sortierprozess. Ohne diese Überlegung kann es nämlich sein, dass wir innerhalb der Sortierung für zwei Suffixe den selben Key haben, diese also unsortiert bleiben und damit in der nächsten Iteration wieder aufgerufen werden, obwohl die betroffenen Stellen in der selben Iteration schon soweit verarbeitet wurden, dass eine Sortierung möglich gewesen wäre. Es würde also lediglich an der Propagierung der Ergebnisse scheitern, was mit Hilfe dieser Verbesserung für dann Fall, in welchem die betroffenen Keys schon vorher abgearbeitet worden sind, nicht passieren kann. Dadurch kann es in einigen Fällen zu Einsparungen von Sortieraufrufen kommen und dadurch zu einer Verbesserung der tatsächlichen Laufzeit.
 %\subsubsection{Eingabetransformation}
 %Für die folgende Verbesserung qsufsort nehmen wir an, dass unser $\sigma$ klein genug ist, sodass jedes $s \in \Sigma$ mit Hilfe eines nicht-negativen Integers dargestellt werden kann.\\
-%Wir definieren uns hierfür einen Zahlenbereich [$l,k$) wobei $k-l$= $\sigma$, beispielsweise [1,$\sigma$). Initial transformieren wir den String $X$ in das Array $V$ mit $V[i]=x_i - l +1$ für $i \in [0,n)$. Für das Sentinel legen wir in $V[n]$ dann eine Null an. Sei zudem $r$ die größtmögliche Ganzzahl, sodass $(\sigma+1)^r-1$ in ein Maschinenwort passt, also im Fall von 64-Bit Maschinen $\leq 2^{63}$. Aufbauend darauf, definieren wir die Einträge in $V$ erneut durch:
+%Wir definieren uns hierfür einen Zahlenbereich [$\mathsf{L},k$) wobei $k-l$= $\sigma$, beispielsweise [1,$\sigma$). Initial transformieren wir den String $X$ in das Array $\mathsf{V}$ mit $\mathsf{V}[i]=x_i - l +1$ für $i \in [0,n)$. Für das Sentinel legen wir in $\mathsf{V}[n]$ dann eine Null an. Sei zudem $r$ die größtmögliche Ganzzahl, sodass $(\sigma+1)^r-1$ in ein Maschinenwort passt, also im Fall von 64-Bit Maschinen $\leq 2^{63}$. Aufbauend darauf, definieren wir die Einträge in $\mathsf{V}$ erneut durch:
 %\begin{equation}
 %V[i]= \sum_{j=1}^r x_{i+j-1}*(\sigma+1)^{r-j}, \text{mit }  x_i =0 \text{ für } i\geq n
 %\end{equation}
@@ -47,6 +57,8 @@ Dies beeinflusst dennoch den Sortierprozess. Ohne diese Überlegung kann es näm
 %\end{equation}
 %Dadurch sparen wir uns die rechenaufwendige Summe und können falls wir statt $(\sigma+1)$ die nächste Zweierpotenz nehmen, die Modulo- und Multiplikationsoperatoren durch schnellere $and$ und $shift$ Operationen ersetzen.  
 \subsubsection{Initiales Sortierverfahren}
-Bislang wurde nicht konkret festgelegt, welcher Sortieralgorithmus für die initiale Sortierung in Zeile 1 verwendet werden soll. Zwar wurde für die Analyse ein ternary Quicksort angenommen um mit Hilfe des ternären Baums eine möglichst scharfe Laufzeitschranke bestimmen zu können, dennoch können wir an dieser Stelle einen alternativen Algorithmus wählen, der womöglich effizienter arbeitet.\\
-Eine Möglichkeit hierfür ist der Bucketsort-Algorithmus, welcher in linearer Zeit sortiert. Ist dabei $\sigma \leq n+1$, kann die Bucket-Sortierung direkt in $SA$ stattfinden. Anderenfalls ist der Algorithmus hierbei ungeeignet.\\
-Betrachten wir dabei zusätzlich die in Kapitel \ref{wordpacking} vorgestellte Transformation der Eingabe mittels Wordpacking, können wir die Sortierung zusätzlich beschleunigen. Hierbei wird jedoch bei der Wahl von $r$ vorausgesetzt, dass nicht nur $(\sigma + 1)^r$ in ein Maschinenwort passt, sondern auch, dass $r \leq  n$ gilt. Das daraus resultierende, neue Alphabet $\Sigma'$ kann zwar für einige Eingaben größer ausfallen als vorher, dennoch können wir durch die Bedingungen garantieren, dass die dazu gehörige transformierte Eingabe innerhalb des Arrays $SA$ sortiert werden kann, ohne zusätzlichen Speicher allokieren zu müssen. Dadurch können wir, wie bereits in 4.3 gesehen, eine initiale Sortierung durchführen, die das Suffix-Array in linearer Zeit in $r$-Reihenfolge bringt.
+Bislang wurde nicht konkret festgelegt, welcher Sortieralgorithmus für die initiale Sortierung in Zeile 1 verwendet werden soll. Zwar wurde für die Analyse ein ternary Quicksort angenommen um mit Hilfe des ternären Baums eine möglichst scharfe Laufzeitschranke bestimmen zu können, dennoch können wir an dieser Stelle einen alternativen Algorithmus wählen, der womöglich effizienter arbeitet.
+
+Eine Möglichkeit hierfür ist der Bucketsort-Algorithmus, welcher in linearer Zeit sortiert. Ist dabei $|\Sigma| \leq n+1$, kann die Bucket-Sortierung direkt in $\sa$ stattfinden. Anderenfalls ist der Algorithmus hierbei ungeeignet.
+
+Betrachten wir dabei zusätzlich die in Kapitel \ref{wordpacking} vorgestellte Transformation der Eingabe mittels Wordpacking, können wir die Sortierung zusätzlich beschleunigen. Hierbei wird jedoch bei der Wahl von $r$ vorausgesetzt, dass nicht nur $(|\Sigma| + 1)^r$ in ein Maschinenwort passt, sondern auch, dass $r \leq  n$ gilt. Das daraus resultierende, neue Alphabet $|\Sigma|'$ kann zwar für einige Eingaben größer ausfallen als vorher, dennoch können wir durch die Bedingungen garantieren, dass die dazu gehörige transformierte Eingabe innerhalb des $\sa$ sortiert werden kann, ohne zusätzlichen Speicher allokieren zu müssen. Dadurch können wir eine initiale Sortierung durchführen, die das Suffix-Array in linearer Zeit in $r$-Reihenfolge bringt.
