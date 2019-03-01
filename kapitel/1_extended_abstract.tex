@@ -48,8 +48,7 @@ as well as document some of the optimiziation strategies we used to implement th
 \sacabench is a CMake/C++14 project which contains many different SACAs.
 There are both sequential and parallel algorithms included
 and we also include the reference implementations for all of the algorithms, if one exists.
-It is also possible to include a new or another existing SACA with \sacabench;
-See the \emph{README} in our GitHub repository~\cite{sacabench:github} for more information.
+It is also possible to include a new or another existing SACA with \sacabench.
 You are able to run a single, a subset of, or all of the algorithms, depending on your needs.
 Time and memory consumption is automatically measured and can be output as JSON.
 We also include tools to convert the JSON-format to graphs for a visual comparison of the algorithms.
@@ -139,6 +138,10 @@ These plots differ from the ones created by \termfont{sacabench construct}.
 They put the focus on comparing multiple algorithm against each other, instead of providing detailed information about the phases of the executed SACAs.
 These plots can be used to compare the algorithms fairly.
 
+\subsection{Adding additional SACAs}
+
+A standardized interface for SACAs allows to easily add new implementations. Implementing this interface requires attributes for the name and a description of the SACA in order to be used via our commandline tool. Additionally the attribute for extra sentinels specifies, how many sentinels are added at the end of the input text by our framework, aiding in a more simple handling of corner cases. The realization of the corresponding member function represents the specified SACA, containing the added algorithm to correctly compute the \sa. Registering the SACA within our framework allows \sacabench to access the provided implementation, giving access to all features of our benchmark tool for the added algorithm.
+See the \emph{README} in our GitHub repository~\cite{sacabench:github} for the detailed specification of our interface.
 \section{SACA Overview}
 
 There are many SACAs that operate using different principles.
@@ -219,7 +222,7 @@ This directly influenced qsufsort, which improved its performance~\cite{hermann?
 BPR incorporated some ideas of inducing with prefix doubling and is therefore on the edge of those two paradigms.
 Its inducing is based on the copy-technique by Seward~\cite{seward2000}.
 This technique is also used by Deep-Shallow, which uses string-sorting instead of prefix doubling.
-It influenced divsufsort, which \todo{Olli? Adde hier mal shit}.
+It influenced divsufsort, which sorts its RMS (rightmost S-Type) substrings before it completely sorts all RMS suffixes. Given the correct order of the RMS suffixes, all remaining S-Type suffixes get induced in one pass and all L-Type suffixes in a second pass.
 mSufSort is another inducing-SACA, but since it constructs the \emph{inverse suffix array} instead of the SA,
 it's not derived from any other SACA.
 SAIS/SADS take inducing one step further than DivSufSort and induce most suffixes after a recursion step.
@@ -258,8 +261,8 @@ Doubling~\cite{saca:11}, Discarding~\cite{saca:11} and QSufSort~\cite{saca:1}.
 \subsection{Utilization of a GPU}
 
 Since GPUs feature many more cores than modern desktop or even server CPUs,
-we include a prefix doubling SACA which uses CUDA to run on the GPU~\cite{osipovGPU}.
-We show that this algorithm outperformes the parallel DivSufSort implementation.
+we include a prefix doubling SACA which uses CUDA and the CUB-Framework to run on the GPU~\cite{osipovGPU}.
+We show that this algorithm outperformes the parallel DivSufSort implementation, although the required and available memory on current GPUs still restricts the algorithm to far smaller input sizes than CPU SACAs are capable of. Further research of GPU SACAs should be considered, as we could hardly find any (working) reference algorithms to compare our implementation with (and development of GPUs shows higher performance improvements than CPU development\todo{entweder belegen oder entfernen.}).
 \todo{Olli? Hermann? vlt noch was ergänzen}
 
 \subsection{Sorting Algorithms}
