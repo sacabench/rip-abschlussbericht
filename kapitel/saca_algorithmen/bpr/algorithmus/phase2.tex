@@ -1,8 +1,8 @@
 \subsubsection{Zweite Phase}
 \label{bpr:algorithmus:phase2}
 
-Zu Beginn dieser Phase des Algorithmus existiert bereits ein (noch nicht fertig sortiertes) Suffixarray \sa, welches nun rekursiv sortiert werden soll. Die aktuelle Einteilung der Suffixe in Buckets ist über den Bucket Pointer \bptr gegeben, aus dem abgelesen werden kann, ob sich zwei Suffixe im gleichen oder in verschiedenen Buckets befinden. Das Array \bkt, welches in der ersten Phase des Algorithmus erstellt wurde, um die initiale Zuteilung festzulegen, wird im weiteren Verlauf nicht mehr verwendet.\par
-Die Sortierung erfolgt rekursiv für jeden Bucket im Suffixarray. Da die einzelnen Buckets untereinander zu jedem Zeitpunkt bereits sortiert sind, muss der Sortiervorgang in jedem Rekursionsschritt nur innerhalb des jeweiligen Buckets stattfinden. Da es für effizientes Sortieren aber erforderlich ist, zwei Suffixe mit konstantem Aufwand vergleichen zu können, werden wir zunächst sehen, anhand welcher Kriterien wir Suffixe effizient vergleichen können.
+Zu Beginn dieser Phase des Algorithmus existiert bereits ein (noch nicht fertig sortiertes) Suffix-Array \sa, welches nun rekursiv sortiert werden soll. Die aktuelle Einteilung der Suffixe in Buckets ist über den Bucket Pointer \bptr gegeben, aus dem abgelesen werden kann, ob sich zwei Suffixe im gleichen oder in verschiedenen Buckets befinden. Das Array \bkt, welches in der ersten Phase des Algorithmus erstellt wurde, um die initiale Zuteilung festzulegen, wird im weiteren Verlauf nicht mehr verwendet.\par
+Die Sortierung erfolgt rekursiv für jeden Bucket im Suffix-Array. Da die einzelnen Buckets untereinander zu jedem Zeitpunkt bereits sortiert sind, muss der Sortiervorgang in jedem Rekursionsschritt nur innerhalb des jeweiligen Buckets stattfinden. Da es für effizientes Sortieren aber erforderlich ist, zwei Suffixe mit konstantem Aufwand vergleichen zu können, werden wir zunächst sehen, anhand welcher Kriterien wir Suffixe effizient vergleichen können.
 \begin{figure}[ht]
 	\resizebox{\textwidth}{!}{
 			\includegraphics{kapitel/saca_algorithmen/bpr/algorithmus/phase2/buckets_initial_compare/image.pdf}
@@ -42,7 +42,7 @@ Abbildung~\ref{fig:buckets_compare_and_sort} (unten links) zeigt die Bucket Poin
 		Die Sortierschlüssel der Suffixe \(\sa[i-1]\) und \(\sa[i]\) unterscheiden sich. Die Suffixe konnten also sortiert werden und befinden sich nach der Verfeinerung in unterschiedlichen Buckets. \(\sa[i-1]\) ist das erste Element von rechts in dem neu beginnenden Bucket. Folglich wird \(\bptr[\sa[i-1]]\) auf \(i-1\) gesetzt.
 \end{description}
 
-\noindent Nachdem die Bucket-Pointer aktualisiert wurden, ist der Sortiervorgang für \(\bucket{\textup{p}}\) abgeschlossen und es kann rekursiv fortgefahren werden. Das fertig sortierte Suffixarray (links), welches nach Abschluss der Sortierung nur noch Buckets der Größe 1 enthält, sowie die dazugehörigen Bucket-Pointer (rechts) sind in Abbildung~\ref{fig:buckets_final} zu sehen.\par\smallskip
+\noindent Nachdem die Bucket-Pointer aktualisiert wurden, ist der Sortiervorgang für \(\bucket{\textup{p}}\) abgeschlossen und es kann rekursiv fortgefahren werden. Das fertig sortierte Suffix-Array (links), welches nach Abschluss der Sortierung nur noch Buckets der Größe 1 enthält, sowie die dazugehörigen Bucket-Pointer (rechts) sind in Abbildung~\ref{fig:buckets_final} zu sehen.\par\smallskip
 \begin{figure}[ht]
 	\resizebox{\textwidth}{!}{
 		\includegraphics{kapitel/saca_algorithmen/bpr/algorithmus/phase2/buckets_final/image.pdf}

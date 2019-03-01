@@ -1,3 +1,4 @@
+
 \subsection{Induzierer}
 \label{section:induzierer}
 Das \currentauthor{Jonas Bode} Prinzip des \textit{Induced Sortings} (zu deutsch \textit{induziertes Sortieren}) baut darauf auf, dass das gesamte Suffixarray aus mehreren einzelnen sortierten Komponenten zusammen gesetzt werden kann. Diese Komponenten entstehen aus den Suffixen des Eingabestrings und hängen maßgeblich von dem ersten Symbol der zugehörigen Suffixe ab. Die Idee des Induced Sortings ist es, zuerst für jedes im String vorkommenden Symbol $\sigma$ alle Suffixe des Eingabestrings, welche mit $\sigma$ beginnen, in einen sogenannten $\sigma$-\textit{Bucket} zu ordnen. Sind für jedes im Text vorkommende Symbol alle Suffixe in ihren Buckets korrekt geordnet, so können die Buckets aneinander gereiht werden, vorgegeben durch die Ordnung der Symbole selber, um das vollständige SA zu erhalten. \\
@@ -36,4 +37,10 @@ Im Folgenden wird erklärt, wie aus der korrekten Ordnung der LMS-Substrings bzw
 \item \textbf{Zweite Iterationsphase}: Das SA wird von rechts nach links durchgelaufen und von jedem Eintrag $i$ wird das Suffix an der Stelle $i+1$ überprüft. Ist dieses ein S-Typ, so wird es in den Bucket passend rechts eingeordnet.
 \end{itemize}
 
-Es gibt dabei viele verschiedene Implementierungen dieses Vorgangs, welche von Algorithmus zu Algorithmus unterschiedlich sein können. Die größten Unterschiede dabei liegen hauptsächlich bei der Berechnung der Typen, welche entweder dynamisch berechnet werden können oder am Anfang berechnet und dann für spätere Aufrufe gespeichert werden können.
+Es gibt dabei viele verschiedene Implementierungen dieses Vorgangs, welche von Algorithmus zu Algorithmus unterschiedlich sein können. Die größten Unterschiede dabei liegen hauptsächlich bei der Berechnung der Typen, welche entweder dynamisch berechnet werden können oder am Anfang berechnet und dann für spätere Aufrufe gespeichert werden können. Es lässt sich zeigen:
+
+\begin{lemma}[Gemeinsamer Präfix]
+	\label{lemma:common_prefix}
+	\normalfont
+    Haben zwei Suffixe \suffix{i} und \suffix{j} einen gemeinsamen Präfix der Länge {\textit{offset}\xspace}, so ist \(\suffix{i} \leq \suffix{j}\) genau dann, wenn \(\suffix{i+{\textit{offset}\xspace}} \leq \suffix{j+{\textit{offset}\xspace}}\). Dies folgt direkt aus der Definition der lexikographischen Ordnung.
+\end{lemma}

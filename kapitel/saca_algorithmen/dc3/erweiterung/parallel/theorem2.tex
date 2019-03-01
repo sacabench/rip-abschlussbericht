@@ -1,6 +1,7 @@
 \subparagraph*{Merge ab einer großen Anzahl von Prozessoren (Theorem 2)}
+\label{dc3:parallel:theorem2}
 %Johannes
-Nach einer wissenschaftlichen Arbeit von Kruskal \cite[p.~943,944]{merge:kruskal} unter dem zweiten Theorem gibt es einen Ansatz für ein paralleles Merge-Verfahren, das für eine große Anzahl von Prozessoren geeignet ist.
+Nach einer wissenschaftlichen Arbeit von Kruskal \cite[p.~943,944]{merge:kruskal} unter dem zweiten Theorem gibt es einen Ansatz für ein paralleles Merge-Verfahren, das für eine große Anzahl von Prozessoren geeignet ist. Dieses Verfahren baut auf dem Algorithmus in \cite{merge:valiant} auf.
 Da dieses Verfahren von Kruskal sehr theoretisch beschrieben worden ist, demonstrieren wir dieses an dem Beispiel \inputtext = caabaccaabacaa\$. Aus den ersten beiden Phasen haben wir die bereits sortierten Mengen $\sa_{0} = [12, 9, 3, 6, 0]$ und $\sa_{12} = [14, 13, 7, 1, 8, 2, 10, 4, 11, 5]$ gegeben.
 Der Algorithmus besteht aus vier Abschnitten. Außerdem werden drei Variablen am Anfang des Verfahrens gesetzt.
 
@@ -16,7 +17,7 @@ In der ersten Phase dieses Algorithmus werden alle Indizes der Menge $\sa_0$ mar
 
 In Phase 2 wird die Anzahl der benötigten Prozessoren bestimmt. In unserem Fall werden $\lfloor N^{1/k} \rfloor = 2$ Prozessoren pro markiertes Element bereitgestellt.
 
-In der nachfolgenden dritten Phase werden die Positionen ermittelt, die die jeweiligen markierten Elemente aus der ersten Phase in der Menge $\sa_{12}$ hätten. Wichtig ist in diesem Fall, dass dies unabhängig voneinander erfolgt. Da die Menge $\sa_{12}$ bereits sortiert ist, kann zum Beispiel mithilfe der binären Suche die jeweilige Position ermittelt werden. In unserem Beispiel müssen wir das zweite und vierte Element der Menge $SA_0$ untersuchen. Das zweite Element der Menge $\sa_0$ beschreibt das Suffix \suffix{9}. In der Menge $\sa_{12}$ hätte dieses Suffix die Position $9$. Das Suffix \suffix{6} an vierter Stelle der Menge $\sa_0$ hätte die Position $10$ in der Menge $\sa_{12}$.
+In der nachfolgenden dritten Phase werden die Positionen ermittelt, die die jeweiligen markierten Elemente aus der ersten Phase in der Menge $\sa_{12}$ hätten. Wichtig ist in diesem Fall, dass dies unabhängig voneinander erfolgt. Da die Menge $\sa_{12}$ bereits sortiert ist, kann zum Beispiel mithilfe der parallelen Suche aus \cref{dc3:parallel:suche} die jeweilige Position ermittelt werden. In unserem Beispiel müssen wir das zweite und vierte Element der Menge $\sa_0$ untersuchen. Das zweite Element der Menge $\sa_0$ beschreibt das Suffix \suffix{9}. In der Menge $\sa_{12}$ hätte dieses Suffix die Position $9$. Das Suffix \suffix{6} an vierter Stelle der Menge $\sa_0$ hätte die Position $10$ in der Menge $\sa_{12}$.
 Da die jeweilige Suche der Position unabhängig voneinander erfolgt, kann diese Aufgabe problemlos auf verschiedene Prozessoren aufgeteilt werden.
 
 In der vierten Phase des Merge-Verfahrens werden sogenannte Segmente aufgestellt. Die Segmente stellen die Bereiche dar, in der die nun noch übrigen Elemente aus der Menge $\sa_0$ einsortiert werden müssen. Aus der vorherigen Phase erhalten wir die Segmente $Y_1 = [0, 8]$, $Y_2 = [9, 9]$, $Y_3 = [10, 10]$. Dieser Schritt wird rekursiv aufgerufen, da es sich erneut um einen Merge handelt. Die Abbruchbedingung der Rekursion ist erfüllt, wenn mindestens eine der Mengen nur noch ein Element enthält. Dann genügt es, dieses eine Element in die andere Menge zu sortieren. 

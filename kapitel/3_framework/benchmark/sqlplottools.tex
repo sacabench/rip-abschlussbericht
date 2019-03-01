@@ -2,7 +2,7 @@
 \label{framework:bechmark:sqlplottools}
 
 \currentauthor{David Piper und Florian Grieskamp}
-Wird \texttt{sacabench construct} zur Analyse eines einzelnen Algorithmus und dessen Phasen oder \texttt{sacabench batch} zum Vergleich mehrerer Algorithmen untereinander mit zusätzlicher Option \texttt{--latexplot} ausgeführt, werden die erhaltenen Messdaten direkt in einer PDF-Datei aufgearbeitet.
+Wird \texttt{sacabench construct} zur Analyse eines einzelnen Algorithmus und dessen Phasen oder \texttt{sacabench batch} zum Vergleich mehrerer Algorithmen untereinander mit zusätzlicher Option \texttt{-{}-latexplot} ausgeführt, werden die erhaltenen Messdaten direkt in einer PDF-Datei aufgearbeitet.
 Hierzu wird zunächst vom \texttt{sacabench} Haupttool eine Konfigurations-Datei mit Metainformationen über die durchgeführte Messung erstellt.
 Diese beinhaltet Informationen zum System, auf dem die Analyse ausgeführt wird und zu dem Text, welcher als Input für die Algorithmen verwendet wurde.
 Zum System werden die Anzahl der CPUs, die Anzahl an Threads pro Socket, das Modell und das verwendete Betriebssystem erfasst.
@@ -16,7 +16,7 @@ Damit sind alle benötigten Vorbereitungen getroffen und das Makefile im Unterve
 Das Makefile führt das Python-Skript \texttt{json\_to\_result\_converter.py} aus, welches als erstes die Messergebnisse unter Berücksichtigung der Metadaten in ein \texttt{RESULT}-Format konvertiert.
 Dieses beinhaltet die Daten in einem für \emph{SqlPlotTools} \cite{sqlplottools} lesbaren Format.
 Da abhängig davon, ob \texttt{construct} oder \texttt{batch} aufgerufen wurde, unterschiedliche Daten im PDF benötigt werden, werden zwei unterschiedliche Result-Dateien erstellt:
-Eine Datei enthält Daten für die genauere Analyse der unterschiedlichen Phasen aller Algorithmen und die andere Datei beinhaltet die Messwerte für gesamte Algoirhtmen.
+Eine Datei enthält Daten für die genauere Analyse der unterschiedlichen Phasen aller Algorithmen und die andere Datei beinhaltet die Messwerte für gesamte Algorithmen.
 Die Daten der einzelnen Phasen werden für die von \texttt{sacabench construct} erzeugten Diagramme benötigt, während die Messwerte der gesamten Algorithmen in den von \texttt{sacabench batch} erzeugten Diagrammen visualisiert werden.
 Zusätzlich generiert das Python-Skript die LaTeX-Dateien, aus denen im Anschluss die fertigen PDF-Dateien erzeugt werden. 
 Hierzu werden die beiden LaTeX-Vorlagen im Unterordner \texttt{templates} genutzt.

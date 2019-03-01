@@ -17,7 +17,8 @@ def introsort(A: Array<Integer>, f: Integer, b: Integer):
 \end{minted}
 
 \begin{minted}[escapeinside=||, mathescape=true, linenos=true, autogobble]{python}
-def introsort_loop(A: Array<Integer>, f: Integer, b: Integer, depth_limit: Integer)
+def introsort_loop(A: Array<Integer>, f: Integer,
+                   b: Integer, depth_limit: Integer)
   while b - f > |$\theta$|
     if depth_limit == 0
       heapsort(A, f, b)
@@ -38,7 +39,7 @@ def introsort_loop(A: Array<Integer>, f: Integer, b: Integer, depth_limit: Integ
 \label{alg:introsort}
 \end{figure}
 
-Der Pseudocode in \ref{alg:introsort} beschreibt den Ablauf des Algorithmus\todo{referenz hinzufügen}.
+Der Pseudocode in \ref{alg:introsort} beschreibt den Ablauf des Algorithmus~\cite{Musser97}.
 Dabei befindet sich in \texttt{introsort\_loop} die eigentliche Funktion: In Zeile 3 wird geprüft,
 ob die Größe des (Teil-)Arrays den Schwellwert unterschreitet. Ist dies der Fall, bricht die Rekursion ab.
 Andernfalls muss geprüft werden, ob die maximale Tiefe bereits erreicht wurde.

@@ -43,14 +43,12 @@
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="wiki.txt" AND sacheck="ok"
-            %% AND (algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
+            %% AND (algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,2.4246) (2,5.13328) (4,10.9069) (8,23.9962) };
             \addlegendentry{algo=Discarding2};
             \addplot coordinates { (1,2.22196) (2,4.77061) (4,10.1198) (8,22.3255) };
             \addlegendentry{algo=Discarding4};
-            \addplot coordinates { (1,11.0806) (2,22.9862) (4,47.518) (8,97.2159) };
-            \addlegendentry{algo=Doubling};
         \end{axis}
     \end{tikzpicture}
     \par\smallskip
@@ -86,14 +84,12 @@
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="wiki.txt" AND sacheck="ok"
-            %% AND (algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
+            %% AND (algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,2.34575) (2,4.6895) (4,9.377) (8,18.752) };
             \addlegendentry{algo=Discarding2};
             \addplot coordinates { (1,3.90825) (2,7.8145) (4,15.627) (8,31.252) };
             \addlegendentry{algo=Discarding4};
-            \addplot coordinates { (1,2.34575) (2,4.6895) (4,9.377) (8,18.752) };
-            \addlegendentry{algo=Doubling};
 
             \legend{}
         \end{axis}
@@ -141,14 +137,12 @@
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="dna.txt" AND sacheck="ok"
-            %% AND (algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
+            %% AND (algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,2.32164) (2,4.98423) (4,10.6304) (8,21.3285) };
             \addlegendentry{algo=Discarding2};
             \addplot coordinates { (1,2.3202) (2,5.09165) (4,10.9035) (8,22.8657) };
             \addlegendentry{algo=Discarding4};
-            \addplot coordinates { (1,5.53637) (2,11.3228) (4,23.2906) (8,47.8121) };
-            \addlegendentry{algo=Doubling};
 
         \end{axis}
     \end{tikzpicture}
@@ -185,14 +179,12 @@
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="dna.txt" AND sacheck="ok"
-            %% AND (algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
+            %% AND (algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,2.34575) (2,4.6895) (4,9.377) (8,18.752) };
             \addlegendentry{algo=Discarding2};
             \addplot coordinates { (1,3.90825) (2,7.8145) (4,15.627) (8,31.252) };
             \addlegendentry{algo=Discarding4};
-            \addplot coordinates { (1,2.34575) (2,4.6895) (4,9.377) (8,18.752) };
-            \addlegendentry{algo=Doubling};
 
             \legend{}
         \end{axis}
@@ -240,14 +232,12 @@
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
-            %% AND (algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
+            %% AND (algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,4.39624) (2,9.27186) (4,20.3309) (8,43.9922) };
             \addlegendentry{algo=Discarding2};
             \addplot coordinates { (1,3.39922) (2,7.21615) (4,15.8578) (8,34.3377) };
             \addlegendentry{algo=Discarding4};
-            \addplot coordinates { (1,13.7193) (2,30.3425) (4,66.562) };
-            \addlegendentry{algo=Doubling};
 
         \end{axis}
     \end{tikzpicture}
@@ -284,14 +274,12 @@
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
-            %% AND (algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
+            %% AND (algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,2.34575) (2,4.6895) (4,9.377) (8,18.752) };
             \addlegendentry{algo=Discarding2};
             \addplot coordinates { (1,3.90825) (2,7.8145) (4,15.627) (8,31.252) };
             \addlegendentry{algo=Discarding4};
-            \addplot coordinates { (1,2.34575) (2,4.6895) (4,9.377) };
-            \addlegendentry{algo=Doubling};
 
             \legend{}
         \end{axis}

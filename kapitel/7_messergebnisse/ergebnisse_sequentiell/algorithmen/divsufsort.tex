@@ -67,6 +67,8 @@
 
     \medskip
     \ref{legend-seq-divsufsort-0}
+    \caption{DivSufSort und DivSufSort\_ref auf wiki.txt}
+    \label{fig:res-divsufsort0}
 \end{figure}
 
 \begin{figure}[ht]
@@ -133,6 +135,8 @@
 
     \medskip
     \ref{legend-seq-divsufsort-1}
+    \caption{DivSufSort und DivSufSort\_ref auf dna.txt}
+    \label{fig:res-divsufsort1}
 \end{figure}
 
 \begin{figure}[ht]
@@ -199,5 +203,13 @@
 
     \medskip
     \ref{legend-seq-divsufsort-2}
+    \caption{DivSufSort und DivSufSort\_ref auf commoncrawl.txt}
+    \label{fig:res-divsufsort2}
 \end{figure}
 \FloatBarrier
+
+Für alle drei Eingabedateien werden bei der Referenzimplementierung des DivSufSort von Mori \cite{saca:5:repo, saca:5} durch die 32-Bit Suffix-Index Typen ab einer Eingabegröße von 1,8 GiB keine Berechnungen durchführt. Bis 1,6 GiB hingegen ist er deutlich schneller als unsere Implementierung und der naive SACA. Bei allen drei Eingabedateien befindet sich die Berechnungsdauer im selben Minutenbereich. Extraspeicher braucht dieser nur in Abhängigkeit vom Alphabet, weshalb er in den Grafiken gleichauf mit dem Naiven ist.
+Die Laufzeit erhöht sich sowohl für den naiven SACA als auch für unsere Referenzimplementierung für die Eingabe \texttt{commoncrawl.txt}. So benötigen beide Algorithmen für 1,6 GiB mehr als 50 Min, während unser DivSufSort für die anderen beiden Eingaben etwas über 40 Min und der Naive etwa 30 Min brauchte. Unsere Implementierung ist nicht signifikant schneller als der naive Algorithmus und bricht bei einer Eingabegröße $> 2,4$ GiB ab.
+
+Unsere Implementierung weist zwei deutliche Nachteile auf: Zum einen wächst die Berechnungsdauer proportional zur Referenzimplementierung, wobei die Dauer unserer Implementierung ab einer Eingabegröße von 2 GiB schneller ansteigt als bei vorigen Größen, bis die Berechnung aufgrund eines $2h$-Timeouts beendet wird. Zum anderen wächst der Speicher in Abhängigkeit von der Eingabegröße, was bei der Referenzimplementierung nicht der Fall ist. Der Sprung im Speicherbedarf ab einer Größe von 2,4 GiB deutet darauf hin, dass die Anzahl der RMS-Substrings überproportional ansteigt. Beide Ursachen lassen sich durch die verwendete Sortierung der RMS-Substrings sowie durch die Sortierung der RMS-Suffixe erklären. Bei der Sortierung der Substrings wurde auf die Kombination aus Multikey-Quicksort und Introsort verzichtet und stattdessen der Introsort mit einem zeichenweisen Vergleich gewählt. Für diesen Vergleich wurden dafür zunächst die jeweiligen Teilstrings erzeugt und in die Vergleichsfunktion integriert. Der Speicherverbrauch kann reduziert werden, indem die Eigenschaft ausgenutzt wird, dass zu diesem Zeitpunkt die Suffix-Indizes in Textreihenfolge in $\mathsf{SA}[n-m, n)$ vorliegen. Damit können die RMS-Teilstrings durch eine geeignete Vergleichsfunktion simuliert werden, ohne zusätzlichen Speicher zu benötigen.
+Die Sortierung der RMS-Suffixe wurde naiv umgesetzt, indem erst die Suffixe nach ihren Rängen mittels Quicksort sortiert werden und daraufhin die Ränge neuberechnet werden. Dies wird solange wiederholt, bis alle RMS-Suffixe eindeutig sortiert wurden. Bei einer größeren Anzahl von RMS-Suffixen steigt somit auch die Laufzeit des Algorithmus. Ein Durchlauf der RMS-Suffix Sortierung speichert alle partiellen $\mathsf{ISA}$-Werte zwischen, um Abhängigkeiten durch die naive Neuzuweisung der Ränge aufzulösen. Dies ermöglicht, die Ränge für alle RMS-Suffixe im naiven Ansatz korrekt zu berechnen. Eine nähere Implementierung an der Referenz würde diese Abhängigkeiten auflösen und sowohl den Speicherbedarf als auch die Laufzeit, ebenfalls ohne Repetition-Detection, reduzieren.
