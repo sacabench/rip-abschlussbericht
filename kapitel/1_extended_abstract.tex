@@ -218,16 +218,17 @@ We now briefly explain the shown algorithms and their differences.
 
 Prefix Doubling is a SACA which works purely by the above described method \emph{Doubling}.
 In every iteration the SA is refined and double the amount of characters are considered for sorting.
-This directly influenced qsufsort, which improved its performance~\cite{hermann?}.
+This directly influenced qsufsort, which improved its performance~\todo{hermann?}.
 BPR incorporated some ideas of inducing with prefix doubling and is therefore on the edge of those two paradigms.
 Its inducing is based on the copy-technique by Seward~\cite{seward2000}.
 This technique is also used by Deep-Shallow, which uses string-sorting instead of prefix doubling.
-It influenced divsufsort, which sorts its RMS (rightmost S-Type) substrings before it completely sorts all RMS suffixes. Given the correct order of the RMS suffixes, all remaining S-Type suffixes get induced in one pass and all L-Type suffixes in a second pass.
-mSufSort is another inducing-SACA, but since it constructs the \emph{inverse suffix array} instead of the SA,
-it's not derived from any other SACA.
-SAIS/SADS take inducing one step further than DivSufSort and induce most suffixes after a recursion step.
+It influenced divsufsort, which sorts its RMS (rightmost S-Type) substrings before it completely sorts all RMS suffixes.
+Given the correct order of the RMS suffixes, all remaining S-Type suffixes get induced in one and all L-Type suffixes in a second pass.
+SAIS works by sorting all LMS (leftmost S-Type suffixes) in a recursion step before inducing the ordering of all suffixes in two passes similar to DivSufSort.
 This is also done by SACA-K and GSACA, which are both similar to SAIS, but add some optimizations
 (SACA-K for example doesn't use any extra space).
+mSufSort is another inducing-SACA, but since it constructs the \emph{inverse suffix array} instead of the SA,
+it's not derived from any other SACA.
 The two other recursive SACAs are DC3 (which sorts $\frac{2}{3}$ of the suffixes in a recursion step)
 and nzSufSort (which is similar to DC3 but improves on some aspects)\todo{nico? johannes? bitte ergänzen}.
 
@@ -262,8 +263,11 @@ Doubling~\cite{saca:11}, Discarding~\cite{saca:11} and QSufSort~\cite{saca:1}.
 
 Since GPUs feature many more cores than modern desktop or even server CPUs,
 we include a prefix doubling SACA which uses CUDA and the CUB-Framework to run on the GPU~\cite{osipovGPU}.
-We show that this algorithm outperformes the parallel DivSufSort implementation, although the required and available memory on current GPUs still restricts the algorithm to far smaller input sizes than CPU SACAs are capable of. Further research of GPU SACAs should be considered, as we could hardly find any (working) reference algorithms to compare our implementation with (and development of GPUs shows higher performance improvements than CPU development\todo{entweder belegen oder entfernen.}).
-\todo{Olli? Hermann? vlt noch was ergänzen}
+We show that this algorithm outperformes the parallel DivSufSort implementation,
+although the required and available memory on current GPUs still restricts the algorithm to far smaller input sizes than CPU SACAs are capable of.
+Further research of GPU SACAs should be considered,
+as we could hardly find any (working) reference algorithms to compare our implementation with
+(and development of GPUs shows higher performance improvements than CPU development\todo{entweder belegen oder entfernen.}).
 
 \subsection{Sorting Algorithms}
 
