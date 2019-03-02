@@ -3,7 +3,7 @@
 
 \currentauthor{Christopher Poeplau}
 
-Der \textbf{Suffix Array Induced Sorting-Algorithmus}\cite[Kap.~4]{saca:6} (kurz: SAIS) ist unter den Induzierern einzuordnen. Dabei verfolgt er einen rekursiven Ansatz, um eine lineare Laufzeit bei der Berechnung des Suffix-Arrays zu erzielen. Im Folgenden wird diese Strategie beleuchtet und anhand eines Beispiels nachvollzogen.
+Der \textbf{Suffix Array Induced Sorting-Algorithmus}\cite[Kap.~3]{saca:6} (kurz: SAIS) ist unter den Induzierern einzuordnen. Dabei verfolgt er einen rekursiven Ansatz, um eine lineare Laufzeit bei der Berechnung des Suffix-Arrays zu erzielen. Im Folgenden wird diese Strategie beleuchtet und anhand eines Beispiels nachvollzogen.
 
 \subsection{Framework}
 \label{saisAlg}
@@ -31,12 +31,13 @@ Induce SA from SA@$_1$@
 \end{figure}
 
 
-\noindent Der oben stehende Algorithmus~\cite[Fig.~1]{saca:6} berechnet das Suffix-Array des Strings \textit{T}. Grundsätzlich ist das Problem in zwei Teile aufgeteilt. Das Reduzieren des Problems zu Teilproblemen (Divide and Conquer) und das Induzieren der LMS-Substrings und der Teilsuffix-Arrays. Am deutlichsten wird die Funktionsweise des Algorithmus durch ein Beispiel.
+\noindent Der oben stehende Algorithmus~\cite[Fig.~1]{saca:6} berechnet das Suffix-Array des Strings \inputtext . Grundsätzlich ist das Problem in zwei Teile aufgeteilt. Das Reduzieren des Problems zu Teilproblemen (Divide and Conquer) und das Induzieren der LMS-Substrings und der Teilsuffix-Arrays. Am deutlichsten wird die Funktionsweise des Algorithmus durch ein Beispiel.
 
 \subsection{Verfahren}
-Sei $T=caabaccaabacaa\$$ der String zu dem das Suffix-Array konstruiert werden soll und \textit{SA} das zugehörige Suffix-Array. Zunächst wird für jedes Zeichen des Strings \textit{T} der Typ \textit{t}, nach den Definitionen aus Kap.~\ref{section:induzierer}, ermittelt.
+Sei $\inputtext = caabaccaabacaa\$$ der String zu dem das Suffix-Array konstruiert werden soll und \sa das zugehörige Suffix-Array. Zunächst wird für jedes Zeichen des Strings \inputtext der Typ \textit{t}, nach den Definitionen aus Kap.~\ref{section:induzierer}, ermittelt.
 
-\begin{center}
+\begin{table}[H]
+\centering
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
     \hline
         $i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 \\ \hline
@@ -44,13 +45,15 @@ Sei $T=caabaccaabacaa\$$ der String zu dem das Suffix-Array konstruiert werden s
         $t$ & L & S & S & L & S & L & L & S & S & L & S & L & L & L & S \\
     \hline
   \end{tabular}
-\end{center}
+  \caption{Klassifizierung des Strings \inputtext}
+\end{table}
 \bigskip
-Der nächste Schritt besteht daraus, alle LMS-Substrings zu finden. Besonders am SAIS ist, dass die LMS-Substrings eine variable Länge besitzen. Diese Länge wird beim später beschriebenen SADS beschränkt. Diese Schritte besitzen eine obere Laufzeitschranke von $\mathcal{O}(n)$, da ein einmaliger Durchlauf von rechts nach links ausreicht, um alle Typen(L, S und LMS) zu bestimmen.
+\noindent Der nächste Schritt besteht daraus, alle LMS-Substrings zu finden. Besonders am SAIS ist, dass die LMS-Substrings eine variable Länge besitzen. Diese Länge wird beim später beschriebenen SADS beschränkt. Diese Schritte besitzen eine obere Laufzeitschranke von $\mathcal{O}(n)$, da ein einmaliger Durchlauf von rechts nach links ausreicht, um alle Typen(L, S und LMS) zu bestimmen.
 
 \noindent Für die LMS-Substrings variabler Länge ergibt sich folgende Berechnung, wobei der Anfang des LMS durch einen Stern gekennzeichnet ist. Das Ende des LMS-Substrings ergibt sich aus dem nächstfolgenden Stern bzw. dem Ende des Wortes.
 
-\begin{center}
+\begin{table}[H]
+\centering
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
     \hline
         $i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 \\ \hline
@@ -59,11 +62,13 @@ Der nächste Schritt besteht daraus, alle LMS-Substrings zu finden. Besonders am
             &   & * &   &   & * &   &   & * &   &   & * &   &   &   & * \\
     \hline
   \end{tabular}
-\end{center}
+  \caption{LMS-Berechnung}
+\end{table}
 \bigskip
-Nachdem die LMS-Substrings bestimmt sind, folgt das Unterteilen in Buckets und Buckettypen. Die verschiedenen im Text vorkommenden Zeichen bilden die  \textit{Basisbuckets}. Jeder dieser  \textit{Basisbuckets} ist außerdem in einen L- und einen S-Teil aufgeteilt. Der L-Teil eines Buckets steht immer vor dem S-Teil eines Buckets. Außerdem ist die Bucketgröße gleich der entsprechenden Anzahl der im Text vorkommenden Zeichen. Die Buckets selbst sind lexikographisch sortiert.
+\noindent Nachdem die LMS-Substrings bestimmt sind, folgt das Unterteilen in Buckets und Buckettypen. Die verschiedenen im Text vorkommenden Zeichen bilden die  \textit{Basisbuckets}. Jeder dieser  \textit{Basisbuckets} ist außerdem in einen L- und einen S-Teil aufgeteilt. Der L-Teil eines Buckets steht immer vor dem S-Teil eines Buckets. Außerdem ist die Bucketgröße gleich der entsprechenden Anzahl der im Text vorkommenden Zeichen. Die Buckets selbst sind lexikographisch sortiert.
 
-\begin{center}
+\begin{table}[H]
+\centering
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
     \hline
         $i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 \\ \hline
@@ -74,41 +79,46 @@ Nachdem die LMS-Substrings bestimmt sind, folgt das Unterteilen in Buckets und B
       $Typ$ & S & \multicolumn{1}{c}{L} &   & \multicolumn{5}{c}{S} &   & \multicolumn{1}{c}{L} &    & \multicolumn{3}{c}{L} &\\
     \hline
   \end{tabular}
-\end{center}
+  \caption{Bucket-Berechnung}
+\end{table}
 \bigskip
 
-\noindent Die zugrundeliegenden LMS-Substrings müssen im nächsten Schritt sortiert werden. \\
-\noindent Problem: Sortiere LMS-Substrings $\{14, 10, 7, 4, 1\}$ \\
+\noindent Die zugrundeliegenden LMS-Substrings müssen im nächsten Schritt sortiert werden. Problem: Sortiere LMS-Substrings $\{14, 10, 7, 4, 1\}$ \newpage
 
 \noindent Es ergibt sich also folgende Konstellation:
 
-\begin{center}
+\begin{table}[H]
+\centering
 	\begin{tabular}{c|c|c|c|c}
 			 1 	     &            4          &          7            &           10            &          14 \\
           	aaba     &          acca         &        aaba           &          acaa\$         &          \$  \\
          	SSLS     &          SLLS         &        SSLS           &          SLLLS          &           S
 	\end{tabular}
-\end{center}
+	\caption{LMS-Substring-Sortierung}
+\end{table}
 \bigskip
 
 \noindent Durch das Vergleichen der jeweiligen Zeichen und Typen kann so folgende Reihenfolge berechnet werden: $\{14, 7*, 1*, 10, 4\}$ \\
 \noindent Problem: Dadurch, dass die Substrings identisch sind (hier mit einem Stern markiert), ist noch keine eindeutige Reihenfolge entstanden. Es muss ein weiterer Rekursionsschritt durchgeführt werden.
 
-\newpage \noindent Analog zum Anfang werden den Substrings Buckets zugeordnet:
+\noindent Analog zum Anfang werden den Substrings Buckets zugeordnet:
 
-\begin{center}
+\begin{table}[H]
+\centering
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
     \hline
         $T_1$ & 1 & 3 & 1 & 2 & 0 \\ \hline
               & 1 & 4 & 7 & 10 & 14  \\
     \hline
   \end{tabular}
-\end{center}
+  \caption{Substring-Bucket-Berechnung}
+\end{table}
 \bigskip
 
 \noindent Die Zahlen $1$ und $7$ werden demselben Bucket zugeordnet, da diese noch nicht sortiert werden konnten. Analog dazu wird der 14 der \textit{kleinste} Bucket zugeordnet, da das $\$$-Zeichen das lexikographisch kleinste Zeichen ist. Auf den so gewonnenen String $T_1$ wird nun der SAIS angewendet. Zunächst werden die LMS-Indizes $\{4, 2\}$ ihren \textit{Buckets} zugeordnet. Es folgt eine Iteration von links nach rechts. Entspricht das Vorgängerzeichen Typ $L$, wird es an der nächst linken freien Position des jeweiligen Buckets eingeordnet. Anschließend folgt eine Iteration von rechts nach links, bei der das Vorgängerzeichen an der nächst rechten freien Position einsortiert wird, wenn es vom Typ $S$ ist.
 
-\begin{center}
+\begin{table}[H]
+\centering
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
     \hline
           & \tiny{1} & \tiny{4} & \tiny{7} & \tiny{10} & \tiny{14} \\ \hline
@@ -121,14 +131,18 @@ $Buckets$ & 0 & \multicolumn{1}{c}{1} & & 2 & 3 \\ \hline
           & & 2 & 0 & & \\
     \hline
   \end{tabular}
-\end{center}
+  \caption{Induzieren von $SA_1$}
+\end{table}
 \bigskip
 
-\noindent Es ist zu beachten, dass die rot markierte $2$ im zweiten Durchlauf von der $0$ überschrieben wird, im nächsten Schritt aber direkt wieder von der $3$ induziert wird. \\
-Das Ergebnis des Induzierens ist das Suffix-Array $SA_1 = \{4, 2, 0, 3, 1\}$. Damit kann auf die ursprüngliche Reihenfolge geschlossen werden. Demnach ist das sortierte LMS-Array: $\{14, 7, 1, 10, 4\}$ \\
-Die Rekursionstiefe von $1$ ändert sich wieder auf die Tiefe von $0$ und das ursprüngliche Problem wird gelöst, da jetzt die Reihenfolge eindeutig bestimmt ist. Analog zum Rekursionsschritt, werden zunächst die LMS-Indizes in die jeweiligen \textit{S-Buckets} einsortiert, um dann durch eine links-rechts und rechts-links-Iteration das Suffix-Array $SA$ zu berechnen:
+\noindent Es ist zu beachten, dass die rot markierte $2$ im zweiten Durchlauf von der $0$ überschrieben wird, im nächsten Schritt aber direkt wieder von der $3$ induziert wird.
 
-\begin{center}
+Das Ergebnis des Induzierens ist das Suffix-Array $SA_1 = \{4, 2, 0, 3, 1\}$. Damit kann auf die ursprüngliche Reihenfolge geschlossen werden. Demnach ist das sortierte LMS-Array: $\{14, 7, 1, 10, 4\}$ \\
+Die Rekursionstiefe von $1$ ändert sich wieder auf die Tiefe von $0$ und das ursprüngliche Problem wird gelöst, da jetzt die Reihenfolge eindeutig bestimmt ist. Analog zum Rekursionsschritt, werden zunächst die LMS-Indizes in die jeweiligen \textit{S-Buckets} einsortiert, um dann durch eine links-rechts und rechts-links-Iteration das Suffix-Array \sa zu berechnen:
+
+\begin{table}[H]
+\centering
+\begin{adjustbox}{width=1\textwidth}
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
     \hline
         $i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 \\ \hline
@@ -144,10 +158,12 @@ Die Rekursionstiefe von $1$ ändert sich wieder auf die Tiefe von $0$ und das ur
             & & & & & & 8 & 2 & 10 & 4 &   & &   &   &   & \\
     \hline
   \end{tabular}
-\end{center}
+  \end{adjustbox}
+  \caption{Induzieren von \sa}
+\end{table}
 \bigskip
-Von links nach rechts ergibt sich das endgültige Suffix-Array \\
-$SA = \{14, 13, 12, 7, 1, 8, 2, 10, 4, 9, 3, 11, 6, 0, 5\}$.
+\noindent Von links nach rechts ergibt sich das endgültige Suffix-Array \\
+$\sa = \{14, 13, 12, 7, 1, 8, 2, 10, 4, 9, 3, 11, 6, 0, 5\}$.
 
 \subsection{Optimierungsmöglichkeiten}
 Der SAIS benötigt nur noch an zwei Stellen Extra-Speicher. Zum einen benötigen die Buckets zusätzlichen Speicher in Größe der Alphabetgröße. Zum anderen benötigt der SAIS einen Bitvektor, um die L- und S-Typen zu speichern. Alle anderen Berechnungen geschehen \textit{on the fly}, benötigen also keinen Extra-Speicher. So können die LMS-Typen leicht berechnet werden, indem sich vom aktuellen Typ des Zeichens der Vorgänger angeschaut wird. Wenn dieser vom Typ L ist, dann ist das Zeichen ein LMS. Aufwändig an dieser Stelle ist, dass momentan noch geteilte Schleifen, die das Wort von rechts nach links bzw. von links nach rechts durchlaufen kompaktifiziert werden müssen, damit die Typen, die berechnet wurden für alle Berechnungsschritte genutzt werden können. Interessant an dieser Stelle ist der Kompromiss zwischen Laufzeit und Extra-Speicher. Der Algorithmus kann auf Grund des Designs unseres Frameworks nicht nur für 8-Bit, sondern auch für 16-, 32-, 48-Bittypen usw. ausgeführt werden.
