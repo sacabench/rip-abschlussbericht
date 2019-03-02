@@ -216,3 +216,22 @@
     \ref{legend-seq-doubling-2}
 \end{figure}
 \FloatBarrier
+
+Wir werten nun das Verhalten des \textit{Doubling}-Algorithmus, sowie zwei seiner Varianten mit \textit{Discarding} und $a$-Tupling für $a=2$ und $a=4$ (siehe \cref{chapter:saca:doubling}), bei skalierender Eingabegröße aus.
+
+\paragraph{Die Speichermessung} zeigt, dass der Speicherverbrauch der Algorithmen rein von der Länge der Eingabe und der Größe von \texttt{sa\_index} abhängt. Dies ist aus den Diagrammen und Tabellen \ref{messung:tab:memory-small-seq-none} und \ref{messung:tab:memory-large-seq-weak} ersichtlich.
+
+Dies stimmt mit ihren erwartete Verhalten basierend auf der Implementierung (\cref{chapter:saca:doubling:memory}) überein, gemäß der alle Varianten des Algorithmus nur auf einem Array von $|\inputtext|$ Elementen arbeiten. So liegt zum Beispiel der theoretische Speicherverbrauch des Discardings mit $a$=4 und der Arrayüberlagerungsoptimierung für eine 200 MiB Eingabe bei $200~\text{[MiB]} * (a+1) * \texttt{sizeof(sa\_index)} = 4000~\text{[MiB]} = 3.907~\text{[GiB]}$, was fast genau den gemessenen Betrag entspricht.
+
+An \cref{messung:tab:sa-chk-large-seq-weak} erkennt man jedoch auch, das der Speicherverbrauch relativ hoch ist, da ab einer Eingabelänge von über 1600 MiB das Speicherlimit des Systems erreicht wird. Der Algorithmus ist somit nicht für Speicher-limitierte Systeme geeignet.
+
+\paragraph{Die Laufzeitmessung} in \cref{messung:tab:time-small-seq-none} und  \cref{messung:tab:time-large-seq-weak} zeigt, dass das reine \textit{Doubling} einer der langsamsten Algorithmen ist. Dies ist bei seiner theoretischen Laufzeit von $\mathcal{O}(\text{sort}(n) \ceil*{\log \text{maxlcp}})$ (\cref{algo:doubling:sec:doubling}) plausibel, da Suffix-Indexe die eindeutig feststehen ggf. wiederholt neu bestimmt werden.
+
+Der optimierte Algorithmus -- \textit{Discarding} mit $a$-Tupling, Pipelining, Arrayüberlagerung und Wordpacking -- behandelt stattdessen jeden Suffix-Index nur solange bis er eindeutig feststeht. Dies lässt sich aus den Diagrammen und Tabellen ablesen, bei denen der Algorithmus für beide $a$-Werte in der Laufzeit besser als der Naive Algorithmus skaliert.
+
+In \cref{messung:tab:time-small-seq-none} sieht man jedoch auch, dass für kleine Eingaben der Unterschied zum Naiven Algorithmus teilweise nicht signifikant ist, der Laufzeitvorteil also nur für größere Eingaben zu trage kommt.
+
+Laut der theoretischen Betrachtung sollte der Algorithmus mit $a=4$ schneller sein als mit $a=2$. Dies ist in der Messung für die meisten Eingaben der Fall, es gibt aber auch Ausnahmen bei denen der Unterschied gering oder sogar umgekehrt ausfällt. Am größten tritt dieser Effekt bei \texttt{pc\_dna} und \texttt{dna.txt} auf, was darauf schließen lässt das bei kleinen Alphabetgrößen $a=2$ effizienter zu sein scheint, bzw. die gemeinsamen Prefixe bei DNA kurz genug ausfallen das bei $a=4$ die Iterationsschritte zu grob-granular sind und eindeutige Suffix-Index zu lange beibehalten werden.
+
+Im Vergleich zum Naiven Algorithmus fällt jedoch auch auf, das es keinen signifikanten Unterschied in der Laufzeit bei verschiedenen $a$ Werten gibt, weshalb man in Anbetracht des wesentlich größeren Speicherbedarfs bei $a=4$ für In-Memory Implementierungen vermutlich besser beim normalen verdoppeln, also $a=2$ bleiben sollte.
+
