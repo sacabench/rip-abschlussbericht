@@ -19,6 +19,9 @@ In diesen Fällen ist die Eingabe bereits sortiert.
 Im Folgenden stellen wir mit Ternary Quicksort eine weitere Variante des Quicksort vor.
 Anschließend beschreiben wir wie möglichst effizient das Pivotelement gewonnen werden kann.
 
+\subsubsection{Ternary Quicksort}
+\label{section:ternary_quicksort}
+
 \begin{listing}[!h]
     \begin{minted}{python}
     def bentley_mcilroy_tq(A: Array<SuffixStartPos>):
@@ -62,12 +65,12 @@ Nachdem wir alle Elemente in die drei Bereiche aufgeteilt haben, müssen $\maths
 	\node at (5.5, 0.5) {=};
 	\node at (9, 0.5) {>};
 	
-	\draw[red] (6,0.5) -- (6,2) node[above] {\texttt{p}};
+	\draw[red] (6,0.5) -- (6,2) node[above] {$p$};
 	
 	\begin{scope}[yshift=-10pt]
-	\draw[decorate, decoration={mirror, brace,amplitude=10pt}] (0.1,0) -- (2.9,0) node[midway, below = 10pt] {$A_\text{left}$};
-	\draw[decorate, decoration={mirror, brace,amplitude=10pt}] (3.1,0) -- (7.9,0) node[midway, below = 10pt] {$A_\text{middle}$};
-	\draw[decorate, decoration={mirror, brace,amplitude=10pt}] (8.1,0) -- (9.9,0) node[midway, below = 10pt] {$A_\text{right}$};
+	\draw[decorate, decoration={mirror, brace,amplitude=10pt}] (0.1,0) -- (2.9,0) node[midway, below = 10pt] {$\mathsf A_\text{left}$};
+	\draw[decorate, decoration={mirror, brace,amplitude=10pt}] (3.1,0) -- (7.9,0) node[midway, below = 10pt] {$\mathsf A_\text{middle}$};
+	\draw[decorate, decoration={mirror, brace,amplitude=10pt}] (8.1,0) -- (9.9,0) node[midway, below = 10pt] {$\mathsf A_\text{right}$};
 	\end{scope}
 	\end{tikzpicture}
 	\caption[Partitionen bei ternary Quicksort]{Partitionen bei ternary Quicksort. (Abbildung ähnlich in \cite{ternary_quicksort}.)}
@@ -76,13 +79,14 @@ Nachdem wir alle Elemente in die drei Bereiche aufgeteilt haben, müssen $\maths
 
 \subsubsection{Auswahl des Pivotelements}
 
-Es gibt unterschiedliche Ansätze, um in den hier beschriebenen Quicksort-Varian\-ten das Pivotelement zu wählen.
+Es gibt unterschiedliche Ansätze, um in den hier beschriebenen Quicksort- Varianten das Pivotelement zu wählen.
 Das Problem ist der Trade-Off zwischen aufwändiger Pivot-Wahl (Pivotwahl hat hohe Laufzeit) und
 degeneriertem Quicksort durch eine schlechte Wahl des Pivotelements (Quicksort hat hohe Laufzeit).
 
 Einfache Ansätze sind es das erste, mittlere oder das letzte Element der Eingabe zu wählen.
 Diese Ansätze sind problematisch, wenn das gewählte Pivotelement ein sehr kleines oder ein sehr großes Element ist.
-Dadurch wird die Eingabe nicht in zwei annähernd gleich große Bereiche aufgeteilt und die rekursiven Aufrufe werden ineffizient (degeneriertes Quicksort).
+Dadurch wird die Eingabe nicht in zwei annähernd gleich große Bereiche aufgeteilt und
+die rekursiven Aufrufe werden ineffizient (degeneriertes Quicksort).
 
 Daher verwenden wir im Quicksort und im Ternary Quicksort eine verbesserte Variante~\cite{ternary_quicksort}.
 Falls die Größe des Eingabearrays kleiner als ein bestimmter Threshold ist,
