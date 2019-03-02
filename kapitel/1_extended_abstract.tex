@@ -59,19 +59,28 @@ in order to measure and compare them fairly.
 
 \subsection{Running a single algorithm}
 
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=\textwidth]{kapitel/1_extended_abstract/tudostat_example.png}
+    \caption{Example of runtime and memory consumption of the phases of DivSufSort, measured by \sacabench and visualized on the tudostat website.}
+    \label{ea:phases}
+\end{figure}
+
 You can evaluate a single algorithm with the command \termfont{sacabench construct} followed by the desired SACA and a path to an input file.
 To get a list of all available Algorithms, you can execute the command \termfont{sacabench list}.
 This will output the names for all available SACAs.
-While the algorithm is running, its memory consumption is measured via the tudostat library\todo{Ist das relevant?}.
+
+While the algorithm is running, its memory consumption is measured via the tudostat library~\cite{tudostat}.
 You can also enable checking of the resulting suffix array with a fast suffix array checker~\cite{saca:11} by
 using the \termfont{-c} or a parrallel version with the \termfont{-q} flag.
 To generate a JSON file containing detailed information about the run of the selected Algorithm separated into SACA-specific phases,
 the flag \termfont{-b} needs to be added to the command, followed by a destination path to which the report will be saved to.
 To override an existing file at the destination path, the option \termfont{-f} can be used.
-This file can be converted to a plot on the tudostat website (see Figure \ref{tudostat_phases} as an example)\todo{Welche Abbildung ist hier gemeint?}.
+This file can be converted to a plot on the tudostat website (see Figure \ref{ea:phases} as an example).
 If you add the flag \termfont{-{}-rplot}, a plot will be generated automatically after the SACA executed by using a R-script.
 Additionally there is an alternative version of plots, which are generated using LaTex.
 This can be done by adding the flag \termfont{-{}-latexplot}.
+
 Multiple other flags and options allow to customize the way, the SACA is executed.
 For example it is possible to use a prefix of the given input string by adding \termfont{-p} together with the desired prefix size. 
 This enables you to use one big input file for tests with a variety of input sizes.
@@ -175,11 +184,10 @@ This method is used in e.g. Deep-Shallow~\cite{saca:4} and
 Bucket Pointer Refinement~\cite{saca:2}.
 
 Another method of induction relies on the property of L- and S-Type suffixes and
-is most prominently used in the SAIS-Algorithm.
-This algorihm is based on the sorting of all the LMS suffixes (by recursion)
-and a Left-to-right-pass (to induce the L suffixes)
-and a Right-to-left-pass (to induce the S suffixes)\todo{nachschlagen wir der sais ging}.
-It can be shown that after these two passes the resulting suffix array is correct.
+is most prominently used in the SAIS algorithm~\cite{saca:6}.
+This algorithm is based on sorting the LMS suffixes by recursion
+and inducing the L-Type suffixes in a Left-to-right-pass and the S-type suffixes in a Right-to-Left-pass.
+It can be shown that these steps result in a correct suffix array.
 
 \paragraph{Doubling} Another fundamentally different approach to suffix sorting
 aims to double the length of sorted suffixes in every iteration.
@@ -285,7 +293,313 @@ We therefore chose the best option for the required use-case.
 
 \section{Evaluation}
 
+\begin{figure}[!h]
+    \textbf{Configuration} \hfill Input file: wiki.txt \hfill Prefix size: 1600\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
+    \centering\small
+    \begin{tikzpicture}[trim axis left]
+        \begin{axis}[batchTimePlot,
+            cycle list name={exotic},
+            legend to name=runtime-all-ref-0,
+            width=\textwidth,
+            height=60mm,
+            xtick style = {draw=none},
+            xticklabel pos=upper,
+            title={},
+            bar width=12pt,
+            ylabel={SA construction time [min]},
+            legend style={
+                /tikz/every even column/.append style={column sep=0.5cm,black},
+                /tikz/every even column/.append style={black},
+            },
+            legend columns=2,
+            symbolic x coords={ wiki.txt },
+            every node near coord/.append style={color=black, rotate=90, anchor=west},
+            ]
 
+            %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, time/1000/60 AS y
+            %% FROM ( 
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="wiki.txt" AND prefix=1677721600
+            %% AND (algo LIKE "%_ref%" AND NOT algo LIKE "%par")
+            %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY y
+            \addplot coordinates { (wiki.txt,3.45026) };
+            \addlegendentry{algo=DivSufSort\_ref};
+            \addplot coordinates { (wiki.txt,5.80588) };
+            \addlegendentry{algo=SAIS-LITE\_ref};
+            \addplot coordinates { (wiki.txt,6.33265) };
+            \addlegendentry{algo=BPR\_ref};
+            \addplot coordinates { (wiki.txt,10.5834) };
+            \addlegendentry{algo=SACA-K\_ref};
+            \addplot coordinates { (wiki.txt,13.9982) };
+            \addlegendentry{algo=qsufsort\_ref};
+            \addplot coordinates { (wiki.txt,15.3998) };
+            \addlegendentry{algo=SAIS\_ref};
+            \addplot coordinates { (wiki.txt,18.5135) };
+            \addlegendentry{algo=GSACA\_ref};
+            \addplot coordinates { (wiki.txt,19.0941) };
+            \addlegendentry{algo=SADS\_ref};
+            \addplot coordinates { (wiki.txt,62.1154) };
+            \addlegendentry{algo=DC3\_ref};
+        \end{axis}
+    \end{tikzpicture}
+    \begin{tikzpicture}[trim axis left]
+        \begin{axis}[batchTimePlot,
+            cycle list name={exotic},
+            width=\textwidth,
+            height=60mm,
+            xtick style = {draw=none},
+            y dir=reverse,
+            title={},
+            bar width=12pt,
+            ylabel={Extra Memory [GiB]},
+            legend style={
+                /tikz/every even column/.append style={column sep=0.5cm,black},
+                /tikz/every even column/.append style={black},
+            },
+            legend columns=2,
+            symbolic x coords={ wiki.txt },
+            every node near coord/.append style={color=black, rotate=90, anchor=east, /pgf/number format/fixed},
+            ]
+
+            %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, memPeak/1024/1024/1024 AS y
+            %% FROM ( 
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="wiki.txt" AND prefix=1677721600
+            %% AND (algo LIKE "%_ref%" AND NOT algo LIKE "%par")
+            %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY time
+            \addplot coordinates { (wiki.txt,0.000252061) };
+            \addlegendentry{algo=DivSufSort\_ref};
+            \addplot coordinates { (wiki.txt,6.25) };
+            \addlegendentry{algo=SAIS-LITE\_ref};
+            \addplot coordinates { (wiki.txt,26.6305) };
+            \addlegendentry{algo=BPR\_ref};
+            \addplot coordinates { (wiki.txt,7.82311e-07) };
+            \addlegendentry{algo=SACA-K\_ref};
+            \addplot coordinates { (wiki.txt,25) };
+            \addlegendentry{algo=qsufsort\_ref};
+            \addplot coordinates { (wiki.txt,0.499429) };
+            \addlegendentry{algo=SAIS\_ref};
+            \addplot coordinates { (wiki.txt,18.75) };
+            \addlegendentry{algo=GSACA\_ref};
+            \addplot coordinates { (wiki.txt,0.661858) };
+            \addlegendentry{algo=SADS\_ref};
+            \addplot coordinates { (wiki.txt,36.7684) };
+            \addlegendentry{algo=DC3\_ref};
+
+            \legend{}
+        \end{axis}
+    \end{tikzpicture}
+    \medskip
+    \ref{runtime-all-ref-0}
+    \caption{Vergleich der sequentiellen Referenzimplementierungen mit Laufzeit und Speicherbedarf auf wiki.txt}
+\end{figure}
+
+\begin{figure}[!h]
+    \textbf{Configuration} \hfill Input file: dna.txt \hfill Prefix size: 1600\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
+    \centering\small
+    \begin{tikzpicture}[trim axis left]
+        \begin{axis}[batchTimePlot,
+            cycle list name={exotic},
+            legend to name=runtime-all-ref-1,
+            width=\textwidth,
+            height=60mm,
+            xtick style = {draw=none},
+            xticklabel pos=upper,
+            title={},
+            bar width=12pt,
+            ylabel={SA construction time [min]},
+            legend style={
+                /tikz/every even column/.append style={column sep=0.5cm,black},
+                /tikz/every even column/.append style={black},
+            },
+            legend columns=2,
+            symbolic x coords={ dna.txt },
+            every node near coord/.append style={color=black, rotate=90, anchor=west},
+            ]
+
+            %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, time/1000/60 AS y
+            %% FROM ( 
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="dna.txt" AND prefix=1677721600
+            %% AND (algo LIKE "%_ref%" AND NOT algo LIKE "%par")
+            %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY y
+            \addplot coordinates { (dna.txt,4.25621) };
+            \addlegendentry{algo=DivSufSort\_ref};
+            \addplot coordinates { (dna.txt,4.93084) };
+            \addlegendentry{algo=Deep-Shallow\_ref};
+            \addplot coordinates { (dna.txt,6.05679) };
+            \addlegendentry{algo=SAIS-LITE\_ref};
+            \addplot coordinates { (dna.txt,7.45044) };
+            \addlegendentry{algo=BPR\_ref};
+            \addplot coordinates { (dna.txt,10.0834) };
+            \addlegendentry{algo=SACA-K\_ref};
+            \addplot coordinates { (dna.txt,11.7436) };
+            \addlegendentry{algo=qsufsort\_ref};
+            \addplot coordinates { (dna.txt,13.6695) };
+            \addlegendentry{algo=GSACA\_ref};
+            \addplot coordinates { (dna.txt,14.4639) };
+            \addlegendentry{algo=SAIS\_ref};
+            \addplot coordinates { (dna.txt,19.4301) };
+            \addlegendentry{algo=SADS\_ref};
+            \addplot coordinates { (dna.txt,41.2953) };
+            \addlegendentry{algo=DC3\_ref};
+        \end{axis}
+    \end{tikzpicture}
+    \begin{tikzpicture}[trim axis left]
+        \begin{axis}[batchTimePlot,
+            cycle list name={exotic},
+            width=\textwidth,
+            height=60mm,
+            xtick style = {draw=none},
+            y dir=reverse,
+            title={},
+            bar width=12pt,
+            ylabel={Extra Memory [GiB]},
+            legend style={
+                /tikz/every even column/.append style={column sep=0.5cm,black},
+                /tikz/every even column/.append style={black},
+            },
+            legend columns=2,
+            symbolic x coords={ dna.txt },
+            every node near coord/.append style={color=black, rotate=90, anchor=east, /pgf/number format/fixed},
+            ]
+
+            %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, memPeak/1024/1024/1024 AS y
+            %% FROM ( 
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="dna.txt" AND prefix=1677721600
+            %% AND (algo LIKE "%_ref%" AND NOT algo LIKE "%par")
+            %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY time
+            \addplot coordinates { (dna.txt,0.000252061) };
+            \addlegendentry{algo=DivSufSort\_ref};
+            \addplot coordinates { (dna.txt,0.01875) };
+            \addlegendentry{algo=Deep-Shallow\_ref};
+            \addplot coordinates { (dna.txt,6.25) };
+            \addlegendentry{algo=SAIS-LITE\_ref};
+            \addplot coordinates { (dna.txt,26.5626) };
+            \addlegendentry{algo=BPR\_ref};
+            \addplot coordinates { (dna.txt,1.86265e-08) };
+            \addlegendentry{algo=SACA-K\_ref};
+            \addplot coordinates { (dna.txt,25) };
+            \addlegendentry{algo=qsufsort\_ref};
+            \addplot coordinates { (dna.txt,18.75) };
+            \addlegendentry{algo=GSACA\_ref};
+            \addplot coordinates { (dna.txt,0.481298) };
+            \addlegendentry{algo=SAIS\_ref};
+            \addplot coordinates { (dna.txt,0.658049) };
+            \addlegendentry{algo=SADS\_ref};
+            \addplot coordinates { (dna.txt,35.0308) };
+            \addlegendentry{algo=DC3\_ref};
+
+            \legend{}
+        \end{axis}
+    \end{tikzpicture}
+    \medskip
+    \ref{runtime-all-ref-1}
+    \caption{Vergleich der sequentiellen Referenzimplementierungen mit Laufzeit und Speicherbedarf auf dna.txt}
+\end{figure}
+
+\begin{figure}[!h]
+    \textbf{Configuration} \hfill Input file: commoncrawl.txt \hfill Prefix size: 1600\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
+    \centering\small
+    \begin{tikzpicture}[trim axis left]
+        \begin{axis}[batchTimePlot,
+            cycle list name={exotic},
+            legend to name=runtime-all-ref-2,
+            width=\textwidth,
+            height=60mm,
+            xtick style = {draw=none},
+            xticklabel pos=upper,
+            title={},
+            bar width=12pt,
+            ylabel={SA construction time [min]},
+            legend style={
+                /tikz/every even column/.append style={column sep=0.5cm,black},
+                /tikz/every even column/.append style={black},
+            },
+            legend columns=2,
+            symbolic x coords={ commoncrawl.txt },
+            every node near coord/.append style={color=black, rotate=90, anchor=west},
+            ]
+
+            %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, time/1000/60 AS y
+            %% FROM ( 
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="commoncrawl.txt" AND prefix=1677721600
+            %% AND (algo LIKE "%_ref%" AND NOT algo LIKE "%par")
+            %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY y
+            \addplot coordinates { (commoncrawl.txt,3.19154) };
+            \addlegendentry{algo=DivSufSort\_ref};
+            \addplot coordinates { (commoncrawl.txt,4.91103) };
+            \addlegendentry{algo=SAIS-LITE\_ref};
+            \addplot coordinates { (commoncrawl.txt,5.03779) };
+            \addlegendentry{algo=BPR\_ref};
+            \addplot coordinates { (commoncrawl.txt,9.45164) };
+            \addlegendentry{algo=SACA-K\_ref};
+            \addplot coordinates { (commoncrawl.txt,13.0888) };
+            \addlegendentry{algo=SAIS\_ref};
+            \addplot coordinates { (commoncrawl.txt,15.3615) };
+            \addlegendentry{algo=GSACA\_ref};
+            \addplot coordinates { (commoncrawl.txt,15.4028) };
+            \addlegendentry{algo=qsufsort\_ref};
+            \addplot coordinates { (commoncrawl.txt,16.5888) };
+            \addlegendentry{algo=SADS\_ref};
+            \addplot coordinates { (commoncrawl.txt,60.4603) };
+            \addlegendentry{algo=DC3\_ref};
+        \end{axis}
+    \end{tikzpicture}
+    \begin{tikzpicture}[trim axis left]
+        \begin{axis}[batchTimePlot,
+            cycle list name={exotic},
+            width=\textwidth,
+            height=60mm,
+            xtick style = {draw=none},
+            y dir=reverse,
+            title={},
+            bar width=12pt,
+            ylabel={Extra Memory [GiB]},
+            legend style={
+                /tikz/every even column/.append style={column sep=0.5cm,black},
+                /tikz/every even column/.append style={black},
+            },
+            legend columns=2,
+            symbolic x coords={ commoncrawl.txt },
+            every node near coord/.append style={color=black, rotate=90, anchor=east, /pgf/number format/fixed},
+            ]
+
+            %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, memPeak/1024/1024/1024 AS y
+            %% FROM ( 
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="commoncrawl.txt" AND prefix=1677721600
+            %% AND (algo LIKE "%_ref%" AND NOT algo LIKE "%par")
+            %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY time
+            \addplot coordinates { (commoncrawl.txt,0.000252061) };
+            \addlegendentry{algo=DivSufSort\_ref};
+            \addplot coordinates { (commoncrawl.txt,6.25) };
+            \addlegendentry{algo=SAIS-LITE\_ref};
+            \addplot coordinates { (commoncrawl.txt,26.6681) };
+            \addlegendentry{algo=BPR\_ref};
+            \addplot coordinates { (commoncrawl.txt,9.05246e-07) };
+            \addlegendentry{algo=SACA-K\_ref};
+            \addplot coordinates { (commoncrawl.txt,0.498627) };
+            \addlegendentry{algo=SAIS\_ref};
+            \addplot coordinates { (commoncrawl.txt,18.75) };
+            \addlegendentry{algo=GSACA\_ref};
+            \addplot coordinates { (commoncrawl.txt,25) };
+            \addlegendentry{algo=qsufsort\_ref};
+            \addplot coordinates { (commoncrawl.txt,0.634287) };
+            \addlegendentry{algo=SADS\_ref};
+            \addplot coordinates { (commoncrawl.txt,37.3555) };
+            \addlegendentry{algo=DC3\_ref};
+
+            \legend{}
+        \end{axis}
+    \end{tikzpicture}
+    \medskip
+    \ref{runtime-all-ref-2}
+    \caption{Vergleich der sequentiellen Referenzimplementierungen mit Laufzeit und Speicherbedarf auf commoncrawl.txt}
+\end{figure}
+\FloatBarrier
 
 \section{Conclusion}
 
