@@ -1,40 +1,40 @@
 
 \subsection{Induzierer}
 \label{section:induzierer}
-Das \currentauthor{Jonas Bode} Prinzip des \textit{Induced Sortings} (zu deutsch \textit{induziertes Sortieren}) baut darauf auf, dass das gesamte Suffixarray aus mehreren einzelnen sortierten Komponenten zusammen gesetzt werden kann. Diese Komponenten entstehen aus den Suffixen des Eingabestrings und hängen maßgeblich von dem ersten Symbol der zugehörigen Suffixe ab. Die Idee des Induced Sortings ist es, zuerst für jedes im String vorkommenden Symbol $\sigma$ alle Suffixe des Eingabestrings, welche mit $\sigma$ beginnen, in einen sogenannten $\sigma$-\textit{Bucket} zu ordnen. Sind für jedes im Text vorkommende Symbol alle Suffixe in ihren Buckets korrekt geordnet, so können die Buckets aneinander gereiht werden, vorgegeben durch die Ordnung der Symbole selber, um das vollständige SA zu erhalten. \\
+Das \currentauthor{Jonas Bode} Prinzip des \textit{Induced Sortings} (zu deutsch \textit{induziertes Sortieren}) baut darauf auf, dass das gesamte Suffixarray aus mehreren einzelnen sortierten Komponenten zusammen gesetzt werden kann. Diese Komponenten entstehen aus den Suffixen des Eingabestrings und hängen maßgeblich von dem ersten Symbol der zugehörigen Suffixe ab. Die Idee des Induced Sortings ist es, zuerst für jedes im String vorkommenden Symbol $\sigma$ alle Suffixe des Eingabestrings, welche mit $\sigma$ beginnen, in den $\sigma$-\textit{Bucket} ein zu ordnen. Sind für jedes im Text vorkommende Symbol alle Suffixe in ihren Buckets korrekt geordnet, so können die Buckets aneinander gereiht werden, vorgegeben durch die Ordnung der Symbole selber, um das vollständige SA zu erhalten. \\
 
-Es folgt ein Beispiel einer Zerteilung eines SAs in die Buckets der jeweiligen Symbole, anhand des Textes $T = abracadabra\$$, mit dem dazugehörigen Suffixarray $SA(T) = [11, 10, 7, 0, 3, 5, 8, 1, 4, 6, 9, 2]$. Dieses lässt sich wie folgt unterteilen:
+Es folgt ein Beispiel einer Zerteilung eines $\mathsf{SA}$ in die Buckets der jeweiligen Symbole, anhand des Textes $T = abracadabra\$$, mit dem dazugehörigen Suffixarray $\mathsf{SA}(T) = [11, 10, 7, 0, 3, 5, 8, 1, 4, 6, 9, 2]$. Dieses lässt sich wie folgt unterteilen:
 
 \begin{center}
 \begin{tabular}{c}
-$SA(T) = \underbrace{[11]}_{\$} \cdot \underbrace{[10,7,0,3,5]}_{a} \cdot \underbrace{[8,1]}_{b} \cdot \underbrace{[4]}_{c} \cdot \underbrace{[6]}_{d} \cdot \underbrace{[9,2]}_{r}$ \\
+$\mathsf{SA}(T) = \underbrace{[11]}_{\$} \cdot \underbrace{[10,7,0,3,5]}_{a} \cdot \underbrace{[8,1]}_{b} \cdot \underbrace{[4]}_{c} \cdot \underbrace{[6]}_{d} \cdot \underbrace{[9,2]}_{r}$ \\
 \end{tabular}
 \end{center}
 
 Bei dieser Unterteilung fällt sofort auf, dass der Sentinel \$ immer einen eigenen Bucket mit nur einem Eintrag zugeteilt bekommt, welcher immer am Anfang des SAs steht. Das Alphabet eines Strings $T$ wird hier in den meisten Fällen mit $\Sigma(T)$ angegeben und beinhaltet nicht den Sentinel.  \\
-Die gängigen Induzierer unterteilen jeden Bucket in zwei Sub-Buckets, in denen die Suffixe nach dem Kriterium eingeordnet werden, ob ihr zweites Symbol größer oder kleiner als ihr erste Symbol ist. Wir führen daher die folgende Notation ein für ein Suffix $S_i = T[i,n)$ (bzw. analog für die Stelle $T[i]$):
+Die gängigen Induzierer unterteilen jeden Bucket in zwei Sub-Buckets, in denen die Suffixe nach dem Kriterium eingeordnet werden, ob ihr zweites Symbol größer oder kleiner als ihr erste Symbol ist. Wir führen daher die folgende Notation ein für ein Suffix $\mathsf{S}_i$ (bzw. analog für die Stelle $T[i]$):
 
 \begin{itemize}
-\item Wir sagen $S_i$ ist ein \textit{S-Typ}, falls $T[i] < T[i+1]$ oder $T[i] = \$$ gilt.
-\item Wir sagen $S_i$ ist ein \textit{L-Typ}, falls $T[i] > T[i+1]$ gilt.
-\item Weiterhin haben $S_i$ und $S_{i+1}$ den selben Typ, falls $T[i] = T[i+1]$ gilt.
-\item Wir sagen $S_i$ für $i > 0$ ist ein \textit{LMS-Suffix} (Leftmost-S-Type-Suffix), falls $S_i$ ein S-Typ ist und $S_{i-1}$ ein L-Typ ist.
-\item Wir sagen $T[i,j]$ ist ein \textit{LMS-Substring}, falls $S_i$ und $S_j$ LMS-Suffixe sind oder $T[i,j] = \$$ gilt.
-\item Wir sagen es gilt Type($S_i$) = S, falls $S_i$ ein S-Typ ist (analog für L-Typen).
+\item Wir sagen $\mathsf{S}_i$ ist ein \textit{S-Typ}, falls $T[i] < T[i+1]$ oder $T[i] = \$$ gilt.
+\item Wir sagen $\mathsf{S}_i$ ist ein \textit{L-Typ}, falls $T[i] > T[i+1]$ gilt.
+\item Weiterhin haben $\mathsf{S}_i$ und $\mathsf{S}_{i+1}$ den selben Typ, falls $T[i] = T[i+1]$ gilt.
+\item Wir sagen $\mathsf{S}_i$ für $i > 0$ ist ein \textit{LMS-Suffix} (Leftmost-S-Type-Suffix), falls $\mathsf{S}_i$ ein S-Typ ist und $\mathsf{S}_{i-1}$ ein L-Typ ist.
+\item Wir sagen $T[i,j]$ ist ein \textit{LMS-Substring}, falls $\mathsf{S}_i$ und $\mathsf{S}_j$ LMS-Suffixe sind oder $T[i,j] = \$$ gilt.
+\item Wir sagen es gilt Type($\mathsf{S}_i$) = S, falls $\mathsf{S}_i$ ein S-Typ ist (analog für L-Typen).
 \end{itemize}
 
-Analog wird das Suffix $S_i$ in diesem Kontext auch als suf$(T,i)$ bezeichnet, wenn klar gemacht wird, um welchen String $T$ es sich handelt. Diese Unterscheidung kann bei Induzierern sehr wichtig sein, da sie für ihre Rekursionsinstanzen neue Strings erzeugen.
+Analog wird das Suffix $\mathsf{S}_i$ in diesem Kontext auch als suf$(T,i)$ bezeichnet, wenn klar gemacht wird, um welchen String $T$ es sich handelt. Diese Unterscheidung kann bei Induzierern sehr wichtig sein, da sie für ihre Rekursionsinstanzen neue Strings erzeugen.
 
-Induzierer unterteilen jeden Bucket nun in einen L- und einen S-Bucket. Dabei befinden sich in den L-Buckets alle Suffixe welche ein L-Typ sind -- analog für S-Buckets. Für alle Indizes $i,j$ mit $T[i] = T[j]$, so dass $S_i$ ein L-Typ und $S_j$ ein S-Typ ist, gilt, dass $i$ vor $j$ in SA vorkommt. Intuitiv formuliert kommt ein L-Bucket für das Symbol $\sigma$ also immer vor dem S-Bucket von $\sigma$, da die Suffixe im L-Bucket ein niedrigeres zweites Symbol enthalten als die Suffixe im S-Bucket. \\
-Dazu betrachten wir das Beispiel von oben, mit dem Text $T = abracadabra\$$ und dem dazugehörigen Suffixarray $SA(T) = [11, 10, 7, 0, 3, 5, 8, 1, 4, 6, 9, 2]$. Der $a$-Bucket besteht aus den Einträgen $[10,7,0,3,5]$, wie wir oben bereits gesehen haben, setzt sich aber aus dem L-Bucket $[10]$ und dem S-Bucket $[7,0,3,5]$ zusammen, da das Suffix $T[10,12) = a\$$ ein L-Typ ist, und alle anderen Suffixe S-Typen sind. \\
+Induzierer unterteilen jeden Bucket nun in einen L- und einen S-Bucket. Dabei befinden sich in den L-Buckets alle Suffixe welche ein L-Typ sind -- analog für S-Buckets. Für alle Indizes $i,j$ mit $T[i] = T[j]$, so dass $\mathsf{S}_i$ ein L-Typ und $\mathsf{S}_j$ ein S-Typ ist, gilt, dass $i$ vor $j$ in $\mathsf{SA}$ vorkommt. Intuitiv formuliert kommt ein L-Bucket für das Symbol $\sigma$ also immer vor dem S-Bucket von $\sigma$, da die Suffixe im L-Bucket ein niedrigeres zweites Symbol enthalten als die Suffixe im S-Bucket. \\
+Dazu betrachten wir das Beispiel von oben, mit dem Text $T = abracadabra\$$ und dem dazugehörigen Suffixarray $\mathsf{SA}(T) = [11, 10, 7, 0, 3, 5, 8, 1, 4, 6, 9, 2]$. Der $a$-Bucket besteht aus den Einträgen $[10,7,0,3,5]$, wie wir oben bereits gesehen haben, setzt sich aber aus dem L-Bucket $[10]$ und dem S-Bucket $[7,0,3,5]$ zusammen, da das Suffix $T[10,12) = a\$$ ein L-Typ ist, und alle anderen Suffixe S-Typen sind. \\
 Oft wird das erste Element eines Buckets als \textit{start} und das letzte Element eines Buckets als \textit{end} bezeichnet. \\
 
 Eine weitere gemeinsame Eigenschaft der Induzierer ist das Konzept, nach dem sie die Buckets jedes Suffixes ordnen. Sie ordnen dazu zuerst die LMS-Substrings in ihre jeweiligen Buckets ein. Wird dann erkannt, dass es zwei identische LMS-Substrings gibt, welche natürlich voneinander verschiedene LMS-Suffixe haben müssen, so werden diese mittels eines Rekursionsaufrufes und einer Umbenennung abhängig von ihren Positionen neu geordnet, so dass sich am Ende der Rekursion eine korrekte Ordnung der LMS-Substrings ergibt aus der sich auch die Ordnung der LMS-Suffixe herleiten lässt. \\
 Im Folgenden wird erklärt, wie aus der korrekten Ordnung der LMS-Substrings bzw. der LMS-Suffixe das gesamte SA induziert werden kann:
 \begin{itemize}
-\item \textbf{Einordnung der LMS-Typen in das SA}: Der Eingabestring wird von rechts nach links durchgelaufen und jeder LMS-Typ wird so weit rechts wie möglich in dem ihm zugehörigen S-Bucket platziert.
-\item \textbf{Erste Iterationsphase}: Das SA wird von links nach rechts durchgelaufen und von jedem Eintrag $i$ wird das Suffix an der Stelle $i-1$ überprüft. Ist dieses ein L-Typ, so wird es in den Bucket passend links eingeordnet.
-\item \textbf{Zweite Iterationsphase}: Das SA wird von rechts nach links durchgelaufen und von jedem Eintrag $i$ wird das Suffix an der Stelle $i+1$ überprüft. Ist dieses ein S-Typ, so wird es in den Bucket passend rechts eingeordnet.
+\item \textbf{Einordnung der LMS-Typen in $\mathsf{SA}$}: Der Eingabestring wird von rechts nach links durchgelaufen und jeder LMS-Typ wird so weit rechts wie möglich in dem ihm zugehörigen S-Bucket platziert.
+\item \textbf{Erste Iterationsphase}: $\mathsf{SA}$ wird von links nach rechts durchgelaufen und von jedem Eintrag $i$ wird das Suffix an der Stelle $i-1$ überprüft. Ist dieses ein L-Typ, so wird es in den Bucket passend links eingeordnet.
+\item \textbf{Zweite Iterationsphase}: $\mathsf{SA}$ wird von rechts nach links durchgelaufen und von jedem Eintrag $i$ wird das Suffix an der Stelle $i+1$ überprüft. Ist dieses ein S-Typ, so wird es in den Bucket passend rechts eingeordnet.
 \end{itemize}
 
 Es gibt dabei viele verschiedene Implementierungen dieses Vorgangs, welche von Algorithmus zu Algorithmus unterschiedlich sein können. Die größten Unterschiede dabei liegen hauptsächlich bei der Berechnung der Typen, welche entweder dynamisch berechnet werden können oder am Anfang berechnet und dann für spätere Aufrufe gespeichert werden können. Es lässt sich zeigen:

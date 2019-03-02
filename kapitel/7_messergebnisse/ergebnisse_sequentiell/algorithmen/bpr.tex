@@ -241,7 +241,7 @@ An den oben stehenden Diagrammen (\cref{fig-seq-bpr-0,fig-seq-bpr-1,fig-seq-bpr-
 Die auf dem Rechenknoten verfügbaren 64\,GB Hauptspeicher erlauben auf allen getesteten Eingabedateien im Falle der Referenzimplementierung eine maximale Größe von 1.6\,GB und im Falle der eigenen Implementierung maximal 3.2\,GB.
 Die größte getestete Eingabe mit einer Dateigröße von 4\,GB konnte durch die Beschränkung der Ressourcen und den hohen Bedarf an Hauptspeicher von keinem der beiden vorliegenden Algorithmen verarbeitet werden.
 Aus Gründen der Unterscheidbarkeit von BPR und BPR\_ref wurden in den Diagrammen die Messpunkte des naiven Algorithmus zum Vergleich ausgelassen.
-Die entsprechenden Werte sind den \cref{messung:tab:duration-large-seq-weak,messung:tab:mem-large-seq-weak} zu entnehmen.\par
+Die entsprechenden Werte sind den \cref{messung:tab:time-large-seq-weak,messung:tab:memory-large-seq-weak} zu entnehmen.\par
 Der Vergleich beider Algorithmen zeigt die aus der Theorie herleitbare und daher zu erwartende Struktur:
 Während der Speicherbedarf beider Algorithmen nahezu unabhängig von der Art der Eingabedatei ist, liegt der Bedarf der eigenen Implementierung für Dateien kleiner als 2\,GB etwas unter der der Referenzimplementierung, da letztere für jede Eingabegröße 64\,Bit Indizes für das Suffix-Array verwendet und somit auch für kleinere Eingaben große Suffix-Arrays verwendet.
 Zu beachten ist, dass an dieser Stelle im Gegensatz zu allen anderen Plots der Gesamtspeicherbedarf statt des Zusatzspeichers zum Vergleich herangezogen wurde.
