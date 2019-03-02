@@ -1,5 +1,5 @@
 \clearpage
-\subsubsection{SAIS/SADS}
+\subsubsection{SAIS/SADS/SACA-K}
 
 \textbf{Configuration} \hfill Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
 % IMPORT-DATA stats2 ../results.txt
@@ -252,3 +252,6 @@
 \FloatBarrier
 \currentauthor{Christopher Poeplau}
 \noindent Bei allen Laufzeiten fällt auf, dass das Laufzeitverhalten des SAIS-LITE\_ref mit Abstand am besten ist. Grund dafür sind die Optimierungstechniken auf Bit-Ebene, die Yuta Mori bei seiner Implementierung verwendet. Gleichzeitig ist der naive Algorithmus auf allen Texten schlechter als die Referenz- und Eigenimplementierungen. Außerdem bestätigt sich die Beobachtung der Autoren, dass der SADS grundsätzlich schlechter als der SAIS ist. Da die Referenzalgorithmen auf 32 Bit-Typen basieren, schaffen diese nicht das Berechnen der Suffix-Arrays für eine Dateigröße bis zu 4 GB. Beim Extraspeicher ist die Abhängigkeit der Textgröße leicht zu sehen, da für jedes Zeichen der Typ in ein eigenes Bit-Array gespeichert wird und der Tradeoff des SAIS-LITE\_ref wird deutlich, da die deutlich verbesserte Laufzeit dafür sorgt, dass der Extraspeicher der höchste aller verglichenen Algorithmen ist.
+
+\currentauthor{Jonas Bode}
+\noindent Die Referenzimplementierung des SACA-K schneidet sowohl bei den Laufzeit- und den Speicherplatzverbrauchmessungen sehr gut ab. Der Grund dafür ist, dass weder in den Haupt- noch den Rekursionsinstanzen des Algorithmus Extraspeicher abhängig von der Textgröße allokiert und immer wieder ausgelesen werden muss. Viele der Berechnungen finden stattdessen \textit{on-the-fly} statt oder Pointer werden sehr schlau in dem Speicher des SAs zwischengespeichert. Leider ist genau diese letztere Methode noch nicht effizient in unserer Implementierung des SACA-K vorhanden, weshalb die Laufzeit zwar trotzdem besser ist als die der SAIS-Implementierung, aber beim Speicherverbrauch noch Optimierung nötig ist, da genau dies eine der wichtigsten Features des SACA-K ist.
