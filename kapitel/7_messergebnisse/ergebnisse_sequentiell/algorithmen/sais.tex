@@ -1,5 +1,5 @@
 \clearpage
-\subsubsection{SAIS/SADS}
+\subsubsection{SAIS/SADS/SACA-K}
 
 \textbf{Configuration} \hfill Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
 % IMPORT-DATA stats2 ../results.txt
@@ -43,6 +43,8 @@
             \addlegendentry{algo=SAIS};
             \addplot coordinates { (0.195312,1.43722) (0.390625,3.29104) (0.78125,7.28537) (1.5625,15.3998) };
             \addlegendentry{algo=SAIS\_ref};
+            \addplot coordinates { (0.195312,0.629496) (0.390625,1.34884) (0.78125,2.8182) (1.5625,5.80588) };
+            \addlegendentry{algo=SAIS-LITE\_ref};
 
         \end{axis}
         \begin{axis}[
@@ -77,6 +79,9 @@
             \addlegendentry{algo=SAIS};
             \addplot coordinates { (0.195312,0.0745086) (0.390625,0.141785) (0.78125,0.269095) (1.5625,0.499429) };
             \addlegendentry{algo=SAIS\_ref};
+            \addplot coordinates { (0.195312,0.781254) (0.390625,1.5625) (0.78125,3.125) (1.5625,6.25) };
+            \addlegendentry{algo=SAIS-LITE.ref};
+
 
             \legend{}
         \end{axis}
@@ -125,6 +130,8 @@
             \addlegendentry{algo=SAIS};
             \addplot coordinates { (0.195312,1.42846) (0.390625,3.10626) (0.78125,6.79781) (1.5625,14.4639) };
             \addlegendentry{algo=SAIS\_ref};
+            \addplot coordinates { (0.195312,0.670052) (0.390625,1.33189) (0.78125,2.71512) (1.5625,6.05679) };
+            \addlegendentry{algo=SAIS-LITE.ref};
 
         \end{axis}
         \begin{axis}[
@@ -159,6 +166,8 @@
             \addlegendentry{algo=SAIS};
             \addplot coordinates { (0.195312,0.0708514) (0.390625,0.124751) (0.78125,0.235499) (1.5625,0.481298) };
             \addlegendentry{algo=SAIS\_ref};
+            \addplot coordinates { (0.195312,0.781254) (0.390625,1.5625) (0.78125,3.125) (1.5625,6.25) };
+            \addlegendentry{algo=SAIS-LITE.ref};
 
             \legend{}
         \end{axis}
@@ -207,6 +216,8 @@
             \addlegendentry{algo=SAIS};
             \addplot coordinates { (0.195312,1.11668) (0.390625,2.64403) (0.78125,5.9169) (1.5625,13.0888) };
             \addlegendentry{algo=SAIS\_ref};
+            \addplot coordinates { (0.195312,0.508704) (0.390625,1.10213) (0.78125,2.28537) (1.5625,4.91103) };
+            \addlegendentry{algo=SAIS-LITE.ref};
 
         \end{axis}
         \begin{axis}[
@@ -241,6 +252,8 @@
             \addlegendentry{algo=SAIS};
             \addplot coordinates { (0.195312,0.0728221) (0.390625,0.140844) (0.78125,0.26491) (1.5625,0.498627) };
             \addlegendentry{algo=SAIS\_ref};
+            \addplot coordinates { (0.195312,0.781254) (0.390625,1.5625) (0.78125,3.125) (1.5625,6.25) };
+            \addlegendentry{algo=SAIS-LITE.ref};
 
             \legend{}
         \end{axis}
@@ -252,3 +265,6 @@
 \FloatBarrier
 \currentauthor{Christopher Poeplau}
 \noindent Bei allen Laufzeiten fällt auf, dass das Laufzeitverhalten des SAIS-LITE\_ref mit Abstand am besten ist. Grund dafür sind die Optimierungstechniken auf Bit-Ebene, die Yuta Mori bei seiner Implementierung verwendet. Gleichzeitig ist der naive Algorithmus auf allen Texten schlechter als die Referenz- und Eigenimplementierungen. Außerdem bestätigt sich die Beobachtung der Autoren, dass der SADS grundsätzlich schlechter als der SAIS ist. Da die Referenzalgorithmen auf 32 Bit-Typen basieren, schaffen diese nicht das Berechnen der Suffix-Arrays für eine Dateigröße bis zu 4 GB. Beim Extraspeicher ist die Abhängigkeit der Textgröße leicht zu sehen, da für jedes Zeichen der Typ in ein eigenes Bit-Array gespeichert wird und der Tradeoff des SAIS-LITE\_ref wird deutlich, da die deutlich verbesserte Laufzeit dafür sorgt, dass der Extraspeicher der höchste aller verglichenen Algorithmen ist.
+
+\currentauthor{Jonas Bode}
+\noindent Die Referenzimplementierung des SACA-K schneidet sowohl bei den Laufzeit- und den Speicherplatzverbrauchmessungen sehr gut ab. Der Grund dafür ist, dass weder in den Haupt- noch den Rekursionsinstanzen des Algorithmus Extraspeicher abhängig von der Textgröße allokiert und immer wieder ausgelesen werden muss. Viele der Berechnungen finden stattdessen \textit{on-the-fly} statt oder Pointer werden sehr schlau in dem Speicher des SAs zwischengespeichert. Leider ist genau diese letztere Methode noch nicht effizient in unserer Implementierung des SACA-K vorhanden, weshalb die Laufzeit zwar trotzdem besser ist als die der SAIS-Implementierung, aber beim Speicherverbrauch noch Optimierung nötig ist, da genau dies eine der wichtigsten Features des SACA-K ist.

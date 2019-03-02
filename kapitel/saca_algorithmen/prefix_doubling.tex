@@ -1,4 +1,5 @@
 \section{Prefix-Doubling}
+\label{chapter:saca:doubling}
 
 \subsection{Einleitung}
 
@@ -379,6 +380,7 @@ Dies hat auch Auswirkungen auf den Sortieralgorithmus und die Anwendbarkeit des 
 Dies verhindert jedoch ein direktes Anwenden des Pipelining-Ansatzes im vorgestellen Sinne, da die Sortierschritte in den Algorithmen nicht mehr als Stream-akzeptierend bzw. -erzeugend betrachtet werden können. Aufgrund des Fehlens von IO-Operationen auf externen Speicher hat dies allerdings auch geringe Auswirkungen. In \cref{algo:doubling:sec:usedoptimizations} nutzen wir stattdessen die Pipelining-Idee dafür, den Speicherverbrauch der Arrays stark zu senken.
 
 \subsubsection{Umsetzung}
+\label{chapter:saca:doubling:memory}
 
 Die Implementierung besteht aus einer C++-Klasse, die über dem benutzten \texttt{sa\_index}-Typ und der Tupelgröße \texttt{a} gemäß des $a$-Tuplings templatisiert ist.
 
