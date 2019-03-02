@@ -62,7 +62,7 @@ in order to measure and compare them fairly.
 \begin{figure}[!h]
     \centering
     \includegraphics[width=\textwidth]{kapitel/1_extended_abstract/tudostat_example.png}
-    \caption{Example of runtime and memory consumption of the phases of DivSufSort, measured by \sacabench and visualized on the tudostat website.}
+    \caption{Example of runtime and memory consumption of the phases of DivSufSort, measured by \sacabench and visualized on the tudostat website~\cite{tudostat}.}
     \label{ea:phases}
 \end{figure}
 
@@ -76,7 +76,7 @@ using the \termfont{-c} or a parrallel version with the \termfont{-q} flag.
 To generate a JSON file containing detailed information about the run of the selected Algorithm separated into SACA-specific phases,
 the flag \termfont{-b} needs to be added to the command, followed by a destination path to which the report will be saved to.
 To override an existing file at the destination path, the option \termfont{-f} can be used.
-This file can be converted to a plot on the tudostat website (see Figure \ref{ea:phases} as an example).
+This file can be converted to a plot on the tudostat website~\cite{tudostat} (see Figure \ref{ea:phases} as an example).
 If you add the flag \termfont{-{}-rplot}, a plot will be generated automatically after the SACA executed by using a R-script.
 Additionally there is an alternative version of plots, which are generated using LaTex.
 This can be done by adding the flag \termfont{-{}-latexplot}.
