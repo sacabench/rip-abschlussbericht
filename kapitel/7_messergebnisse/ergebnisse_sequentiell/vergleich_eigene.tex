@@ -2,7 +2,7 @@
 % IMPORT-DATA results_sequential results.txt
 
 \begin{figure}[ht]
-    \textbf{Configuration} \hfill Input file: wiki.txt \hfill Prefix size: 1600\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
+    \textbf{Configuration} \currentauthor{Johannes Bahne} \hfill Input file: wiki.txt \hfill Prefix size: 1600\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
     \centering\small
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[batchTimePlot,
@@ -132,7 +132,7 @@
     \medskip
     \ref{runtime-all-0}
     \caption{Vergleich der sequentiellen Implementierungen mit Laufzeit und Speicherbedarf auf wiki.txt}
-    \label{runtime-all-0}
+    \label{fig:runtime-all-0}
 \end{figure}
 
 \begin{figure}[ht]
@@ -266,7 +266,7 @@
     \medskip
     \ref{runtime-all-1}
     \caption{Vergleich der sequentiellen Implementierungen mit Laufzeit und Speicherbedarf auf dna.txt}
-    \label{runtime-all-1}
+    \label{fig:runtime-all-1}
 \end{figure}
 
 \begin{figure}[ht]
@@ -388,7 +388,7 @@
     \medskip
     \ref{runtime-all-2}
     \caption{Vergleich der sequentiellen Implementierungen mit Laufzeit und Speicherbedarf auf commoncrawl.txt}
-    \label{runtime-all-2}
+    \label{fig:runtime-all-2}
 \end{figure}
 \FloatBarrier
 
@@ -400,7 +400,7 @@
 %
 %****************************************************************************************
 
-In den \cref{runtime-all-0,runtime-all-1,runtime-all-2} sind die Laufzeiten und der jeweilige zusätzliche Speicherbedarf der Implementierungen der Projektgruppe festgehalten. Dabei wurden die Algorithmen auf den drei Eingabetexten \texttt{wiki.txt}, \texttt{dna.txt} und \texttt{commoncrawl.txt} mit jeweils eine Größe von $1,6$ GiB ausgewertet.
+In den \cref{fig:runtime-all-0,fig:runtime-all-1,fig:runtime-all-2} sind die Laufzeiten und der jeweilige zusätzliche Speicherbedarf der Implementierungen der Projektgruppe festgehalten. Dabei wurden die Algorithmen auf den drei Eingabetexten \texttt{wiki.txt}, \texttt{dna.txt} und \texttt{commoncrawl.txt} mit jeweils eine Größe von $1,6$ GiB ausgewertet.
 
 Auffällig ist, dass der BPR die beste Laufzeit aller von der Projektgruppe umgesetzten Implementierungen auf den drei Eingabetexten aufweist - dicht gefolgt von SACA-K, der jeweils den zweiten Platz bezüglich der Laufzeit belegen. Dem gegenüber stehen der DivSufSort und der Doubling, die jeweils den vorletzten, bzw. letzten Platz belegen.
 

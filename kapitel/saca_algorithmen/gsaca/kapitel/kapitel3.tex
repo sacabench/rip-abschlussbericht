@@ -1,4 +1,3 @@
-\newpage
 \subsection{Suffix Array Konstruktion am Beispiel Banane}
 \label{gsaca:chapter3}
 %
@@ -84,35 +83,35 @@ In diesem Beispiel werden hierfür 5 Iterationen durchlaufen.\\
 Iteration 1:\\
 Schritt 1: Die Abläufe der Phase 2 können an einer ähnlichen Tabelle visualisiert werden, wie dies bei Phase 1 der Fall war.
 Die untere Hälfte der Tabelle enthält, genau wie die in Phase 1, das betrachtete Wort Banane und die Indices der Buchstaben. 
-Die obere Hälfte besteht aus den Gruppen und Gruppenkontexten, wie sie aus Phase 1 übernommen wurden und aus der Liste SA. 
+Die obere Hälfte besteht aus den Gruppen und Gruppenkontexten, wie sie aus Phase 1 übernommen wurden und aus der Liste \sa. 
 Diese enthält den Index des ersten Buchstaben des Suffixes.
-Wie zuvor beschrieben, werden in dieser Phase die Werte von SA von links nach rechts durchlaufen, beginnend mit der ersten Gruppe, in diesem Beispiel also mit der Gruppe \textit{\$} an Index 7. 
+Wie zuvor beschrieben, werden in dieser Phase die Werte von \sa von links nach rechts durchlaufen, beginnend mit der ersten Gruppe, in diesem Beispiel also mit der Gruppe \textit{\$} an Index 7. 
 Die Tabelle und die einzelnen Schritte dieser Iteration sind in Tabelle \ref{fig_banane_2_1} gezeigt. 
 Die aktuell betrachtete Gruppe ist durch grünen Hintergrund gekennzeichnet. \\
 Schritt 2: Es wird das Zeichen \textit{\$} an Position 7 im Wort Banane betrachtet. 
 Auch die aktuell bearbeitete Position ist durch grüne Farbe hervorgehoben. \\
-Schritt 3: Um das nächste Element von SA zu bestimmen wird der direkte Vorgänger dieses Zeichens untersucht. 
+Schritt 3: Um das nächste Element von \sa zu bestimmen wird der direkte Vorgänger dieses Zeichens untersucht. 
 Dabei bezieht sich diese Iteration also auf das Element 6, welches in der Zelle mit blauem Hintergrund zu sehen ist. \\
 Schritt 4: Von diesem Element ausgehend werden die \prevpointer aus Phase 1 durchlaufen bis das letzte Element dieser Liste gefunden ist. 
 Das Vorgängerelement von dem Zeichen \textit{e} an Index 6, also das Zeichen, auf das der \prevpointer von \textit{e} zeigt, ist das Zeichen \textit{a} an Index 4. 
 Dieses wiederum hat einen \prevpointer auf das Zeichen \textit{a} an Index 2. 
-Die betrachteten Indices, die in der Tabelle rot hinterlegt sind, werden in die Liste SA übertragen. 
+Die betrachteten Indices, die in der Tabelle rot hinterlegt sind, werden in die Liste \sa übertragen. 
 Somit enthält diese am Ende der ersten Iteration drei weitere Indices, welche durch gelben Hintergrund hervorgehoben sind. \\
 
 Iteration 2:\\
-Schritt 1: In diesem Durchlauf wird das zweite Element in SA betrachtet, dies ist Index 2.\\
+Schritt 1: In diesem Durchlauf wird das zweite Element in \sa betrachtet, dies ist Index 2.\\
 Schritt 2: Es wird dieser Index im Wort betrachtet.\\
 Schritt 3: Der Vorgänger des Buchstaben \textit{a} an Index 2 ist das Zeichen \textit{b} an Index 1. 
 Da \textit{b} kein vorheriges Element hat, der \prevpointer also auf kein Element zeigt, endet diese Iteration hier. 
-Der Index von Zeichen \textit{b} wird in SA eingetragen. Das Ergebnis lässt sich in Tabelle \ref{fig_banane_2_2} sehen.\\
+Der Index von Zeichen \textit{b} wird in \sa eingetragen. Das Ergebnis lässt sich in Tabelle \ref{fig_banane_2_2} sehen.\\
 
 Iteration 3: \\
-Schritt 1: Als nächstes wird das dritte Element von SA untersucht. 
+Schritt 1: Als nächstes wird das dritte Element von \sa untersucht. 
 Aus der Tabelle \ref{fig_banane_2_3} lässt sich erkennen, dass dies das Element an Index 4 ist.\\
 Schritt 2: Das Zeichen an dem betrachteten Index ist \textit{a}.\\
 Schritt 3: Der Vorgänger von \textit{a} an Index 4 ist \textit{n} an Index 3.\\
 Schritt 4: Der \prevpointer von \textit{n} an Index 3 zeigt auf das \textit{a} an Index 2. 
-Der Index 2 ist bereits in SA enthalten, Index 3 aber noch nicht, daher wird dieser in die Liste aufgenommen.\\
+Der Index 2 ist bereits in \sa enthalten, Index 3 aber noch nicht, daher wird dieser in die Liste aufgenommen.\\
 
 Iteration 4: \\
 Wie sich in der Tabellen \ref{fig_banane_2_4} sehen lässt, wird das Zeichen an Index 1 betrachtet. 
@@ -126,10 +125,10 @@ Schritt 3: Es wird der Vorgänger von diesem Zeichen betrachtet.
 Die Tabelle zu dieser Iteration, Tabelle \ref{fig_banane_2_5}, zeigt, dass dies das Zeichen \textit{n} an Index 5 ist.\\
 Schritt 4: Dieses Zeichen hat einen Zeiger auf das Vorgängerelement \textit{a} an Index 4. 
 Wie in einer vorherigen Iteration hat dieses \textit{a} einen Zeiger auf das Zeichen \textit{a} an Index 2. 
-Da die Zeichen an Index 4 und 2 bereits in der Liste SA enthalten sind, wird in diesem Schritt nur der Index 5 zu dieser Liste hinzugefügt. 
+Da die Zeichen an Index 4 und 2 bereits in der Liste \sa enthalten sind, wird in diesem Schritt nur der Index 5 zu dieser Liste hinzugefügt. 
 Somit ist die Liste vollständig gefüllt.\\
 
-In diesem einfachen und kurzen Beispiel weicht die Liste der Gruppen, welche das Ergebnis von Phase 2 ist, nicht von der Liste SA ab.
+In diesem einfachen und kurzen Beispiel weicht die Liste der Gruppen, welche das Ergebnis von Phase 2 ist, nicht von der Liste \sa ab.
 Dies ist jedoch nicht immer der Fall, vor allem in längeren und komplexeren Beispielen unterscheiden sich diese teilweise. 
 Diese Unterschiede werden bei der Berechnung des Suffix-Arrays für das Wort \textit{caabaccaabacaa} in Kapitel \ref{gsaca:chapter6} deutlich. 
 Je mehr Gruppen mit mehr als einem Index existieren, umso häufiger kann die Reihenfolge der Indices innerhalb dieser Gruppe gewechselt werden. 

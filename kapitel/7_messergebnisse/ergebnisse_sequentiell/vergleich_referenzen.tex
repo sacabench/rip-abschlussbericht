@@ -308,8 +308,10 @@
 \end{figure}
 \FloatBarrier
 
-In diesem Kapitel werden die sequentiellen Referenzimplementierungen miteinander verglichen. Wie im vorherigen Abschnitt, sind die Implementierungen auf demselben Messsystem mit denselben Eingabetexten getestet worden.
+In \currentauthor{Johannes Bahne} diesem Kapitel werden die sequentiellen Referenzimplementierungen miteinander verglichen. Wie im vorherigen Abschnitt, sind die Implementierungen auf demselben Messsystem mit denselben Eingabetexten getestet worden.
 
-Auf den Testdaten \texttt{wiki.txt} und \texttt{commoncrawl.txt} weisen die besten Laufzeiten die Implementierungen der DivSufSort\_ref und SAIS-LITE\_ref auf. Auf dem repetitiven Text \texttt{dna.txt} liegt der Deep-Shallow\_ref jedoch auf dem zweiten Platz. Die schlechtesten Algorithmen bezüglich der Laufzeit sind der DC3\_ref und der SADS\_ref.
+Auf den Testdaten \texttt{wiki.txt} und \texttt{commoncrawl.txt} weisen die besten Laufzeiten die Implementierungen der DivSufSort\_ref und SAIS-LITE\_ref auf. Auf dem repetitiven Text \texttt{dna.txt} liegt der Deep-Shallow\_ref jedoch auf dem zweiten Platz. Die schlechtesten Algorithmen in dieser Auswertung bezüglich der Laufzeit sind der DC3\_ref und der SADS\_ref.
 
 Die Referenzimplementierungen teilen sich im zusätzlichen Speicherverbrauch in zwei Gruppen auf - die, die so gut wie garkeinen Extra-Speicher benötigen und die, die relativ viel Extra-Speicher verbrauchen. Zu der ersten Gruppe gehören die Implementierungen DivSufSort\_ref, Deep-Shallow\_ref, SACA-K\_ref, SAIS\_ref und SADS\_ref. Zu der zweiten Gruppe zählen DC3\_ref, BPR\_ref, qSufSort\_ref und GSACA\_ref. Diese Reihenfolge ist unabhängig der Testdaten.
+
+Auch zu den Referenzimplementierungen können weitere Informationen dem \cref{anhang:messwerte:smallfiles} entnommen werden.
