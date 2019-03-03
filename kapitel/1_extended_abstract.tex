@@ -9,7 +9,7 @@
 \newtheorem*{abstract}{Abstract}
 
 \begin{abstract}
-    Efficient construction of the \emph{suffix array} (SA) is a still ongoing research area.
+    Efficient construction of the \emph{suffix array} (\sa) is a still ongoing research area.
     We introduce SACABench, a benchmark system for comparing the runtime
     and memory consumption of \emph{suffix array construction algorithms} (SACAs).
     Along with this framework we include the reference implementations for many SACAs,
@@ -33,15 +33,15 @@ While the efficient construction is still an active research area,
 divsufsort~\cite{saca:5,saca:5:repo} is the empirically fastest
 suffix array construction algorithm (SACA) since 2008,
 even though it has a theoretical complexity of $\mathcal O (n \log n)$,
-while there are some $\mathcal O(n)$ algorithms available.
+while there are several $\mathcal O(n)$ algorithms (for example SAIS\cite{saca:6} and DC3~\cite{saca:9}) available.
 
 For the last year we (re-)implemented eleven SACAs~\cite{saca:3,saca:11,saca:5,saca:9,saca:1,saca:8,saca:4,saca:7,saca:10,saca:6,saca:2}
-in modern C++ in order to create faster and more memory efficient implementations,
-and \todo{diese Randbemerkung vllt weglassen}although our attempts were mostly not successful,
-we created a sophisticated benchmark framework for SACAs, \emph{\sacabench}~\cite{sacabench:github}, in the process.
-
-In this paper we introduce \sacabench and highlight its features,
+in modern C++ in order to create faster and more memory efficient implementations.
+In the process we created a sophisticated benchmark framework for SACAs, \emph{\sacabench}~\cite{sacabench:github}.
+In this paper we introduce our framework and highlight its features,
 as well as document some of the optimiziation strategies we used to implement the SACAs.
+In the end we give an overview and performance comparison of the popular SACAs,
+as well as the current landshape of parallel SACAs.
 
 \section{Benchmark Tool}
 
@@ -164,7 +164,7 @@ These methods can be classified into the categories \emph{inducing} and \emph{do
 %
 \paragraph{Inducing} %
 There are different methods of inducing but they mostly operate by similar principles.
-When the rank of a suffix $i$ (that is the position of $i$ in the SA) is known,
+When the rank of a suffix $i$ (that is the position of $i$ in the \sa) is known,
 it is possible to deduce the rank of other suffixes $j$.
 
 The easiest to understand usecase for this is when using buckets.
@@ -226,7 +226,7 @@ The different SACAs are divided into the three classes described above.
 We now briefly explain the shown algorithms and their differences.
 
 Prefix Doubling is a SACA which works purely by the above described method \emph{Doubling}.
-In every iteration the SA is refined and double the amount of characters are considered for sorting.
+In every iteration the \sa is refined and double the amount of characters are considered for sorting.
 This directly influenced qSufSort, which improved its performance by using the \isa (inverse suffix arary) 
 and subdividing suffixes into sorted and unsorted groups. 
 BPR incorporated some ideas of inducing with prefix doubling and is therefore on the edge of those two paradigms.
@@ -258,7 +258,7 @@ Keep in mind that since the 40- and 48-bit types are not standardized, their per
 \subsection{Cache-efficiency}
 
 The most crucial part of optimizing a SACA is cache-efficiency, that is aiming for time-local and space-local memory access.
-Since the SA is a pseudo-random mutation of numbers, the SA can't be written cache-efficiently.
+Since the \sa is a pseudo-random mutation of numbers, it can't be written cache-efficiently.
 However, when implementing SACAs, avoiding unnecessary cache misses can significantly improve performance.
 
 \subsection{Wordpacking}
@@ -312,7 +312,7 @@ We therefore chose the best option for the required use-case.
             xticklabel pos=upper,
             title={},
             bar width=12pt,
-            ylabel={SA construction time [min]},
+            ylabel={\sa construction time [min]},
             legend style={
                 /tikz/every even column/.append style={column sep=0.5cm,black},
                 /tikz/every even column/.append style={black},
@@ -413,7 +413,7 @@ We therefore chose the best option for the required use-case.
             xticklabel pos=upper,
             title={},
             bar width=12pt,
-            ylabel={SA construction time [min]},
+            ylabel={\sa construction time [min]},
             legend style={
                 /tikz/every even column/.append style={column sep=0.5cm,black},
                 /tikz/every even column/.append style={black},
@@ -518,7 +518,7 @@ We therefore chose the best option for the required use-case.
             xticklabel pos=upper,
             title={},
             bar width=12pt,
-            ylabel={SA construction time [min]},
+            ylabel={\sa construction time [min]},
             legend style={
                 /tikz/every even column/.append style={column sep=0.5cm,black},
                 /tikz/every even column/.append style={black},
