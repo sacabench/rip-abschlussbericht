@@ -608,12 +608,22 @@ We therefore chose the best option for the required use-case.
 
 \section{Conclusion}
 
-We introduced SACABench, an extensive framework for benchmarking and comparing suffix array construction algorithms.
-It includes a large set of publicly available SACAs and simplifies the comparison of these with new SACAs.
-The code is written in modern C++ and well documented and can therefore be helpful in understanding the algorithms.
+We introduced \sacabench, an extensive framework for benchmarking and comparing suffix array construction algorithms.
+It includes a large set of publicly available SACAs as well as re-implementations%
+\footnote{These re-implementations should be easier to understand than the reference implementations since they are heavily commented and written in modern C++.}
+of these SACAs and simplifies the evaluation of new SACAs.
+The code is written in modern C++ and well documented and can therefore be helpful in understanding the included algorithms.
 We also include several parallel SACAs as well as parallel reference implementations.
+In our evaluation we compared the performance of the SACAs on different texts of different type and size.
+We can confirm divsufsort's dominance on most of the tested texts.
 
-In our evaluation we confirmed divsufsorts dominance on most of the tested texts.
+Our parallel implementations scale well up to 20 CPU cores and the GPU-SACA (Osipov/Prefix Doubling) is faster than the parallel divsufsort.
+We show that shared-memory parallelization is a fruitful approach to suffix sorting
+and can be used to accelerate construction of medium to large size suffix arrays.
+Since there are some texts on which the \sa can't be calculated by any of our included algorithms\todo{Sicherstellen, dass die Tabelle iwo steht},
+there is definitly area to improve in the future.
+Since GPUs evolve much more quickly and stronger than modern CPUs
+but the amount of GPU-parallel SACAs is still small, there is much room for improvement.
 
 % ###
 % End of extended abstract, switch language to german again
