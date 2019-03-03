@@ -28,10 +28,8 @@
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="wiki.txt" AND sacheck="ok"
-            %% AND (algo="DC3-Parallel-V1" OR algo="DC3-Parallel-V2" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
+            %% AND (algo="DC3-Parallel-V2" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,3.58176) (2,4.88889) (4,6.04923) (8,8.31838) };
-            \addlegendentry{algo=DC3-Parallel-V1};
             \addplot coordinates { (1,3.09365) (2,4.11916) (4,5.55123) (8,7.75629) };
             \addlegendentry{algo=DC3-Parallel-V2};
             \addplot coordinates { (1,0.474964) (2,0.890462) (4,1.72981) (8,3.69632) };
@@ -69,10 +67,8 @@
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="wiki.txt" AND sacheck="ok"
-            %% AND (algo="DC3-Parallel-V1" OR algo="DC3-Parallel-V2" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
+            %% AND (algo="DC3-Parallel-V2" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,4.16667) (2,8.33334) (4,16.6667) (8,33.3334) };
-            \addlegendentry{algo=DC3-Parallel-V1};
             \addplot coordinates { (1,3.10468) (2,8.33334) (4,16.6667) (8,31.9445) };
             \addlegendentry{algo=DC3-Parallel-V2};
             \addplot coordinates { (1,0.000246726) (2,0.000247501) (4,0.000249021) (8,0.000252061) };
@@ -122,10 +118,8 @@
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="dna.txt" AND sacheck="ok"
-            %% AND (algo="DC3-Parallel-V1" OR algo="DC3-Parallel-V2" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
+            %% AND (algo="DC3-Parallel-V2" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,3.41659) (2,4.59337) (4,5.73644) (8,7.96244) };
-            \addlegendentry{algo=DC3-Parallel-V1};
             \addplot coordinates { (1,3.02187) (2,3.97795) (4,5.28252) (8,7.08082) };
             \addlegendentry{algo=DC3-Parallel-V2};
             \addplot coordinates { (1,0.516853) (2,1.01441) (4,2.06209) (8,4.53356) };
@@ -164,10 +158,8 @@
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="dna.txt" AND sacheck="ok"
-            %% AND (algo="DC3-Parallel-V1" OR algo="DC3-Parallel-V2" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
+            %% AND (algo="DC3-Parallel-V2" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,4.16667) (2,8.33334) (4,16.6667) (8,33.3334) };
-            \addlegendentry{algo=DC3-Parallel-V1};
             \addplot coordinates { (1,3.05641) (2,8.33334) (4,16.6667) (8,33.3333) };
             \addlegendentry{algo=DC3-Parallel-V2};
             \addplot coordinates { (1,0.000246726) (2,0.000247501) (4,0.000249021) (8,0.000252061) };
@@ -217,10 +209,8 @@
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
-            %% AND (algo="DC3-Parallel-V1" OR algo="DC3-Parallel-V2" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
+            %% AND (algo="DC3-Parallel-V2" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,3.47621) (2,5.01502) (4,6.10537) (8,8.42083) };
-            \addlegendentry{algo=DC3-Parallel-V1};
             \addplot coordinates { (1,2.95908) (2,3.97025) (4,5.25151) (8,7.6797) };
             \addlegendentry{algo=DC3-Parallel-V2};
             \addplot coordinates { (1,0.438349) (2,0.817589) (4,1.57076) (8,3.18317) };
@@ -259,10 +249,8 @@
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
-            %% AND (algo="DC3-Parallel-V1" OR algo="DC3-Parallel-V2" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
+            %% AND (algo="DC3-Parallel-V2" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,4.16667) (2,8.33334) (4,16.6667) (8,33.3334) };
-            \addlegendentry{algo=DC3-Parallel-V1};
             \addplot coordinates { (1,3.11898) (2,8.33334) (4,16.6667) (8,33.3334) };
             \addlegendentry{algo=DC3-Parallel-V2};
             \addplot coordinates { (1,0.000246726) (2,0.000247501) (4,0.000249021) (8,0.000252061) };
@@ -289,3 +277,8 @@
     \ref{legend-par-dc-2}
 \end{figure}
 \FloatBarrier
+
+In \currentauthor{Johannes Bahne} \cref{fig-par-dc-0,fig-par-dc-1,fig-par-dc-2} sind die Implementierungen, die in dem \sacabench Framework umgesetzt worden sind, miteinander verglichen worden, die auf dem \emph{Difference Cover} basieren.
+Dabei ist der DC3-Parallel-V2 die Variante des parallelen DC3 mit naiver Parallelisierung der ersten beiden Phasen und die Implementierung des siebten Theorems, das in \cref{dc3-parallel} näher erläutert worden ist, für die dritte Phase.
+
+Die Laufzeiten des DC3-Parallel-V2 ist auf allen getesteten Eingaben größer als die des DivSufSort\_par\_ref. Aber auf Testdatensatz \texttt{commoncrawl.txt} ist der DC3-Parallel-V2 schneller als der naive parallele Sortierer und belegt den zweiten Platz vor dem naiv parallelen Algorithmus, dem DC3 und dem DC3\_ref. Der zusätzliche Speicherbrauch des DC3-Parallel-V2 ist jedoch größer als bei dem sequentiellen DC3, aber besser als der Speicherbrauch der Referenzimplementierung des DC3. Dass die Algorithmen DC3, DC3\_ref und DC3-Parallel-V2 ab der Eingabegröße von $2{,}4$ GiB abbrechen, liegt daran, dass das Speicherlimit des Messsystems mit diesen Algorithmen überschritten werden. Auffällig ist auch, dass der DC3-Parallel-V2 bezüglich der Laufzeit gut skaliert. Das heißt, dass die Laufzeit nur gering ansteigt, bei Verwendung mehrerer Threads proportional zur Vergrößerung der Eingabegröße.

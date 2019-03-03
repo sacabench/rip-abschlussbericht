@@ -1,15 +1,15 @@
 \subsubsection{DC7}
 \label{dc7}
 
-Wie in \cref{dc3:vorueberlegungen}, ist nicht nur ein Difference Cover modulo $3$ möglich, sondern auch zum Beispiel modulo $7, 13, 21$ und $31$. Im Rahmen der Projektgruppe \emph{SACABench} wurde zusätzlich zum \emph{DC3} auch der \emph{DC7} implementiert. Dafür werden jedoch ein paar Änderungen an dem Algorithmus vorgenommen, die der wissenschaftlichen Arbeit von Juha Kärkkäinen, Peter Sanders und Stefan Burkhardt entnommen worden ist \cite{dc3:new}. Für den \emph{DC7}-Algorithmus verwenden wir das Difference-Cover \(D\) $=$ \{1, 2, 4\}.
+Wie in \cref{dc3:vorueberlegungen}, ist nicht nur ein \emph{Difference Cover} modulo $3$ möglich, sondern auch zum Beispiel modulo $7, 13, 21$ und $31$. Im Rahmen der Projektgruppe \emph{SACABench} wurde zusätzlich zum \emph{DC3} auch der \emph{DC7} implementiert. Dafür werden jedoch ein paar Änderungen an dem Algorithmus vorgenommen, die der wissenschaftlichen Arbeit von Juha Kärkkäinen, Peter Sanders und Stefan Burkhardt entnommen worden ist \cite{dc3:new}. Für den \emph{DC7}-Algorithmus verwenden wir das \emph{Difference Cover} \(D\) $=$ \{1, 2, 4\}.
 
 \subparagraph*{Erste Phase}
 
 Die erste Phase ist analog zu der ersten Phase des \emph{DC3}-Algorithmus. Hier werden die Septets $\inputtext[i,i+6]$ an den Positionen $i \text{ modulo } 7 \in \{1, 2, 4\}$ aufsteigend sortiert. Anschließend werden lexikographische Namen vergeben und diese so umsortiert, dass die Ordnung der Septets beibehalten wird.
 \begin{center}
-	$\mathsf{T}_{124} = [t_i : i \text{ modulo } 7 = 1] \circ [t_i : i \text{ modulo } 7 = 2] \circ [t_i : i \text{ modulo } 7 = 4]$ 
+	$\mathsf{T}_{124} = [t_i \mid i \text{ modulo } 7 = 1] \circ [t_i \mid i \text{ modulo } 7 = 2] \circ [t_i \mid i \text{ modulo } 7 = 4]$ 
 \end{center}
-Wenn die lexikographischen Namen eindeutig sind, kann mit der zweiten Phase fortgefahren werden, ansonsten wird der \emph{DC7}-Algorithmus erneut mit dem String $\mathsf{T}_{124}$ der Länge $\mathcal{O}(3n/7)$ ausgeführt.
+Wenn die lexikographischen Namen eindeutig sind, kann mit der zweiten Phase fortgefahren werden, ansonsten wird der \emph{DC7}-Algorithmus erneut mit dem String $\mathsf{T}_{124}$ der Länge $\mathcal{O}(\frac{3n}{7})$ ausgeführt.
 
 \subparagraph*{Zweite Phase}
 
@@ -17,7 +17,7 @@ In der zweiten Phase werden die Suffixe an den Positionen $i \text{ modulo } 7 \
 
 \subparagraph*{Dritte Phase}
 
-Für die dritte Phase gibt es zwei verschiedene Ansätze. Zuerst betrachten wir den naiven Ansatz. Hierbei wird - ähnlich wie bei dem \emph{DC3}-Algorithmus - der jeweils kleinste Werte der Mengen $\sa_{124}$, $\sa_0$, $\sa_3$, $\sa_5$ und  $\sa_6$, der noch nicht in dem endgültigen Suffix-Array einsortiert worden ist, miteinander verglichen. Dabei werden bei den Vergleichen zwischen $i$ und $j$ jeweils ein $l$ gesucht, sodass $(i + l) \text{ modulo } 7$ und $(j + l) \text{ modulo } 7$ aus dem Difference Cover $D = \{1, 2, 4\}$ sind. Zur Bestimmung der Länge $l$ kann die \cref{tab:merge} verwendet werden.
+Für die dritte Phase gibt es zwei verschiedene Ansätze. Zuerst betrachten wir den naiven Ansatz. Hierbei wird - ähnlich wie bei dem \emph{DC3}-Algorithmus - der jeweils kleinste Werte der Mengen $\sa_{124}$, $\sa_0$, $\sa_3$, $\sa_5$ und  $\sa_6$, der noch nicht in dem endgültigen Suffix-Array einsortiert worden ist, miteinander verglichen. Dabei werden bei den Vergleichen zwischen $i$ und $j$ jeweils ein $l$ gesucht, sodass $(i + l) \text{ modulo } 7$ und $(j + l) \text{ modulo } 7$ aus dem \emph{Difference Cover} $D = \{1, 2, 4\}$ sind. Zur Bestimmung der Länge $l$ kann die \cref{tab:merge} verwendet werden.
 
 \begin{table}[H]
 	\centering

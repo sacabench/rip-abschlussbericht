@@ -4,17 +4,18 @@
 
 \currentauthor{Christopher Poeplau}
 
-Der  Kern des \textbf{Radix Sorting Fixed Length D-Critical Substring-Algorithmus}\cite[Kap.~4]{saca:6} (kurz: SADS) sind die \textbf{d-critical} (kurz: dc) Zeichen des Strings \textit{T}. Ein Zeichen ist dc, für ein beliebiges aber festes $d \geq 2$, wenn
+Der  Kern des \textbf{Radix Sorting Fixed Length D-Critical Substring-Algo\-rithmus}\cite[Kap.~4]{saca:6} (kurz: SADS) sind die \textbf{d-critical} (kurz: dc) Zeichen des Strings \inputtext. Ein Zeichen ist dc, für ein beliebiges aber festes $d \geq 2$, wenn
 \begin{itemize}
-    \item $T[i]$ ist LMS oder
-    \item $T[i-d]$ ist dc, $T[i+1]$ ist kein LMS und kein weiteres Zeichen in $T[i-d+1,i-1]$ ist dc. Um die Notation einfach zu halten sei $d_1=d+1$ für den Rest des Kapitels.
+    \item \inputtext[i] ist LMS oder
+    \item \inputtext[i-d] ist dc, \inputtext[i+1] ist kein LMS und kein weiteres Zeichen in \inputtext[i-d+1,i-1] ist dc. Um die Notation einfach zu halten, sei $d_1=d+1$ für den Rest des Kapitels.
 \end{itemize}
 
-\noindent Für den Rest des Kapitels gilt $d=2$.
+\noindent Für den Rest des Kapitels gilt $\mathbf{d=2}$.
 
-\noindent Es folgt ein Beispiel für eine Klassifizierung, die dc-Zeichen (hier mit ** markiert) enthält:
+Es folgt ein Beispiel für eine Klassifizierung, die dc-Zeichen (hier mit ** markiert) enthält:
 
-\begin{center}
+\begin{table}[H]
+\centering
   \begin{tabular}{ | l | c | c| c| c| c| c| c| c| c| c| c| c| c| c| c| c| c | }
     \hline
         $i$ & 0 & 1 & 2 & 3 & 4 & 5 \\ \hline
@@ -23,24 +24,25 @@ Der  Kern des \textbf{Radix Sorting Fixed Length D-Critical Substring-Algorithmu
       	$ $ & & * & & ** & & * \\
     \hline
   \end{tabular}
-\end{center}
+  \caption{Beispiel einer dc-Berechnung}
+\end{table}
 \bigskip
 
-\noindent $T[1]$ und $T[5]$ sind Zeichen, die als LMS klassifiziert werden. Dadurch sind sie auch dc-Zeichen. Auch das Zeichen $T[3]$ ist ein dc-Zeichen, denn $T[3 - 2] = T[1]$ ist ein dc-Zeichen, $T[3 + 1] = T[4]$ ist kein LMS-Zeichen und in dem Intervall $T[3-2+1,3] = T[2,3]$ ist kein weiteres dc-Zeichen. Damit ist $T[3]$ auch ein dc-Zeichen. Im Gegensatz zu den Zeichen $T[1]$ und $T[5]$ ist $T[3]$ also ein Zeichen, das nicht vom SAIS als LMS, sondern nur vom SADS als dc-Zeichen klassifiziert wird.
+\noindent \inputtext[1] und \inputtext[5] sind Zeichen, die als LMS klassifiziert werden. Dadurch sind sie auch dc-Zeichen. Auch das Zeichen \inputtext[3] ist ein dc-Zeichen, denn $\inputtext[3 - 2] = \inputtext[1]$ ist ein dc-Zeichen, $\inputtext[3 + 1] = \inputtext[4]$ ist kein LMS-Zeichen und in dem Intervall $\inputtext[3-2+1,3] = \inputtext[2,3]$ ist kein weiteres dc-Zeichen. Damit ist \inputtext[3] auch ein dc-Zeichen. Im Gegensatz zu den Zeichen \inputtext[1] und \inputtext[5] ist \inputtext[3] also ein Zeichen, das nicht vom SAIS als LMS, sondern nur vom SADS als dc-Zeichen klassifiziert wird.
 
 \bigskip
 \noindent Es folgen Definitionen, die für den weiteren Verlauf des Algorithmus notwendig sind:
 \begin{itemize}
-    \item   Ein Suffix $T[i,n)$ gilt als dc, genau dann wenn $T[i]$ dc ist.
-    \item   Seien $T[i]$ und $T[j]$ zwei dc-Zeichen. Sie gelten als \textbf{benachbart}, wenn zwischen ihnen kein weiteres dc-Zeichen vorkommt.
-    \item   Der Substring $T[i, i+d_1]$ ist der dc-Substring des Zeichens $T[i]$. Dabei entspricht die Länge des Substrings immer $d_1+1$, sodass er wenn nötig mit dem Sentinel ergänzt wird.
-    \item   Sei $T[i]$ dc, dann gilt, dass $T[i-1]$ und $T[i+1]$ nicht dc sind.
-    \item   $T[0]$ ist kein dc und $T[n]$ ist ein dc mit $n=|T|-1$
+    \item   Ein Suffix \inputtext[i,n-1] gilt als dc, genau dann wenn \inputtext[i] dc ist.
+    \item   Seien \inputtext[i] und \inputtext[j] zwei dc-Zeichen. Sie gelten als \textbf{benachbart}, wenn zwischen ihnen kein weiteres dc-Zeichen vorkommt.
+    \item   Der Substring \inputtext[i, i+d_1] ist der dc-Substring des Zeichens \inputtext[i]. Dabei entspricht die Länge des Substrings immer $d_1+1$, sodass er wenn nötig mit dem Sentinel ergänzt wird.
+    \item   Sei \inputtext[i] dc, dann gilt, dass \inputtext[i-1] und \inputtext[i+1] nicht dc sind.
+    \item   \inputtext[0] ist kein dc und \inputtext[n] ist ein dc mit $n=|\inputtext|-1$
 \end{itemize}
 \subsubsection{Definition $\omega$-Gewichtung}
 \label{weighting}
-Sei $\omega(T,i)$ die $\omega$-gewichtende Funktion, definiert als $\omega(T,i) = 2T[i]+t[i]$. Ein S-Typ entspricht dabei einer $1$ und ein L-Typ einer $0$.
-\newpage
+Sei $\omega(\inputtext,i)$ die $\omega$-gewichtende Funktion, definiert als $\omega(\inputtext,i) = 2\inputtext[i]+t[i]$. Ein S-Typ entspricht dabei einer $1$ und ein L-Typ einer $0$.
+
 \subsection{Framework}
 Ähnlich des Frameworks des SAIS-Algorithmus in Kap.~\ref{saisAlg}, ist auch der SADS-Algorithmus in einem Framework\cite[Fig.~3]{saca:6} modelliert:
 \label{sadsAlg}
@@ -67,39 +69,45 @@ Induce SA from SA@$_1$@
 
 
 \noindent Analog zum ersten Algorithmus wird das Problem in Probleme kleinerer Größe aufgeteilt, um abschließend die Lösung des Problems zu induzieren.
-Sei der String $T = caabaccaabacaa\$$ wieder der String, zu dem das Suffix-Array konstruiert wird. Wie oben festgelegt gilt $d = 2$. Der erste Schritt besteht daraus die Typen aus $T$
+Sei der String $\inputtext = caabaccaabacaa\$$ wieder der String, zu dem das Suffix-Array konstruiert wird. Wie oben festgelegt gilt $d = 2$. Der erste Schritt besteht daraus die Typen aus \inputtext
 zu bestimmen, sodass folgende, schon aus dem SAIS bekannte, Klassifizierung entsteht:
 
-\begin{center}
+\begin{table}[H]
+\center
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
     \hline
         $i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 \\ \hline
-        $T$ & c & a & a & b & a & c & c & a & a & b & a & c & a & a & \$ \\ \hline
+        $\inputtext$ & c & a & a & b & a & c & c & a & a & b & a & c & a & a & \$ \\ \hline
         $t$ & L & S & S & L & S & L & L & S & S & L & S & L & L & L & S \\
     \hline
   \end{tabular}
-\end{center}
+  \caption{Klassifizierung des Strings \inputtext}
+\end{table}
 \bigskip
 
 \newpage
 \noindent Mit Hilfe der Definitionen aus Kap.~\ref{dc} werden die d-critical Zeichen bestimmt:
 
-\begin{center}
+\begin{table}[H]
+\centering
   \begin{tabular}{ | l | c | c| c| c| c| c| c| c| c| c| c| c| c| c| c| c| c | }
     \hline
         $i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 \\ \hline
-        $T$ & c & a & a & b & a & c & c & a & a & b & a & c & a & a & \$ \\ \hline
+        $\inputtext$ & c & a & a & b & a & c & c & a & a & b & a & c & a & a & \$ \\ \hline
         $t$ & L & S & S & L & S & L & L & S & S & L & S & L & L & L & S \\ \hline
         $P_1$ & & * & & & * & & & * & & & * & & ** & & * \\
     \hline
   \end{tabular}
-\end{center}
+  \caption{dc-Berechnung}
+\end{table}
 \bigskip
 Die einfachen dc-Zeichen sind hier $normale$ LMS-Zeichen, die genauso auch beim SAIS berechnet wurden. Das doppelte dc-Zeichen entsteht durch die Anpassungen des SADS, die dafür sorgt, dass maximal Substrings der Größe $d_1$ entstehen. Durch die Definitionen aus Kap.~\ref{dc} wird außerdem deutlich, dass es maximal $\lfloor\frac{n}{2}\rfloor$ dc-Zeichen geben kann.
 \bigskip
 \\Die gefundenen sechs Substrings müssen nun sortiert werden. Dazu nutzt der Algorithmus ein Bucket-Sort mit vier Passes, beginnend mit dem LSC(Least Significant Character). Zunächst werden die Wörter anhand ihres jeweiligen LSC ihren Buckets zugeordnet. Dort werden sie anhand der $\omega$-Gewichtung aus Kap.~\ref{weighting} in ihren Buckets sortiert. In den darauffolgenden Schritten wird das nächste Zeichen des jeweiligen Wortes analysiert und das Wort wird dem passenden Bucket zugeordnet. Angewandt auf die dc-Substrings ergibt sich so folgende Reihenfolge:
 
-\begin{center}
+\begin{table}[H]
+\centering
+\begin{adjustbox}{width=1\textwidth}
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
     \hline
        $\$$ & 14 \$\$\$\textbf{\underline{\$}} & 14 \$\$\textbf{\underline{\$}}\$ & 14 \$\textbf{\underline{\$}}\$\$ & 14 \textbf{\underline{\$}}\$\$\$ & 0 \\
@@ -116,7 +124,9 @@ Die einfachen dc-Zeichen sind hier $normale$ LMS-Zeichen, die genauso auch beim 
             & Gewichten & Zeichensortierung & Zeichensortierung & Zeichensortierung & Bucketing \\
     \hline
   \end{tabular}
-\end{center}
+  \end{adjustbox}
+  \caption{Radix-Sorting}
+\end{table}
 \bigskip
 
 \noindent Im ersten Schritt findet die $\omega$-Gewichtung statt. Dadurch findet eine initiale Vorsortierung in den jeweiligen LSC-Buckets statt. Es folgt die eigentliche Radix-Sortierung. Die Suffixe $\{14, 12, 10, 7, 1 , 4\}$ werden anhand des vorletzten Zeichens sortiert. Dabei bleiben $\{14, 12, 10\}$ an derselben Stelle und in denselben Buckets, da ihr Zeichen identisch zum Nachfolgerzeichen ist. Es findet also keine Umsortierung statt. Substrings $\{7, 1\}$ gehören aufgrund ihres Zeichens nun zum \textit{b-Bucket} und sind aufgrund ihrer Reihenfolge im Schritt davor implizit in ihren Buckets sortiert worden. Analog dazu befindet sich $\{4\}$ als einziger String im \textit{c-Bucket}.
@@ -124,18 +134,21 @@ Im nächsten Schritt werden $\{12, 7, 1\}$ zum \textit{a-Bucket} zusortiert. Dab
 
 \noindent Aus dem Bucketsort ist folgende Bucket-Zuordnung der dc-Zeichen enstanden:
 
-\begin{center}
+\begin{table}[H]
+\centering
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
     \hline
         $T_1$ & 2 & 4 & 2 & 3 & 1 & 0 \\ \hline
               & 1 & 4 & 7 & 10 & 12 & 14  \\
     \hline
   \end{tabular}
-\end{center}
+  \caption{dc-Bucket-Zuordnung}
+\end{table}
 \bigskip
 Ähnlich zum SAIS ist auch hier eine Rekursion der Tiefe $1$ nötig, da der Bucket $2$ doppelt vergeben ist, wodurch noch nicht auf die eindeutige Reihenfolge geschlossen werden kann. Das Teilproblem beschreibt sich wie folgt:
 
-\begin{center}
+\begin{table}[H]
+\centering
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
     \hline
         $i$ & 0 & 1 & 2 & 3 & 4 & 5 \\ \hline
@@ -143,22 +156,26 @@ Im nächsten Schritt werden $\{12, 7, 1\}$ zum \textit{a-Bucket} zusortiert. Dab
       $t_1$ & S & L & S\textsuperscript{*} & L & L & S\textsuperscript{*} \\
     \hline
   \end{tabular}
-\end{center}
+  \caption{Beschreibung des Teilproblems mit String $T_1$}
+\end{table}
 \bigskip
 
 \noindent Analog zum vorherigen Bucket-Sort werden auch hier die dc-Zeichen sortiert, sodass sich folgende Berechnung ergibt:
 
-\begin{center}
+\begin{table}[H]
+\centering
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
     \hline
         $SA_1$ & 1 & 0 \\ \hline
         $dc$ & 2 & 5 \\
     \hline
   \end{tabular}
-\end{center}
+  \caption{dc-Sortierung}
+\end{table}
 \bigskip
 
-\noindent Der letzte Schritt des Algorithmus besteht darin, das Suffix-Array $SA$ rekursiv aus den Teillösungen zu induzieren. Dazu wird das bestehende $T_1$ aus dem Rekursionsschritt sortiert, sodass sich die Buckets $\{0,1,2,2,3,4\}$ ergeben. Folgender Algorithmus wird nun für den ersten Schritt des Induzierens angewandt\cite[Kap.~4.5]{saca:6}:
+\noindent Der letzte Schritt des Algorithmus besteht darin, das Suffix-Array \sa rekursiv aus den Teillösungen zu induzieren. Dazu wird das bestehende $T_1$ aus dem Rekursionsschritt sortiert, sodass sich die Buckets $\{0,1,2,2,3,4\}$ ergeben. Folgender Algorithmus wird nun für den ersten Schritt des Induzierens angewandt\cite[Kap.~4.5]{saca:6}:\newpage
+\begin{figure}[H]
 \begin{minted}[mathescape=true, escapeinside=||, frame=single]{text}
     Initialize each item of SA as |$-1$|. Find the end of
     each bucket in |$SA$| for all the suffixes in |$S$|. Scan
@@ -167,9 +184,12 @@ Im nächsten Schritt werden $\{12, 7, 1\}$ zum \textit{a-Bucket} zusortiert. Dab
     end of the bucket for |$suf(T, P_1[SA_1[i]])$| in |$SA$| and
     forward the bucket's end one item to the left.
 \end{minted}
-Aus Gründen der Übersichtlichkeit, entsprechen leere Felder einem unbeschriebenen Feld, anstelle von $-1$.
+\caption{Algorithmus zur Induktion}
+\end{figure}
+\noindent Aus Gründen der Übersichtlichkeit, entsprechen leere Felder einem unbeschriebenen Feld, anstelle von $-1$.
 
-\begin{center}
+\begin{table}[H]
+\centering
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
     \hline
      $SA_1$ & 1 & 0 & & & & \\ \hline
@@ -180,12 +200,15 @@ Aus Gründen der Übersichtlichkeit, entsprechen leere Felder einem unbeschriebe
             & & & 2 & 0 & & \\
     \hline
   \end{tabular}
-\end{center}
+  \caption{Induzieren von $SA_1$}
+\end{table}
 \bigskip
 
-\noindent Es ergibt sich das Suffix-Array $SA_1 = \{5, 4, 2, 0, 3, 1\}$, mit dem jetzt das finale Suffix-Array $SA$ induziert wird:
+\noindent Es ergibt sich das Suffix-Array $SA_1 = \{5, 4, 2, 0, 3, 1\}$, mit dem jetzt das finale Suffix-Array \sa induziert wird:
 
-\begin{center}
+\begin{table}[H]
+\centering
+\begin{adjustbox}{width=1\textwidth}
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
     \hline
      $SA_1$ & 5 & 4 & 2 & 0 & 3 & 1 & & & & & & & & & \\ \hline
@@ -196,9 +219,12 @@ Aus Gründen der Übersichtlichkeit, entsprechen leere Felder einem unbeschriebe
             & & & & 7 & 1 & 10 & 4 & 2 & 8 & & & & & & \\
     \hline
   \end{tabular}
-\end{center}
+  \end{adjustbox}
+  \caption{Induzieren von \sa}
+\end{table}
 \bigskip
-Damit wurde das endgültige Suffix-Array $SA$ berechnet: $\{14, 13, 12, 7, 1, 10, 4, 2, 8, 9, 3, 11, 6, 0, 5\}$
+\noindent Von links nach rechts ergibt sich das endgültige Suffix-Array \\
+$\sa = \{14, 13, 12, 7, 1, 8, 2, 10, 4, 9, 3, 11, 6, 0, 5\}$.
 
 \subsection{Optimierungsmöglichkeiten}
 Analog zum SAIS werden beim SADS die Typen in einem Bitvektor gespeichert. Für die dc-Zeichen wird kein eigenes Array benötigt, da hier das SA-Array genutzt werden kann. Der Algorithmus kann auf Grund des Designs unseres Frameworks nicht nur für 8-Bit, sondern auch für 16-, 32-, 48-Bittypen usw. ausgeführt werden. Im Gegensatz zum SAIS scheint eine Optimierung des SADS nicht lohnenswert, da auch die Implementierung von Yuta Mori schlechtere Ergebnisse liefert als der SAIS.
