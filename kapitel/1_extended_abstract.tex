@@ -37,7 +37,7 @@ while there are some $\mathcal O(n)$ algorithms available.
 
 For the last year we (re-)implemented eleven SACAs~\cite{saca:3,saca:11,saca:5,saca:9,saca:1,saca:8,saca:4,saca:7,saca:10,saca:6,saca:2}
 in modern C++ in order to create faster and more memory efficient implementations,
-and although our attempts were mostly not successful,
+and \todo{diese Randbemerkung vllt weglassen}although our attempts were mostly not successful,
 we created a sophisticated benchmark framework for SACAs, \emph{\sacabench}~\cite{sacabench:github}, in the process.
 
 In this paper we introduce \sacabench and highlight its features,
@@ -48,7 +48,8 @@ as well as document some of the optimiziation strategies we used to implement th
 \sacabench is a CMake/C++14 project which contains many different SACAs.
 There are both sequential and parallel algorithms included
 and we also include the reference implementations for all of the algorithms, if one exists.
-It is also possible to include a new or another existing SACA with \sacabench.
+It is also possible to include a new or another existing SACA with \sacabench
+\footnote{For instructions on how to do this, please consider our README in the GitHub Repository~\cite{sacabench:github}}.
 You are able to run a single, a subset of, or all of the algorithms, depending on your needs.
 Time and memory consumption is automatically measured and can be output as JSON.
 We also include tools to convert the JSON-format to graphs for a visual comparison of the algorithms.
@@ -77,12 +78,12 @@ To generate a JSON file containing detailed information about the run of the sel
 the flag \termfont{-b} needs to be added to the command, followed by a destination path to which the report will be saved to.
 To override an existing file at the destination path, the option \termfont{-f} can be used.
 This file can be converted to a plot on the tudostat website~\cite{tudostat} (see Figure \ref{ea:phases} as an example).
-If you add the flag \termfont{-{}-rplot}, a plot will be generated automatically after the SACA executed by using a R-script.
+If you add the flag \termfont{-{}-rplot}, a plot will be generated automatically after the SACA executed by using an R-script.
 Additionally there is an alternative version of plots, which are generated using LaTex.
 This can be done by adding the flag \termfont{-{}-latexplot}.
 
 Multiple other flags and options allow to customize the way, the SACA is executed.
-For example it is possible to use a prefix of the given input string by adding \termfont{-p} together with the desired prefix size. 
+For example, it is possible to use a prefix of the given input string by adding \termfont{-p} together with the desired prefix size. 
 This enables you to use one big input file for tests with a variety of input sizes.
 Also it is possibile to execute the selected SACA multiple times on the same input and to combine the results.
 This can be done by using the flag \termfont{-r} followed by the number of executions.
@@ -93,7 +94,7 @@ An example would be:
 
 This command executes the SACA BPR two times on a prefix of the input file of 1 KB, 
 uses the checker to validate the result and writes the resulting JSON file to the given path.
-If there is already a file, it would be replaced by the new file.
+If there already is a file with the given name, it would be replaced by the new file.
 After the SACA finished, plots are generated with both possible options.
 To reduce the number of options, you can define them in a config file in INI format.
 This configuration can be used by adding the flag \termfont{-{}-config} together with the path to the file.
@@ -200,7 +201,7 @@ In the next iteration one can look at the suffixes that start two positions late
 and so on.
 After $\mathcal O(\log n)$ iterations (since we double the prefix size in every iteration),
 all the suffixes are sorted.
-This method is used by qsufsort~\cite{saca:1} and the
+This method is used by qSufSort~\cite{saca:1} and the
 doubling/discarding algorithm originally developed for use with external memory~\cite{saca:11}.
 
 \bigskip
@@ -226,7 +227,7 @@ We now briefly explain the shown algorithms and their differences.
 
 Prefix Doubling is a SACA which works purely by the above described method \emph{Doubling}.
 In every iteration the SA is refined and double the amount of characters are considered for sorting.
-This directly influenced qsufsort, which improved its performance by using the \isa (inverse suffix arary) 
+This directly influenced qSufSort, which improved its performance by using the \isa (inverse suffix arary) 
 and subdividing suffixes into sorted and unsorted groups. 
 BPR incorporated some ideas of inducing with prefix doubling and is therefore on the edge of those two paradigms.
 Its inducing is based on the copy-technique by Seward~\cite{seward2000}.
@@ -265,11 +266,11 @@ However, when implementing SACAs, avoiding unnecessary cache misses can signific
 To maximize throughput, multiple characters of the input (8 bit each) can be processed as a whole by
 interpreting them as integer numbers (64 bit, or even up to 512 bit by using vector operations).
 Algorithms using wordpacking techniques are the Osipov algorithm~\cite{osipovGPU},
-Doubling~\cite{saca:11}, Discarding~\cite{saca:11} and QSufSort~\cite{saca:1}.
+Doubling~\cite{saca:11}, Discarding~\cite{saca:11} and qSufSort~\cite{saca:1}.
 
 \subsection{Utilization of a GPU}
 
-Since GPUs feature many more cores than modern desktop or even server CPUs,
+Since modern GPUs feature higher degrees of parallelism compared to CPUs due to their architecture,
 we include a prefix doubling SACA which uses CUDA and the CUB-Framework to run on the GPU~\cite{osipovGPU}.
 We show that this algorithm outperformes the parallel DivSufSort implementation,
 although the required and available memory on current GPUs still restricts the algorithm to far smaller input sizes than CPU SACAs are capable of.
@@ -608,12 +609,22 @@ We therefore chose the best option for the required use-case.
 
 \section{Conclusion}
 
-We introduced SACABench, an extensive framework for benchmarking and comparing suffix array construction algorithms.
-It includes a large set of publicly available SACAs and simplifies the comparison of these with new SACAs.
-The code is written in modern C++ and well documented and can therefore be helpful in understanding the algorithms.
+We introduced \sacabench, an extensive framework for benchmarking and comparing suffix array construction algorithms.
+It includes a large set of publicly available SACAs as well as re-implementations%
+\footnote{These re-implementations should be easier to understand than the reference implementations since they are heavily commented and written in modern C++.}
+of these SACAs and simplifies the evaluation of new SACAs.
+The code is written in modern C++ and well documented and can therefore be helpful in understanding the included algorithms.
 We also include several parallel SACAs as well as parallel reference implementations.
+In our evaluation we compared the performance of the SACAs on different texts of different type and size.
+We can confirm divsufsort's dominance on most of the tested texts.
 
-In our evaluation we confirmed divsufsorts dominance on most of the tested texts.
+Our parallel implementations scale well up to 20 CPU cores and the GPU-SACA (Osipov/Prefix Doubling) is faster than the parallel divsufsort.
+We show that shared-memory parallelization is a fruitful approach to suffix sorting
+and can be used to accelerate construction of medium to large size suffix arrays.
+Since there are some texts on which the \sa can't be calculated by any of our included algorithms\todo{Sicherstellen, dass die Tabelle iwo steht},
+there is definitly area to improve in the future.
+Since GPUs evolve much more quickly and stronger than modern CPUs
+but the amount of GPU-parallel SACAs is still small, there is much room for improvement.
 
 % ###
 % End of extended abstract, switch language to german again
