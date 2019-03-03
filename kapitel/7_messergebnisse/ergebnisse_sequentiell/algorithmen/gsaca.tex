@@ -68,8 +68,8 @@
 
     \medskip
     \ref{legend-seq-gsaca-0}
-\caption{GSACA und GSACA_ref auf wiki.txt}
-\label{GSACA-seq-0}
+    \caption{GSACA und GSACA_ref auf wiki.txt}
+    \label{GSACA-seq-0}
 \end{figure}
 
 \begin{figure}[ht]
@@ -136,8 +136,8 @@
 
     \medskip
     \ref{legend-seq-gsaca-1}
-\caption{GSACA und GSACA_ref auf dna.txt}
-\label{GSACA-seq-1}
+    \caption{GSACA und GSACA_ref auf dna.txt}
+    \label{GSACA-seq-1}
 \end{figure}
 
 \begin{figure}[ht]
@@ -204,15 +204,17 @@
 
     \medskip
     \ref{legend-seq-gsaca-2}
-\caption{GSACA und GSACA_ref auf commoncrawl.txt}
-\label{GSACA-seq-2}
+    \caption{GSACA und GSACA_ref auf commoncrawl.txt}
+    \label{GSACA-seq-2}
 \end{figure}
 \FloatBarrier
 
-Die Diagramme stellen den Suffix-Array-Konstruktionsalgorithmus GSACA der Referenzimplementierung und dem naiven SACA gegebnüber.
+Die \currentauthor{David Piper} Abbildungen \cref{GSACA-seq-0}, \cref{GSACA-seq-1} und \cref{GSACA-seq-2} stellen den Suffix-Array-Konstruktionsalgorithmus GSACA der Referenzimplementierung und dem naiven SACA gegebnüber.
 Wie zu sehe ist, sind GSACA und die Referenzimplementierung bei allen drei Eingabetexten schneller als der naive Algorihtmus,
 haben jedoch auch einen höheren Speicherbedarf.
 Dieser ist bei GSACA wiederum größer als bei der Referenzimplementierung.
+Auf allen drei Eingabetexten brechen sowohl GSACA als auch GSACA_ref ab einer Eingabegröße von $1{,}6$ GiB ab.
+Wie in \cref{messung:tab:sa-chk-large-seq-weak} ersichtlich ist, überschreitet GSACA bei das Speicherlimit des Systems.
 Die alternative Variante von GSACA, welche in Abschnitt \ref{gsaca:chapter7} beschrieben wurde, ist hingegen in keinem der Diagrammen aufgeführt.
 Dies liegt an der verlängerten Laufzeit, welche durch den zusätzlichen Aufwand in der Berechnung der Werte von GSIZE entsteht.
 Hierdurch schaffte es diese Variante nicht, in der vorgegebenen maximalen Zeit das Suffix-Array zu berechnen.
