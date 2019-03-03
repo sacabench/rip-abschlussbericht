@@ -1,44 +1,46 @@
 \begin{table}[h]
 \centering
 \resizebox{\textwidth}{!}{
-\begin{tabular}{lrrrrrrrrrrrr}
+\begin{tabular}{lrrrrrrrrrrrrrrr}
 \toprule
-     & \rotatebox[origin=c]{90}{\texttt{cc\_commoncrawl.ascii}} & \rotatebox[origin=c]{90}{\texttt{pc\_dblp.xml}} & \rotatebox[origin=c]{90}{\texttt{pc\_dna}} & \rotatebox[origin=c]{90}{\texttt{pc\_english}} & \rotatebox[origin=c]{90}{\texttt{pc\_proteins}} & \rotatebox[origin=c]{90}{\texttt{pc\_sources}} & \rotatebox[origin=c]{90}{\texttt{pcr\_cere}} & \rotatebox[origin=c]{90}{\texttt{pcr\_einstein.en.txt}} & \rotatebox[origin=c]{90}{\texttt{pcr\_kernel}} & \rotatebox[origin=c]{90}{\texttt{pcr\_para}} & \rotatebox[origin=c]{90}{\texttt{tagme\_wiki-disamb30}} & \rotatebox[origin=c]{90}{\texttt{wiki\_all\_vital.txt}} \\
+     & \rotatebox[origin=c]{90}{\texttt{cc\_commoncrawl.ascii}} & \rotatebox[origin=c]{90}{\texttt{pc\_dblp.xml}} & \rotatebox[origin=c]{90}{\texttt{pc\_dna}} & \rotatebox[origin=c]{90}{\texttt{pc\_english}} & \rotatebox[origin=c]{90}{\texttt{pc\_proteins}} & \rotatebox[origin=c]{90}{\texttt{pc\_sources}} & \rotatebox[origin=c]{90}{\texttt{pcr\_cere}} & \rotatebox[origin=c]{90}{\texttt{pcr\_einstein.en.txt}} & \rotatebox[origin=c]{90}{\texttt{pcr\_fib41}} & \rotatebox[origin=c]{90}{\texttt{pcr\_kernel}} & \rotatebox[origin=c]{90}{\texttt{pcr\_para}} & \rotatebox[origin=c]{90}{\texttt{pcr\_rs.13}} & \rotatebox[origin=c]{90}{\texttt{pcr\_tm29}} & \rotatebox[origin=c]{90}{\texttt{tagme\_wiki-disamb30}} & \rotatebox[origin=c]{90}{\texttt{wiki\_all\_vital.txt}} \\
 \midrule
-    $\text{BPR}$ & 0.56 & 0.60 & {\color{green!60!black}0.58} & {\color{green!60!black}0.57} & {\color{green!60!black}0.51} & {\color{green!60!black}0.45} & {\color{green!60!black}0.58} & 0.71 & {\color{green!60!black}0.52} & {\color{green!60!black}0.59} & {\color{green!60!black}0.55} & {\color{green!60!black}0.55} \\
-    $\text{BPR}_{\text{ref}}$ & {\color{green!60!black}0.51} & 0.53 & 0.67 & {\color{green!60!black}0.67} & {\color{green!60!black}0.53} & 0.50 & 0.77 & {\color{green!60!black}0.70} & 0.60 & 0.79 & {\color{green!60!black}0.59} & {\color{green!60!black}0.61} \\
-    $\text{DC3}$ & 2.78 & 2.68 & 2.84 & 2.84 & 2.79 & 2.71 & 2.89 & 3.01 & 2.91 & 2.92 & 2.72 & 2.81 \\
-    $\text{DC3-Lite}$ & {\color{red}24.30} & {\color{red}24.63} & {\color{red}8.63} & {\color{red}18.95} & {\color{red}21.35} & {\color{red}30.75} & 7.61 & 9.72 & 9.82 & 7.84 & {\color{red}23.16} & {\color{red}21.50} \\
-    $\text{DC3}_{\text{ref}}$ & 4.83 & 4.21 & 4.67 & 5.50 & 5.46 & 4.75 & 3.91 & 3.93 & 4.27 & 4.10 & 5.25 & 5.43 \\
-    $\text{DC7}$ & 3.59 & 3.64 & 3.77 & 3.72 & 3.65 & 3.46 & 3.94 & 4.14 & 3.83 & 3.95 & 3.61 & 3.68 \\
-    $\text{Deep-Shallow}$ & 4.91 & 1.68 & 1.82 & {\color{red}12.84} & 3.03 & 2.11 & {\color{darkgray}--} & {\color{red}41.90} & {\color{darkgray}--} & {\color{darkgray}--} & 1.64 & 1.45 \\
-    $\text{Deep-Shallow\_bb}$ & 2.96 & 1.20 & 1.60 & 7.43 & 2.09 & 1.76 & {\color{darkgray}--} & 20.06 & {\color{darkgray}--} & {\color{darkgray}--} & 1.48 & 1.34 \\
-    $\text{Deep-Shallow}_{\text{ref}}$ & 0.75 & {\color{green!60!black}0.53} & {\color{green!60!black}0.65} & 0.88 & 0.80 & 0.54 & 1.05 & 2.25 & 1.52 & 1.08 & 0.62 & 0.63 \\
-    $\text{Discarding2}$ & 4.81 & 3.04 & 2.07 & 5.21 & 3.56 & 3.22 & 8.25 & 11.07 & {\color{red}13.52} & {\color{red}8.28} & 2.89 & 2.26 \\
-    $\text{Discarding4}$ & 3.71 & 2.70 & 2.14 & 3.98 & 2.94 & 2.73 & 6.28 & 8.07 & 9.44 & 6.28 & 2.53 & 2.15 \\
-    $\text{DivSufSort}$ & 5.48 & 4.35 & 4.22 & 4.60 & 4.46 & 3.27 & 8.54 & {\color{red}24.72} & {\color{red}14.98} & {\color{red}8.98} & 3.47 & 3.54 \\
-    $\text{DivSufSort}_{\text{ref}}$ & {\color{green!60!black}0.30} & {\color{green!60!black}0.31} & {\color{green!60!black}0.49} & {\color{green!60!black}0.41} & {\color{green!60!black}0.39} & {\color{green!60!black}0.28} & {\color{green!60!black}0.48} & {\color{green!60!black}0.38} & {\color{green!60!black}0.30} & {\color{green!60!black}0.42} & {\color{green!60!black}0.36} & {\color{green!60!black}0.41} \\
-    $\text{Doubling}$ & {\color{red}13.67} & {\color{red}7.10} & {\color{red}12.52} & {\color{red}15.57} & {\color{red}12.07} & {\color{red}14.42} & {\color{red}13.25} & 14.09 & {\color{red}17.17} & {\color{red}12.59} & {\color{red}7.63} & {\color{red}10.20} \\
-    $\text{GSACA}$ & 1.41 & 1.46 & 1.45 & 1.65 & 1.64 & 1.37 & 1.27 & 1.56 & 1.40 & 1.30 & 1.63 & 1.66 \\
-    $\text{GSACA}_{\text{ref}}$ & 1.32 & 1.41 & 1.38 & 1.58 & 1.55 & 1.29 & 1.20 & 1.50 & 1.33 & 1.23 & 1.53 & 1.58 \\
-    $\text{MSufSort}_{\text{ref}}$ & 1.02 & 0.74 & 0.98 & 0.89 & 0.79 & 0.66 & 1.53 & 1.00 & 1.06 & 1.21 & 0.78 & 0.83 \\
-    $\text{Naiv}$ & 4.72 & 3.18 & 3.00 & 6.42 & 3.09 & 3.32 & 6.99 & {\color{red}63.09} & {\color{darkgray}--} & 5.29 & 2.77 & 2.76 \\
-    $\text{Osipov\_sequential}$ & 4.18 & 3.22 & 2.53 & 4.97 & 3.66 & 3.24 & 6.48 & 8.57 & 9.30 & 6.47 & 3.30 & 2.80 \\
-    $\text{Osipov\_sequential\_wp}$ & 3.81 & 2.90 & 2.24 & 4.58 & 3.29 & 2.89 & 6.20 & 8.39 & 8.94 & 6.19 & 2.92 & 2.41 \\
-    $\text{SACA-K}$ & 1.14 & 1.11 & 1.41 & 1.55 & 1.60 & 1.03 & 3.90 & 1.39 & 1.51 & 1.82 & 1.49 & 1.52 \\
-    $\text{SACA-K}_{\text{ref}}$ & 0.91 & 0.88 & 1.16 & 1.25 & 1.28 & 0.82 & 1.03 & 1.17 & 0.87 & 1.06 & 1.19 & 1.22 \\
-    $\text{SADS}$ & 2.07 & 2.04 & 2.71 & 2.84 & 2.98 & 1.91 & 2.24 & 2.46 & 1.93 & 2.32 & 2.78 & 2.81 \\
-    $\text{SADS}_{\text{ref}}$ & 1.44 & 1.37 & 2.00 & 2.04 & 2.14 & 1.31 & 1.64 & 1.79 & 1.31 & 1.72 & 1.98 & 2.02 \\
-    $\text{SAIS}$ & 1.11 & 1.09 & 1.48 & 1.57 & 1.65 & 1.01 & 1.28 & 1.45 & 1.05 & 1.32 & 1.51 & 1.54 \\
-    $\text{SAIS-LITE}_{\text{ref}}$ & {\color{green!60!black}0.46} & {\color{green!60!black}0.40} & 0.71 & 0.69 & 0.85 & {\color{green!60!black}0.43} & {\color{green!60!black}0.40} & {\color{green!60!black}0.36} & {\color{green!60!black}0.34} & {\color{green!60!black}0.42} & 0.63 & 0.80 \\
-    $\text{SAIS\_WPI}$ & 0.81 & 0.77 & 0.97 & 1.10 & 1.48 & 0.72 & 1.16 & 1.23 & 0.90 & 0.92 & 1.06 & 1.08 \\
-    $\text{SAIS}_{\text{ref}}$ & 1.12 & 1.08 & 1.46 & 1.58 & 1.67 & 1.01 & 1.28 & 1.46 & 1.06 & 1.33 & 1.52 & 1.88 \\
-    $\text{MSufSort}$ & 5.37 & 2.12 & 2.23 & 2.65 & 2.12 & 2.07 & {\color{red}12.62} & 3.39 & 3.52 & 4.95 & 2.04 & 1.97 \\
-    $\text{MSufSortV2}$ & 5.21 & 2.13 & 2.22 & 2.67 & 2.14 & 2.09 & {\color{red}12.80} & 3.42 & 3.56 & 5.00 & 2.05 & 2.00 \\
-    $\text{MSufSort\_scan}$ & 8.89 & 1.61 & 1.44 & 3.89 & 2.03 & 2.07 & 3.60 & 2.82 & 4.42 & 2.18 & 1.78 & 1.51 \\
-    $\text{NzSufSort}$ & {\color{red}14.29} & {\color{red}12.76} & {\color{red}8.93} & 12.22 & {\color{red}17.03} & {\color{red}17.45} & {\color{darkgray}--} & 14.29 & 7.24 & {\color{darkgray}--} & {\color{red}13.99} & {\color{red}12.65} \\
-    $\text{Qsufsort}$ & 2.88 & 2.51 & 2.74 & 3.77 & 2.45 & 2.71 & 3.74 & 4.80 & 5.01 & 3.94 & 2.44 & 2.49 \\
-    $\text{Qsufsort}_{\text{ref}}$ & 1.47 & 1.28 & 1.41 & 2.03 & 1.24 & 1.24 & 1.80 & 2.44 & 2.63 & 1.82 & 1.36 & 1.31 \\
+    $\text{BPR}$ & 0.56 & 0.60 & {\color{green!60!black}0.58} & {\color{green!60!black}0.57} & {\color{green!60!black}0.51} & {\color{green!60!black}0.45} & {\color{green!60!black}0.58} & 0.71 & {\color{darkgray}--} & {\color{green!60!black}0.52} & {\color{green!60!black}0.59} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{green!60!black}0.55} & {\color{green!60!black}0.55} \\
+    $\text{BPR}_{\text{ref}}$ & {\color{green!60!black}0.51} & 0.53 & 0.67 & {\color{green!60!black}0.67} & {\color{green!60!black}0.53} & 0.50 & 0.77 & {\color{green!60!black}0.70} & {\color{darkgray}--} & 0.60 & 0.79 & {\color{darkgray}--} & {\color{darkgray}--} & {\color{green!60!black}0.59} & {\color{green!60!black}0.61} \\
+    $\text{DC3}$ & 2.78 & 2.68 & 2.84 & 2.84 & 2.79 & 2.71 & 2.89 & 3.01 & {\color{darkgray}--} & 2.91 & 2.92 & {\color{darkgray}--} & {\color{darkgray}--} & 2.72 & 2.81 \\
+    $\text{DC3-Lite}$ & {\color{red}24.30} & {\color{red}24.63} & {\color{red}8.63} & {\color{red}18.95} & {\color{red}21.35} & {\color{red}30.75} & 7.61 & 9.72 & {\color{darkgray}--} & 9.82 & 7.84 & {\color{darkgray}--} & {\color{darkgray}--} & {\color{red}23.16} & {\color{red}21.50} \\
+    $\text{DC3}_{\text{ref}}$ & 4.83 & 4.21 & 4.67 & 5.50 & 5.46 & 4.75 & 3.91 & 3.93 & {\color{darkgray}--} & 4.27 & 4.10 & {\color{darkgray}--} & {\color{darkgray}--} & 5.25 & 5.43 \\
+    $\text{DC7}$ & 3.59 & 3.64 & 3.77 & 3.72 & 3.65 & 3.46 & 3.94 & 4.14 & {\color{darkgray}--} & 3.83 & 3.95 & {\color{darkgray}--} & {\color{darkgray}--} & 3.61 & 3.68 \\
+    $\text{Deep-Shallow}$ & 4.91 & 1.68 & 1.82 & {\color{red}12.84} & 3.03 & 2.11 & {\color{darkgray}--} & {\color{red}41.90} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & 1.64 & 1.45 \\
+    $\text{Deep-Shallow\_bb}$ & 2.96 & 1.20 & 1.60 & 7.43 & 2.09 & 1.76 & {\color{darkgray}--} & 20.06 & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & 1.48 & 1.34 \\
+    $\text{Deep-Shallow}_{\text{ref}}$ & 0.75 & {\color{green!60!black}0.53} & {\color{green!60!black}0.65} & 0.88 & 0.80 & 0.54 & 1.05 & 2.25 & {\color{darkgray}--} & 1.52 & 1.08 & {\color{darkgray}--} & {\color{darkgray}--} & 0.62 & 0.63 \\
+    $\text{Discarding2}$ & 4.81 & 3.04 & 2.07 & 5.21 & 3.56 & 3.22 & 8.25 & 11.07 & {\color{darkgray}--} & {\color{red}13.52} & {\color{red}8.28} & {\color{darkgray}--} & {\color{darkgray}--} & 2.89 & 2.26 \\
+    $\text{Discarding4}$ & 3.71 & 2.70 & 2.14 & 3.98 & 2.94 & 2.73 & 6.28 & 8.07 & {\color{darkgray}--} & 9.44 & 6.28 & {\color{darkgray}--} & {\color{darkgray}--} & 2.53 & 2.15 \\
+    $\text{DivSufSort}$ & 5.48 & 4.35 & 4.22 & 4.60 & 4.46 & 3.27 & 8.54 & {\color{red}24.72} & {\color{darkgray}--} & {\color{red}14.98} & {\color{red}8.98} & {\color{darkgray}--} & {\color{darkgray}--} & 3.47 & 3.54 \\
+    $\text{DivSufSort}_{\text{ref}}$ & {\color{green!60!black}0.30} & {\color{green!60!black}0.31} & {\color{green!60!black}0.49} & {\color{green!60!black}0.41} & {\color{green!60!black}0.39} & {\color{green!60!black}0.28} & {\color{green!60!black}0.48} & {\color{green!60!black}0.38} & {\color{darkgray}--} & {\color{green!60!black}0.30} & {\color{green!60!black}0.42} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{green!60!black}0.36} & {\color{green!60!black}0.41} \\
+    $\text{Doubling}$ & {\color{red}13.67} & {\color{red}7.10} & {\color{red}12.52} & {\color{red}15.57} & {\color{red}12.07} & {\color{red}14.42} & {\color{red}13.25} & 14.09 & {\color{darkgray}--} & {\color{red}17.17} & {\color{red}12.59} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{red}7.63} & {\color{red}10.20} \\
+    $\text{GSACA}$ & 1.41 & 1.46 & 1.45 & 1.65 & 1.64 & 1.37 & 1.27 & 1.56 & {\color{darkgray}--} & 1.40 & 1.30 & {\color{darkgray}--} & {\color{darkgray}--} & 1.63 & 1.66 \\
+    $\text{GSACA\_Opt}$ & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} \\
+    $\text{GSACA}_{\text{ref}}$ & 1.32 & 1.41 & 1.38 & 1.58 & 1.55 & 1.29 & 1.20 & 1.50 & {\color{darkgray}--} & 1.33 & 1.23 & {\color{darkgray}--} & {\color{darkgray}--} & 1.53 & 1.58 \\
+    $\text{MSufSort}_{\text{ref}}$ & 1.02 & 0.74 & 0.98 & 0.89 & 0.79 & 0.66 & 1.53 & 1.00 & {\color{darkgray}--} & 1.06 & 1.21 & {\color{darkgray}--} & {\color{darkgray}--} & 0.78 & 0.83 \\
+    $\text{Naiv}$ & 4.72 & 3.18 & 3.00 & 6.42 & 3.09 & 3.32 & 6.99 & {\color{red}63.09} & {\color{darkgray}--} & {\color{darkgray}--} & 5.29 & {\color{darkgray}--} & {\color{darkgray}--} & 2.77 & 2.76 \\
+    $\text{NaivIps4o}$ & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} \\
+    $\text{Osipov\_sequential}$ & 4.18 & 3.22 & 2.53 & 4.97 & 3.66 & 3.24 & 6.48 & 8.57 & {\color{darkgray}--} & 9.30 & 6.47 & {\color{darkgray}--} & {\color{darkgray}--} & 3.30 & 2.80 \\
+    $\text{Osipov\_sequential\_wp}$ & 3.81 & 2.90 & 2.24 & 4.58 & 3.29 & 2.89 & 6.20 & 8.39 & {\color{darkgray}--} & 8.94 & 6.19 & {\color{darkgray}--} & {\color{darkgray}--} & 2.92 & 2.41 \\
+    $\text{SACA-K}$ & 1.14 & 1.11 & 1.41 & 1.55 & 1.60 & 1.03 & 3.90 & 1.39 & {\color{darkgray}--} & 1.51 & 1.82 & {\color{darkgray}--} & {\color{darkgray}--} & 1.49 & 1.52 \\
+    $\text{SACA-K}_{\text{ref}}$ & 0.91 & 0.88 & 1.16 & 1.25 & 1.28 & 0.82 & 1.03 & 1.17 & {\color{darkgray}--} & 0.87 & 1.06 & {\color{darkgray}--} & {\color{darkgray}--} & 1.19 & 1.22 \\
+    $\text{SADS}$ & 2.07 & 2.04 & 2.71 & 2.84 & 2.98 & 1.91 & 2.24 & 2.46 & {\color{darkgray}--} & 1.93 & 2.32 & {\color{darkgray}--} & {\color{darkgray}--} & 2.78 & 2.81 \\
+    $\text{SADS}_{\text{ref}}$ & 1.44 & 1.37 & 2.00 & 2.04 & 2.14 & 1.31 & 1.64 & 1.79 & {\color{darkgray}--} & 1.31 & 1.72 & {\color{darkgray}--} & {\color{darkgray}--} & 1.98 & 2.02 \\
+    $\text{SAIS}$ & 1.11 & 1.09 & 1.48 & 1.57 & 1.65 & 1.01 & 1.28 & 1.45 & {\color{darkgray}--} & 1.05 & 1.32 & {\color{darkgray}--} & {\color{darkgray}--} & 1.51 & 1.54 \\
+    $\text{SAIS-LITE}_{\text{ref}}$ & {\color{green!60!black}0.46} & {\color{green!60!black}0.40} & 0.71 & 0.69 & 0.85 & {\color{green!60!black}0.43} & {\color{green!60!black}0.40} & {\color{green!60!black}0.36} & {\color{darkgray}--} & {\color{green!60!black}0.34} & {\color{green!60!black}0.42} & {\color{darkgray}--} & {\color{darkgray}--} & 0.63 & 0.80 \\
+    $\text{SAIS\_WPI}$ & 0.81 & 0.77 & 0.97 & 1.10 & 1.48 & 0.72 & 1.16 & 1.23 & {\color{darkgray}--} & 0.90 & 0.92 & {\color{darkgray}--} & {\color{darkgray}--} & 1.06 & 1.08 \\
+    $\text{SAIS}_{\text{ref}}$ & 1.12 & 1.08 & 1.46 & 1.58 & 1.67 & 1.01 & 1.28 & 1.46 & {\color{darkgray}--} & 1.06 & 1.33 & {\color{darkgray}--} & {\color{darkgray}--} & 1.52 & 1.88 \\
+    $\text{MSufSort}$ & 5.37 & 2.12 & 2.23 & 2.65 & 2.12 & 2.07 & {\color{red}12.62} & 3.39 & {\color{darkgray}--} & 3.52 & 4.95 & {\color{darkgray}--} & {\color{darkgray}--} & 2.04 & 1.97 \\
+    $\text{MSufSortV2}$ & 5.21 & 2.13 & 2.22 & 2.67 & 2.14 & 2.09 & {\color{red}12.80} & 3.42 & {\color{darkgray}--} & 3.56 & 5.00 & {\color{darkgray}--} & {\color{darkgray}--} & 2.05 & 2.00 \\
+    $\text{MSufSort\_scan}$ & 8.89 & 1.61 & 1.44 & 3.89 & 2.03 & 2.07 & 3.60 & 2.82 & {\color{darkgray}--} & 4.42 & 2.18 & {\color{darkgray}--} & {\color{darkgray}--} & 1.78 & 1.51 \\
+    $\text{NzSufSort}$ & {\color{red}14.29} & {\color{red}12.76} & {\color{red}8.93} & 12.22 & {\color{red}17.03} & {\color{red}17.45} & {\color{darkgray}--} & 14.29 & {\color{darkgray}--} & 7.24 & {\color{darkgray}--} & {\color{darkgray}--} & {\color{darkgray}--} & {\color{red}13.99} & {\color{red}12.65} \\
+    $\text{Qsufsort}$ & 2.88 & 2.51 & 2.74 & 3.77 & 2.45 & 2.71 & 3.74 & 4.80 & {\color{darkgray}--} & 5.01 & 3.94 & {\color{darkgray}--} & {\color{darkgray}--} & 2.44 & 2.49 \\
+    $\text{Qsufsort}_{\text{ref}}$ & 1.47 & 1.28 & 1.41 & 2.03 & 1.24 & 1.24 & 1.80 & 2.44 & {\color{darkgray}--} & 2.63 & 1.82 & {\color{darkgray}--} & {\color{darkgray}--} & 1.36 & 1.31 \\
 \bottomrule
 \end{tabular}
 }
