@@ -226,7 +226,7 @@ We now briefly explain the shown algorithms and their differences.
 
 Prefix Doubling is a SACA which works purely by the above described method \emph{Doubling}.
 In every iteration the SA is refined and double the amount of characters are considered for sorting.
-This directly influenced qsufsort, which improved its performance~\todo{hermann?}.
+This directly influenced qsufsort, which improved its performance by subdividing suffixes into sorted and unsorted groups. 
 BPR incorporated some ideas of inducing with prefix doubling and is therefore on the edge of those two paradigms.
 Its inducing is based on the copy-technique by Seward~\cite{seward2000}.
 This technique is also used by Deep-Shallow, which uses string-sorting instead of prefix doubling.
