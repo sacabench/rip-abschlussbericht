@@ -299,7 +299,8 @@ We therefore chose the best option for the required use-case.
 
 \section{Evaluation (sequential)}
 
-\blindtext
+In the \crefrange{ea:runtime-all-0}{ea:runtime-all-2} we show the performance of the implementations of different SACAs on three texts.
+The texts are \texttt{wiki.txt}, \texttt{dna.txt} and \texttt{commoncrawl.txt} from the \todo{was für ne quelle?} repository~\cite{xxx}.
 
 \begin{figure}[!h]
     \textbf{Configuration} \hfill Input file: wiki.txt \hfill Prefix size: 1600\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
@@ -402,8 +403,6 @@ We therefore chose the best option for the required use-case.
     \caption{Comparison of the in \sacabench included reference implementations of SACAs, including time and memory consumption: wiki.txt}
     \ref{ea:runtime-all-ref-0}
 \end{figure}
-
-\blindtext
 
 \begin{figure}[!h]
     \textbf{Configuration} \hfill Input file: dna.txt \hfill Prefix size: 1600\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
@@ -511,8 +510,6 @@ We therefore chose the best option for the required use-case.
     \ref{ea:runtime-all-ref-1}
 \end{figure}
 
-\blindtext
-
 \begin{figure}[!h]
     \textbf{Configuration} \hfill Input file: commoncrawl.txt \hfill Prefix size: 1600\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
     \centering\small
@@ -616,15 +613,24 @@ We therefore chose the best option for the required use-case.
 \end{figure}
 \FloatBarrier
 
-In the \crefrange{ea:runtime-all-0}{ea:runtime-all-2} we show the performance of the implementations of different SACAs on three texts.
-The texts are \texttt{wiki.txt}, \texttt{dna.txt} and \texttt{commoncrawl.txt} from the \todo{was für ne quelle?} repository~\cite{xxx}.
 The clear winners in all three cases is divsufsort, followed by BPR and SAIS-Lite
 \footnote{divsufsort and SAIS-Lite both are optimized implementations by Yuta Mori~\cite{saca:5}.}.
 In terms of memory consumption, divsufsort and SACA-K are the two best algorithms since they use no extra space,
 follwed by Deep-Shallow\_ref, which uses very little extra space.
-The worst algorithm in both runtime performance as well as memory consumption is in all three cases the reference implementation of DC3.
+The worst algorithm in both runtime performance as well as memory consumption is in all three cases the reference implementation of DC3,
+which is followed by SADS (a variant of SAIS~\cite{saca:6}) in terms of performance and BPR in terms of memory consumption.
+
+\todo{beschreibung der algorithmen im mittelfeld (mb)}
+\todo{@johannes wieso ist dc3 so scheiße? (mb)}
+\todo{@flo wieso hat bpr soviel speicher? (mb)}
+\todo{wieso taucht deep shallow nur auf dna auf? (mb)}
+\todo{vermisst jemand seine ref komplett? (mb)}
 
 \section{Evaluation (parallel)}
+
+In this section we will compare the performance of the runtime and memory performance of the included parallel SACAs.
+These are variants of the sequential algorithms, that were mostly naively parallelized, with the exception of parallel SAIS
+\footnote{This algorithm uses read/write buffers and a parallel pipeline based on work of Lao et al~\cite{psais}.}.
 
 \begin{figure}[!h]
     \centering
@@ -887,9 +893,18 @@ The worst algorithm in both runtime performance as well as memory consumption is
 \end{figure}
 \FloatBarrier
 
-In this section we will compare the performance of the runtime and memory performance of the included parallel SACAs.
-These are variants of the sequential algorithms, that were mostly na\"ively parallelized, with the exception of parallel SAIS
-\footnote{This algorithm uses read/write buffers and a parallel pipeline based on work of Lao et al~\cite{psais}.}.
+Contrary to the results of the sequential algorithms, the performance of the parallel SACAs differ widely be the input text.
+For example, Deep-Shallow\_par is the best algorithm on \texttt{wiki.txt},
+as it uses 0 extra memory and outperformes the other algorithms in terms of runtime.
+However, it is surpassed on \texttt{dna.txt} by even the naive-parallel SACA and fails to compute the correct \sa on \texttt{commoncrawl.txt}.
+
+Discarding4 has consistent runtime performance on all of the three texts but comes with a heavy memory pricetag,
+which is only surpassed by the parallel DC3 implementation.
+
+\todo{bpr memory consumption <=> naive (mb)}
+\todo{warum brechen da algos ab? (mb)}
+\todo{warum brechen alle algos ab 8 kernen ab? (mb)}
+\todo{sicherstellen dass mind eine ref drin ist (divsufsort par ref) (mb)}
 
 \section{Conclusion}
 
