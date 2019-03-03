@@ -12,7 +12,7 @@
                 width=0.5\textwidth,
                 height=48mm,
                 title={wiki.txt},
-                xlabel={input size [200\,MB]},
+                xlabel={input size [GiB]},
                 ylabel={SA construction time [min]},
                 legend columns=2,
                 legend to name=legend-seq-divsufsort-0,
@@ -22,17 +22,17 @@
                 },
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="wiki.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="DivSufSort" OR algo="DivSufSort_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,3.60188) (2,7.23034) (4,16.2487) (8,38.0502) (12,69.1509) (16,103.157) };
+            \addplot coordinates { (0.195312,3.60188) (0.390625,7.23034) (0.78125,16.2487) (1.5625,38.0502) (2.34375,69.1509) (3.125,103.157) };
             \addlegendentry{algo=DivSufSort};
-            \addplot coordinates { (1,0.474866) (2,0.89268) (4,1.73052) (8,3.45026) };
+            \addplot coordinates { (0.195312,0.474866) (0.390625,0.89268) (0.78125,1.73052) (1.5625,3.45026) };
             \addlegendentry{algo=DivSufSort\_ref};
-            \addplot coordinates { (1,2.7048) (2,6.0286) (4,15.8137) (8,28.8136) (12,59.9193) (16,65.215) (20,105.373) };
+            \addplot coordinates { (0.195312,2.7048) (0.390625,6.0286) (0.78125,15.8137) (1.5625,28.8136) (2.34375,59.9193) (3.125,65.215) (3.90625,105.373) };
             \addlegendentry{algo=Naiv};
 
         \end{axis}
@@ -44,21 +44,21 @@
                 width=0.5\textwidth,
                 height=48mm,
                 title={wiki.txt},
-                xlabel={input size [200\,MB]},
+                xlabel={input size [GiB]},
                 ylabel={Extra Memory [GiB]},
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="wiki.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="DivSufSort" OR algo="DivSufSort_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,0.481461) (2,0.962605) (4,1.92422) (8,3.81545) (12,11.3931) (16,15.1968) };
+            \addplot coordinates { (0.195312,0.481461) (0.390625,0.962605) (0.78125,1.92422) (1.5625,3.81545) (2.34375,11.3931) (3.125,15.1968) };
             \addlegendentry{algo=DivSufSort};
-            \addplot coordinates { (1,0.000246726) (2,0.000247501) (4,0.000249021) (8,0.000252061) };
+            \addplot coordinates { (0.195312,0.000246726) (0.390625,0.000247501) (0.78125,0.000249021) (1.5625,0.000252061) };
             \addlegendentry{algo=DivSufSort\_ref};
-            \addplot coordinates { (1,0.0) (2,0.0) (4,0.0) (8,0.0) (12,0.0) (16,0.0) (20,0.0) };
+            \addplot coordinates { (0.195312,0.0) (0.390625,0.0) (0.78125,0.0) (1.5625,0.0) (2.34375,0.0) (3.125,0.0) (3.90625,0.0) };
             \addlegendentry{algo=Naiv};
 
             \legend{}
@@ -67,6 +67,8 @@
 
     \medskip
     \ref{legend-seq-divsufsort-0}
+    \caption{DivSufSort und DivSufSort\_ref auf wiki.txt}
+    \label{fig:res-divsufsort0}
 \end{figure}
 
 \begin{figure}[ht]
@@ -78,7 +80,7 @@
                 width=0.5\textwidth,
                 height=48mm,
                 title={dna.txt},
-                xlabel={input size [200\,MB]},
+                xlabel={input size [GiB]},
                 ylabel={SA construction time [min]},
                 legend columns=2,
                 legend to name=legend-seq-divsufsort-1,
@@ -88,17 +90,17 @@
                 },
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="dna.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="DivSufSort" OR algo="DivSufSort_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,4.14729) (2,9.92467) (4,21.8862) (8,42.5506) (12,71.4414) (16,111.881) };
+            \addplot coordinates { (0.195312,4.14729) (0.390625,9.92467) (0.78125,21.8862) (1.5625,42.5506) (2.34375,71.4414) (3.125,111.881) };
             \addlegendentry{algo=DivSufSort};
-            \addplot coordinates { (1,0.5158) (2,1.01201) (4,2.05917) (8,4.25621) };
+            \addplot coordinates { (0.195312,0.5158) (0.390625,1.01201) (0.78125,2.05917) (1.5625,4.25621) };
             \addlegendentry{algo=DivSufSort\_ref};
-            \addplot coordinates { (1,3.07022) (2,6.92539) (4,15.1993) (8,31.8829) (12,50.4039) (16,86.2066) (20,90.5095) };
+            \addplot coordinates { (0.195312,3.07022) (0.390625,6.92539) (0.78125,15.1993) (1.5625,31.8829) (2.34375,50.4039) (3.125,86.2066) (3.90625,90.5095) };
             \addlegendentry{algo=Naiv};
 
         \end{axis}
@@ -110,21 +112,21 @@
                 width=0.5\textwidth,
                 height=48mm,
                 title={dna.txt},
-                xlabel={input size [200\,MB]},
+                xlabel={input size [GiB]},
                 ylabel={Extra Memory [GiB]},
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="dna.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="DivSufSort" OR algo="DivSufSort_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,0.430606) (2,0.900643) (4,1.8069) (8,3.39691) (12,10.1024) (16,13.3648) };
+            \addplot coordinates { (0.195312,0.430606) (0.390625,0.900643) (0.78125,1.8069) (1.5625,3.39691) (2.34375,10.1024) (3.125,13.3648) };
             \addlegendentry{algo=DivSufSort};
-            \addplot coordinates { (1,0.000246726) (2,0.000247501) (4,0.000249021) (8,0.000252061) };
+            \addplot coordinates { (0.195312,0.000246726) (0.390625,0.000247501) (0.78125,0.000249021) (1.5625,0.000252061) };
             \addlegendentry{algo=DivSufSort\_ref};
-            \addplot coordinates { (1,0.0) (2,0.0) (4,0.0) (8,0.0) (12,0.0) (16,0.0) (20,0.0) };
+            \addplot coordinates { (0.195312,0.0) (0.390625,0.0) (0.78125,0.0) (1.5625,0.0) (2.34375,0.0) (3.125,0.0) (3.90625,0.0) };
             \addlegendentry{algo=Naiv};
 
             \legend{}
@@ -133,6 +135,8 @@
 
     \medskip
     \ref{legend-seq-divsufsort-1}
+    \caption{DivSufSort und DivSufSort\_ref auf dna.txt}
+    \label{fig:res-divsufsort1}
 \end{figure}
 
 \begin{figure}[ht]
@@ -144,7 +148,7 @@
                 width=0.5\textwidth,
                 height=48mm,
                 title={commoncrawl.txt},
-                xlabel={input size [200\,MB]},
+                xlabel={input size [GiB]},
                 ylabel={SA construction time [min]},
                 legend columns=2,
                 legend to name=legend-seq-divsufsort-2,
@@ -154,17 +158,17 @@
                 },
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="DivSufSort" OR algo="DivSufSort_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,5.04956) (2,10.7497) (4,24.8351) (8,56.6159) (12,96.6195) };
+            \addplot coordinates { (0.195312,5.04956) (0.390625,10.7497) (0.78125,24.8351) (1.5625,56.6159) (2.34375,96.6195) };
             \addlegendentry{algo=DivSufSort};
-            \addplot coordinates { (1,0.438642) (2,0.81735) (4,1.5745) (8,3.19154) };
+            \addplot coordinates { (0.195312,0.438642) (0.390625,0.81735) (0.78125,1.5745) (1.5625,3.19154) };
             \addlegendentry{algo=DivSufSort\_ref};
-            \addplot coordinates { (1,7.14747) (2,11.1463) (4,26.6099) (8,62.0999) };
+            \addplot coordinates { (0.195312,7.14747) (0.390625,11.1463) (0.78125,26.6099) (1.5625,62.0999) };
             \addlegendentry{algo=Naiv};
 
         \end{axis}
@@ -176,21 +180,21 @@
                 width=0.5\textwidth,
                 height=48mm,
                 title={commoncrawl.txt},
-                xlabel={input size [200\,MB]},
+                xlabel={input size [GiB]},
                 ylabel={Extra Memory [GiB]},
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="DivSufSort" OR algo="DivSufSort_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,0.536333) (2,1.05382) (4,2.10676) (8,4.21944) (12,12.6344) };
+            \addplot coordinates { (0.195312,0.536333) (0.390625,1.05382) (0.78125,2.10676) (1.5625,4.21944) (2.34375,12.6344) };
             \addlegendentry{algo=DivSufSort};
-            \addplot coordinates { (1,0.000246726) (2,0.000247501) (4,0.000249021) (8,0.000252061) };
+            \addplot coordinates { (0.195312,0.000246726) (0.390625,0.000247501) (0.78125,0.000249021) (1.5625,0.000252061) };
             \addlegendentry{algo=DivSufSort\_ref};
-            \addplot coordinates { (1,0.0) (2,0.0) (4,0.0) (8,0.0) };
+            \addplot coordinates { (0.195312,0.0) (0.390625,0.0) (0.78125,0.0) (1.5625,0.0) };
             \addlegendentry{algo=Naiv};
 
             \legend{}
@@ -199,5 +203,13 @@
 
     \medskip
     \ref{legend-seq-divsufsort-2}
+    \caption{DivSufSort und DivSufSort\_ref auf commoncrawl.txt}
+    \label{fig:res-divsufsort2}
 \end{figure}
 \FloatBarrier
+
+Für alle drei Eingabedateien werden bei der Referenzimplementierung des DivSufSort von Mori \cite{saca:5:repo, saca:5} durch die 32-Bit Suffix-Index Typen ab einer Eingabegröße von 1,8 GiB keine Berechnungen durchführt. Bis 1,6 GiB hingegen ist er deutlich schneller als unsere Implementierung und der naive SACA. Bei allen drei Eingabedateien befindet sich die Berechnungsdauer im selben Minutenbereich. Extraspeicher braucht dieser nur in Abhängigkeit vom Alphabet, weshalb er in den Grafiken gleichauf mit dem Naiven ist.
+Die Laufzeit erhöht sich sowohl für den naiven SACA als auch für unsere Referenzimplementierung für die Eingabe \texttt{commoncrawl.txt}. So benötigen beide Algorithmen für 1,6 GiB mehr als 50 Min, während unser DivSufSort für die anderen beiden Eingaben etwas über 40 Min und der Naive etwa 30 Min brauchte. Unsere Implementierung ist nicht signifikant schneller als der naive Algorithmus und bricht bei einer Eingabegröße $> 2,4$ GiB ab.
+
+Unsere Implementierung weist zwei deutliche Nachteile auf: Zum einen wächst die Berechnungsdauer proportional zur Referenzimplementierung, wobei die Dauer unserer Implementierung ab einer Eingabegröße von 2 GiB schneller ansteigt als bei vorigen Größen, bis die Berechnung aufgrund eines $2h$-Timeouts beendet wird. Zum anderen wächst der Speicher in Abhängigkeit von der Eingabegröße, was bei der Referenzimplementierung nicht der Fall ist. Der Sprung im Speicherbedarf ab einer Größe von 2,4 GiB deutet darauf hin, dass die Anzahl der RMS-Substrings überproportional ansteigt. Beide Ursachen lassen sich durch die verwendete Sortierung der RMS-Substrings sowie durch die Sortierung der RMS-Suffixe erklären. Bei der Sortierung der Substrings wurde auf die Kombination aus Multikey-Quicksort und Introsort verzichtet und stattdessen der Introsort mit einem zeichenweisen Vergleich gewählt. Für diesen Vergleich wurden dafür zunächst die jeweiligen Teilstrings erzeugt und in die Vergleichsfunktion integriert. Der Speicherverbrauch kann reduziert werden, indem die Eigenschaft ausgenutzt wird, dass zu diesem Zeitpunkt die Suffix-Indizes in Textreihenfolge in $\mathsf{SA}[n-m, n)$ vorliegen. Damit können die RMS-Teilstrings durch eine geeignete Vergleichsfunktion simuliert werden, ohne zusätzlichen Speicher zu benötigen.
+Die Sortierung der RMS-Suffixe wurde naiv umgesetzt, indem erst die Suffixe nach ihren Rängen mittels Quicksort sortiert werden und daraufhin die Ränge neuberechnet werden. Dies wird solange wiederholt, bis alle RMS-Suffixe eindeutig sortiert wurden. Bei einer größeren Anzahl von RMS-Suffixen steigt somit auch die Laufzeit des Algorithmus. Ein Durchlauf der RMS-Suffix Sortierung speichert alle partiellen $\mathsf{ISA}$-Werte zwischen, um Abhängigkeiten durch die naive Neuzuweisung der Ränge aufzulösen. Dies ermöglicht, die Ränge für alle RMS-Suffixe im naiven Ansatz korrekt zu berechnen. Eine nähere Implementierung an der Referenz würde diese Abhängigkeiten auflösen und sowohl den Speicherbedarf als auch die Laufzeit, ebenfalls ohne Repetition-Detection, reduzieren.

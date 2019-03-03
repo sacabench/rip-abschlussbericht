@@ -1,4 +1,3 @@
-\newpage
 \subsection{Das Vorgehen}
 \label{gsaca:chapter2}
 %
@@ -7,7 +6,7 @@ Das Suffix-Array für ein gegebenes Wort wird in zwei Phasen konstruiert.
 Folgende Definitionen werden hierfür benötigt:
 
 \begin{definition}\textbf{$\widehat{i}$}\\
-Für einen String S der Länge n sei i ein Index zwischen 1 und n. Dann bezeichent $\widehat{i}$ den Index des nächsten lexikografisch kleineren Suffix.
+Für einen String S der Länge n sei i ein Index zwischen 1 und n. Dann bezeichnet $\widehat{i}$ den Index des nächsten lexikografisch kleineren Suffix.
 \end{definition}
 
 \begin{definition}\textbf{Gruppenkontext}\\
@@ -15,7 +14,7 @@ Sei S ein String. Dann ist der Substring S[i..$\widehat{i}$] ein Gruppenkontext,
 \end{definition}
 
 \begin{definition}\textbf{Gruppe}\\
-Sei S ein String und C ein Gruppenkontext. Dann bezeichnet die zu C gehörtende Gruppe die Menge der Startindices aller Vorkommen von C im String S.
+Sei S ein String und C ein Gruppenkontext. Dann bezeichnet die zu C gehörende Gruppe die Menge der Startindices aller Vorkommen von C im String S.
 \end{definition}
 
 Für das Wort Banane haben wir beispielsweise die beiden Suffixe \textit{Banane} und \textit{anane}.  
@@ -41,5 +40,5 @@ In der zweiten Phase wird die zuvor in Phase 1 berechnete Gruppenstruktur genutz
 Hierzu werden die Gruppen durchlaufen, diesmal allerdings in lexikografisch aufsteigender Reihenfolge.
 Zu Beginn ist \sa leer für alle Indices, bis auf die erste Stelle, an der der Index des Terminationssymbols \$ steht.
 Anschließend wird über \sa iteriert.
-Dazu wird in jedem Durchlauf das Zeichen des originalen Wortes an der Position, die in SA gespeichert ist, gesucht und das vorherige Zeichen betrachtet. 
-Dann wird die Kette der \prevpointer ausgehend von diesem Zeichen durchlaufen, bis diese leer ist und die Indices der gefundenen Zeichen in SA gespeichert. 
+Dazu wird in jedem Durchlauf das Zeichen des originalen Wortes an der Position, die in \sa gespeichert ist, gesucht und das vorherige Zeichen betrachtet. 
+Dann wird die Kette der \prevpointer ausgehend von diesem Zeichen durchlaufen, bis diese leer ist und die Indices der gefundenen Zeichen in \sa gespeichert. 

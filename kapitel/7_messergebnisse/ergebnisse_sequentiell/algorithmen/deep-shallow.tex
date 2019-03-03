@@ -13,7 +13,7 @@
                 width=0.5\textwidth,
                 height=48mm,
                 title={wiki.txt},
-                xlabel={input size [200\,MB]},
+                xlabel={input size [GiB]},
                 ylabel={SA construction time [min]},
                 legend columns=2,
                 legend to name=legend-seq-ds-0,
@@ -23,19 +23,19 @@
                 },
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="wiki.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Deep-Shallow" OR algo="Deep-Shallow_ref" OR algo="Deep-Shallow_bb")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,1.41194) (2,3.15161) (4,7.0355) (8,17.3743) (12,31.4128) (16,41.969) (20,53.1324) };
+            \addplot coordinates { (0.195312,1.41194) (0.390625,3.15161) (0.78125,7.0355) (1.5625,17.3743) (2.34375,31.4128) (3.125,41.969) (3.90625,53.1324) };
             \addlegendentry{algo=Deep-Shallow};
-            \addplot coordinates { (1,1.32619) (2,2.88039) (4,6.21822) (8,14.5018) (12,25.2688) (16,33.7536) (20,42.8578) };
+            \addplot coordinates { (0.195312,1.32619) (0.390625,2.88039) (0.78125,6.21822) (1.5625,14.5018) (2.34375,25.2688) (3.125,33.7536) (3.90625,42.8578) };
             \addlegendentry{algo=Deep-Shallow\_bb};
-            \addplot coordinates { (1,0.572572) (2,1.26708) (4,2.77311) };
+            \addplot coordinates { (0.195312,0.572572) (0.390625,1.26708) (0.78125,2.77311) };
             \addlegendentry{algo=Deep-Shallow\_ref};
-            \addplot coordinates { (1,2.7048) (2,6.0286) (4,15.8137) (8,28.8136) (12,59.9193) (16,65.215) (20,105.373) };
+            \addplot coordinates { (0.195312,2.7048) (0.390625,6.0286) (0.78125,15.8137) (1.5625,28.8136) (2.34375,59.9193) (3.125,65.215) (3.90625,105.373) };
             \addlegendentry{algo=Naiv};
 
         \end{axis}
@@ -47,23 +47,23 @@
                 width=0.5\textwidth,
                 height=48mm,
                 title={wiki.txt},
-                xlabel={input size [200\,MB]},
+                xlabel={input size [GiB]},
                 ylabel={Extra Memory [GiB]},
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="wiki.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Deep-Shallow" OR algo="Deep-Shallow_ref" OR algo="Deep-Shallow_bb")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,0.00318839) (2,0.00531907) (4,0.00959058) (8,0.0181133) (12,0.0440922) (16,0.0582968) (20,0.0725154) };
+            \addplot coordinates { (0.195312,0.00318839) (0.390625,0.00531907) (0.78125,0.00959058) (1.5625,0.0181133) (2.34375,0.0440922) (3.125,0.0582968) (3.90625,0.0725154) };
             \addlegendentry{algo=Deep-Shallow};
-            \addplot coordinates { (1,0.00310723) (2,0.00523791) (4,0.00950864) (8,0.0180314) (12,0.0439283) (16,0.0581329) (20,0.07235) };
+            \addplot coordinates { (0.195312,0.00310723) (0.390625,0.00523791) (0.78125,0.00950864) (1.5625,0.0180314) (2.34375,0.0439283) (3.125,0.0581329) (3.90625,0.07235) };
             \addlegendentry{algo=Deep-Shallow\_bb};
-            \addplot coordinates { (1,0.00236637) (2,0.00471019) (4,0.00939793) };
+            \addplot coordinates { (0.195312,0.00236637) (0.390625,0.00471019) (0.78125,0.00939793) };
             \addlegendentry{algo=Deep-Shallow\_ref};
-            \addplot coordinates { (1,0.0) (2,0.0) (4,0.0) (8,0.0) (12,0.0) (16,0.0) (20,0.0) };
+            \addplot coordinates { (0.195312,0.0) (0.390625,0.0) (0.78125,0.0) (1.5625,0.0) (2.34375,0.0) (3.125,0.0) (3.90625,0.0) };
             \addlegendentry{algo=Naiv};
 
             \legend{}
@@ -72,6 +72,8 @@
 
     \medskip
     \ref{legend-seq-ds-0}
+    \caption{Deep-Shallow, Deep-Shallow\_bb und Deep-Shallow\_ref auf wiki.txt}
+    \label{fig-seq-ds-0}
 \end{figure}
 
 \begin{figure}[!h]
@@ -83,7 +85,7 @@
                 width=0.5\textwidth,
                 height=48mm,
                 title={dna.txt},
-                xlabel={input size [200\,MB]},
+                xlabel={input size [GiB]},
                 ylabel={SA construction time [min]},
                 legend columns=2,
                 legend to name=legend-seq-ds-1,
@@ -93,19 +95,19 @@
                 },
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="dna.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Deep-Shallow" OR algo="Deep-Shallow_ref" OR algo="Deep-Shallow_bb")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,1.84297) (2,4.19221) (4,9.31173) (8,19.1414) (12,31.3496) (16,41.822) (20,53.3196) };
+            \addplot coordinates { (0.195312,1.84297) (0.390625,4.19221) (0.78125,9.31173) (1.5625,19.1414) (2.34375,31.3496) (3.125,41.822) (3.90625,53.3196) };
             \addlegendentry{algo=Deep-Shallow};
-            \addplot coordinates { (1,1.52271) (2,3.25649) (4,7.08483) (8,15.4772) (12,24.4969) (16,40.615) (20,45.8152) };
+            \addplot coordinates { (0.195312,1.52271) (0.390625,3.25649) (0.78125,7.08483) (1.5625,15.4772) (2.34375,24.4969) (3.125,40.615) (3.90625,45.8152) };
             \addlegendentry{algo=Deep-Shallow\_bb};
-            \addplot coordinates { (1,0.641739) (2,1.35715) (4,2.89482) };
+            \addplot coordinates { (0.195312,0.641739) (0.390625,1.35715) (0.78125,2.89482) };
             \addlegendentry{algo=Deep-Shallow\_ref};
-            \addplot coordinates { (1,3.07022) (2,6.92539) (4,15.1993) (8,31.8829) (12,50.4039) (16,86.2066) (20,90.5095) };
+            \addplot coordinates { (0.195312,3.07022) (0.390625,6.92539) (0.78125,15.1993) (1.5625,31.8829) (2.34375,50.4039) (3.125,86.2066) (3.90625,90.5095) };
             \addlegendentry{algo=Naiv};
 
         \end{axis}
@@ -117,23 +119,23 @@
                 width=0.5\textwidth,
                 height=48mm,
                 title={dna.txt},
-                xlabel={input size [200\,MB]},
+                xlabel={input size [GiB]},
                 ylabel={Extra Memory [GiB]},
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="dna.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Deep-Shallow" OR algo="Deep-Shallow_ref" OR algo="Deep-Shallow_bb")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,0.00213129) (2,0.00426197) (4,0.00852334) (8,0.0170461) (12,0.0427577) (16,0.0569622) (20,0.0711668) };
+            \addplot coordinates { (0.195312,0.00213129) (0.390625,0.00426197) (0.78125,0.00852334) (1.5625,0.0170461) (2.34375,0.0427577) (3.125,0.0569622) (3.90625,0.0711668) };
             \addlegendentry{algo=Deep-Shallow};
-            \addplot coordinates { (1,0.00213125) (2,0.00426193) (4,0.00852329) (8,0.017046) (12,0.0427576) (16,0.0569622) (20,0.0711667) };
+            \addplot coordinates { (0.195312,0.00213125) (0.390625,0.00426193) (0.78125,0.00852329) (1.5625,0.017046) (2.34375,0.0427576) (3.125,0.0569622) (3.90625,0.0711667) };
             \addlegendentry{algo=Deep-Shallow\_bb};
-            \addplot coordinates { (1,0.00234376) (2,0.00468751) (4,0.00937501) };
+            \addplot coordinates { (0.195312,0.00234376) (0.390625,0.00468751) (0.78125,0.00937501) };
             \addlegendentry{algo=Deep-Shallow\_ref};
-            \addplot coordinates { (1,0.0) (2,0.0) (4,0.0) (8,0.0) (12,0.0) (16,0.0) (20,0.0) };
+            \addplot coordinates { (0.195312,0.0) (0.390625,0.0) (0.78125,0.0) (1.5625,0.0) (2.34375,0.0) (3.125,0.0) (3.90625,0.0) };
             \addlegendentry{algo=Naiv};
 
             \legend{}
@@ -142,6 +144,8 @@
 
     \medskip
     \ref{legend-seq-ds-1}
+    \caption{Deep-Shallow, Deep-Shallow\_bb und Deep-Shallow\_ref auf dna.txt}
+    \label{fig-seq-ds-1}
 \end{figure}
 
 \begin{figure}[!h]
@@ -153,7 +157,7 @@
                 width=0.5\textwidth,
                 height=48mm,
                 title={commoncrawl.txt},
-                xlabel={input size [200\,MB]},
+                xlabel={input size [GiB]},
                 ylabel={SA construction time [min]},
                 legend columns=2,
                 legend to name=legend-seq-ds-2,
@@ -163,19 +167,19 @@
                 },
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Deep-Shallow" OR algo="Deep-Shallow_ref" OR algo="Deep-Shallow_bb")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,6.05164) (2,11.5902) };
+            \addplot coordinates { (0.195312,6.05164) (0.390625,11.5902) };
             \addlegendentry{algo=Deep-Shallow};
-            \addplot coordinates { (1,3.63105) };
+            \addplot coordinates { (0.195312,3.63105) };
             \addlegendentry{algo=Deep-Shallow\_bb};
-            \addplot coordinates { (1,0.640794) (2,1.43003) (4,3.24651) };
+            \addplot coordinates { (0.195312,0.640794) (0.390625,1.43003) (0.78125,3.24651) };
             \addlegendentry{algo=Deep-Shallow\_ref};
-            \addplot coordinates { (1,7.14747) (2,11.1463) (4,26.6099) (8,62.0999) };
+            \addplot coordinates { (0.195312,7.14747) (0.390625,11.1463) (0.78125,26.6099) (1.5625,62.0999) };
             \addlegendentry{algo=Naiv};
 
         \end{axis}
@@ -187,23 +191,23 @@
                 width=0.5\textwidth,
                 height=48mm,
                 title={commoncrawl.txt},
-                xlabel={input size [200\,MB]},
+                xlabel={input size [GiB]},
                 ylabel={Extra Memory [GiB]},
             ]
 
-            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
+            %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Deep-Shallow" OR algo="Deep-Shallow_ref" OR algo="Deep-Shallow_bb")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
-            \addplot coordinates { (1,0.00347933) (2,0.00566776) };
+            \addplot coordinates { (0.195312,0.00347933) (0.390625,0.00566776) };
             \addlegendentry{algo=Deep-Shallow};
-            \addplot coordinates { (1,0.00337581) };
+            \addplot coordinates { (0.195312,0.00337581) };
             \addlegendentry{algo=Deep-Shallow\_bb};
-            \addplot coordinates { (1,0.00239389) (2,0.00473988) (4,0.00945246) };
+            \addplot coordinates { (0.195312,0.00239389) (0.390625,0.00473988) (0.78125,0.00945246) };
             \addlegendentry{algo=Deep-Shallow\_ref};
-            \addplot coordinates { (1,0.0) (2,0.0) (4,0.0) (8,0.0) };
+            \addplot coordinates { (0.195312,0.0) (0.390625,0.0) (0.78125,0.0) (1.5625,0.0) };
             \addlegendentry{algo=Naiv};
 
             \legend{}
@@ -212,11 +216,13 @@
 
     \medskip
     \ref{legend-seq-ds-2}
+    \caption{Deep-Shallow, Deep-Shallow\_bb und Deep-Shallow\_ref auf commoncrawl.txt}
+    \label{fig-seq-ds-2}
 \end{figure}
 \FloatBarrier
 
 \noindent
-Auf den Abbildungen zu den beiden Texten \texttt{wiki} und \texttt{dna} lässt sich erkennen,
+Auf \currentauthor{Marvin Böcker} den Abbildungen zu den beiden Texten \texttt{wiki} und \texttt{dna} lässt sich erkennen,
 dass alle drei Implementierungen von Deep-Shallow die naive Sortiermethode in der Laufzeit schlagen.
 Sie tun dies durch das Eintauschen von einigem Speicher (ca 1\% des Eingabetextes):
 Der naive SACA verwendet hingegen keinen Extraspeicher.

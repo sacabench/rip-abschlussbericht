@@ -307,3 +307,11 @@
     \caption{Vergleich der sequentiellen Referenzimplementierungen mit Laufzeit und Speicherbedarf auf commoncrawl.txt}
 \end{figure}
 \FloatBarrier
+
+In \currentauthor{Johannes Bahne} diesem Kapitel werden die sequentiellen Referenzimplementierungen miteinander verglichen. Wie im vorherigen Abschnitt, sind die Implementierungen auf demselben Messsystem mit denselben Eingabetexten getestet worden.
+
+Auf den Testdaten \texttt{wiki.txt} und \texttt{commoncrawl.txt} weisen die Implementierungen der DivSufSort\_ref und SAIS-LITE\_ref die besten Laufzeiten auf. Auf dem repetitiven Text \texttt{dna.txt} liegt der Deep-Shallow\_ref jedoch auf dem zweiten Platz. Die schlechtesten Algorithmen in dieser Auswertung bezüglich der Laufzeit sind der DC3\_ref und der SADS\_ref.
+
+Die Referenzimplementierungen teilen sich bezüglich des zusätzlichen Speicherverbrauches in zwei Gruppen auf - die, die überwiegend keinen Extra-Speicher benötigen und die, die relativ viel Extra-Speicher verbrauchen. Zu der ersten Gruppe gehören die Implementierungen DivSufSort\_ref, Deep-Shal\-low\_ref, SACA-K\_ref, SAIS\_ref und SADS\_ref. Zu der zweiten Gruppe zählen DC3\_ref, BPR\_ref, qSufSort\_ref und GSACA\_ref. Diese Reihenfolge ist unabhängig der Testdaten. So benötigt der DC3\_ref bei einer Eingabegröße von $1{,}6$ GiB rund $37$ GiB zusätzlichen Speicher. Dem gegenüber berechnen der DivSufSort\_ref und SACA-K\_ref das Suffix-Array ohne zusätzlichen Speicher. Aber auch der SAIS\_ref nimmt nur knapp $500$ MiB zusätzlichen Speicher in Anspruch.
+
+Auch zu den Referenzimplementierungen können weitere Informationen dem \cref{anhang:messwerte:smallfiles} entnommen werden.
