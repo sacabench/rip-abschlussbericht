@@ -209,7 +209,7 @@
 \end{figure}
 \FloatBarrier
 
-Die Abbildungen \ref{qsufsort_benchmark:1}, \ref{qsufsort_benchmark:2} und \ref{qsufsort_benchmark:3} zeigen jeweils die Vergleiche zwischen unserer Implementierung des qSufSort, der Implementierung der Autoren Larsson und Sadakane und des naiven SACAs.
+Die \currentauthor{Hermann Foot} Abbildungen \ref{qsufsort_benchmark:1}, \ref{qsufsort_benchmark:2} und \ref{qsufsort_benchmark:3} zeigen jeweils die Vergleiche zwischen unserer Implementierung des qSufSort, der Implementierung der Autoren Larsson und Sadakane und des naiven SACAs.
 
 Auf allen drei Texten zeichnet sich sowohl für das Laufzeitverhalten, als auch für den Speicherverbrauch ein ähnliches Bild ab. Da die Referenzimplementierung des qSufSort lediglich 32-Bit-Typen verwendet, können Eingaben ab 1,6GB nicht mehr verarbeitet werden. Bis zu diesem Punkt jedoch, ist diese den anderen beiden Algorithmen bezüglich der Laufzeit überlegen. Bei beiden Varianten des Prefix-Doublers lässt sich darüber hinaus beobachten, dass die benötigte Laufzeit nahezu linear mit der Eingabegröße steigt, also gut mit dieser skaliert.
 Im Vergleich zu zur Referenzimplementierung, verbraucht unsere Version des qSufSort weniger Speicher. Gut zu erkennen ist dabei der deutlich erhöhte Speicherverbrauch durch die Nutzung von 64-Bit Datentypen für Eingabegrößen >1.6GB. 
