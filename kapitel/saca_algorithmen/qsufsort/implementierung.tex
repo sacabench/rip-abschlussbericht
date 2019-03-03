@@ -17,13 +17,3 @@ Durch die erste Verbesserung, die Reduzierung auf ein Hilfsarray, konnte das zus
 Die zweite Verbesserung, die Kombination von Sortieren und Updaten, ersetzt den expliziten Aufruf des ternary Quicksort innerhalb des Prefix-Doublings durch eine Funktion, die selbst die Partitionsfunktion des ternary Quicksort aufruft um die resultierenden Intervallgrenzen der Equal-Partition zum Updaten der Gruppen nutzen zu können.
 
 Die dritte und letzte Verbesserung, die Beschleunigung der initialen Sortierung mit Hilfe von Wordpacking, transformiert nach Aufruf des Algorithmus den Text in das Ausgabearray \mintinline{cpp}{out_sa}, da das Textobjekt unveränderbar ist. Die resultierende Transformation wird dann, anders als von den Autoren vorgeschlagen, mit Hilfe des ternary Quicksort anstatt eines Bucketsort sortiert. Gründe dafür sind zum einen, da dieser unabhängig von der resultierenden Alphabetgröße durch das Wordpacking funktioniert und zum anderen Evaluierungen innerhalb unseres Frameworks gezeigt haben, dass dieser in diesem Fall die beste Laufzeit bietet.
-\subsubsection{Ergebnisse}
-Die Evaluierung der Verbesserungen in Bezug auf die naive Variante der Implementierung ergab, dass vor allem die erste Verbesserung, die Reduzierung auf ein Hilfsarray, eine signifikante Laufzeit- und Speicherverbesserung ermöglichte.
-Auch die zweite und dritte Verbesserung konnten die Laufzeit des Codes verbessern, letztere speziell auf großen Daten.
-
-Die Referenzimplementierung des qSufSort von Jesper Larsson wurde in C verfasst, konnte also leicht in das von uns in C++ geschriebene Framework eingebunden werden. Da allerdings der Code als Eingabe neben dem bereits zu einem \mintinline{text}{int}-Array transformierten Text und dem allokierten Speicher für das Ausgabearray, die Größe des Arrays und die minimalen und maximalen Werte des Alphabets benötigt, bedarf es vor Aufruf der Referenzimplementierung einer Vorverarbeitung der vom Framework gegebenen Eingabedaten. \\
-Im Vergleich zu unserer Implementierung verbraucht die Referenzimplementierung bei allen getesteten Instanzen mehr Speicher. Dazu sei aber erwähnt, dass diese standardmäßig den 64-Bit \mintinline{text}{int}-Typen verwendet, also bei Instanzen kleiner $2^{32}$ Byte doppelt so viel Speicher benutzt als nötig, während sich unsere eigene Implementierung je nach Größe des Textes einen geeigneten \mintinline{text}{int}-Typen wählt. 
-
-Anders sieht es bei der Laufzeit aus: hier schlägt die Referenzimplementierung unsere eigene Variante auf den meisten Instanzen. 
-
-Genauere Benchmark Ergebnisse und Vergleiche werden in Kapitel \ref{ergebnisse} gezeigt.
