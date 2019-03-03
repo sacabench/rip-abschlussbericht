@@ -37,7 +37,7 @@ while there are some $\mathcal O(n)$ algorithms available.
 
 For the last year we (re-)implemented eleven SACAs~\cite{saca:3,saca:11,saca:5,saca:9,saca:1,saca:8,saca:4,saca:7,saca:10,saca:6,saca:2}
 in modern C++ in order to create faster and more memory efficient implementations,
-and although our attempts were mostly not successful,
+and \todo{diese Randbemerkung vllt weglassen}although our attempts were mostly not successful,
 we created a sophisticated benchmark framework for SACAs, \emph{\sacabench}~\cite{sacabench:github}, in the process.
 
 In this paper we introduce \sacabench and highlight its features,
@@ -56,7 +56,7 @@ We also include tools to convert the JSON-format to graphs for a visual comparis
 This is the most important aspect of our framework:
 the possibility to easily run many SACAs on the same input text on the same hardware
 in order to measure and compare them fairly.
-
+\todo{vllt erwähnen dass man seine eigenen Algorithmen einbinden kann?}
 \subsection{Running a single algorithm}
 
 \begin{figure}[!h]
