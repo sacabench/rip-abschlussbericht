@@ -219,7 +219,7 @@
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
+            %% ) WHERE thread_count < 9 AND input="commoncrawl.txt" AND sacheck="ok"
             %% AND (algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,5.61108) (2,6.40921) (4,7.93302) (8,10.0045) };
@@ -228,13 +228,13 @@
             \addlegendentry{algo=Discarding4Parallel};
             \addplot coordinates { (1,0.438349) (2,0.817589) (4,1.57076) (8,3.18317) };
             \addlegendentry{algo=DivSufSort\_par\_ref};
-            \addplot coordinates { (1,7.15567) (2,7.39145) (4,8.81336) (8,11.3875) (12,13.2541) (16,15.516) };
+            \addplot coordinates { (1,7.15567) (2,7.39145) (4,8.81336) (8,11.3875) };
             \addlegendentry{algo=NaivParallel};
 
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
+            %% ) WHERE thread_count < 9 AND input="commoncrawl.txt" AND sacheck="ok"
             %% AND (algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,4.39624) (2,9.27186) (4,20.3309) (8,43.9922) };
@@ -261,7 +261,7 @@
             %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
+            %% ) WHERE thread_count < 9 AND input="commoncrawl.txt" AND sacheck="ok"
             %% AND (algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,2.34575) (2,4.69158) (4,9.38307) (8,18.766) };
@@ -270,13 +270,13 @@
             \addlegendentry{algo=Discarding4Parallel};
             \addplot coordinates { (1,0.000246726) (2,0.000247501) (4,0.000249021) (8,0.000252061) };
             \addlegendentry{algo=DivSufSort\_par\_ref};
-            \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) (12,18.75) (16,25) };
+            \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) };
             \addlegendentry{algo=NaivParallel};
 
             %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
+            %% ) WHERE thread_count < 9 AND input="commoncrawl.txt" AND sacheck="ok"
             %% AND (algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,2.34575) (2,4.6895) (4,9.377) (8,18.752) };
@@ -292,3 +292,20 @@
     \ref{legend-par-discarding-2}
 \end{figure}
 \FloatBarrier
+
+xsasdassdsdas
+f
+as
+dfas
+df
+as
+df
+asdf
+as
+sd
+fa
+sfdasdf
+
+
+
+asdfasdf
