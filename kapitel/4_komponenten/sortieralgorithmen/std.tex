@@ -5,7 +5,7 @@ In \sacabench verwenden wir außerdem die Sortierer aus der GNU Standardbiblioth
 Wir verwenden insbesondere die parallelen Varianten von \texttt{std::sort}
 und \texttt{std::stable\_sort}.
 Diese erwiesen sich als zuverlässiger als \ipsviero auf vielen Kernen
-und werden daher für die naiven Parallelisierungen der SACAs verwendet.
+und werden daher für die meisten naiven Parallelisierungen der SACAs verwendet.
 
 Im nicht-stabilen Sortierer kann entweder \emph{Parallel Multiway Mergesort} oder \emph{Parallel Load-Balanced Quicksort} verwendet werden.
 Die Mergesort-Variante teilt dabei das Problem nicht in zwei Teile sondern $k$ Teile, wovon jeder von einem anderen Kern bearbeitet wird.
