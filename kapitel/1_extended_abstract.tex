@@ -31,7 +31,7 @@ that the $i$th suffix of the text \inputtext has lexicographic rank $\sa[i]$.
 
 While the efficient construction is still an active research area,
 divsufsort~\cite{saca:5,saca:5:repo} is the empirically fastest
-suffix array construction algorithm (SACA) since 2008\todo{wann?},
+suffix array construction algorithm (SACA) since 2008,
 even though it has a theoretical complexity of $\mathcal O (n \log n)$,
 while there are some $\mathcal O(n)$ algorithms available.
 
@@ -200,7 +200,7 @@ In the next iteration one can look at the suffixes that start two positions late
 and so on.
 After $\mathcal O(\log n)$ iterations (since we double the prefix size in every iteration),
 all the suffixes are sorted.
-This method is used by qsufsort~\cite{qsufsort} and the
+This method is used by qsufsort~\cite{saca:1} and the
 doubling/discarding algorithm originally developed for use with external memory~\cite{saca:11}.
 
 \bigskip
@@ -226,7 +226,8 @@ We now briefly explain the shown algorithms and their differences.
 
 Prefix Doubling is a SACA which works purely by the above described method \emph{Doubling}.
 In every iteration the SA is refined and double the amount of characters are considered for sorting.
-This directly influenced qsufsort, which improved its performance by subdividing suffixes into sorted and unsorted groups. 
+This directly influenced qsufsort, which improved its performance by using the \isa (inverse suffix arary) 
+and subdividing suffixes into sorted and unsorted groups. 
 BPR incorporated some ideas of inducing with prefix doubling and is therefore on the edge of those two paradigms.
 Its inducing is based on the copy-technique by Seward~\cite{seward2000}.
 This technique is also used by Deep-Shallow, which uses string-sorting instead of prefix doubling.
@@ -235,7 +236,7 @@ Given the correct order of the RMS suffixes, all remaining S-Type suffixes get i
 SAIS works by sorting all LMS (leftmost S-Type suffixes) in a recursion step before inducing the ordering of all suffixes in two passes similar to DivSufSort.
 This is also done by SACA-K and GSACA, which are both similar to SAIS, but add some optimizations
 (SACA-K for example doesn't use any extra space).
-mSufSort is another inducing-SACA, but since it constructs the \emph{inverse suffix array} instead of the SA,
+mSufSort is another inducing-SACA, but since it constructs the \isa instead of the \sa,
 it's not derived from any other SACA.
 The two other recursive SACAs are DC3 (which sorts $\frac{2}{3}$ of the suffixes in a recursion step)
 and nzSufSort (which is similar to DC3 but improves on some aspects)\todo{nico? johannes? bitte ergänzen}.
@@ -252,7 +253,6 @@ We implemented our SACAs with an exchangable suffix array index type, that is a 
 With our current implementation it is possible to use 32, 40, 48 and 64 bit for the suffix array elements.
 Since our tool supports a different output encoding (32 or 64 bit), we can save memory during construction regardless of the desired output length.
 Keep in mind that since the 40- and 48-bit types are not standardized, their performance is inferior to those of 32- and 64- bit types.
-We measured an approximate 2.5x slowdown compared to the built-in number types.\todo{Nochmal richtig messen?}
 
 \subsection{Cache-efficiency}
 
@@ -274,8 +274,9 @@ we include a prefix doubling SACA which uses CUDA and the CUB-Framework to run o
 We show that this algorithm outperformes the parallel DivSufSort implementation,
 although the required and available memory on current GPUs still restricts the algorithm to far smaller input sizes than CPU SACAs are capable of.
 Further research of GPU SACAs should be considered,
-as we could hardly find any (working) reference algorithms to compare our implementation with
-(and development of GPUs shows higher performance improvements than CPU development\todo{entweder belegen oder entfernen.}).
+as we could hardly find any (working) reference algorithms to compare our implementation with, 
+% Das hier sollte als Allgemeinwissen klar sein:
+and development of GPUs shows higher performance improvements than CPU development in certain workloads.
 
 \subsection{Sorting Algorithms}
 
@@ -291,8 +292,8 @@ Most of those external sorting algorithms are made for parallel use.
 Multiple versions of quicksort are implemented:
 Two of them are introsort~\cite{Musser97} and ternary quicksort~\cite{ternary_quicksort}.
 It has been shown that the binary sorting procedure is faster,
-if there are no equal elements in the set to be sorted \todo{Graph oder Messung?};
-else, the ternary version is faster~\cite{ternary_quicksort}.
+if there are no equal elements in the set to be sorted~\cite{saca:4,ternary_quicksort};
+otherwise, the ternary version is faster~\cite{ternary_quicksort}.
 We therefore chose the best option for the required use-case.
 
 \section{Evaluation}
@@ -395,7 +396,7 @@ We therefore chose the best option for the required use-case.
     \end{tikzpicture}
     \medskip
     \ref{runtime-all-ref-0}
-    \caption{Vergleich der sequentiellen Referenzimplementierungen mit Laufzeit und Speicherbedarf auf wiki.txt}
+    \caption{Comparison of the in \sacabench included reference implementations of SACAs, including time and memory consumption: wiki.txt}
 \end{figure}
 
 \begin{figure}[!h]
@@ -500,7 +501,7 @@ We therefore chose the best option for the required use-case.
     \end{tikzpicture}
     \medskip
     \ref{runtime-all-ref-1}
-    \caption{Vergleich der sequentiellen Referenzimplementierungen mit Laufzeit und Speicherbedarf auf dna.txt}
+    \caption{Comparison of the in \sacabench included reference implementations of SACAs, including time and memory consumption: dna.txt}
 \end{figure}
 
 \begin{figure}[!h]
@@ -601,7 +602,7 @@ We therefore chose the best option for the required use-case.
     \end{tikzpicture}
     \medskip
     \ref{runtime-all-ref-2}
-    \caption{Vergleich der sequentiellen Referenzimplementierungen mit Laufzeit und Speicherbedarf auf commoncrawl.txt}
+    \caption{Comparison of the in \sacabench included reference implementations of SACAs, including time and memory consumption: commoncrawl.txt}
 \end{figure}
 \FloatBarrier
 
