@@ -77,7 +77,7 @@ To generate a JSON file containing detailed information about the run of the sel
 the flag \termfont{-b} needs to be added to the command, followed by a destination path to which the report will be saved to.
 To override an existing file at the destination path, the option \termfont{-f} can be used.
 This file can be converted to a plot on the tudostat website~\cite{tudostat} (see Figure \ref{ea:phases} as an example).
-If you add the flag \termfont{-{}-rplot}, a plot will be generated automatically after the SACA executed by using a R-script.
+If you add the flag \termfont{-{}-rplot}, a plot will be generated automatically after the SACA executed by using an R-script.
 Additionally there is an alternative version of plots, which are generated using LaTex.
 This can be done by adding the flag \termfont{-{}-latexplot}.
 
@@ -200,7 +200,7 @@ In the next iteration one can look at the suffixes that start two positions late
 and so on.
 After $\mathcal O(\log n)$ iterations (since we double the prefix size in every iteration),
 all the suffixes are sorted.
-This method is used by qsufsort~\cite{qsufsort} and the
+This method is used by qSufSort~\cite{saca:1} and the
 doubling/discarding algorithm originally developed for use with external memory~\cite{saca:11}.
 
 \bigskip
@@ -226,7 +226,7 @@ We now briefly explain the shown algorithms and their differences.
 
 Prefix Doubling is a SACA which works purely by the above described method \emph{Doubling}.
 In every iteration the SA is refined and double the amount of characters are considered for sorting.
-This directly influenced qsufsort, which improved its performance by subdividing suffixes into sorted and unsorted groups. 
+This directly influenced qSufSort, which improved its performance by subdividing suffixes into sorted and unsorted groups. 
 BPR incorporated some ideas of inducing with prefix doubling and is therefore on the edge of those two paradigms.
 Its inducing is based on the copy-technique by Seward~\cite{seward2000}.
 This technique is also used by Deep-Shallow, which uses string-sorting instead of prefix doubling.
@@ -265,7 +265,7 @@ However, when implementing SACAs, avoiding unnecessary cache misses can signific
 To maximize throughput, multiple characters of the input (8 bit each) can be processed as a whole by
 interpreting them as integer numbers (64 bit, or even up to 512 bit by using vector operations).
 Algorithms using wordpacking techniques are the Osipov algorithm~\cite{osipovGPU},
-Doubling~\cite{saca:11}, Discarding~\cite{saca:11} and QSufSort~\cite{saca:1}.
+Doubling~\cite{saca:11}, Discarding~\cite{saca:11} and qSufSort~\cite{saca:1}.
 
 \subsection{Utilization of a GPU}
 
