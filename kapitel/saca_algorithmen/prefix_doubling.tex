@@ -736,3 +736,10 @@ Da der Ausgabe-\texttt{span} zu einer Allokation von mindestens $n \log n$ Bits 
 %\todo{Beispiel Grafik?}
 
 Dies würde jedoch die Implementierung wesentlich komplexer machen, da die Komponenten eines Tupels nun über mehrere disjunkte \texttt{span}s verteilt wären. Da das Interface der Sortierer-Implementierungen darauf beruht, nur vollständige Elemente eines Arrays zu sortieren, wäre somit also auch eine Anpassung der benutzten Sortieralgorithmen notwendig.
+
+\subsection{Parallelisierung}
+\label{chapter:saca:doubling:par}
+
+Alle vorgestellten Varianten des Algorithmus lassen sich trivial parallelisieren, indem ein paralleler Sortieralgorithmus benutzt wird. Wir nutzen hierzu den parallelen Ips4o Algorithmus aus \cref{section:ips4o}.
+
+In anderen Aspekten ist eine parallelisieren der Algorithmen nicht effektiv möglich, da sowohl die Umbenennungsphase als auch die Paarbildungsphase inhärent sequentielle Abläufe beinhalten.
