@@ -629,7 +629,7 @@ which is followed by SADS (a variant of SAIS~\cite{saca:6}) in terms of performa
 \section{Evaluation (parallel)}
 
 In this section we will compare the performance of the runtime and memory performance of the included parallel SACAs.
-These are variants of the sequential algorithms, that were mostly na\"ively parallelized, with the exception of parallel SAIS
+These are variants of the sequential algorithms, that were mostly naively parallelized, with the exception of parallel SAIS
 \footnote{This algorithm uses read/write buffers and a parallel pipeline based on work of Lao et al~\cite{psais}.}.
 
 \begin{figure}[!h]
@@ -893,7 +893,13 @@ These are variants of the sequential algorithms, that were mostly na\"ively para
 \end{figure}
 \FloatBarrier
 
-\blindtext
+Contrary to the results of the sequential algorithms, the performance of the parallel SACAs differ widely be the input text.
+For example, Deep-Shallow\_par is the best algorithm on \texttt{wiki.txt},
+as it uses 0 extra memory and outperformes the other algorithms in terms of runtime.
+However, it is surpassed on \texttt{dna.txt} by even the naive-parallel SACA and fails to compute the correct \sa on \texttt{commoncrawl.txt}.
+
+Discarding4 has consistent runtime performance on all of the three texts but comes with a heavy memory pricetag,
+which is only surpassed by the parallel DC3 implementation.
 
 \section{Conclusion}
 
