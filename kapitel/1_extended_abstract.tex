@@ -48,7 +48,8 @@ as well as document some of the optimiziation strategies we used to implement th
 \sacabench is a CMake/C++14 project which contains many different SACAs.
 There are both sequential and parallel algorithms included
 and we also include the reference implementations for all of the algorithms, if one exists.
-It is also possible to include a new or another existing SACA with \sacabench.
+It is also possible to include a new or another existing SACA with \sacabench
+\footnote{For instructions on how to do this, please consider our README in the GitHub Repository~\cite{sacabench:github}}.
 You are able to run a single, a subset of, or all of the algorithms, depending on your needs.
 Time and memory consumption is automatically measured and can be output as JSON.
 We also include tools to convert the JSON-format to graphs for a visual comparison of the algorithms.
@@ -56,7 +57,7 @@ We also include tools to convert the JSON-format to graphs for a visual comparis
 This is the most important aspect of our framework:
 the possibility to easily run many SACAs on the same input text on the same hardware
 in order to measure and compare them fairly.
-\todo{vllt erwähnen dass man seine eigenen Algorithmen einbinden kann?}
+
 \subsection{Running a single algorithm}
 
 \begin{figure}[!h]
