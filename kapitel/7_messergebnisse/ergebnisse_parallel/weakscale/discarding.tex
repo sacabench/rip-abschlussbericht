@@ -293,13 +293,13 @@
 \end{figure}
 \FloatBarrier
 
-Wir werten nun das Verhalten der zwei parallelen \textit{Discarding} Varianten des \textit{Doubling}-Algorithmus mit $a$-Tupling für $a=2$ und $a=4$ (siehe \cref{chapter:saca:doubling}) bei skalierender Eingabegröße und Thread-Anzahl aus. Allgemein sind die Ergebnisse ähnlich zu denen der sequentiellen Messung aus \cref{messeval:scaling:seq:doubling}, da die einzige Änderung am Algorithmus die Nutzung eines parallelen Sortieralgorithmus ist, und sich dies auf alle Varianten des Algorithmus gleich auswirkt.
+Wir werten nun das Verhalten der zwei parallelen \textit{Discarding} Varianten des \textit{Doubling}-Algorithmus mit $a$-Tupling für $a=2$ und $a=4$ (siehe \cref{chapter:saca:doubling:par}) bei skalierender Eingabegröße und Thread-Anzahl aus. Allgemein sind die Ergebnisse ähnlich zu denen der sequentiellen Messung aus \cref{messeval:scaling:seq:doubling}, da die einzige Änderung am Algorithmus die Nutzung eines parallelen Sortieralgorithmus ist, und sich dies auf alle Varianten des Algorithmus gleich auswirkt.
 
 \paragraph{Die Speichermessung} zeigt also ebenfalls, dass der Speicherverbrauch der Algorithmen rein von der Länge der Eingabe und der Größe von \texttt{sa\_index} abhängt. Dies ist erneut aus den Diagrammen und Tabellen \ref{messung:tab:memory-large-par-weak} und \ref{messung:tab:memory-large-par-strong} ersichtlich.
 
 Es gilt also ebenfalls, dass das Algorithmusverhalten mit der Implementierung (\cref{chapter:saca:doubling:memory}) übereinstimmt. Ebenso hat der Algorithmus wieder bei zu großer Eingabe einen zu hohen Speicherverbrauch, wie man in \cref{messung:tab:memory-large-par-weak} erkennt.
 
-\paragraph{Die Laufzeitmessung} zeigt im Gegensatz zum sequentiellen Fall (\cref{messeval:scaling:seq:doubling}) einen deutlichen Unterschied zwischen $a$-Tupling mit $a=2$ und $a=4$, wobei letzteres schneller ist. Dies deutet darauf hin, dass der parallele STL Sortieralgorithmus stärker auf die dadurch verursachten Unterschiede in der Anzahl und Größe der zu sortierenden Elemente reagiert als der sequentielle.
+\paragraph{Die Laufzeitmessung} zeigt im Gegensatz zum sequentiellen Fall (\cref{messeval:scaling:seq:doubling}) einen deutlichen Unterschied zwischen $a$-Tupling mit $a=2$ und $a=4$, wobei letzteres schneller ist. Dies deutet darauf hin, dass der parallele Ips4o Sortierer stärker auf die dadurch verursachten Unterschiede in der Anzahl und Größe der zu sortierenden Elemente reagiert als der sequentielle.
 
 Dies führt jedoch auch dazu, dass \textit{Discarding} mit $a=2$ je nach Eingabe nah am parallelen Naiven Algorithmus liegt und teilweise sogar langsamer ist. Im Gegensatz zum sequentiellen Fall wird das \sa also mit $a=4$ wesentlich schneller berechnet.
 
