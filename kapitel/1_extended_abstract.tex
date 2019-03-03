@@ -9,7 +9,7 @@
 \newtheorem*{abstract}{Abstract}
 
 \begin{abstract}
-    Efficient construction of the \emph{suffix array} (SA) is a still ongoing research area.
+    Efficient construction of the \emph{suffix array} (\sa) is a still ongoing research area.
     We introduce SACABench, a benchmark system for comparing the runtime
     and memory consumption of \emph{suffix array construction algorithms} (SACAs).
     Along with this framework we include the reference implementations for many SACAs,
@@ -33,15 +33,15 @@ While the efficient construction is still an active research area,
 divsufsort~\cite{saca:5,saca:5:repo} is the empirically fastest
 suffix array construction algorithm (SACA) since 2008,
 even though it has a theoretical complexity of $\mathcal O (n \log n)$,
-while there are some $\mathcal O(n)$ algorithms available.
+while there are several $\mathcal O(n)$ algorithms (for example SAIS\cite{saca:6} and DC3~\cite{saca:9}) available.
 
 For the last year we (re-)implemented eleven SACAs~\cite{saca:3,saca:11,saca:5,saca:9,saca:1,saca:8,saca:4,saca:7,saca:10,saca:6,saca:2}
-in modern C++ in order to create faster and more memory efficient implementations,
-and \todo{diese Randbemerkung vllt weglassen}although our attempts were mostly not successful,
-we created a sophisticated benchmark framework for SACAs, \emph{\sacabench}~\cite{sacabench:github}, in the process.
-
-In this paper we introduce \sacabench and highlight its features,
+in modern C++ in order to create faster and more memory efficient implementations.
+In the process we created a sophisticated benchmark framework for SACAs, \emph{\sacabench}~\cite{sacabench:github}.
+In this paper we introduce our framework and highlight its features,
 as well as document some of the optimiziation strategies we used to implement the SACAs.
+In the end we give an overview and performance comparison of the popular SACAs,
+as well as the current landshape of parallel SACAs.
 
 \section{Benchmark Tool}
 
@@ -164,7 +164,7 @@ These methods can be classified into the categories \emph{inducing} and \emph{do
 %
 \paragraph{Inducing} %
 There are different methods of inducing but they mostly operate by similar principles.
-When the rank of a suffix $i$ (that is the position of $i$ in the SA) is known,
+When the rank of a suffix $i$ (that is the position of $i$ in the \sa) is known,
 it is possible to deduce the rank of other suffixes $j$.
 
 The easiest to understand usecase for this is when using buckets.
@@ -226,7 +226,7 @@ The different SACAs are divided into the three classes described above.
 We now briefly explain the shown algorithms and their differences.
 
 Prefix Doubling is a SACA which works purely by the above described method \emph{Doubling}.
-In every iteration the SA is refined and double the amount of characters are considered for sorting.
+In every iteration the \sa is refined and double the amount of characters are considered for sorting.
 This directly influenced qSufSort, which improved its performance by using the \isa (inverse suffix arary) 
 and subdividing suffixes into sorted and unsorted groups. 
 BPR incorporated some ideas of inducing with prefix doubling and is therefore on the edge of those two paradigms.
@@ -258,7 +258,7 @@ Keep in mind that since the 40- and 48-bit types are not standardized, their per
 \subsection{Cache-efficiency}
 
 The most crucial part of optimizing a SACA is cache-efficiency, that is aiming for time-local and space-local memory access.
-Since the SA is a pseudo-random mutation of numbers, the SA can't be written cache-efficiently.
+Since the \sa is a pseudo-random mutation of numbers, it can't be written cache-efficiently.
 However, when implementing SACAs, avoiding unnecessary cache misses can significantly improve performance.
 
 \subsection{Wordpacking}
@@ -297,7 +297,7 @@ if there are no equal elements in the set to be sorted~\cite{saca:4,ternary_quic
 otherwise, the ternary version is faster~\cite{ternary_quicksort}.
 We therefore chose the best option for the required use-case.
 
-\section{Evaluation}
+\section{Evaluation (sequential)}
 
 \begin{figure}[!h]
     \textbf{Configuration} \hfill Input file: wiki.txt \hfill Prefix size: 1600\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
@@ -312,7 +312,7 @@ We therefore chose the best option for the required use-case.
             xticklabel pos=upper,
             title={},
             bar width=12pt,
-            ylabel={SA construction time [min]},
+            ylabel={\sa construction time [min]},
             legend style={
                 /tikz/every even column/.append style={column sep=0.5cm,black},
                 /tikz/every even column/.append style={black},
@@ -413,7 +413,7 @@ We therefore chose the best option for the required use-case.
             xticklabel pos=upper,
             title={},
             bar width=12pt,
-            ylabel={SA construction time [min]},
+            ylabel={\sa construction time [min]},
             legend style={
                 /tikz/every even column/.append style={column sep=0.5cm,black},
                 /tikz/every even column/.append style={black},
@@ -518,7 +518,7 @@ We therefore chose the best option for the required use-case.
             xticklabel pos=upper,
             title={},
             bar width=12pt,
-            ylabel={SA construction time [min]},
+            ylabel={\sa construction time [min]},
             legend style={
                 /tikz/every even column/.append style={column sep=0.5cm,black},
                 /tikz/every even column/.append style={black},
@@ -606,6 +606,278 @@ We therefore chose the best option for the required use-case.
     \caption{Comparison of the in \sacabench included reference implementations of SACAs, including time and memory consumption: commoncrawl.txt}
 \end{figure}
 \FloatBarrier
+
+In the \crefrange{fig:runtime-all-0}{fig:runtime-all-2} we show the performance of the implementations of different SACAs on three texts.
+The texts are \texttt{wiki.txt}, \texttt{dna.txt} and \texttt{commoncrawl.txt} from the \todo{was für ne quelle?} repository~\cite{xxx}.
+The clear winners in all three cases is divsufsort, followed by BPR and SAIS-Lite\footnote{divsufsort and SAIS-Lite both are optimized implementations by Yuta Mori~\cite{saca:5}.}.
+In terms of memory consumption, divsufsort and SACA-K are the two best algorithms since they use no extra space, follwed by Deep-Shallow\_ref, which uses very little extra space.
+
+\section{Evaluation (parallel)}
+
+\begin{figure}[!h]
+    \centering
+    \begin{tikzpicture}[trim axis left]
+        \begin{axis}[
+                name=axis1,
+                cycle list name={exoticlines},
+                width=\textwidth,
+                height=60mm,
+                title={wiki.txt},
+                xlabel={num threads, input size [200\,MB]},
+                ylabel={SA construction time [min]},
+                legend columns=2,
+                legend to name=legend-par-all-0,
+                legend style={
+                    /tikz/every even column/.append style={column sep=0.5cm,black},
+                    /tikz/every even column/.append style={black},
+                },
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="wiki.txt" AND sacheck="ok"
+            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (1,0.543257) (2,1.04248) (4,2.69455) (8,5.00914) (12,8.55647) (16,12.5204) };
+            \addlegendentry{algo=BPR\_par};
+            \addplot coordinates { (1,3.09365) (2,4.11916) (4,5.55123) (8,7.75629) };
+            \addlegendentry{algo=DC3-Parallel-V2};
+            \addplot coordinates { (1,1.41234) (2,1.79674) (4,2.28839) (8,3.29598) (12,4.53346) (16,5.42954) (20,6.48599) };
+            \addlegendentry{algo=Deep-Shallow\_par};
+            \addplot coordinates { (1,3.20359) (2,3.69207) (4,4.44643) (8,5.90081) };
+            \addlegendentry{algo=Discarding2Parallel};
+            \addplot coordinates { (1,2.32532) (2,2.82934) (4,3.37798) (8,4.41391) };
+            \addlegendentry{algo=Discarding4Parallel};
+            \addplot coordinates { (1,2.71662) (2,3.54087) (4,4.03271) (8,4.7199) (12,5.55871) (16,5.86449) };
+            \addlegendentry{algo=NaivParallel};
+            \addplot coordinates { (1,1.07199) (2,2.15225) (4,4.661) (8,10.5053) };
+            \addlegendentry{algo=PARALLEL\_SAIS};
+        \end{axis}
+    \end{tikzpicture}
+    \par\bigskip
+    \begin{tikzpicture}[trim axis left]
+        \begin{axis}[
+                cycle list name={exoticlines},
+                at={(axis1.outer north east)},
+                anchor=outer north west,
+                name=axis2,
+                width=\textwidth,
+                height=60mm,
+                title={wiki.txt},
+                xlabel={num threads, input size [200\,MB]},
+                ylabel={Extra Memory [GiB]},
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="wiki.txt" AND sacheck="ok"
+            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (1,0.951951) (2,1.7332) (4,3.4355) (8,6.83651) (12,19.647) (16,26.173) };
+            \addlegendentry{algo=BPR\_par};
+            \addplot coordinates { (1,3.10468) (2,8.33334) (4,16.6667) (8,31.9445) };
+            \addlegendentry{algo=DC3-Parallel-V2};
+            \addplot coordinates { (1,0.00319003) (2,0.00532148) (4,0.00959451) (8,0.0183557) (12,0.0497788) (16,0.0630637) (20,0.0779177) };
+            \addlegendentry{algo=Deep-Shallow\_par};
+            \addplot coordinates { (1,2.34575) (2,4.69158) (4,9.38307) (8,18.766) };
+            \addlegendentry{algo=Discarding2Parallel};
+            \addplot coordinates { (1,3.90825) (2,7.81659) (4,15.6331) (8,31.2661) };
+            \addlegendentry{algo=Discarding4Parallel};
+            \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) (12,18.75) (16,25) };
+            \addlegendentry{algo=NaivParallel};
+            \addplot coordinates { (1,0.416671) (2,0.524891) (4,0.731684) (8,1.10245) };
+            \addlegendentry{algo=PARALLEL\_SAIS};
+
+            \legend{}
+        \end{axis}
+    \end{tikzpicture}
+
+    \medskip
+    \ref{legend-par-all-0}
+    \caption{Vergleich der parallelen Implementierungen mit Laufzeit und Speicherbedarf auf wiki.txt}
+    \label{fig-par-all-0}
+\end{figure}
+
+\begin{figure}[!h]
+    \centering
+    \begin{tikzpicture}[trim axis left]
+        \begin{axis}[
+                name=axis1,
+                cycle list name={exoticlines},
+                width=\textwidth,
+                height=60mm,
+                title={dna.txt},
+                xlabel={num threads, input size [200\,MB]},
+                ylabel={SA construction time [min]},
+                legend columns=2,
+                legend to name=legend-par-all-1,
+                legend style={
+                    /tikz/every even column/.append style={column sep=0.5cm,black},
+                    /tikz/every even column/.append style={black},
+                },
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="dna.txt" AND sacheck="ok"
+            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (1,0.569637) (2,1.09372) (4,2.16083) (8,4.4065) (12,8.71249) (16,11.9082) };
+            \addlegendentry{algo=BPR\_par};
+            \addplot coordinates { (1,3.02187) (2,3.97795) (4,5.28252) (8,7.08082) };
+            \addlegendentry{algo=DC3-Parallel-V2};
+            \addplot coordinates { (1,1.84653) (2,2.47075) (4,3.2711) (8,4.23853) (12,5.92934) (16,9.05611) (20,10.8896) };
+            \addlegendentry{algo=Deep-Shallow\_par};
+            \addplot coordinates { (1,3.2561) (2,3.83204) (4,4.51572) (8,5.42115) };
+            \addlegendentry{algo=Discarding2Parallel};
+            \addplot coordinates { (1,2.50936) (2,3.04948) (4,3.62786) (8,4.52356) };
+            \addlegendentry{algo=Discarding4Parallel};
+            \addplot coordinates { (1,3.06848) (2,4.3148) (4,4.73058) (8,5.05918) (12,5.68415) (16,5.68597) };
+            \addlegendentry{algo=NaivParallel};
+            \addplot coordinates { (1,1.11013) (2,2.02917) (4,4.40177) (8,9.565) };
+            \addlegendentry{algo=PARALLEL\_SAIS};
+
+        \end{axis}
+    \end{tikzpicture}
+    \par\bigskip
+    \begin{tikzpicture}[trim axis left]
+        \begin{axis}[
+                cycle list name={exoticlines},
+                at={(axis1.outer north east)},
+                anchor=outer north west,
+                name=axis2,
+                width=\textwidth,
+                height=60mm,
+                title={dna.txt},
+                xlabel={num threads, input size [200\,MB]},
+                ylabel={Extra Memory [GiB]},
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="dna.txt" AND sacheck="ok"
+            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (1,0.783537) (2,1.56479) (4,3.12762) (8,6.25495) (12,18.7576) (16,25.0099) };
+            \addlegendentry{algo=BPR\_par};
+            \addplot coordinates { (1,3.05641) (2,8.33334) (4,16.6667) (8,33.3333) };
+            \addlegendentry{algo=DC3-Parallel-V2};
+            \addplot coordinates { (1,0.00213599) (2,0.00426745) (4,0.00853033) (8,0.0170561) (12,0.0427683) (16,0.0569774) (20,0.0711839) };
+            \addlegendentry{algo=Deep-Shallow\_par};
+            \addplot coordinates { (1,2.34575) (2,4.69158) (4,9.38307) (8,18.766) };
+            \addlegendentry{algo=Discarding2Parallel};
+            \addplot coordinates { (1,3.90825) (2,7.81659) (4,15.6331) (8,31.2661) };
+            \addlegendentry{algo=Discarding4Parallel};
+            \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) (12,18.75) (16,25) };
+            \addlegendentry{algo=NaivParallel};
+            \addplot coordinates { (1,0.399128) (2,0.48352) (4,0.654059) (8,1.0149) };
+            \addlegendentry{algo=PARALLEL\_SAIS};
+
+            \legend{}
+        \end{axis}
+    \end{tikzpicture}
+
+    \medskip
+    \ref{legend-par-all-1}
+    \caption{Vergleich der parallelen Implementierungen mit Laufzeit und Speicherbedarf auf dna.txt}
+    \label{fig-par-all-1}
+\end{figure}
+
+\begin{figure}[!h]
+    \centering
+    \begin{tikzpicture}[trim axis left]
+        \begin{axis}[
+                name=axis1,
+                cycle list name={exoticlines},
+                width=\textwidth,
+                height=60mm,
+                title={commoncrawl.txt},
+                xlabel={num threads, input size [200\,MB]},
+                ylabel={SA construction time [min]},
+                legend columns=2,
+                legend to name=legend-par-all-2,
+                legend style={
+                    /tikz/every even column/.append style={column sep=0.5cm,black},
+                    /tikz/every even column/.append style={black},
+                },
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
+            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (1,0.469155) (2,0.910706) (4,1.81015) (8,3.76797) (12,7.48885) (16,11.141) };
+            \addlegendentry{algo=BPR\_par};
+            \addplot coordinates { (1,2.95908) (2,3.97025) (4,5.25151) (8,7.6797) };
+            \addlegendentry{algo=DC3-Parallel-V2};
+            \addplot coordinates { (1,7.83762) (2,7.19017) (4,9.73639) };
+            \addlegendentry{algo=Deep-Shallow\_par};
+            \addplot coordinates { (1,5.61108) (2,6.40921) (4,7.93302) (8,10.0045) };
+            \addlegendentry{algo=Discarding2Parallel};
+            \addplot coordinates { (1,3.54234) (2,4.24778) (4,5.16101) (8,6.84444) };
+            \addlegendentry{algo=Discarding4Parallel};
+            \addplot coordinates { (1,7.15567) (2,7.39145) (4,8.81336) (8,11.3875) (12,13.2541) (16,15.516) };
+            \addlegendentry{algo=NaivParallel};
+            \addplot coordinates { (1,0.926488) (2,1.85933) (4,3.9815) (8,8.77113) };
+            \addlegendentry{algo=PARALLEL\_SAIS};
+
+        \end{axis}
+    \end{tikzpicture}
+    \par\bigskip
+    \begin{tikzpicture}[trim axis left]
+        \begin{axis}[
+                cycle list name={exoticlines},
+                at={(axis1.outer north east)},
+                anchor=outer north west,
+                name=axis2,
+                width=\textwidth,
+                height=60mm,
+                title={commoncrawl.txt},
+                xlabel={num threads, input size [200\,MB]},
+                ylabel={Extra Memory [GiB]},
+            ]
+
+            %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
+            %% FROM (
+            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
+            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
+            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS")
+            %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
+            \addplot coordinates { (1,1.02691) (2,1.8241) (4,3.60609) (8,7.15872) (12,20.1398) (16,26.8174) };
+            \addlegendentry{algo=BPR\_par};
+            \addplot coordinates { (1,3.11898) (2,8.33334) (4,16.6667) (8,33.3334) };
+            \addlegendentry{algo=DC3-Parallel-V2};
+            \addplot coordinates { (1,0.00348096) (2,0.00567017) (4,0.0413734) };
+            \addlegendentry{algo=Deep-Shallow\_par};
+            \addplot coordinates { (1,2.34575) (2,4.69158) (4,9.38307) (8,18.766) };
+            \addlegendentry{algo=Discarding2Parallel};
+            \addplot coordinates { (1,3.90825) (2,7.81659) (4,15.6331) (8,31.2661) };
+            \addlegendentry{algo=Discarding4Parallel};
+            \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) (12,18.75) (16,25) };
+            \addlegendentry{algo=NaivParallel};
+            \addplot coordinates { (1,0.410859) (2,0.513571) (4,0.698684) (8,1.0433) };
+            \addlegendentry{algo=PARALLEL\_SAIS};
+
+            \legend{}
+        \end{axis}
+    \end{tikzpicture}
+
+    \medskip
+    \ref{legend-par-all-2}
+    \caption{Vergleich der parallelen Implementierungen mit Laufzeit und Speicherbedarf auf commoncrawl.txt}
+    \label{fig-par-all-2}
+\end{figure}
+\FloatBarrier
+
+In this section we will compare the performance of the runtime and memory performance of the included parallel SACAs.
+These are variants of the sequential algorithms, that were mostly na\"ively parallelized, with the exception of parallel SAIS
+\footnote{This algorithm uses read/write buffers and a parallel pipeline based on work of Lao et al~\cite{psais}.}.
 
 \section{Conclusion}
 
