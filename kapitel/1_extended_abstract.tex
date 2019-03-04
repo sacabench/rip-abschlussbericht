@@ -665,10 +665,9 @@ In terms of memory consumption, divsufsort and SACA-K are the two best algorithm
 follwed by Deep-Shallow, which uses very little extra space.
 The worst algorithm in both runtime performance as well as memory consumption is in all three cases the reference implementation of DC3,
 which is followed by SADS (a variant of SAIS~\cite{saca:6}) in terms of performance and BPR in terms of memory consumption.
-However, caused by source code incompatibilities, memory utilization for BPR is not intuitively comparable to other algorithms as we are only able measure absolute memory but not extra memory for this specific algorithm.
+However, caused by source code incompatibilities, memory utilization for BPR is not intuitively comparable to other algorithms as we are only able measure absolute memory but not extra memory for this specific algorithm. The runtime performance and memory consumption of the DC3 implementation provided in paper \cite{saca:9} is bad, because it is not optimized for demonstration. The authors wanted to write the implementation in only $50$ lines of code.
 
 \todo{beschreibung der algorithmen im mittelfeld (mb)}
-\todo{@johannes wieso ist dc3 so scheiße? (mb)}
 \todo{wieso taucht deep shallow nur auf dna auf? (mb)}
 \todo{vermisst jemand seine ref komplett? (mb)}
 
