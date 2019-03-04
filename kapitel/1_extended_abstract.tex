@@ -621,13 +621,13 @@ The texts are \texttt{wiki.txt}, \texttt{dna.txt} and \texttt{commoncrawl.txt} f
 The clear winners in all three cases is divsufsort, followed by BPR and SAIS-Lite
 \footnote{divsufsort and SAIS-Lite both are optimized implementations by Yuta Mori~\cite{saca:5}.}.
 In terms of memory consumption, divsufsort and SACA-K are the two best algorithms since they use no extra space,
-follwed by Deep-Shallow\_ref, which uses very little extra space.
+follwed by Deep-Shallow\_ref\todo{Du schreibst alle Algos ohne \_ref bis auf deep-shallow}, which uses very little extra space.
 The worst algorithm in both runtime performance as well as memory consumption is in all three cases the reference implementation of DC3,
 which is followed by SADS (a variant of SAIS~\cite{saca:6}) in terms of performance and BPR in terms of memory consumption.
+However, caused by source code incompatibilities, memory utilization for BPR is not intuitively comparable to other algorithms as we are only able measure absolute memory but not extra memory for this specific algorithm.
 
 \todo{beschreibung der algorithmen im mittelfeld (mb)}
 \todo{@johannes wieso ist dc3 so scheiße? (mb)}
-\todo{@flo wieso hat bpr soviel speicher? (mb)}
 \todo{wieso taucht deep shallow nur auf dna auf? (mb)}
 \todo{vermisst jemand seine ref komplett? (mb)}
 
@@ -649,7 +649,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={SA construction time [min]},
                 legend columns=2,
-                legend to name=legend-par-all-0,
+                legend to name=ea:legend-par-all-0,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
@@ -718,9 +718,9 @@ These are variants of the sequential algorithms, that were mostly naively parall
     \end{tikzpicture}
 
     \medskip
-    \ref{legend-par-all-0}
+    \ref{ea:legend-par-all-0}
     \caption{Vergleich der parallelen Implementierungen mit Laufzeit und Speicherbedarf auf wiki.txt}
-    \label{fig-par-all-0}
+    \label{ea:fig-par-all-0}
 \end{figure}
 
 \begin{figure}[!h]
@@ -735,7 +735,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={SA construction time [min]},
                 legend columns=2,
-                legend to name=legend-par-all-1,
+                legend to name=ea:legend-par-all-1,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
@@ -805,9 +805,9 @@ These are variants of the sequential algorithms, that were mostly naively parall
     \end{tikzpicture}
 
     \medskip
-    \ref{legend-par-all-1}
+    \ref{ea:legend-par-all-1}
     \caption{Vergleich der parallelen Implementierungen mit Laufzeit und Speicherbedarf auf dna.txt}
-    \label{fig-par-all-1}
+    \label{ea:fig-par-all-1}
 \end{figure}
 
 \begin{figure}[!h]
@@ -822,7 +822,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={SA construction time [min]},
                 legend columns=2,
-                legend to name=legend-par-all-2,
+                legend to name=ea:legend-par-all-2,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
@@ -892,9 +892,9 @@ These are variants of the sequential algorithms, that were mostly naively parall
     \end{tikzpicture}
 
     \medskip
-    \ref{legend-par-all-2}
+    \ref{ea:legend-par-all-2}
     \caption{Vergleich der parallelen Implementierungen mit Laufzeit und Speicherbedarf auf commoncrawl.txt}
-    \label{fig-par-all-2}
+    \label{ea:fig-par-all-2}
 \end{figure}
 \FloatBarrier
 
@@ -906,7 +906,7 @@ However, it is surpassed on \texttt{dna.txt} by even the naive-parallel SACA and
 Discarding4 has consistent runtime performance on all of the three texts but comes with a heavy memory pricetag,
 which is only surpassed by the parallel DC3 implementation.
 
-\todo{bpr memory consumption <=> naive (mb)}
+\todo{bpr memory consumption <=> naive (mb) das ist nur Zufall, weil beide (scheinbar) eine working copy in SA-Größe benutzen (fg)}
 \todo{warum brechen da algos ab? (mb)}
 \todo{warum brechen alle algos ab 8 kernen ab? (mb)}
 \todo{sicherstellen dass mind eine ref drin ist (divsufsort par ref) (mb)}
