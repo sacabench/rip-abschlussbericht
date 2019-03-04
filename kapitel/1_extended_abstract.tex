@@ -992,10 +992,12 @@ Parallel BPR is the fastest algorithm on \texttt{commoncrawl.txt} and its memory
 It needs a lot more memory than parallel SACAs with almost no need for extra memory (Deep-Shallow\_par, pSAIS).
 
 The parallel DivSufSort uses little extra memory and still has great performance until 8 cores (1600 MiB text).
-After this point, the text size (3200 MiB) is too large to be addressed 
+After this point, the text size (3200 MiB) is too large to be addressed with 32-bits
+and since the implementation we used supports only 32-bit suffix indices, the suffix array can't be constructed correctly.
+This is also the case for the lines for the other algorithms that stop at 8 cores.
 
-\todo{warum brechen da algos ab? (mb)}
-\todo{warum brechen alle algos ab 8 kernen ab? (mb)}
+Deep-Shallow stops at 800 MiB, because it produces Segfaults from 1600 MiB on.
+Sadly we couldn't fix this problem in time.
 
 \FloatBarrier
 
