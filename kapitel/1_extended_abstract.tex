@@ -701,7 +701,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="wiki.txt" AND sacheck="ok"
-            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS" OR algo="DivSufSort_par_ref")
+            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,0.543257) (2,1.04248) (4,2.69455) (8,5.00914) (12,8.55647) (16,12.5204) };
             \addlegendentry{algo=BPR\_par};
@@ -713,8 +713,6 @@ These are variants of the sequential algorithms, that were mostly naively parall
             \addlegendentry{algo=Discarding2Parallel};
             \addplot coordinates { (1,2.32532) (2,2.82934) (4,3.37798) (8,4.41391) };
             \addlegendentry{algo=Discarding4Parallel};
-            \addplot coordinates { (1,0.474964) (2,0.890462) (4,1.72981) (8,3.69632) };
-            \addlegendentry{algo=DivSufSort\_par\_ref};
             \addplot coordinates { (1,2.71662) (2,3.54087) (4,4.03271) (8,4.7199) (12,5.55871) (16,5.86449) };
             \addlegendentry{algo=NaivParallel};
             \addplot coordinates { (1,1.07199) (2,2.15225) (4,4.661) (8,10.5053) };
@@ -739,7 +737,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="wiki.txt" AND sacheck="ok"
-            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS" OR algo="DivSufSort_par_ref")
+            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,0.951951) (2,1.7332) (4,3.4355) (8,6.83651) (12,19.647) (16,26.173) };
             \addlegendentry{algo=BPR\_par};
@@ -751,8 +749,6 @@ These are variants of the sequential algorithms, that were mostly naively parall
             \addlegendentry{algo=Discarding2Parallel};
             \addplot coordinates { (1,3.90825) (2,7.81659) (4,15.6331) (8,31.2661) };
             \addlegendentry{algo=Discarding4Parallel};
-            \addplot coordinates { (1,0.000246726) (2,0.000247501) (4,0.000249021) (8,0.000252061) };
-            \addlegendentry{algo=DivSufSort\_par\_ref};
             \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) (12,18.75) (16,25) };
             \addlegendentry{algo=NaivParallel};
             \addplot coordinates { (1,0.416671) (2,0.524891) (4,0.731684) (8,1.10245) };
@@ -791,7 +787,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="dna.txt" AND sacheck="ok"
-            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS" OR algo="DivSufSort_par_ref")
+            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,0.569637) (2,1.09372) (4,2.16083) (8,4.4065) (12,8.71249) (16,11.9082) };
             \addlegendentry{algo=BPR\_par};
@@ -803,8 +799,6 @@ These are variants of the sequential algorithms, that were mostly naively parall
             \addlegendentry{algo=Discarding2Parallel};
             \addplot coordinates { (1,2.50936) (2,3.04948) (4,3.62786) (8,4.52356) };
             \addlegendentry{algo=Discarding4Parallel};
-            \addplot coordinates { (1,0.516853) (2,1.01441) (4,2.06209) (8,4.53356) };
-            \addlegendentry{algo=DivSufSort\_par\_ref};
             \addplot coordinates { (1,3.06848) (2,4.3148) (4,4.73058) (8,5.05918) (12,5.68415) (16,5.68597) };
             \addlegendentry{algo=NaivParallel};
             \addplot coordinates { (1,1.11013) (2,2.02917) (4,4.40177) (8,9.565) };
@@ -830,7 +824,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="dna.txt" AND sacheck="ok"
-            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS" OR algo="DivSufSort_par_ref")
+            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,0.783537) (2,1.56479) (4,3.12762) (8,6.25495) (12,18.7576) (16,25.0099) };
             \addlegendentry{algo=BPR\_par};
@@ -842,8 +836,6 @@ These are variants of the sequential algorithms, that were mostly naively parall
             \addlegendentry{algo=Discarding2Parallel};
             \addplot coordinates { (1,3.90825) (2,7.81659) (4,15.6331) (8,31.2661) };
             \addlegendentry{algo=Discarding4Parallel};
-            \addplot coordinates { (1,0.000246726) (2,0.000247501) (4,0.000249021) (8,0.000252061) };
-            \addlegendentry{algo=DivSufSort\_par\_ref};
             \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) (12,18.75) (16,25) };
             \addlegendentry{algo=NaivParallel};
             \addplot coordinates { (1,0.399128) (2,0.48352) (4,0.654059) (8,1.0149) };
@@ -882,7 +874,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
-            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS" OR algo="DivSufSort_par_ref")
+            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,0.469155) (2,0.910706) (4,1.81015) (8,3.76797) (12,7.48885) (16,11.141) };
             \addlegendentry{algo=BPR\_par};
@@ -894,8 +886,6 @@ These are variants of the sequential algorithms, that were mostly naively parall
             \addlegendentry{algo=Discarding2Parallel};
             \addplot coordinates { (1,3.54234) (2,4.24778) (4,5.16101) (8,6.84444) };
             \addlegendentry{algo=Discarding4Parallel};
-            \addplot coordinates { (1,0.438349) (2,0.817589) (4,1.57076) (8,3.18317) };
-            \addlegendentry{algo=DivSufSort\_par\_ref};
             \addplot coordinates { (1,7.15567) (2,7.39145) (4,8.81336) (8,11.3875) (12,13.2541) (16,15.516) };
             \addlegendentry{algo=NaivParallel};
             \addplot coordinates { (1,0.926488) (2,1.85933) (4,3.9815) (8,8.77113) };
@@ -921,7 +911,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
-            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS" OR algo="DivSufSort_par_ref")
+            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,1.02691) (2,1.8241) (4,3.60609) (8,7.15872) (12,20.1398) (16,26.8174) };
             \addlegendentry{algo=BPR\_par};
@@ -933,8 +923,6 @@ These are variants of the sequential algorithms, that were mostly naively parall
             \addlegendentry{algo=Discarding2Parallel};
             \addplot coordinates { (1,3.90825) (2,7.81659) (4,15.6331) (8,31.2661) };
             \addlegendentry{algo=Discarding4Parallel};
-            \addplot coordinates { (1,0.000246726) (2,0.000247501) (4,0.000249021) (8,0.000252061) };
-            \addlegendentry{algo=DivSufSort\_par\_ref};
             \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) (12,18.75) (16,25) };
             \addlegendentry{algo=NaivParallel};
             \addplot coordinates { (1,0.410859) (2,0.513571) (4,0.698684) (8,1.0433) };
