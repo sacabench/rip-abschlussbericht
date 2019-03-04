@@ -17,7 +17,7 @@ In der zweiten Phase werden die Suffixe an den Positionen $i \text{ modulo } 7 \
 
 \subparagraph*{Dritte Phase}
 
-Für die dritte Phase gibt es zwei verschiedene Ansätze. Zuerst betrachten wir den naiven Ansatz. Hierbei wird - ähnlich wie bei dem \emph{DC3}-Algorithmus - der jeweils kleinste Werte der Mengen $\sa_{124}$, $\sa_0$, $\sa_3$, $\sa_5$ und  $\sa_6$, der noch nicht in dem endgültigen Suffix-Array einsortiert worden ist, miteinander verglichen. Dabei werden bei den Vergleichen zwischen $i$ und $j$ jeweils ein $l$ gesucht, sodass $(i + l) \text{ modulo } 7$ und $(j + l) \text{ modulo } 7$ aus dem \emph{Difference Cover} $D = \{1, 2, 4\}$ sind. Zur Bestimmung der Länge $l$ kann die \cref{tab:merge} verwendet werden.
+Für die dritte Phase gibt es zwei verschiedene Ansätze. Zuerst betrachten wir den naiven Ansatz. Hierbei wird -- ähnlich wie bei dem \emph{DC3}-Algorithmus -- der jeweils kleinste Werte der Mengen $\sa_{124}$, $\sa_0$, $\sa_3$, $\sa_5$ und  $\sa_6$, der noch nicht in dem endgültigen Suffix-Array einsortiert worden ist, miteinander verglichen. Dabei werden bei den Vergleichen zwischen $i$ und $j$ jeweils ein $l$ gesucht, sodass $(i + l) \text{ modulo } 7$ und $(j + l) \text{ modulo } 7$ aus dem \emph{Difference Cover} $D = \{1, 2, 4\}$ sind. Zur Bestimmung der Länge $l$ kann die \cref{tab:merge} verwendet werden.
 
 \begin{table}[H]
 	\centering
