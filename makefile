@@ -1,4 +1,4 @@
-TEX = latexmk
+TEX = ./latex_warnings.py latexmk
 
 all : pdf
 
