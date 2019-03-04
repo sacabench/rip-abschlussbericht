@@ -18,9 +18,7 @@ Dabei wird jede Untermenge weiter unterteilt, so dass jede Teilmenge einer Unter
 Abschließend wird in einer letzten for-Schleife jede dieser neuen Teilmengen bearbeitet.
 Dazu wird jedes Suffix dieser Teilmengen aus seiner ursprünglichen Gruppe entfernt und zu einer neuen Gruppe als direkter Nachfolger der alten Gruppe hinzugefügt.
 
-\newpage
 \input{kapitel/saca_algorithmen/gsaca/code/pseudocode_phase1}
-\newpage
 
 Abbildung \ref{saca:3:code_2} zeigt den Pseudocode zu Phase 2 von GSACA, in der das Suffix-Array aus den zuvor gebildeten Gruppen konstruiert wird.
 Hierzu wird zunächst das letzte Zeichen des Wortes, also das Terminalsymbol \$, als erstes Element der Liste \sa gespeichert. 
@@ -36,6 +34,7 @@ Gibt es jedoch noch kein Zeichen an dieser Stelle in der Liste \sa, wird das akt
 Dann wird dieses Zeichen aus seiner aktuellen Gruppe entfernt und in eine neue, direkt vor der alten Gruppe liegende Gruppe hinzugefügt.
 Am Schluss der while-Schleife wird das Zeichen, auf den der \prevpointer des aktuellen Zeichens zeigt, zum betrachteten Element für die nächste Iteration der while-Schleife.\\
 
+\newpage
 Im folgenden wird die erste Iteration der zweiten Phase exemplarisch am Beispiel Banane durchlaufen:\\
 \sa[1] = 7\\
 for-Schleife wird mit $i$ = 1 begonnen\\
