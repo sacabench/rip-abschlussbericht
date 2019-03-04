@@ -60,7 +60,7 @@ in order to measure and compare them fairly.
 
 \subsection{Running a single algorithm}
 
-\begin{figure}[!ht]
+\begin{figure}[!h]
     \centering
     \includegraphics[width=\textwidth]{kapitel/1_extended_abstract/tudostat_example.png}
     \caption{Example of runtime and memory consumption of the phases of DivSufSort, measured by \sacabench and visualized on the tudostat website~\cite{tudostat}.}
@@ -105,7 +105,7 @@ Using the shown file, the command
 
 is the same as the previous command.
 
-\begin{figure}[!ht]
+\begin{figure}[!h]
 \begin{minted}
 [
 frame=lines,
@@ -239,8 +239,8 @@ This is also done by SACA-K and GSACA, which are both similar to SAIS, but add s
 (SACA-K for example doesn't use any extra space).
 mSufSort is another inducing-SACA, but since it constructs the \isa instead of the \sa,
 it's not derived from any other SACA.
-The two other recursive SACAs are DC3 (which sorts $\frac{2}{3}$ of the suffixes in a recursion step), which utilizes the \emph{Difference Cover} concept to sort all suffixes beginning at positions $1$, $2$, $4$, $5$ and so on at first. After that, it uses this order to induce all suffixes beginning at positions $0$, $3$ and so on before these two are merged into the correct \sa.
-nzSufSort sorts the S-Type suffixes by using the \emph{Difference Cover} concept before inducing the L-Type suffixes similar to SAIS in one pass. It was the first presented algorithm, which is \emph{optimal lightweight}. This means it has running time $\mathcal O (n)$ by using only constant extra space.
+The two other recursive SACAs are DC3 (which sorts $\frac{2}{3}$ of the suffixes in a recursion step)
+and nzSufSort (which is similar to DC3 but improves on some aspects)\todo{nico? johannes? bitte ergänzen}.
 
 \section{Optimization Strategies}
 
@@ -348,7 +348,7 @@ and \texttt{commoncrawl.txt} (an ASCII-only subset of the Commoncrawl dataset~\c
 % IMPORT-DATA stats_parallel 7_messergebnisse/ergebnisse_parallel/result_weakscale.txt
 % IMPORT-DATA results_sequential 7_messergebnisse/ergebnisse_sequentiell/results.txt
 
-\begin{figure}[!ht]
+\begin{figure}[!h]
     \textbf{Configuration} \hfill Input file: wiki.txt \hfill Prefix size: 1600\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
     \centering\small
     \begin{tikzpicture}[trim axis left]
@@ -450,7 +450,7 @@ and \texttt{commoncrawl.txt} (an ASCII-only subset of the Commoncrawl dataset~\c
     \ref{ea:runtime-all-ref-0}
 \end{figure}
 
-\begin{figure}[!ht]
+\begin{figure}[!h]
     \textbf{Configuration} \hfill Input file: dna.txt \hfill Prefix size: 1600\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
     \centering\small
     \begin{tikzpicture}[trim axis left]
@@ -556,7 +556,7 @@ and \texttt{commoncrawl.txt} (an ASCII-only subset of the Commoncrawl dataset~\c
     \ref{ea:runtime-all-ref-1}
 \end{figure}
 
-\begin{figure}[!ht]
+\begin{figure}[!h]
     \textbf{Configuration} \hfill Input file: commoncrawl.txt \hfill Prefix size: 1600\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
     \centering\small
     \begin{tikzpicture}[trim axis left]
@@ -665,9 +665,10 @@ In terms of memory consumption, divsufsort and SACA-K are the two best algorithm
 follwed by Deep-Shallow, which uses very little extra space.
 The worst algorithm in both runtime performance as well as memory consumption is in all three cases the reference implementation of DC3,
 which is followed by SADS (a variant of SAIS~\cite{saca:6}) in terms of performance and BPR in terms of memory consumption.
-However, caused by source code incompatibilities, memory utilization for BPR is not intuitively comparable to other algorithms as we are only able measure absolute memory but not extra memory for this specific algorithm. The runtime performance and memory consumption of the DC3 implementation provided in paper \cite{saca:9} is bad, because it is not optimized for demonstration. The authors wanted to write the implementation in only $50$ lines of code.
+However, caused by source code incompatibilities, memory utilization for BPR is not intuitively comparable to other algorithms as we are only able measure absolute memory but not extra memory for this specific algorithm.
 
 \todo{beschreibung der algorithmen im mittelfeld (mb)}
+\todo{@johannes wieso ist dc3 so scheiße? (mb)}
 \todo{wieso taucht deep shallow nur auf dna auf? (mb)}
 \todo{vermisst jemand seine ref komplett? (mb)}
 
@@ -677,7 +678,7 @@ In this section we will compare the performance of the runtime and memory perfor
 These are variants of the sequential algorithms, that were mostly naively parallelized, with the exception of parallel SAIS
 \footnote{This algorithm uses read/write buffers and a parallel pipeline based on work of Lao et al~\cite{psais}.}.
 
-\begin{figure}[!ht]
+\begin{figure}[!h]
     \centering
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[
@@ -700,7 +701,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="wiki.txt" AND sacheck="ok"
-            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS")
+            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS" OR algo="DivSufSort_par_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,0.543257) (2,1.04248) (4,2.69455) (8,5.00914) (12,8.55647) (16,12.5204) };
             \addlegendentry{algo=BPR\_par};
@@ -712,6 +713,8 @@ These are variants of the sequential algorithms, that were mostly naively parall
             \addlegendentry{algo=Discarding2Parallel};
             \addplot coordinates { (1,2.32532) (2,2.82934) (4,3.37798) (8,4.41391) };
             \addlegendentry{algo=Discarding4Parallel};
+            \addplot coordinates { (1,0.474964) (2,0.890462) (4,1.72981) (8,3.69632) };
+            \addlegendentry{algo=DivSufSort\_par\_ref};
             \addplot coordinates { (1,2.71662) (2,3.54087) (4,4.03271) (8,4.7199) (12,5.55871) (16,5.86449) };
             \addlegendentry{algo=NaivParallel};
             \addplot coordinates { (1,1.07199) (2,2.15225) (4,4.661) (8,10.5053) };
@@ -736,7 +739,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="wiki.txt" AND sacheck="ok"
-            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS")
+            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS" OR algo="DivSufSort_par_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,0.951951) (2,1.7332) (4,3.4355) (8,6.83651) (12,19.647) (16,26.173) };
             \addlegendentry{algo=BPR\_par};
@@ -748,6 +751,8 @@ These are variants of the sequential algorithms, that were mostly naively parall
             \addlegendentry{algo=Discarding2Parallel};
             \addplot coordinates { (1,3.90825) (2,7.81659) (4,15.6331) (8,31.2661) };
             \addlegendentry{algo=Discarding4Parallel};
+            \addplot coordinates { (1,0.000246726) (2,0.000247501) (4,0.000249021) (8,0.000252061) };
+            \addlegendentry{algo=DivSufSort\_par\_ref};
             \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) (12,18.75) (16,25) };
             \addlegendentry{algo=NaivParallel};
             \addplot coordinates { (1,0.416671) (2,0.524891) (4,0.731684) (8,1.10245) };
@@ -763,7 +768,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
     \label{ea:fig-par-all-0}
 \end{figure}
 
-\begin{figure}[!ht]
+\begin{figure}[!h]
     \centering
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[
@@ -786,7 +791,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="dna.txt" AND sacheck="ok"
-            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS")
+            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS" OR algo="DivSufSort_par_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,0.569637) (2,1.09372) (4,2.16083) (8,4.4065) (12,8.71249) (16,11.9082) };
             \addlegendentry{algo=BPR\_par};
@@ -798,6 +803,8 @@ These are variants of the sequential algorithms, that were mostly naively parall
             \addlegendentry{algo=Discarding2Parallel};
             \addplot coordinates { (1,2.50936) (2,3.04948) (4,3.62786) (8,4.52356) };
             \addlegendentry{algo=Discarding4Parallel};
+            \addplot coordinates { (1,0.516853) (2,1.01441) (4,2.06209) (8,4.53356) };
+            \addlegendentry{algo=DivSufSort\_par\_ref};
             \addplot coordinates { (1,3.06848) (2,4.3148) (4,4.73058) (8,5.05918) (12,5.68415) (16,5.68597) };
             \addlegendentry{algo=NaivParallel};
             \addplot coordinates { (1,1.11013) (2,2.02917) (4,4.40177) (8,9.565) };
@@ -823,7 +830,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="dna.txt" AND sacheck="ok"
-            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS")
+            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS" OR algo="DivSufSort_par_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,0.783537) (2,1.56479) (4,3.12762) (8,6.25495) (12,18.7576) (16,25.0099) };
             \addlegendentry{algo=BPR\_par};
@@ -835,6 +842,8 @@ These are variants of the sequential algorithms, that were mostly naively parall
             \addlegendentry{algo=Discarding2Parallel};
             \addplot coordinates { (1,3.90825) (2,7.81659) (4,15.6331) (8,31.2661) };
             \addlegendentry{algo=Discarding4Parallel};
+            \addplot coordinates { (1,0.000246726) (2,0.000247501) (4,0.000249021) (8,0.000252061) };
+            \addlegendentry{algo=DivSufSort\_par\_ref};
             \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) (12,18.75) (16,25) };
             \addlegendentry{algo=NaivParallel};
             \addplot coordinates { (1,0.399128) (2,0.48352) (4,0.654059) (8,1.0149) };
@@ -850,7 +859,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
     \label{ea:fig-par-all-1}
 \end{figure}
 
-\begin{figure}[!ht]
+\begin{figure}[!h]
     \centering
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[
@@ -873,7 +882,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
-            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS")
+            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS" OR algo="DivSufSort_par_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,0.469155) (2,0.910706) (4,1.81015) (8,3.76797) (12,7.48885) (16,11.141) };
             \addlegendentry{algo=BPR\_par};
@@ -885,6 +894,8 @@ These are variants of the sequential algorithms, that were mostly naively parall
             \addlegendentry{algo=Discarding2Parallel};
             \addplot coordinates { (1,3.54234) (2,4.24778) (4,5.16101) (8,6.84444) };
             \addlegendentry{algo=Discarding4Parallel};
+            \addplot coordinates { (1,0.438349) (2,0.817589) (4,1.57076) (8,3.18317) };
+            \addlegendentry{algo=DivSufSort\_par\_ref};
             \addplot coordinates { (1,7.15567) (2,7.39145) (4,8.81336) (8,11.3875) (12,13.2541) (16,15.516) };
             \addlegendentry{algo=NaivParallel};
             \addplot coordinates { (1,0.926488) (2,1.85933) (4,3.9815) (8,8.77113) };
@@ -910,7 +921,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
             %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
-            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS")
+            %% AND (algo="BPR_par" OR algo="DC3-Parallel-V2" OR algo="NaivParallel" OR algo="Deep-Shallow_par" OR algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="PARALLEL_SAIS" OR algo="DivSufSort_par_ref")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,1.02691) (2,1.8241) (4,3.60609) (8,7.15872) (12,20.1398) (16,26.8174) };
             \addlegendentry{algo=BPR\_par};
@@ -922,6 +933,8 @@ These are variants of the sequential algorithms, that were mostly naively parall
             \addlegendentry{algo=Discarding2Parallel};
             \addplot coordinates { (1,3.90825) (2,7.81659) (4,15.6331) (8,31.2661) };
             \addlegendentry{algo=Discarding4Parallel};
+            \addplot coordinates { (1,0.000246726) (2,0.000247501) (4,0.000249021) (8,0.000252061) };
+            \addlegendentry{algo=DivSufSort\_par\_ref};
             \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) (12,18.75) (16,25) };
             \addlegendentry{algo=NaivParallel};
             \addplot coordinates { (1,0.410859) (2,0.513571) (4,0.698684) (8,1.0433) };
@@ -1040,7 +1053,7 @@ It needs a lot more memory than parallel SACAs with almost no need for extra mem
 \label{ea:gpu_benchmark:2}
 \end{figure}
 \FloatBarrier
-Figures \ref{ea:gpu_benchmark:1} and \ref{ea:gpu_benchmark:2} show the runtime comparisons between the parallel version of Mori's DivSufSort and the variants of the Osipov prefix doubler implemented by us, both the parallel variant for the CPU and for the GPU. 
+Figures \ref{ea:gpu_benchmark:1} and \ref{ea:gpu_benchmark:2} show the runtime comparisons between the parallel version of Mori's DivSufSort and the variants of the Osipov prefix doubler implemented by us, both the parallel variant for the CPU and for the GPU. Both CPU implementations use the 20 available cores.
 
 It can be seen here too that the DivSufSort on all four input texts is in part clearly superior to the other CPU implementation in terms of runtime. The situation is different in comparison to the GPU implementation: on all four input texts it achieves better runtimes than both CPU algorithms. On average this takes 12.6 seconds in our benchmarks, the DivSufSort 24.26 seconds and the CPU counterpart of the prefix doubler even 56.48 seconds. 
 In addition, it can be observed that both the GPU-Osipov with 3.28 seconds and the parallel DivSufSort with 4.5 seconds have small standard deviations and therefore do not react disproportionately differently to different input texts. The CPU version of the Osipov algorithm, which has a standard deviation of 14.19 seconds for the four texts of the same size and thus comparatively large fluctuations in the runtime, has a different effect.
