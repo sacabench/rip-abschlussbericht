@@ -991,15 +991,17 @@ which in turn has higher or equal runtime compared to Discarding4 on all three i
 Parallel BPR is the fastest algorithm on \texttt{commoncrawl.txt} and its memory consumption is similar to that of the naive parallel SACA.
 It needs a lot more memory than parallel SACAs with almost no need for extra memory (Deep-Shallow\_par, pSAIS).
 
+The parallel DivSufSort uses little extra memory and still has great performance until 8 cores (1600 MiB text).
+After this point, the text size (3200 MiB) is too large to be addressed 
+
 \todo{warum brechen da algos ab? (mb)}
 \todo{warum brechen alle algos ab 8 kernen ab? (mb)}
-\todo{sicherstellen dass mind eine ref drin ist (divsufsort par ref) (mb)}
 
 \FloatBarrier
 
 \subsection{Evaluation (GPU)}
 
-\begin{figure}[ht]
+\begin{figure}[!ht]
     \textbf{Configuration} \hfill Prefix size: 200\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz\\
 \textcolor{white}{h} \hspace{0.65cm}  NVIDIA\textsuperscript{\textregistered} Tesla K40 @ 2880 CUDA\textsuperscript{\textregistered} cores
     \centering\small
@@ -1041,7 +1043,7 @@ It needs a lot more memory than parallel SACAs with almost no need for extra mem
 \label{ea:gpu_benchmark:1}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[!ht]
     \textbf{Configuration} \hfill Prefix size: 200\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz \\\textcolor{white}{h} \hspace{0.65cm}  NVIDIA\textsuperscript{\textregistered} Tesla K40 @ 2880 CUDA\textsuperscript{\textregistered} cores
     \centering\small
     \begin{tikzpicture}[trim axis left]
