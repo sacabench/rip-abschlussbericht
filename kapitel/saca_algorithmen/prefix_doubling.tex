@@ -727,13 +727,9 @@ Da unsere Implementierung nur im Arbeitsspeicher arbeitet, sind wir nicht an ein
 
 Wir haben hierzu den Discarding-Algorithmus mit allen im Framework verfügbaren Sortierern auf einer Reihe von Testdaten angewandt, um dem sich empirisch am besten verhaltenden Algorithmus zu wählen. Es stellte sich hierbei der externe \texttt{ips4o} Algorithmus (siehe \cref{section:ips4o}) als mit Abstand bester Algorithmus heraus.
 
-%\todo{testdaten bild}
-
 \subsubsection{Ausgelassene Optimierungsansätze}
 
 Da der Ausgabe-\texttt{span} zu einer Allokation von mindestens $n \log n$ Bits zeigt, würde er sich im Prinzip als temporären Speicher für eine der Komponenten der von dem Algorithmus benutzten Tupel-Arrays benutzen lassen, um den Speicherverbrauch während der Berechnung um denselben Wert zu senken. 
-
-%\todo{Beispiel Grafik?}
 
 Dies würde jedoch die Implementierung wesentlich komplexer machen, da die Komponenten eines Tupels nun über mehrere disjunkte \texttt{span}s verteilt wären. Da das Interface der Sortierer-Implementierungen darauf beruht, nur vollständige Elemente eines Arrays zu sortieren, wäre somit also auch eine Anpassung der benutzten Sortieralgorithmen notwendig.
 
