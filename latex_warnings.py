@@ -77,9 +77,9 @@ CWHITEBG2  = '\33[107m'
 
 def colorize(text, colorcode):
     if sys.stdout.isatty():
-        return colorcode + text + CEND
+        return colorcode + str(text) + CEND
     else:
-        return text
+        return str(text)
 
 last_file = None
 current_file = "asdf"
