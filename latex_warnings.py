@@ -6,9 +6,21 @@ import subprocess
 import re
 
 re_warning = re.compile("Warning|Error")
+re_full = re.compile("Overfull|Underfull")
 re_path = re.compile("(\\./.*?\\.(pygtex|pygstyle|tex|pdf|png|toc|sty|w18))")
 
+todo_words = ["TODO", "FIXME", "todo", "fixme", "Todo", "Fixme"]
+re_todo = re.compile("|".join(todo_words))
+
 cmd = sys.argv[1:]
+
+verbose = False
+if len(cmd) > 0 and cmd[0] == "-V":
+    verbose = True
+    cmd = cmd[1:]
+
+print_all_files = verbose
+print_full_boxes = verbose
 
 print("Wrapper script executes: {}".format(cmd))
 
@@ -77,25 +89,45 @@ CWHITEBG2  = '\33[107m'
 
 def colorize(text, colorcode):
     if sys.stdout.isatty():
-        return colorcode + text + CEND
+        return colorcode + str(text) + CEND
     else:
-        return text
+        return str(text)
 
 last_file = None
 current_file = "asdf"
 for line in output:
+    def print_warning(warn_text):
+        global last_file
+        global current_file
+
+        if current_file != last_file:
+            if not print_all_files:
+                print("File {}".format(colorize(last_file, CGREEN)))
+            current_file = last_file
+        print("  " + warn_text.strip())
+
     for m in re_path.findall(line):
         last_file_candidate = str(m[0])
-        #print("[" + last_file_candidate + "]")
+        if print_all_files:
+            print("File {}".format(colorize(last_file, CGREEN)))
+            last_file = last_file_candidate
         if last_file_candidate.endswith(".tex"):
             last_file = last_file_candidate
+            if os.path.isfile(last_file):
+                with open(last_file, 'r') as f:
+                    for i,line2 in enumerate(f.readlines()):
+                        if re_todo.search(line2):
+                            for todo_word in todo_words:
+                                line2 = line2.replace(todo_word, colorize(todo_word, CVIOLET))
+                            print_warning("{} on line {}: {}".format(colorize("Todo", CVIOLET), i, line2))
 
     if re_warning.search(line):
-        if current_file != last_file:
-            print("File {}".format(colorize(last_file, CGREEN)))
-            current_file = last_file
         line = line.replace("Warning", colorize("Warning", CYELLOW))
         line = line.replace("Error", colorize("Error", CRED))
-        print("  " + line.strip()),
+        print_warning(line)
+    if print_full_boxes and re_full.search(line):
+        line = line.replace("Overfull", colorize("Overfull", CBLUE))
+        line = line.replace("Underfull", colorize("Underfull", CBLUE))
+        print_warning(line)
 
 exit(returncode)
