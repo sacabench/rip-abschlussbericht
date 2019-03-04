@@ -86,7 +86,7 @@ Ein auf direkten Vergleichen basierendes Bucket-Sorting reicht allein für einen
 
 In diesem Abschnitt wird die Grundidee des Induzierten Sortieren erläutert, wie sie hier verwendet wird. In \cref{section:induzierer} wird dieses Konzept noch allgemeiner erklärt. 
 Grob gesagt gibt es viele Suffixe, deren Ränge abhängig von den Rängen anderer Suffixe sind, und diese Abhängigkeit kann zum schnelleren Sortieren genutzt werden.
-Man sagt, Suffix $i$ aus einer $u$-Chain der Länge \ell lässt sich \textit{induziert} sortieren, wenn der Rang für Suffix $i+l$ bereits bekannt ist.
+Man sagt, Suffix $i$ aus einer $u$-Chain der Länge $\ell$ lässt sich \textit{induziert} sortieren, wenn der Rang für Suffix $i+l$ bereits bekannt ist.
 Es kann beobachtet werden, dass solche induziert sortierbaren Suffixe lexikographisch vor den anderen Suffixen kommen: sie haben offensichtlich selbst lexikographisch kleinere Sub-Suffixe, als andere Suffixe mit dem selben Präfix $u$.
 Bei der Verfeinerung der $u$-Chains werden nun nur noch nicht-induziert sortierbare Suffixe in Sub-Chains platziert, während die induziert sortierbaren Suffixe anders sortiert werden. Die Reihenfolge dieser induziert sortierbaren Suffixe lässt sich mittels vergleichsbasiertem Sortieren bestimmen, indem der Rang von Suffix $i+l$ als Sortierschlüssel genutzt wird. Sobald die Menge $M$ ($|M| = m$) der induziert sortierbaren Suffixe nach den Sortierschlüsseln sortiert wurde, werden diesen Suffixen die nächsten $m$ Ränge zugewiesen. Diese Art des Sortierens für Suffixe nennen wir (hier) \textit{Induziertes Sortieren}.\\
 
