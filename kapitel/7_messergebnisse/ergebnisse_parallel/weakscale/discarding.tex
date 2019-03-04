@@ -299,7 +299,7 @@ Wir werten nun das Verhalten der zwei parallelen \textit{Discarding} Varianten d
 
 Es gilt also ebenfalls, dass das Algorithmusverhalten mit der Implementierung (\cref{chapter:saca:doubling:memory}) übereinstimmt. Ebenso hat der Algorithmus wieder bei zu großer Eingabe einen zu hohen Speicherverbrauch, wie man in \cref{messung:tab:memory-large-par-weak} erkennt.
 
-\paragraph{Die Laufzeitmessung} zeigt im Gegensatz zum sequentiellen Fall (\cref{messeval:scaling:seq:doubling}) einen deutlichen Unterschied zwischen $a$-Tupling mit $a=2$ und $a=4$, wobei letzteres schneller ist. Dies deutet darauf hin, dass der parallele \ipsviero Sortierer stärker auf die dadurch verursachten Unterschiede in der Anzahl und Größe der zu sortierenden Elemente reagiert als der sequentielle.
+\paragraph{Die Laufzeitmessung} zeigt im Gegensatz zum sequentiellen Fall (siehe \cref{messeval:scaling:seq:doubling}) einen deutlichen Unterschied zwischen $a$-Tupling mit $a=2$ und $a=4$, wobei letzteres schneller ist. Dies deutet darauf hin, dass der parallele \ipsviero Sortierer stärker auf die dadurch verursachten Unterschiede in der Anzahl und Größe der zu sortierenden Elemente reagiert als der sequentielle.
 
 Dies führt jedoch auch dazu, dass \textit{Discarding} mit $a=2$ je nach Eingabe nah am parallelen Naiven Algorithmus liegt und teilweise sogar langsamer ist. Im Gegensatz zum sequentiellen Fall wird das \sa also mit $a=4$ wesentlich schneller berechnet.
 

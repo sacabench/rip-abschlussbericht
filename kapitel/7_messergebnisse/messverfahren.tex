@@ -17,6 +17,6 @@ Large-Parallel-Strong-Scaling  & Large & Alle Parallelen    & $200$MiB   & $\in 
 }
 
 \bigskip
-Für jede Konfiguration wird \texttt{taskset -c 0,1,...,$t$ sacabench batch $input$} mit den Optionen \texttt{-{}-whitelist $algorithm$}, \texttt{-{}-check}, \texttt{-{}-prefix $k$}, \texttt{-{}-repetitions $r$}, \texttt{-b $b$} und \texttt{-{}-benchmark $outfile$} aufgerufen. Hierbei ist $outfile$ jeweils ein eindeutiger Dateipfad.
+Für jede Konfiguration wird der Befehl \texttt{taskset -c 0,1,...,$t$ sacabench batch $input$} mit den Optionen \texttt{-{}-whitelist $algorithm$}, \texttt{-{}-check}, \texttt{-{}-prefix $k$}, \texttt{-{}-repetitions $r$}, \texttt{-b $b$} und \texttt{-{}-benchmark $outfile$} aufgerufen. Hierbei ist $outfile$ jeweils ein eindeutiger Dateipfad.
 
 Dieses Verfahren wird in der Framework Implementierung durch den Python Skript \texttt{zbmessung/lido3\_launcher.py} automatisiert.
