@@ -239,8 +239,8 @@ This is also done by SACA-K and GSACA, which are both similar to SAIS, but add s
 (SACA-K for example doesn't use any extra space).
 mSufSort is another inducing-SACA, but since it constructs the \isa instead of the \sa,
 it's not derived from any other SACA.
-The two other recursive SACAs are DC3 (which sorts $\frac{2}{3}$ of the suffixes in a recursion step)
-and nzSufSort (which is similar to DC3 but improves on some aspects)\todo{nico? johannes? bitte ergänzen}.
+The two other recursive SACAs are DC3 (which sorts $\frac{2}{3}$ of the suffixes in a recursion step), which utilizes the \emph{Difference Cover} concept to sort all suffixes beginning at positions $1$, $2$, $4$, $5$ and so on at first. After that it sorts all suffixes beginning at positions $0$, $3$ and so on before these two are merged into the correct \sa.
+nzSufSort sorts the S-Type suffixes by using the \emph{Difference Cover} concept before inducing the L-Type suffixes similar to SAIS in one pass. It was the first presented algorithm, which is \emph{optimal lightweight}. This means it has running time $\mathcal O (n)$ by using only constant extra space.
 
 \section{Optimization Strategies}
 
