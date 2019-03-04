@@ -72,8 +72,8 @@ Zum Abschluss der Iteration müssen wir die neuen Ränge in $\mathsf{ISA}_{2h}$ 
 \subsection{Beispiel}
 % Please add the following required packages to your document preamble:
 % \usepackage{multirow}
-\begin{table}[]
-\small
+\begin{table}
+\footnotesize
 \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}
 \hline
 $j$                                                                          & 0  & 1  & 2 & 3 & 4  & 5 & 6 & 7 & 8  & 9 & 10 & 11 & 12 & 13 & 14 \\ \hline
@@ -91,7 +91,7 @@ Im Folgenden gehen wir auf das bekannte Beispiel \glqq caabaccaabacaa\$\grqq ~ei
 
 Zunächst sortieren wir unsere Suffixe nach den ersten zwei Zeichen und erzeugen basierend darauf das initiale $\mathsf{ISA}_2$. Die Ränge bereits sortierter Gruppen werden negiert, so wie bei den Suffixen mit Index $14, 13 ~\text{und}~ 5$ zu sehen. Die Ergebnisse dieser drei Schritte sind in Tabelle \ref{tab:osipov-init} dargestellt. Als nächstes betrachten wir die erste Iteration unserer Schleife. 
 
-\begin{table}[]
+\begin{table}
 \small
 \begin{tabular}{|l|l|l|l|l|}
 \hline
@@ -118,7 +118,7 @@ $j$ & $i = \mathsf{SA}_h[j] - h$ & $i > 0 \wedge \mathsf{ISA}_h[i] > 0$ & $i' = 
 
 Zu Beginn einer jeden Iteration müssen wir die für die Sortierung benötigten Tupel erzeugen. Dafür schauen wir uns zunächst an, welche Tupel überhaupt benötigt werden. Tabelle \ref{tab:osipov-tupel-cond} listet den Index $j$ der inneren Schleife, den korrespondierenden Suffix-Index $\mathsf{SA}_h[j]-h$ und die Bedingung zur Erzeugung des Tupels. Dabei muss $i>0$ auf einen gültigen Index zeigen, dessen Suffix noch nicht eindeutig sortiert sein darf ($\mathsf{ISA}_h[i] > 0$). Ebenso haben wir den Suffix-Index $\mathsf{SA}_h[j]$ sowie die entsprechende Bedingung notiert. Die Bedingung entspricht hierbei der Negierung von Lemma \ref{lem:sort-gruppe}. Die Bedingungen sind als Lazy Evaluation dargestellt, d.~h.\ sobald ein Wert $\mathsf{false}$ ist, schreiben wir die Auswertung der weiteren Teilbedingungen nicht auf. In der ersten Iteration werden alle Suffixe außer $S_0 ~\text{und}~ S_1$ zum Erzeugen neuer Tupel verwendet. Wir erzeugen durch die zweite Bedingung darüber hinaus Tupel mit den Suffixen mit Index $14, 13 ~\text{und}~ 5$, da wir sie möglicherweise für die nächste Iteration zum weiteren Sortieren benötigen.
 
-\begin{table}[]
+\begin{table}
 \small
 \begin{tabular}{|l|l|l|}
 \hline
@@ -149,7 +149,7 @@ Die erzeugten Tupel und die daraus resultierende Sortierung sind in Tabelle \ref
 % Please add the following required packages to your document preamble:
 % \usepackage[table,xcdraw]{xcolor}
 % If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
-\begin{table}[]
+\begin{table}
 \small
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
@@ -172,7 +172,7 @@ Indizes                                                    & \begin{tabular}[c]{
 % Please add the following required packages to your document preamble:
 % \usepackage[table,xcdraw]{xcolor}
 % If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
-\begin{table}[]
+\begin{table}
 \small
 \begin{tabular}{|c|c|c|c|c|}
 \hline
@@ -196,7 +196,7 @@ Indizes                                                    & \begin{tabular}[c]{
 Tabelle \ref{tab:osipov-new-ranks} zeigt die Berechnung der neuen Ränge. Die ersten beiden Bedingungen prüfen, ob sich die zu vergleichenden Tupel in derselben Gruppe befinden. Bei Ungleichheit der ersten Bedingung $h\text{-rank}[j] > h\text{-rank}[head]$ befinden sich die beiden Suffixe bereits in unterschiedlichen $h$-Gruppen. Bei der zweiten Bedingung $2h\text{-rank}[j] \neq 2h\text{-rank}[head]$ hingegen entsteht eine neue $2h$-Gruppe, da sie sich durch die Verdopplung des Suffixes zum ersten Mal unterscheiden. In diesem Fall muss der neue Rang berechnet werden. Dies geschiet in der $4.$ Spalte. Die blauen Markierungen in den Spalten $2$ und $3$ geben an, dass eine neue Gruppe beginnt, d.~h. die Bedingung ist erfüllt. Wenn keine der beiden Bedingungen gilt, so befinden sich die Suffixe immer noch in derselben Gruppe. Dabei müssen wir den Rang des Gruppenkopfes übernehmen, da sich in der Zwischenzeit der Rang dieser Gruppe erhöht haben könnte. Um dies hervorzuheben, werden die Zuweisungen in der $5.$ Spalte grün markiert. Dies ist beispielsweise für die Gruppe $(1,7)$ (Tupel $3$ und $4$) der Fall, wobei dem Index $1$ im vorigen Durchlauf dieser Schleife der Rang $3$ zugewiesen und somit der Rang $2$ überschrieben wurde. 
 
 
-\begin{table}[]
+\begin{table}
 \small
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 \hline
@@ -210,7 +210,7 @@ $\mathsf{ISA}_4$ & -0 & -1 & -2 & 3 & 3 & 5 & 5 & -7  & -8 & -9 & -10 & -11 & 12
 
 Zum Ende unserer Iteration übernehmen wir die finalen Werte für die $h$-Ränge in das $\mathsf{ISA}_4$. Zuletzt markieren wir alle neuen, fertig sortierten Gruppen mittels Negierung und erhalten damit die finalen Werte dieser Iteration. Das Ergebnis findet sich in Tabelle \ref{tab:osipov-iteration}. Da wir in dieser Iteration noch Tupel erzeugt haben und die Größe für die nächste Iteration der Anzahl erzeugter Tupel entspricht, müssen wir eine weitere Iteration durchführen. Dafür setzen wir die neue Größe auf die Anzahl unserer Tupel (identischer Wert) und wir verdoppeln $h$ auf $4$. Der Einfachheit halber überspringen wir diese Iteration jedoch, da die Gruppen $(1, 7), (2,8)$ und $(0,6)$ eindeutig sortiert werden. Unser finales Suffix-Array findet sich in Tabelle \ref{tab:osipov-final} wieder.
 
-\begin{table}[]
+\begin{table}
 \small
 \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}
 \hline

@@ -60,6 +60,8 @@ $\$$ & 0
 
 Aufbauend auf den neu errechneten Wertigkeiten der einzelnen Stellen lässt sich nun die initiale Sortierung anhand des ersten Zeichens durchführen. Dafür kann beispielsweise wie im vorherigen Kapitel vorgeschlagen ein Bucketsort benutzt werden. Daraus resultiert das folgende Suffix-Array in 3-Reihenfolge:\\
 \begin{center}
+\scalebox{0.85}
+{
 \begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c |}
 \hline
 $i$ & 0 & 1 &2 &3 &4 &5 &6 &7 &8 &9 &10 &11 &12 &13 &14 \\
@@ -69,9 +71,12 @@ $\sa[i]$ & 14 & 13 &12 &1 &7 & 2 &8 &10 &4 &3 &9 &0 &6 &11 &5 \\
 Wert & 0 & 16 &20 &22 &22 &25 &25 &29 &31 &39 &39 &53 &53 &53 &61 \\
 \hline
 \end{tabular}
+}
 \end{center}
 Aus dem vorliegenden Suffix-Array lässt sich nun das Hilfsarray $\mathsf{V}$ wie folgt initialisieren:\\
 \begin{center}
+\scalebox{0.85}
+{
 \begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c |}
 \hline
 $i$ & 0 & 1 &2 &3 &4 &5 &6 &7 &8 &9 &10 &11 &12 &13 &14 \\
@@ -81,11 +86,12 @@ $\sa$[i] & -3 & 13 &12 &1 &7 & 2 &8 &-2 &4 &3 &9 &0 &6 &11 &-1 \\
 $\mathsf{V}$[$\mathsf{SA}[i]$] & 0 & 1 & 2 & 4 & 4 & 6 & 6 & 7 & 8 & 10 & 10 & 13 & 13 & 13 & 14 \\
 \hline
 \end{tabular}
+}
 \end{center}
 Nach der Initialisierung beginnt nun die Prefix-Doubling Phase in der wir in jeder Iteration soweit wie möglich die unsortierten Gruppen innerhalb des Suffix-Arrays sortieren:
 
 \begin{center}
-\scalebox{0.85}
+\scalebox{0.8}
 {
 \begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c |}
 \hline
@@ -135,6 +141,7 @@ Nach Aktualisierung der Gruppenlängen verdoppeln wir $h$ erneut und versuchen i
 Um nun das finale Suffix-Array zu bekommen, müssen wir das Hilfsarray $\mathsf{V}$ invertieren. Dazu können wir eine der in Abschnitt \ref{isa2sa} gezeigten Techniken verwenden. Daraus resultiert folgendes Suffix-Array:
 
 \begin{center}
+\small
 \begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c |}
 \hline
 $i$ & 0 & 1 &2 &3 &4 &5 &6 &7 &8 &9 &10 &11 &12 &13 &14 \\
