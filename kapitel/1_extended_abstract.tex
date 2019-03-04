@@ -279,6 +279,13 @@ as we could hardly find any (working) reference algorithms to compare our implem
 % Das hier sollte als Allgemeinwissen klar sein:
 and development of GPUs shows higher performance improvements than CPU development in certain workloads.
 
+\subsection{Utilization of a GPU}
+
+Since GPUs feature many more cores than modern desktop or even server CPUs,
+we include a prefix doubling SACA which uses CUDA to run on the GPU~\cite{osipovGPU}.
+We show that this algorithm outperformes the parallel DivSufSort implementation.
+\todo{Olli? Hermann? vlt noch was ergänzen}
+
 \subsection{Sorting Algorithms}
 
 Many SACAs use sorting algorithms at some point. For the benchmark a variety of sorting algorithms were implemented so that all SACAs can use them.
@@ -297,10 +304,44 @@ if there are no equal elements in the set to be sorted~\cite{saca:4,ternary_quic
 otherwise, the ternary version is faster~\cite{ternary_quicksort}.
 We therefore chose the best option for the required use-case.
 
-\section{Evaluation (sequential)}
+\section{Evaluation}
+
+Evaluation of both the sequential SACAs, including the reference algorithms, as well as of the parallel SACAs is done on LiDo3 \todo{Referenz}. The system's specifications are described in table \ref{system}.
+
+\begin{table}
+\begin{tabular}{ll}
+\toprule
+Operating System       & GNU/Linux \\
+Kernel Version       & \#1 SMP Wed Sep 26 15:12:11 UTC 2018 \\
+\midrule
+Architecture:        & x86\_64 \\
+CPU op-mode(s):      & 32-bit, 64-bit \\
+CPU(s):              & 20 \\
+Thread(s) per core:  & 1 \\
+Core(s) per socket:  & 10 \\
+Socket(s):           & 2 \\
+Model name:          & Intel(R) Xeon(R) CPU E5-2640 v4 @ 2.40GHz \\
+CPU max MHz:         & 3400.0000 \\
+CPU min MHz:         & 1200.0000 \\
+L1d cache:           & 32K \\
+L1i cache:           & 32K \\
+L2 cache:            & 256K \\
+L3 cache:            & 25600K \\
+\midrule
+Memory Size        & 64GiB \\
+\bottomrule
+\end{tabular}
+\caption{Configuration of compute nodes used to run the SACAs in this evaluation. These Nodes are part of the LiDO3 Compute Cluster at TU Dortmund.}
+\label{ea:lido}
+\end{table}
+
+\subsection{Evaluation (sequential)}
 
 In the \crefrange{ea:runtime-all-0}{ea:runtime-all-2} we show the performance of the implementations of different SACAs on three texts.
-The texts are \texttt{wiki.txt}, \texttt{dna.txt} and \texttt{commoncrawl.txt} from the \todo{was für ne quelle?} repository~\cite{xxx}.
+The texts are \texttt{wiki.txt} (a current XML-dump of Wikipedia),
+\texttt{dna.txt} (a cleaned-up version from the 1000 Genome Project~\cite{1000genomeproject})
+and \texttt{commoncrawl.txt} (an ASCII-only subset of the Commoncrawl dataset~\cite{commoncrawl}).
+
 \todo{Testsystem, Methodologie, ... (mb)}
 \todo{Fixt hier bitte eure multiply defined labels. Ihr benutzt die gleichen wie im Auswertungskapitel}
 
@@ -621,7 +662,7 @@ The texts are \texttt{wiki.txt}, \texttt{dna.txt} and \texttt{commoncrawl.txt} f
 The clear winners in all three cases is divsufsort, followed by BPR and SAIS-Lite
 \footnote{divsufsort and SAIS-Lite both are optimized implementations by Yuta Mori~\cite{saca:5}.}.
 In terms of memory consumption, divsufsort and SACA-K are the two best algorithms since they use no extra space,
-follwed by Deep-Shallow\_ref\todo{Du schreibst alle Algos ohne \_ref bis auf deep-shallow}, which uses very little extra space.
+follwed by Deep-Shallow, which uses very little extra space.
 The worst algorithm in both runtime performance as well as memory consumption is in all three cases the reference implementation of DC3,
 which is followed by SADS (a variant of SAIS~\cite{saca:6}) in terms of performance and BPR in terms of memory consumption.
 However, caused by source code incompatibilities, memory utilization for BPR is not intuitively comparable to other algorithms as we are only able measure absolute memory but not extra memory for this specific algorithm.
@@ -631,7 +672,7 @@ However, caused by source code incompatibilities, memory utilization for BPR is 
 \todo{wieso taucht deep shallow nur auf dna auf? (mb)}
 \todo{vermisst jemand seine ref komplett? (mb)}
 
-\section{Evaluation (parallel)}
+\subsection{Evaluation (parallel)}
 
 In this section we will compare the performance of the runtime and memory performance of the included parallel SACAs.
 These are variants of the sequential algorithms, that were mostly naively parallelized, with the exception of parallel SAIS
@@ -898,13 +939,16 @@ These are variants of the sequential algorithms, that were mostly naively parall
 \end{figure}
 \FloatBarrier
 
-Contrary to the results of the sequential algorithms, the performance of the parallel SACAs differ widely be the input text.
+Contrary to the results of the sequential algorithms, the performance of the parallel SACAs differ widely between the input text.
 For example, Deep-Shallow\_par is the best algorithm on \texttt{wiki.txt},
 as it uses 0 extra memory and outperformes the other algorithms in terms of runtime.
 However, it is surpassed on \texttt{dna.txt} by even the naive-parallel SACA and fails to compute the correct \sa on \texttt{commoncrawl.txt}.
 
-Discarding4 has consistent runtime performance on all of the three texts but comes with a heavy memory pricetag,
-which is only surpassed by the parallel DC3 implementation.
+Discarding4 has consistent runtime performance on all of the three texts but comes with a heavy memory pricetag.
+Its memory comsumption is the same as for the parallel DC3 implementation, which in turn has higher or equal runtime compared to Discarding4 on all three input texts.
+
+Parallel BPR is the fastest algorithm on \texttt{commoncrawl.txt} and its memory consumption is similar to that of the naive parallel SACA.
+It needs a lot more memory than parallel SACAs with almost no need for extra memory (Deep-Shallow\_par, pSAIS).
 
 \todo{bpr memory consumption <=> naive (mb) das ist nur Zufall, weil beide (scheinbar) eine working copy in SA-Größe benutzen (fg)}
 \todo{warum brechen da algos ab? (mb)}
