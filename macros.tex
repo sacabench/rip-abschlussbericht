@@ -165,3 +165,8 @@
 \makeatletter
 \pretocmd{\@todo}{\GenericWarning{}{Warning: TODO still in document!}}{}{}
 \makeatother
+
+% Keine einzelnen Zeilen beim Anfang eines Abschnitts (Schusterjungen)
+\clubpenalty = 10000
+% Keine einzelnen Zeilen am Ende eines Abschnitts (Hurenkinder)
+\widowpenalty = 10000 \displaywidowpenalty = 10000
