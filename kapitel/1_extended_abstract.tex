@@ -279,13 +279,6 @@ as we could hardly find any (working) reference algorithms to compare our implem
 % Das hier sollte als Allgemeinwissen klar sein:
 and development of GPUs shows higher performance improvements than CPU development in certain workloads.
 
-\subsection{Utilization of a GPU}
-
-Since GPUs feature many more cores than modern desktop or even server CPUs,
-we include a prefix doubling SACA which uses CUDA to run on the GPU~\cite{osipovGPU}.
-We show that this algorithm outperformes the parallel DivSufSort implementation.
-\todo{Olli? Hermann? vlt noch was ergänzen}
-
 \subsection{Sorting Algorithms}
 
 Many SACAs use sorting algorithms at some point. For the benchmark a variety of sorting algorithms were implemented so that all SACAs can use them.
@@ -336,15 +329,18 @@ We therefore chose the best option for the required use-case.
 
 \noindent
 Evaluation of both the sequential SACAs, including the reference algorithms, as well as of the parallel SACAs is done on LiDO3 \todo{Referenz}.
-Our experiment texts are \texttt{wiki.txt} (a current XML-dump of Wikipedia),
-\texttt{dna.txt} (a cleaned-up version from the 1000 Genome Project~\cite{1000genomeproject})
-and \texttt{commoncrawl.txt} (an ASCII-only subset of the Commoncrawl dataset~\cite{commoncrawl}).
 We evaluate the performance of the chosen SACAs on an identical test system, the specifications of which are described in \cref{ea:lido}.
+This enables us to directly compare these algorithms in terms of runtime performance and memory consumption.
+We set an arbitrary limit of 2 hours of runtime as well as 60 GiB of used system memory.
+Our experiment texts are \texttt{wiki.txt}, \texttt{dna.txt} and \texttt{commoncrawl.txt}:
+%
+\begin{description}
+    \item[\texttt{wiki.txt}] An XML-dump of the recent wikipedia database.
+    \item[\texttt{dna.txt}] A version of the 1000 Genome Project~\cite{1000genomeproject}, which has been stripped from any characters but ACGT.
+    \item[\texttt{commoncrawl.txt}] A subset of the Commoncrawl dataset~\cite{commoncrawl}, which has been cleaned up to contain only ASCII characters.
+\end{description}
 
 \subsection{Evaluation (sequential)}
-
-In the \crefrange{ea:runtime-all-0}{ea:runtime-all-2} we show the performance of the implementations of different SACAs on a 1600 MiB prefix of the three texts.
-\todo{Fixt hier bitte eure multiply defined labels. Ihr benutzt die gleichen wie im Auswertungskapitel}
 
 % IMPORT-DATA stats_parallel 7_messergebnisse/ergebnisse_parallel/result_weakscale.txt
 % IMPORT-DATA results_sequential 7_messergebnisse/ergebnisse_sequentiell/results.txt
@@ -355,7 +351,7 @@ In the \crefrange{ea:runtime-all-0}{ea:runtime-all-2} we show the performance of
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[batchTimePlot,
             cycle list name={exotic},
-            legend to name=ea:runtime-all-ref-0,
+            legend to name=ea-runtime-all-ref-0,
             width=\textwidth,
             height=60mm,
             xtick style = {draw=none},
@@ -445,10 +441,12 @@ In the \crefrange{ea:runtime-all-0}{ea:runtime-all-2} we show the performance of
             \legend{}
         \end{axis}
     \end{tikzpicture}
+
     \medskip
-    \ref{ea:runtime-all-ref-0}
+    \ref{ea-runtime-all-ref-0}
+
     \caption{Comparison of the in \sacabench included reference implementations of SACAs, including time and memory consumption: wiki.txt}
-    \ref{ea:runtime-all-ref-0}
+    \label{ea:runtime-all-ref-0}
 \end{figure}
 
 \begin{figure}[!h]
@@ -457,7 +455,7 @@ In the \crefrange{ea:runtime-all-0}{ea:runtime-all-2} we show the performance of
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[batchTimePlot,
             cycle list name={exotic},
-            legend to name=ea:runtime-all-ref-1,
+            legend to name=ea-runtime-all-ref-1,
             width=\textwidth,
             height=60mm,
             xtick style = {draw=none},
@@ -552,9 +550,9 @@ In the \crefrange{ea:runtime-all-0}{ea:runtime-all-2} we show the performance of
         \end{axis}
     \end{tikzpicture}
     \medskip
-    \ref{ea:runtime-all-ref-1}
+    \ref{ea-runtime-all-ref-1}
     \caption{Comparison of the in \sacabench included reference implementations of SACAs, including time and memory consumption: dna.txt}
-    \ref{ea:runtime-all-ref-1}
+    \label{ea:runtime-all-ref-1}
 \end{figure}
 
 \begin{figure}[!h]
@@ -563,7 +561,7 @@ In the \crefrange{ea:runtime-all-0}{ea:runtime-all-2} we show the performance of
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[batchTimePlot,
             cycle list name={exotic},
-            legend to name=ea:runtime-all-ref-2,
+            legend to name=ea-runtime-all-ref-2,
             width=\textwidth,
             height=60mm,
             xtick style = {draw=none},
@@ -654,11 +652,14 @@ In the \crefrange{ea:runtime-all-0}{ea:runtime-all-2} we show the performance of
         \end{axis}
     \end{tikzpicture}
     \medskip
-    \ref{ea:runtime-all-ref-2}
+    \ref{ea-runtime-all-ref-2}
     \caption{Comparison of the in \sacabench included reference implementations of SACAs, including time and memory consumption: commoncrawl.txt}
-    \ref{ea:runtime-all-ref-2}
+    \label{ea:runtime-all-ref-2}
 \end{figure}
 \FloatBarrier
+
+In the Figures \ref{ea:runtime-all-ref-0} to \ref{ea:runtime-all-ref-2} we show the performance of
+the implementations of different SACAs on a 1600 MiB prefix of the three texts.
 
 The clear winners in all three cases is divsufsort, followed by BPR and SAIS-Lite
 \footnote{divsufsort and SAIS-Lite both are optimized implementations by Yuta Mori~\cite{saca:5}.}.
@@ -691,7 +692,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={SA construction time [min]},
                 legend columns=2,
-                legend to name=ea:legend-par-all-0,
+                legend to name=ea-legend-par-all-0,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
@@ -764,7 +765,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
     \end{tikzpicture}
 
     \medskip
-    \ref{ea:legend-par-all-0}
+    \ref{ea-legend-par-all-0}
     \caption{Vergleich der parallelen Implementierungen mit Laufzeit und Speicherbedarf auf wiki.txt}
     \label{ea:fig-par-all-0}
 \end{figure}
@@ -781,7 +782,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={SA construction time [min]},
                 legend columns=2,
-                legend to name=ea:legend-par-all-1,
+                legend to name=ea-legend-par-all-1,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
@@ -855,7 +856,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
     \end{tikzpicture}
 
     \medskip
-    \ref{ea:legend-par-all-1}
+    \ref{ea-legend-par-all-1}
     \caption{Vergleich der parallelen Implementierungen mit Laufzeit und Speicherbedarf auf dna.txt}
     \label{ea:fig-par-all-1}
 \end{figure}
@@ -872,7 +873,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={SA construction time [min]},
                 legend columns=2,
-                legend to name=ea:legend-par-all-2,
+                legend to name=ea-legend-par-all-2,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
@@ -946,7 +947,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
     \end{tikzpicture}
 
     \medskip
-    \ref{ea:legend-par-all-2}
+    \ref{ea-legend-par-all-2}
     \caption{Vergleich der parallelen Implementierungen mit Laufzeit und Speicherbedarf auf commoncrawl.txt}
     \label{ea:fig-par-all-2}
 \end{figure}
@@ -958,12 +959,12 @@ as it uses 0 extra memory and outperformes the other algorithms in terms of runt
 However, it is surpassed on \texttt{dna.txt} by even the naive-parallel SACA and fails to compute the correct \sa on \texttt{commoncrawl.txt}.
 
 Discarding4 has consistent runtime performance on all of the three texts but comes with a heavy memory pricetag.
-Its memory comsumption is the same as for the parallel DC3 implementation, which in turn has higher or equal runtime compared to Discarding4 on all three input texts.
+Its memory comsumption is the same as for the parallel DC3 implementation,
+which in turn has higher or equal runtime compared to Discarding4 on all three input texts.
 
 Parallel BPR is the fastest algorithm on \texttt{commoncrawl.txt} and its memory consumption is similar to that of the naive parallel SACA.
 It needs a lot more memory than parallel SACAs with almost no need for extra memory (Deep-Shallow\_par, pSAIS).
 
-\todo{bpr memory consumption <=> naive (mb) das ist nur Zufall, weil beide (scheinbar) eine working copy in SA-Größe benutzen (fg)}
 \todo{warum brechen da algos ab? (mb)}
 \todo{warum brechen alle algos ab 8 kernen ab? (mb)}
 \todo{sicherstellen dass mind eine ref drin ist (divsufsort par ref) (mb)}
