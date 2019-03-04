@@ -388,28 +388,33 @@ Notable is the low memory consumption of SAIS and SACA-K, which only use some an
 
             %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, time/1000/60 AS y
             %% FROM ( 
-            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
-            %% ) WHERE input="wiki.txt" AND prefix=1677721600
+            %% SELECT algo, input, sacheck, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="wiki.txt" AND prefix=838860800 AND sacheck="ok"
             %% AND (algo LIKE "%_ref%" AND NOT algo LIKE "%par")
             %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY y
-            \addplot coordinates { (wiki.txt,3.45026) };
+            \addplot coordinates { (wiki.txt,1.73052) };
             \addlegendentry{algo=DivSufSort\_ref};
-            \addplot coordinates { (wiki.txt,5.80588) };
-            \addlegendentry{algo=SAIS-LITE\_ref};
-            \addplot coordinates { (wiki.txt,6.33265) };
+            \addplot coordinates { (wiki.txt,2.75402) };
             \addlegendentry{algo=BPR\_ref};
-            \addplot coordinates { (wiki.txt,10.5834) };
+            \addplot coordinates { (wiki.txt,2.77311) };
+            \addlegendentry{algo=Deep-Shallow\_ref};
+            \addplot coordinates { (wiki.txt,2.8182) };
+            \addlegendentry{algo=SAIS-LITE\_ref};
+            \addplot coordinates { (wiki.txt,4.35543) };
+            \addlegendentry{algo=MSufSort\_ref};
+            \addplot coordinates { (wiki.txt,5.17338) };
             \addlegendentry{algo=SACA-K\_ref};
-            \addplot coordinates { (wiki.txt,13.9982) };
+            \addplot coordinates { (wiki.txt,6.1854) };
             \addlegendentry{algo=qsufsort\_ref};
-            \addplot coordinates { (wiki.txt,15.3998) };
+            \addplot coordinates { (wiki.txt,7.28537) };
             \addlegendentry{algo=SAIS\_ref};
-            \addplot coordinates { (wiki.txt,18.5135) };
+            \addplot coordinates { (wiki.txt,7.31669) };
             \addlegendentry{algo=GSACA\_ref};
-            \addplot coordinates { (wiki.txt,19.0941) };
+            \addplot coordinates { (wiki.txt,9.19736) };
             \addlegendentry{algo=SADS\_ref};
-            \addplot coordinates { (wiki.txt,62.1154) };
+            \addplot coordinates { (wiki.txt,23.235) };
             \addlegendentry{algo=DC3\_ref};
+
         \end{axis}
     \end{tikzpicture}
     \begin{tikzpicture}[trim axis left]
@@ -433,27 +438,31 @@ Notable is the low memory consumption of SAIS and SACA-K, which only use some an
 
             %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, memPeak/1024/1024/1024 AS y
             %% FROM ( 
-            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
-            %% ) WHERE input="wiki.txt" AND prefix=1677721600
+            %% SELECT algo, input, sacheck, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="wiki.txt" AND prefix=838860800 AND sacheck="ok"
             %% AND (algo LIKE "%_ref%" AND NOT algo LIKE "%par")
             %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY time
-            \addplot coordinates { (wiki.txt,0.000252061) };
+            \addplot coordinates { (wiki.txt,0.000249021) };
             \addlegendentry{algo=DivSufSort\_ref};
-            \addplot coordinates { (wiki.txt,6.25) };
-            \addlegendentry{algo=SAIS-LITE\_ref};
-            \addplot coordinates { (wiki.txt,26.6305) };
+            \addplot coordinates { (wiki.txt,13.3493) };
             \addlegendentry{algo=BPR\_ref};
+            \addplot coordinates { (wiki.txt,0.00939793) };
+            \addlegendentry{algo=Deep-Shallow\_ref};
+            \addplot coordinates { (wiki.txt,3.125) };
+            \addlegendentry{algo=SAIS-LITE\_ref};
+            \addplot coordinates { (wiki.txt,3.22572) };
+            \addlegendentry{algo=MSufSort\_ref};
             \addplot coordinates { (wiki.txt,7.82311e-07) };
             \addlegendentry{algo=SACA-K\_ref};
-            \addplot coordinates { (wiki.txt,25) };
+            \addplot coordinates { (wiki.txt,12.5) };
             \addlegendentry{algo=qsufsort\_ref};
-            \addplot coordinates { (wiki.txt,0.499429) };
+            \addplot coordinates { (wiki.txt,0.269095) };
             \addlegendentry{algo=SAIS\_ref};
-            \addplot coordinates { (wiki.txt,18.75) };
+            \addplot coordinates { (wiki.txt,9.375) };
             \addlegendentry{algo=GSACA\_ref};
-            \addplot coordinates { (wiki.txt,0.661858) };
+            \addplot coordinates { (wiki.txt,0.360081) };
             \addlegendentry{algo=SADS\_ref};
-            \addplot coordinates { (wiki.txt,36.7684) };
+            \addplot coordinates { (wiki.txt,18.3842) };
             \addlegendentry{algo=DC3\_ref};
 
             \legend{}
@@ -492,30 +501,33 @@ Notable is the low memory consumption of SAIS and SACA-K, which only use some an
 
             %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, time/1000/60 AS y
             %% FROM ( 
-            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
-            %% ) WHERE input="dna.txt" AND prefix=1677721600
+            %% SELECT algo, input, sacheck, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="dna.txt" AND prefix=838860800 AND sacheck="ok"
             %% AND (algo LIKE "%_ref%" AND NOT algo LIKE "%par")
             %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY y
-            \addplot coordinates { (dna.txt,4.25621) };
+            \addplot coordinates { (dna.txt,2.05917) };
             \addlegendentry{algo=DivSufSort\_ref};
-            \addplot coordinates { (dna.txt,4.93084) };
-            \addlegendentry{algo=Deep-Shallow\_ref};
-            \addplot coordinates { (dna.txt,6.05679) };
+            \addplot coordinates { (dna.txt,2.71512) };
             \addlegendentry{algo=SAIS-LITE\_ref};
-            \addplot coordinates { (dna.txt,7.45044) };
+            \addplot coordinates { (dna.txt,2.89482) };
+            \addlegendentry{algo=Deep-Shallow\_ref};
+            \addplot coordinates { (dna.txt,2.99629) };
             \addlegendentry{algo=BPR\_ref};
-            \addplot coordinates { (dna.txt,10.0834) };
+            \addplot coordinates { (dna.txt,4.34736) };
+            \addlegendentry{algo=MSufSort\_ref};
+            \addplot coordinates { (dna.txt,4.91973) };
             \addlegendentry{algo=SACA-K\_ref};
-            \addplot coordinates { (dna.txt,11.7436) };
+            \addplot coordinates { (dna.txt,5.44533) };
             \addlegendentry{algo=qsufsort\_ref};
-            \addplot coordinates { (dna.txt,13.6695) };
+            \addplot coordinates { (dna.txt,6.28076) };
             \addlegendentry{algo=GSACA\_ref};
-            \addplot coordinates { (dna.txt,14.4639) };
+            \addplot coordinates { (dna.txt,6.79781) };
             \addlegendentry{algo=SAIS\_ref};
-            \addplot coordinates { (dna.txt,19.4301) };
+            \addplot coordinates { (dna.txt,8.94179) };
             \addlegendentry{algo=SADS\_ref};
-            \addplot coordinates { (dna.txt,41.2953) };
+            \addplot coordinates { (dna.txt,16.6623) };
             \addlegendentry{algo=DC3\_ref};
+
         \end{axis}
     \end{tikzpicture}
     \begin{tikzpicture}[trim axis left]
@@ -539,29 +551,31 @@ Notable is the low memory consumption of SAIS and SACA-K, which only use some an
 
             %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, memPeak/1024/1024/1024 AS y
             %% FROM ( 
-            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
-            %% ) WHERE input="dna.txt" AND prefix=1677721600
+            %% SELECT algo, input, sacheck, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="dna.txt" AND prefix=838860800 AND sacheck="ok"
             %% AND (algo LIKE "%_ref%" AND NOT algo LIKE "%par")
             %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY time
-            \addplot coordinates { (dna.txt,0.000252061) };
+            \addplot coordinates { (dna.txt,0.000249021) };
             \addlegendentry{algo=DivSufSort\_ref};
-            \addplot coordinates { (dna.txt,0.01875) };
-            \addlegendentry{algo=Deep-Shallow\_ref};
-            \addplot coordinates { (dna.txt,6.25) };
+            \addplot coordinates { (dna.txt,3.125) };
             \addlegendentry{algo=SAIS-LITE\_ref};
-            \addplot coordinates { (dna.txt,26.5626) };
+            \addplot coordinates { (dna.txt,0.00937501) };
+            \addlegendentry{algo=Deep-Shallow\_ref};
+            \addplot coordinates { (dna.txt,13.2814) };
             \addlegendentry{algo=BPR\_ref};
+            \addplot coordinates { (dna.txt,3.92618) };
+            \addlegendentry{algo=MSufSort\_ref};
             \addplot coordinates { (dna.txt,1.86265e-08) };
             \addlegendentry{algo=SACA-K\_ref};
-            \addplot coordinates { (dna.txt,25) };
+            \addplot coordinates { (dna.txt,12.5) };
             \addlegendentry{algo=qsufsort\_ref};
-            \addplot coordinates { (dna.txt,18.75) };
+            \addplot coordinates { (dna.txt,9.375) };
             \addlegendentry{algo=GSACA\_ref};
-            \addplot coordinates { (dna.txt,0.481298) };
+            \addplot coordinates { (dna.txt,0.235499) };
             \addlegendentry{algo=SAIS\_ref};
-            \addplot coordinates { (dna.txt,0.658049) };
+            \addplot coordinates { (dna.txt,0.334526) };
             \addlegendentry{algo=SADS\_ref};
-            \addplot coordinates { (dna.txt,35.0308) };
+            \addplot coordinates { (dna.txt,17.5154) };
             \addlegendentry{algo=DC3\_ref};
 
             \legend{}
@@ -598,28 +612,33 @@ Notable is the low memory consumption of SAIS and SACA-K, which only use some an
 
             %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, time/1000/60 AS y
             %% FROM ( 
-            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
-            %% ) WHERE input="commoncrawl.txt" AND prefix=1677721600
+            %% SELECT algo, input, sacheck, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="commoncrawl.txt" AND prefix=838860800 AND sacheck="ok"
             %% AND (algo LIKE "%_ref%" AND NOT algo LIKE "%par")
             %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY y
-            \addplot coordinates { (commoncrawl.txt,3.19154) };
+            \addplot coordinates { (commoncrawl.txt,1.5745) };
             \addlegendentry{algo=DivSufSort\_ref};
-            \addplot coordinates { (commoncrawl.txt,4.91103) };
+            \addplot coordinates { (commoncrawl.txt,2.28537) };
             \addlegendentry{algo=SAIS-LITE\_ref};
-            \addplot coordinates { (commoncrawl.txt,5.03779) };
+            \addplot coordinates { (commoncrawl.txt,2.889) };
             \addlegendentry{algo=BPR\_ref};
-            \addplot coordinates { (commoncrawl.txt,9.45164) };
+            \addplot coordinates { (commoncrawl.txt,3.24651) };
+            \addlegendentry{algo=Deep-Shallow\_ref};
+            \addplot coordinates { (commoncrawl.txt,3.33703) };
+            \addlegendentry{algo=MSufSort\_ref};
+            \addplot coordinates { (commoncrawl.txt,4.43887) };
             \addlegendentry{algo=SACA-K\_ref};
-            \addplot coordinates { (commoncrawl.txt,13.0888) };
+            \addplot coordinates { (commoncrawl.txt,5.9169) };
             \addlegendentry{algo=SAIS\_ref};
-            \addplot coordinates { (commoncrawl.txt,15.3615) };
+            \addplot coordinates { (commoncrawl.txt,6.09891) };
             \addlegendentry{algo=GSACA\_ref};
-            \addplot coordinates { (commoncrawl.txt,15.4028) };
+            \addplot coordinates { (commoncrawl.txt,6.92753) };
             \addlegendentry{algo=qsufsort\_ref};
-            \addplot coordinates { (commoncrawl.txt,16.5888) };
+            \addplot coordinates { (commoncrawl.txt,7.57719) };
             \addlegendentry{algo=SADS\_ref};
-            \addplot coordinates { (commoncrawl.txt,60.4603) };
+            \addplot coordinates { (commoncrawl.txt,22.2288) };
             \addlegendentry{algo=DC3\_ref};
+
         \end{axis}
     \end{tikzpicture}
     \begin{tikzpicture}[trim axis left]
@@ -643,27 +662,31 @@ Notable is the low memory consumption of SAIS and SACA-K, which only use some an
 
             %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, memPeak/1024/1024/1024 AS y
             %% FROM ( 
-            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
-            %% ) WHERE input="commoncrawl.txt" AND prefix=1677721600
+            %% SELECT algo, input, sacheck, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="commoncrawl.txt" AND prefix=838860800 AND sacheck="ok"
             %% AND (algo LIKE "%_ref%" AND NOT algo LIKE "%par")
             %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY time
-            \addplot coordinates { (commoncrawl.txt,0.000252061) };
+            \addplot coordinates { (commoncrawl.txt,0.000249021) };
             \addlegendentry{algo=DivSufSort\_ref};
-            \addplot coordinates { (commoncrawl.txt,6.25) };
+            \addplot coordinates { (commoncrawl.txt,3.125) };
             \addlegendentry{algo=SAIS-LITE\_ref};
-            \addplot coordinates { (commoncrawl.txt,26.6681) };
+            \addplot coordinates { (commoncrawl.txt,13.3868) };
             \addlegendentry{algo=BPR\_ref};
+            \addplot coordinates { (commoncrawl.txt,0.00945246) };
+            \addlegendentry{algo=Deep-Shallow\_ref};
+            \addplot coordinates { (commoncrawl.txt,3.15495) };
+            \addlegendentry{algo=MSufSort\_ref};
             \addplot coordinates { (commoncrawl.txt,9.05246e-07) };
             \addlegendentry{algo=SACA-K\_ref};
-            \addplot coordinates { (commoncrawl.txt,0.498627) };
+            \addplot coordinates { (commoncrawl.txt,0.26491) };
             \addlegendentry{algo=SAIS\_ref};
-            \addplot coordinates { (commoncrawl.txt,18.75) };
+            \addplot coordinates { (commoncrawl.txt,9.375) };
             \addlegendentry{algo=GSACA\_ref};
-            \addplot coordinates { (commoncrawl.txt,25) };
+            \addplot coordinates { (commoncrawl.txt,12.5) };
             \addlegendentry{algo=qsufsort\_ref};
-            \addplot coordinates { (commoncrawl.txt,0.634287) };
+            \addplot coordinates { (commoncrawl.txt,0.338007) };
             \addlegendentry{algo=SADS\_ref};
-            \addplot coordinates { (commoncrawl.txt,37.3555) };
+            \addplot coordinates { (commoncrawl.txt,18.6777) };
             \addlegendentry{algo=DC3\_ref};
 
             \legend{}

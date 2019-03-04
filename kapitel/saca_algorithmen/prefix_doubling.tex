@@ -725,7 +725,7 @@ Diese werden als zusätzliches Array der Länge $|U| + |P|$ mit Platz für $a - 
 
 Da unsere Implementierung nur im Arbeitsspeicher arbeitet, sind wir nicht an einen bestimmten extern arbeitenden Sortieralgorithmus gebunden, weshalb es uns frei steht einen Sortierer zu nutzen, der das beste Laufzeitverhalten zeigt.
 
-Wir haben hierzu den Discarding-Algorithmus mit allen im Framework verfügbaren Sortierern auf einer Reihe von Testdaten angewandt, um dem sich empirisch am besten verhaltenden Algorithmus zu wählen. Es stellte sich hierbei der externe \ipsviero Algorithmus (siehe \cref{section:\ipsviero}) als mit Abstand bester Algorithmus heraus.
+Wir haben hierzu den Discarding-Algorithmus mit allen im Framework verfügbaren Sortierern auf einer Reihe von Testdaten angewandt, um dem sich empirisch am besten verhaltenden Algorithmus zu wählen. Es stellte sich hierbei der externe \ipsviero Algorithmus (siehe \cref{section:ips4o}) als mit Abstand bester Algorithmus heraus.
 
 \subsubsection{Ausgelassene Optimierungsansätze}
 
@@ -736,6 +736,6 @@ Dies würde jedoch die Implementierung wesentlich komplexer machen, da die Kompo
 \subsection{Parallelisierung}
 \label{chapter:saca:doubling:par}
 
-Alle vorgestellten Varianten des Algorithmus lassen sich trivial parallelisieren, indem ein paralleler Sortieralgorithmus benutzt wird. Wir nutzen hierzu den parallelen \ipsviero Algorithmus aus \cref{section:\ipsviero}.
+Alle vorgestellten Varianten des Algorithmus lassen sich trivial parallelisieren, indem ein paralleler Sortieralgorithmus benutzt wird. Wir nutzen hierzu den parallelen \ipsviero Algorithmus aus \cref{section:ips4o}.
 
 In anderen Aspekten ist eine parallelisieren der Algorithmen nicht effektiv möglich, da sowohl die Umbenennungsphase als auch die Paarbildungsphase inhärent sequentielle Abläufe beinhalten.

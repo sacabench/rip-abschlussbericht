@@ -26,8 +26,8 @@
 
             %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, time/1000/60 AS y
             %% FROM ( 
-            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
-            %% ) WHERE input="wiki.txt" AND prefix=1677721600
+            %% SELECT algo, input, sacheck, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="wiki.txt" AND prefix=1677721600 AND sacheck="ok"
             %% AND (algo="GSACA" OR algo="BPR" OR algo="Deep-Shallow_bb" OR algo="DivSufSort" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2" OR algo="SACA-K" OR algo="SAIS" OR algo="SADS" OR algo="qsufsort" OR algo="DC3" OR algo="DC3-Lite" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4" OR algo="nzSufSort")
             %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY y
             \addplot coordinates { (wiki.txt,5.26654) };
@@ -83,8 +83,8 @@
 
             %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, memPeak/1024/1024/1024 AS y
             %% FROM ( 
-            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
-            %% ) WHERE input="wiki.txt" AND prefix=1677721600
+            %% SELECT algo, input, sacheck, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="wiki.txt" AND prefix=1677721600 AND sacheck="ok"
             %% AND (algo="GSACA" OR algo="BPR" OR algo="Deep-Shallow_bb" OR algo="DivSufSort" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2" OR algo="SACA-K" OR algo="SAIS" OR algo="SADS" OR algo="qsufsort" OR algo="DC3" OR algo="DC3-Lite" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4" OR algo="nzSufSort")
             %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY time
             \addplot coordinates { (wiki.txt,6.319) };
@@ -152,8 +152,8 @@
 
             %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, time/1000/60 AS y
             %% FROM ( 
-            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
-            %% ) WHERE input="dna.txt" AND prefix=1677721600
+            %% SELECT algo, input, sacheck, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="dna.txt" AND prefix=1677721600 AND sacheck="ok"
             %% AND (algo="GSACA" OR algo="BPR" OR algo="Deep-Shallow_bb" OR algo="DivSufSort" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2" OR algo="SACA-K" OR algo="SAIS" OR algo="SADS" OR algo="qsufsort" OR algo="DC3" OR algo="DC3-Lite" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4" OR algo="nzSufSort")
             %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY y
             \addplot coordinates { (dna.txt,6.4462) };
@@ -209,8 +209,8 @@
 
             %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, memPeak/1024/1024/1024 AS y
             %% FROM ( 
-            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
-            %% ) WHERE input="dna.txt" AND prefix=1677721600
+            %% SELECT algo, input, sacheck, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="dna.txt" AND prefix=1677721600 AND sacheck="ok"
             %% AND (algo="GSACA" OR algo="BPR" OR algo="Deep-Shallow_bb" OR algo="DivSufSort" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2" OR algo="SACA-K" OR algo="SAIS" OR algo="SADS" OR algo="qsufsort" OR algo="DC3" OR algo="DC3-Lite" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4" OR algo="nzSufSort")
             %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY time
             \addplot coordinates { (dna.txt,6.25229) };
@@ -278,8 +278,8 @@
 
             %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, time/1000/60 AS y
             %% FROM ( 
-            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
-            %% ) WHERE input="commoncrawl.txt" AND prefix=1677721600
+            %% SELECT algo, input, sacheck, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="commoncrawl.txt" AND prefix=1677721600 AND sacheck="ok"
             %% AND (algo="GSACA" OR algo="BPR" OR algo="Deep-Shallow_bb" OR algo="DivSufSort" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2" OR algo="SACA-K" OR algo="SAIS" OR algo="SADS" OR algo="qsufsort" OR algo="DC3" OR algo="DC3-Lite" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4" OR algo="nzSufSort")
             %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY y
             \addplot coordinates { (commoncrawl.txt,4.66061) };
@@ -331,8 +331,8 @@
 
             %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, memPeak/1024/1024/1024 AS y
             %% FROM ( 
-            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
-            %% ) WHERE input="commoncrawl.txt" AND prefix=1677721600
+            %% SELECT algo, input, sacheck, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="commoncrawl.txt" AND prefix=1677721600 AND sacheck="ok"
             %% AND (algo="GSACA" OR algo="BPR" OR algo="Deep-Shallow_bb" OR algo="DivSufSort" OR algo="mSufSort" OR algo="mSufSort_scan" OR algo="mSufSortV2" OR algo="SACA-K" OR algo="SAIS" OR algo="SADS" OR algo="qsufsort" OR algo="DC3" OR algo="DC3-Lite" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4" OR algo="nzSufSort")
             %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY time
             \addplot coordinates { (commoncrawl.txt,6.35691) };
