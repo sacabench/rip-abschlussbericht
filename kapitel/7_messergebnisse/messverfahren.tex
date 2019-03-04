@@ -1,7 +1,21 @@
 \section{Messverfahren}
 
-Wir messen die Performance der Algorithmen wie folgt: Sei $k$ eine Prefixlänge der Eingabe $input$, $outfile$ ein eindeutiger Pfad pro $k$ und Eingabe, und $r$ eine Anzahl von Messwiederholungen. Für jede Testdatei $input$ wird \texttt{sacabench batch $input$} mit den Optionen \texttt{-{}-check}, \texttt{-{}-prefix $k$}, \texttt{-{}-repetitions $r$} und \texttt{-{}-benchmark $outfile$} aufgerufen. Abhängig von $input$ werden außerdem einige der im Benchmarktool implementierten Algorithmen mit \texttt{-{}-blacklist ...} von der Messung ausgeschlossen, falls sie auf der Eingabe zu hohe Laufzeiten haben.
+Sei $input$ eine Eingabedatei, $algorithm$ ein Algorithmus, $k$ ein zu benutzender Prefix der Eingabe, $t$ eine Anzahl der zu benutzenden Threads, $r$ eine Anzahl von Messwiederholungen und $b$ eine Anzahl von Bits für den \texttt{sa\_index} Typ. Wir führen Messungen mit 4 verschiedenen Konfigurationen durch, wobei immer $r=1$\todo{Mehr Messungen durchführen!} gilt. Es gilt außerdem $b = 32$ für Eingabegrößen $< 2$GiB und $b = 64$ sonst:
 
-%Run ['../build/sacabench/sacabench', 'batch', '--check', '--force', '--prefix', '10M', '--benchmark', 'measures/pcr_tm29.json', '--blacklist', 'Naiv', '--blacklist', 'Doubling', '../external/datasets/downloads/pcr_tm29']
+\noindent \resizebox{\textwidth}{!}{
+\begin{tabular}{L{2.2cm}llrc}
+\toprule
+Konfiguration & $input$ & $algorithm$ & $k$ & $t$\\
+\midrule
+Small-Sequential               & Small & Alle Sequentiellen & 200MiB     & N.A.                           \\
+Large-Sequential-Input-Scaling & Large & Alle Sequentiellen & $t*200$MiB & $\in [1, 2, 4, 8, 12, 16, 20)$ \\
+Large-Parallel-Weak-Scaling    & Large & Alle Parallelen    & $t*200$MiB & $\in [1, 2, 4, 8, 12, 16, 20)$ \\
+Large-Parallel-Strong-Scaling  & Large & Alle Parallelen    & $200$MiB   & $\in [1, 2, 4, 8, 12, 16, 20)$ \\
+\bottomrule
+\end{tabular}
+}
 
-Dieses Verfahren ist in dem Python Skript \texttt{zbmessung/benchmark.py} implementiert, und die Messung erfolgte für $k$ = 200\,MiB\todo{Wir haben inzwischen verschiedene Größen} und $r = 3$\todo{Aktuell nur eine Wiederholung, oder?}. Da $k$ kleiner als 4\,GiB ist, wird die Länge des internen \texttt{sa\_index} Types automatisch auf 32\,Bit gesetzt, womit der Speicherverbrauch jedes Algorithmus bei mindestens 1000\,MiB liegt (1\,Byte Text + 4\,Byte Suffix Array).
+\bigskip
+Für jede Konfiguration wird \texttt{taskset -c 0,1,...,$t$ sacabench batch $input$} mit den Optionen \texttt{-{}-whitelist $algorithm$}, \texttt{-{}-check}, \texttt{-{}-prefix $k$}, \texttt{-{}-repetitions $r$}, \texttt{-b $b$} und \texttt{-{}-benchmark $outfile$} aufgerufen. Hierbei ist $outfile$ jeweils ein eindeutiger Dateipfad.
+
+Dieses Verfahren wird in der Framework Implementierung durch den Python Skript \texttt{zbmessung/lido3\_launcher.py} automatisiert.

@@ -1,12 +1,10 @@
 \section{Testdaten}
 
 \begin{table}
-\caption{Testdaten}
-\label{messung:tab:testdaten}
-\resizebox{\textwidth}{!}{
-\begin{tabular}{lL{6cm}}
+\centering
+\begin{tabular}{L{4cm}L{6cm}}
 \toprule
-	Testdatei                             & Beschreibung \\
+	Testdatei (200MiB)                             & Beschreibung \\
 \midrule
     \texttt{pc\_dblp.xml}          & \multirow{5}{*}{Pizza\&Chili Korpus~\cite{testdaten:pizzachilli2007}. } \\
     \texttt{pc\_dna}               & \\
@@ -30,10 +28,25 @@
     \texttt{cc\_commoncrawl.ascii} & Zufälliger Klartextauszug von ASCII Seiten aus Commoncrawl~\cite{testdaten:commoncrawl}. \\
 \bottomrule
 \end{tabular}
-}
+\par\bigskip
+\begin{tabular}{L{4cm}L{6cm}}
+\toprule
+	Testdatei (100GiB)                             & Beschreibung \\
+\midrule
+    \texttt{commoncrawl.txt} & Größerer zufälliger Klartextauszug von ASCII Seiten aus Commoncrawl~\cite{testdaten:commoncrawl}. \\
+\midrule
+    \texttt{wiki.txt} & XML Datendump von Wikipedia. \\
+\midrule
+    \texttt{dna.txt} & DNA Daten aus dem 1000 Genomes Projekt ohne Fastq-Daten. \\
+\bottomrule
+\end{tabular}
+\caption{Testdaten}
+\label{messung:tab:testdaten}
 \end{table}
 
-Die Testdaten in \cref{messung:tab:testdaten} werden durch das \texttt{make datasets} Target des Buildsystems bereitgestellt, und haben alle eine Größe von mindestens 200MiB.
+% 1000 genomes ohne fastq-daten und xml-wiki-dump
+
+Die Testdaten stammen aus zwei verschiedenen Quellen und sind in \cref{messung:tab:testdaten} beschrieben. Sie bestehen zum einen aus einer Auswahl an verschiedenen \textit{Small}-Texten mit eine Größe von 200MiB, die durch das \texttt{make datasets} Target des Buildsystems bereitgestellt werden. Zum anderen bestehen sie aus aus einer geringen Auswahl an \textit{Large}-Texten mit einer Größe von 100GiB, von denen Prefixe für die Scaling-Experimente benutzt werden.
 
 % TAGME Datasets is a collection of datasets that contain short text fragments drawn from Wikipedia snapshot of Novembre 6, 2009. Fragments are composed by about 30 words, and they contains about 20 non-stopword on average. We gathered fragments of 2 types: Wiki-Disamb30, a list of 2M fragments each containing one ambiguous anchor.
 
