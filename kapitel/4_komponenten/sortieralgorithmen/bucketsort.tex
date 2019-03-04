@@ -2,12 +2,6 @@
 \label{section:bucketsort}
 
 Der \currentauthor{Florian Grieskamp} Bucketsort-Algorithmus \cite[Kapitel 8.2 (dort unter dem Namen \emph{counting sort})]{Cormen2009} ist ein Sortierverfahren, das für Werteverteilungen über einem Alphabet einer konstanten Größe Eingaben in linearer Zeit sortieren kann. Da die Bedingung einer konstanten Alphabetgröße allerdings häufig nicht erfüllt ist, wird Bucketsort oft in Verbindung mit einer Schlüsselfunktion verwendet, um gemäß des Schlüssels \glqq ähnliche\grqq{} Werte zu gruppieren. Diese gruppierten Bereiche werden als \emph{Buckets} bezeichnet und im Anschluss mit einem anderen Sortierverfahren verfeinert. Bucketsort dient in dieser Variante als Mechanismus zur groben Vorsortierung.\par
-\todo{Das sollte in der Notation schon sein. (mb)}
-\begin{definition}[Bucket]
-	\label{def:bucket}
-	Ein Intervall \(\bucket{} \coloneqq \sa[l, r]\) des Suffix-Arrays begrenzt durch einen linken Index \(l\) und einen rechten Index \(r\) heißt Bucket.\par
-    Falls alle in einem Bucket \(\bucket{p} \coloneqq \sa[l, r]\) enthaltenen Suffixe, also die Suffixe \(\suffix{\sa[l]}, \suffix{\sa[l+1]}, \ldots, \suffix{\sa[r]}\), einen gemeinsamen Präfix \(p\) der Länge \(m\) haben, so heißt \(\bucket{p}\) Level-\(m\)-Bucket.
-\end{definition}
 Da im Anwendungsfeld der Suffix-Array-Konstruktion die zu sortierenden Elemente Suffixe über \(\Sigma^\ast\) sind, ist eine Schlüsselfunktion notwendig, die Wertebereich einschränkt. Hier werden als Schlüssel gemeinsame Präfixe der Länge \(d\) (für Bucketsort mit Tiefe \(d\)) verwendet.\par
 Der Algorithmus besteht aus drei iterativ durchgeführten Schritten, die hier erläutert werden. Als begleitendes Beispiel dient die Sortierung der Suffixe des Wortes \emph{caabaccaabacaa} mit der Tiefe 2.
 \paragraph{Schritt 1}
