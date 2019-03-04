@@ -10,6 +10,7 @@ Es gilt also $\mathsf{ISA}[\mathsf{SA}[i]]=i.$
 \end{definition}
 Um daraus das $\mathsf{SA}$ konstruieren zu können, wurden innerhalb des Frameworks drei unterschiedliche Ansätze implementiert, die wir im Folgenden vorstellen werden.
 \subsubsection{Simple Scan}
+\label{isa2sa:simplescan}
 Wie der Titel andeutet, handelt es sich bei dieser Variante um den straight-forward Ansatz, der über die Indizes iteriert und die Einträge im $\mathsf{SA}$ wie folgt überschreibt:
 \begin{equation}
 \mathsf{SA}[\mathsf{ISA}[i]]=i, \text{ für } 0\leq i < n
