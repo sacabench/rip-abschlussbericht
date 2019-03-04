@@ -279,14 +279,35 @@ as we could hardly find any (working) reference algorithms to compare our implem
 % Das hier sollte als Allgemeinwissen klar sein:
 and development of GPUs shows higher performance improvements than CPU development in certain workloads.
 
-\subsection{Utilization of a GPU}
-
-Since GPUs feature many more cores than modern desktop or even server CPUs,
-we include a prefix doubling SACA which uses CUDA to run on the GPU~\cite{osipovGPU}.
-We show that this algorithm outperformes the parallel DivSufSort implementation.
-\todo{Olli? Hermann? vlt noch was ergänzen}
-
 \subsection{Sorting Algorithms}
+
+\begin{table}[!t]
+    \centering
+    \begin{tabular}{ll}
+        \toprule
+        Operating System     & GNU/Linux \\
+        Kernel Version       & \#1 SMP Wed Sep 26 15:12:11 UTC 2018 \\
+        \midrule
+        Architecture:        & x86\_64 \\
+        CPU op-mode(s):      & 32-bit, 64-bit \\
+        CPU(s):              & 20 \\
+        Thread(s) per core:  & 1 \\
+        Core(s) per socket:  & 10 \\
+        Socket(s):           & 2 \\
+        Model name:          & Intel(R) Xeon(R) CPU E5-2640 v4 @ 2.40GHz \\
+        CPU max MHz:         & 3400.0000 \\
+        CPU min MHz:         & 1200.0000 \\
+        L1d cache:           & 32K \\
+        L1i cache:           & 32K \\
+        L2 cache:            & 256K \\
+        L3 cache:            & 25600K \\
+        \midrule
+        Memory Size          & 64GiB \\
+        \bottomrule
+    \end{tabular}
+    \caption{Configuration of compute nodes used to run the SACAs in this evaluation. These nodes are part of the LiDO3 compute cluster~\cite{lido3} at TU Dortmund.}
+    \label{ea:lido}
+\end{table}
 
 Many SACAs use sorting algorithms at some point. For the benchmark a variety of sorting algorithms were implemented so that all SACAs can use them.
 We include some versions of quicksort, bucketsort and radixsort.
@@ -306,44 +327,38 @@ We therefore chose the best option for the required use-case.
 
 \section{Evaluation}
 
-Evaluation of both the sequential SACAs, including the reference algorithms, as well as of the parallel SACAs is done on LiDo3 \cite{lido3}. The system's specifications are described in table \ref{ea:lido}.
-
-\begin{table}
-\begin{tabular}{ll}
-\toprule
-Operating System       & GNU/Linux \\
-Kernel Version       & \#1 SMP Wed Sep 26 15:12:11 UTC 2018 \\
-\midrule
-Architecture:        & x86\_64 \\
-CPU op-mode(s):      & 32-bit, 64-bit \\
-CPU(s):              & 20 \\
-Thread(s) per core:  & 1 \\
-Core(s) per socket:  & 10 \\
-Socket(s):           & 2 \\
-Model name:          & Intel(R) Xeon(R) CPU E5-2640 v4 @ 2.40GHz \\
-CPU max MHz:         & 3400.0000 \\
-CPU min MHz:         & 1200.0000 \\
-L1d cache:           & 32K \\
-L1i cache:           & 32K \\
-L2 cache:            & 256K \\
-L3 cache:            & 25600K \\
-\midrule
-Memory Size        & 64GiB \\
-\bottomrule
-\end{tabular}
-\caption{Configuration of compute nodes used to run the SACAs in this evaluation. These Nodes are part of the LiDO3 Compute Cluster at TU Dortmund.}
-\label{ea:lido}
-\end{table}
+Evaluation of both the sequential SACAs, including the reference algorithms, as well as of the parallel SACAs is done on LiDO3~\cite{lido3}.
+We evaluate the performance of the chosen SACAs on an identical test system, the specifications of which are described in \cref{ea:lido}.
+This enables us to directly compare these algorithms in terms of runtime performance and memory consumption.
+We set an arbitrary limit of 2 hours of runtime as well as 60 GiB of used system memory.
+Our experiment texts are \texttt{wiki.txt}, \texttt{dna.txt} and \texttt{commoncrawl.txt}:
+%
+\begin{description}
+    \item[\texttt{wiki.txt}] An XML-dump of the recent wikipedia database.
+    \item[\texttt{dna.txt}] A version of the 1000 Genome Project~\cite{1000genomeproject}, which has been stripped from any characters but ACGT.
+    \item[\texttt{commoncrawl.txt}] A subset of the Commoncrawl dataset~\cite{commoncrawl}, which has been cleaned up to contain only ASCII characters.
+\end{description}
 
 \subsection{Evaluation (sequential)}
 
-In the \crefrange{ea:runtime-all-0}{ea:runtime-all-2} we show the performance of the implementations of different SACAs on three texts.
-The texts are \texttt{wiki.txt} (a current XML-dump of Wikipedia),
-\texttt{dna.txt} (a cleaned-up version from the 1000 Genome Project~\cite{1000genomeproject})
-and \texttt{commoncrawl.txt} (an ASCII-only subset of the Commoncrawl dataset~\cite{commoncrawl}).
+In the Figures \ref{ea:runtime-all-ref-0} to \ref{ea:runtime-all-ref-2} we show the performance of
+the implementations of different SACAs on a 1600 MiB prefix of the three texts.
 
-\todo{Testsystem, Methodologie, ... (mb)}
-\todo{Fixt hier bitte eure multiply defined labels. Ihr benutzt die gleichen wie im Auswertungskapitel}
+The clear winners in all three cases is divsufsort, followed by BPR, SAIS-Lite
+\footnote{divsufsort and SAIS-Lite both are optimized implementations by Yuta Mori~\cite{saca:5}.} and Deep-Shallow.
+In terms of memory consumption, divsufsort and SACA-K are the two best algorithms since they use no extra space,
+follwed by Deep-Shallow, which uses very little extra space.
+The worst algorithm in both runtime performance as well as memory consumption is in all three cases the reference implementation of DC3,
+which is followed by SADS (a variant of SAIS~\cite{saca:6}) in terms of performance and BPR in terms of memory consumption.
+However, caused by source code incompatibilities,
+memory utilization for BPR is not intuitively comparable to other algorithms as we are only able measure absolute memory
+but not extra memory for this specific algorithm\footnote{It uses an auxiliary array the same size as the suffix array.}.
+The runtime performance and memory consumption of the DC3 implementation is not well optimized by its authors~\cite{saca:9}.
+
+The algorithms MSufSort, SACA-K, qsufsort, SAIS and GSACA share the mid field in terms of runtime performance.
+Notable is the low memory consumption of SAIS and SACA-K, which only use some and none extra memory respectively.
+
+\todo{800mb plots einbinden}
 
 % IMPORT-DATA stats_parallel 7_messergebnisse/ergebnisse_parallel/result_weakscale.txt
 % IMPORT-DATA results_sequential 7_messergebnisse/ergebnisse_sequentiell/results.txt
@@ -354,7 +369,7 @@ and \texttt{commoncrawl.txt} (an ASCII-only subset of the Commoncrawl dataset~\c
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[batchTimePlot,
             cycle list name={exotic},
-            legend to name=ea:runtime-all-ref-0,
+            legend to name=ea-runtime-all-ref-0,
             width=\textwidth,
             height=60mm,
             xtick style = {draw=none},
@@ -373,28 +388,33 @@ and \texttt{commoncrawl.txt} (an ASCII-only subset of the Commoncrawl dataset~\c
 
             %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, time/1000/60 AS y
             %% FROM ( 
-            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
-            %% ) WHERE input="wiki.txt" AND prefix=1677721600
+            %% SELECT algo, input, sacheck, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="wiki.txt" AND prefix=838860800 AND sacheck="ok"
             %% AND (algo LIKE "%_ref%" AND NOT algo LIKE "%par")
             %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY y
-            \addplot coordinates { (wiki.txt,3.45026) };
+            \addplot coordinates { (wiki.txt,1.73052) };
             \addlegendentry{algo=DivSufSort\_ref};
-            \addplot coordinates { (wiki.txt,5.80588) };
-            \addlegendentry{algo=SAIS-LITE\_ref};
-            \addplot coordinates { (wiki.txt,6.33265) };
+            \addplot coordinates { (wiki.txt,2.75402) };
             \addlegendentry{algo=BPR\_ref};
-            \addplot coordinates { (wiki.txt,10.5834) };
+            \addplot coordinates { (wiki.txt,2.77311) };
+            \addlegendentry{algo=Deep-Shallow\_ref};
+            \addplot coordinates { (wiki.txt,2.8182) };
+            \addlegendentry{algo=SAIS-LITE\_ref};
+            \addplot coordinates { (wiki.txt,4.35543) };
+            \addlegendentry{algo=MSufSort\_ref};
+            \addplot coordinates { (wiki.txt,5.17338) };
             \addlegendentry{algo=SACA-K\_ref};
-            \addplot coordinates { (wiki.txt,13.9982) };
+            \addplot coordinates { (wiki.txt,6.1854) };
             \addlegendentry{algo=qsufsort\_ref};
-            \addplot coordinates { (wiki.txt,15.3998) };
+            \addplot coordinates { (wiki.txt,7.28537) };
             \addlegendentry{algo=SAIS\_ref};
-            \addplot coordinates { (wiki.txt,18.5135) };
+            \addplot coordinates { (wiki.txt,7.31669) };
             \addlegendentry{algo=GSACA\_ref};
-            \addplot coordinates { (wiki.txt,19.0941) };
+            \addplot coordinates { (wiki.txt,9.19736) };
             \addlegendentry{algo=SADS\_ref};
-            \addplot coordinates { (wiki.txt,62.1154) };
+            \addplot coordinates { (wiki.txt,23.235) };
             \addlegendentry{algo=DC3\_ref};
+
         \end{axis}
     \end{tikzpicture}
     \begin{tikzpicture}[trim axis left]
@@ -418,36 +438,42 @@ and \texttt{commoncrawl.txt} (an ASCII-only subset of the Commoncrawl dataset~\c
 
             %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, memPeak/1024/1024/1024 AS y
             %% FROM ( 
-            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
-            %% ) WHERE input="wiki.txt" AND prefix=1677721600
+            %% SELECT algo, input, sacheck, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="wiki.txt" AND prefix=838860800 AND sacheck="ok"
             %% AND (algo LIKE "%_ref%" AND NOT algo LIKE "%par")
             %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY time
-            \addplot coordinates { (wiki.txt,0.000252061) };
+            \addplot coordinates { (wiki.txt,0.000249021) };
             \addlegendentry{algo=DivSufSort\_ref};
-            \addplot coordinates { (wiki.txt,6.25) };
-            \addlegendentry{algo=SAIS-LITE\_ref};
-            \addplot coordinates { (wiki.txt,26.6305) };
+            \addplot coordinates { (wiki.txt,13.3493) };
             \addlegendentry{algo=BPR\_ref};
+            \addplot coordinates { (wiki.txt,0.00939793) };
+            \addlegendentry{algo=Deep-Shallow\_ref};
+            \addplot coordinates { (wiki.txt,3.125) };
+            \addlegendentry{algo=SAIS-LITE\_ref};
+            \addplot coordinates { (wiki.txt,3.22572) };
+            \addlegendentry{algo=MSufSort\_ref};
             \addplot coordinates { (wiki.txt,7.82311e-07) };
             \addlegendentry{algo=SACA-K\_ref};
-            \addplot coordinates { (wiki.txt,25) };
+            \addplot coordinates { (wiki.txt,12.5) };
             \addlegendentry{algo=qsufsort\_ref};
-            \addplot coordinates { (wiki.txt,0.499429) };
+            \addplot coordinates { (wiki.txt,0.269095) };
             \addlegendentry{algo=SAIS\_ref};
-            \addplot coordinates { (wiki.txt,18.75) };
+            \addplot coordinates { (wiki.txt,9.375) };
             \addlegendentry{algo=GSACA\_ref};
-            \addplot coordinates { (wiki.txt,0.661858) };
+            \addplot coordinates { (wiki.txt,0.360081) };
             \addlegendentry{algo=SADS\_ref};
-            \addplot coordinates { (wiki.txt,36.7684) };
+            \addplot coordinates { (wiki.txt,18.3842) };
             \addlegendentry{algo=DC3\_ref};
 
             \legend{}
         \end{axis}
     \end{tikzpicture}
+
     \medskip
-    \ref{ea:runtime-all-ref-0}
+    \ref{ea-runtime-all-ref-0}
+
     \caption{Comparison of the in \sacabench included reference implementations of SACAs, including time and memory consumption: wiki.txt}
-    \ref{ea:runtime-all-ref-0}
+    \label{ea:runtime-all-ref-0}
 \end{figure}
 
 \begin{figure}[!h]
@@ -456,7 +482,7 @@ and \texttt{commoncrawl.txt} (an ASCII-only subset of the Commoncrawl dataset~\c
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[batchTimePlot,
             cycle list name={exotic},
-            legend to name=ea:runtime-all-ref-1,
+            legend to name=ea-runtime-all-ref-1,
             width=\textwidth,
             height=60mm,
             xtick style = {draw=none},
@@ -475,30 +501,33 @@ and \texttt{commoncrawl.txt} (an ASCII-only subset of the Commoncrawl dataset~\c
 
             %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, time/1000/60 AS y
             %% FROM ( 
-            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
-            %% ) WHERE input="dna.txt" AND prefix=1677721600
+            %% SELECT algo, input, sacheck, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="dna.txt" AND prefix=838860800 AND sacheck="ok"
             %% AND (algo LIKE "%_ref%" AND NOT algo LIKE "%par")
             %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY y
-            \addplot coordinates { (dna.txt,4.25621) };
+            \addplot coordinates { (dna.txt,2.05917) };
             \addlegendentry{algo=DivSufSort\_ref};
-            \addplot coordinates { (dna.txt,4.93084) };
-            \addlegendentry{algo=Deep-Shallow\_ref};
-            \addplot coordinates { (dna.txt,6.05679) };
+            \addplot coordinates { (dna.txt,2.71512) };
             \addlegendentry{algo=SAIS-LITE\_ref};
-            \addplot coordinates { (dna.txt,7.45044) };
+            \addplot coordinates { (dna.txt,2.89482) };
+            \addlegendentry{algo=Deep-Shallow\_ref};
+            \addplot coordinates { (dna.txt,2.99629) };
             \addlegendentry{algo=BPR\_ref};
-            \addplot coordinates { (dna.txt,10.0834) };
+            \addplot coordinates { (dna.txt,4.34736) };
+            \addlegendentry{algo=MSufSort\_ref};
+            \addplot coordinates { (dna.txt,4.91973) };
             \addlegendentry{algo=SACA-K\_ref};
-            \addplot coordinates { (dna.txt,11.7436) };
+            \addplot coordinates { (dna.txt,5.44533) };
             \addlegendentry{algo=qsufsort\_ref};
-            \addplot coordinates { (dna.txt,13.6695) };
+            \addplot coordinates { (dna.txt,6.28076) };
             \addlegendentry{algo=GSACA\_ref};
-            \addplot coordinates { (dna.txt,14.4639) };
+            \addplot coordinates { (dna.txt,6.79781) };
             \addlegendentry{algo=SAIS\_ref};
-            \addplot coordinates { (dna.txt,19.4301) };
+            \addplot coordinates { (dna.txt,8.94179) };
             \addlegendentry{algo=SADS\_ref};
-            \addplot coordinates { (dna.txt,41.2953) };
+            \addplot coordinates { (dna.txt,16.6623) };
             \addlegendentry{algo=DC3\_ref};
+
         \end{axis}
     \end{tikzpicture}
     \begin{tikzpicture}[trim axis left]
@@ -522,38 +551,40 @@ and \texttt{commoncrawl.txt} (an ASCII-only subset of the Commoncrawl dataset~\c
 
             %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, memPeak/1024/1024/1024 AS y
             %% FROM ( 
-            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
-            %% ) WHERE input="dna.txt" AND prefix=1677721600
+            %% SELECT algo, input, sacheck, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="dna.txt" AND prefix=838860800 AND sacheck="ok"
             %% AND (algo LIKE "%_ref%" AND NOT algo LIKE "%par")
             %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY time
-            \addplot coordinates { (dna.txt,0.000252061) };
+            \addplot coordinates { (dna.txt,0.000249021) };
             \addlegendentry{algo=DivSufSort\_ref};
-            \addplot coordinates { (dna.txt,0.01875) };
-            \addlegendentry{algo=Deep-Shallow\_ref};
-            \addplot coordinates { (dna.txt,6.25) };
+            \addplot coordinates { (dna.txt,3.125) };
             \addlegendentry{algo=SAIS-LITE\_ref};
-            \addplot coordinates { (dna.txt,26.5626) };
+            \addplot coordinates { (dna.txt,0.00937501) };
+            \addlegendentry{algo=Deep-Shallow\_ref};
+            \addplot coordinates { (dna.txt,13.2814) };
             \addlegendentry{algo=BPR\_ref};
+            \addplot coordinates { (dna.txt,3.92618) };
+            \addlegendentry{algo=MSufSort\_ref};
             \addplot coordinates { (dna.txt,1.86265e-08) };
             \addlegendentry{algo=SACA-K\_ref};
-            \addplot coordinates { (dna.txt,25) };
+            \addplot coordinates { (dna.txt,12.5) };
             \addlegendentry{algo=qsufsort\_ref};
-            \addplot coordinates { (dna.txt,18.75) };
+            \addplot coordinates { (dna.txt,9.375) };
             \addlegendentry{algo=GSACA\_ref};
-            \addplot coordinates { (dna.txt,0.481298) };
+            \addplot coordinates { (dna.txt,0.235499) };
             \addlegendentry{algo=SAIS\_ref};
-            \addplot coordinates { (dna.txt,0.658049) };
+            \addplot coordinates { (dna.txt,0.334526) };
             \addlegendentry{algo=SADS\_ref};
-            \addplot coordinates { (dna.txt,35.0308) };
+            \addplot coordinates { (dna.txt,17.5154) };
             \addlegendentry{algo=DC3\_ref};
 
             \legend{}
         \end{axis}
     \end{tikzpicture}
     \medskip
-    \ref{ea:runtime-all-ref-1}
+    \ref{ea-runtime-all-ref-1}
     \caption{Comparison of the in \sacabench included reference implementations of SACAs, including time and memory consumption: dna.txt}
-    \ref{ea:runtime-all-ref-1}
+    \label{ea:runtime-all-ref-1}
 \end{figure}
 
 \begin{figure}[!h]
@@ -562,7 +593,7 @@ and \texttt{commoncrawl.txt} (an ASCII-only subset of the Commoncrawl dataset~\c
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[batchTimePlot,
             cycle list name={exotic},
-            legend to name=ea:runtime-all-ref-2,
+            legend to name=ea-runtime-all-ref-2,
             width=\textwidth,
             height=60mm,
             xtick style = {draw=none},
@@ -581,28 +612,33 @@ and \texttt{commoncrawl.txt} (an ASCII-only subset of the Commoncrawl dataset~\c
 
             %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, time/1000/60 AS y
             %% FROM ( 
-            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
-            %% ) WHERE input="commoncrawl.txt" AND prefix=1677721600
+            %% SELECT algo, input, sacheck, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="commoncrawl.txt" AND prefix=838860800 AND sacheck="ok"
             %% AND (algo LIKE "%_ref%" AND NOT algo LIKE "%par")
             %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY y
-            \addplot coordinates { (commoncrawl.txt,3.19154) };
+            \addplot coordinates { (commoncrawl.txt,1.5745) };
             \addlegendentry{algo=DivSufSort\_ref};
-            \addplot coordinates { (commoncrawl.txt,4.91103) };
+            \addplot coordinates { (commoncrawl.txt,2.28537) };
             \addlegendentry{algo=SAIS-LITE\_ref};
-            \addplot coordinates { (commoncrawl.txt,5.03779) };
+            \addplot coordinates { (commoncrawl.txt,2.889) };
             \addlegendentry{algo=BPR\_ref};
-            \addplot coordinates { (commoncrawl.txt,9.45164) };
+            \addplot coordinates { (commoncrawl.txt,3.24651) };
+            \addlegendentry{algo=Deep-Shallow\_ref};
+            \addplot coordinates { (commoncrawl.txt,3.33703) };
+            \addlegendentry{algo=MSufSort\_ref};
+            \addplot coordinates { (commoncrawl.txt,4.43887) };
             \addlegendentry{algo=SACA-K\_ref};
-            \addplot coordinates { (commoncrawl.txt,13.0888) };
+            \addplot coordinates { (commoncrawl.txt,5.9169) };
             \addlegendentry{algo=SAIS\_ref};
-            \addplot coordinates { (commoncrawl.txt,15.3615) };
+            \addplot coordinates { (commoncrawl.txt,6.09891) };
             \addlegendentry{algo=GSACA\_ref};
-            \addplot coordinates { (commoncrawl.txt,15.4028) };
+            \addplot coordinates { (commoncrawl.txt,6.92753) };
             \addlegendentry{algo=qsufsort\_ref};
-            \addplot coordinates { (commoncrawl.txt,16.5888) };
+            \addplot coordinates { (commoncrawl.txt,7.57719) };
             \addlegendentry{algo=SADS\_ref};
-            \addplot coordinates { (commoncrawl.txt,60.4603) };
+            \addplot coordinates { (commoncrawl.txt,22.2288) };
             \addlegendentry{algo=DC3\_ref};
+
         \end{axis}
     \end{tikzpicture}
     \begin{tikzpicture}[trim axis left]
@@ -626,51 +662,43 @@ and \texttt{commoncrawl.txt} (an ASCII-only subset of the Commoncrawl dataset~\c
 
             %% MULTIPLOT(algo) SELECT algo, REPLACE(input, "_", "\_") AS x, memPeak/1024/1024/1024 AS y
             %% FROM ( 
-            %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
-            %% ) WHERE input="commoncrawl.txt" AND prefix=1677721600
+            %% SELECT algo, input, sacheck, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep_id, MEDIAN(time) AS time FROM results_sequential GROUP BY algo, input, prefix, rep_id
+            %% ) WHERE input="commoncrawl.txt" AND prefix=838860800 AND sacheck="ok"
             %% AND (algo LIKE "%_ref%" AND NOT algo LIKE "%par")
             %% AND rep_id=1 GROUP BY MULTIPLOT,x ORDER BY time
-            \addplot coordinates { (commoncrawl.txt,0.000252061) };
+            \addplot coordinates { (commoncrawl.txt,0.000249021) };
             \addlegendentry{algo=DivSufSort\_ref};
-            \addplot coordinates { (commoncrawl.txt,6.25) };
+            \addplot coordinates { (commoncrawl.txt,3.125) };
             \addlegendentry{algo=SAIS-LITE\_ref};
-            \addplot coordinates { (commoncrawl.txt,26.6681) };
+            \addplot coordinates { (commoncrawl.txt,13.3868) };
             \addlegendentry{algo=BPR\_ref};
+            \addplot coordinates { (commoncrawl.txt,0.00945246) };
+            \addlegendentry{algo=Deep-Shallow\_ref};
+            \addplot coordinates { (commoncrawl.txt,3.15495) };
+            \addlegendentry{algo=MSufSort\_ref};
             \addplot coordinates { (commoncrawl.txt,9.05246e-07) };
             \addlegendentry{algo=SACA-K\_ref};
-            \addplot coordinates { (commoncrawl.txt,0.498627) };
+            \addplot coordinates { (commoncrawl.txt,0.26491) };
             \addlegendentry{algo=SAIS\_ref};
-            \addplot coordinates { (commoncrawl.txt,18.75) };
+            \addplot coordinates { (commoncrawl.txt,9.375) };
             \addlegendentry{algo=GSACA\_ref};
-            \addplot coordinates { (commoncrawl.txt,25) };
+            \addplot coordinates { (commoncrawl.txt,12.5) };
             \addlegendentry{algo=qsufsort\_ref};
-            \addplot coordinates { (commoncrawl.txt,0.634287) };
+            \addplot coordinates { (commoncrawl.txt,0.338007) };
             \addlegendentry{algo=SADS\_ref};
-            \addplot coordinates { (commoncrawl.txt,37.3555) };
+            \addplot coordinates { (commoncrawl.txt,18.6777) };
             \addlegendentry{algo=DC3\_ref};
 
             \legend{}
         \end{axis}
     \end{tikzpicture}
     \medskip
-    \ref{ea:runtime-all-ref-2}
+    \ref{ea-runtime-all-ref-2}
     \caption{Comparison of the in \sacabench included reference implementations of SACAs, including time and memory consumption: commoncrawl.txt}
-    \ref{ea:runtime-all-ref-2}
+    \label{ea:runtime-all-ref-2}
 \end{figure}
+
 \FloatBarrier
-
-The clear winners in all three cases is divsufsort, followed by BPR and SAIS-Lite
-\footnote{divsufsort and SAIS-Lite both are optimized implementations by Yuta Mori~\cite{saca:5}.}.
-In terms of memory consumption, divsufsort and SACA-K are the two best algorithms since they use no extra space,
-follwed by Deep-Shallow, which uses very little extra space.
-The worst algorithm in both runtime performance as well as memory consumption is in all three cases the reference implementation of DC3,
-which is followed by SADS (a variant of SAIS~\cite{saca:6}) in terms of performance and BPR in terms of memory consumption.
-However, caused by source code incompatibilities, memory utilization for BPR is not intuitively comparable to other algorithms as we are only able measure absolute memory but not extra memory for this specific algorithm.
-
-\todo{beschreibung der algorithmen im mittelfeld (mb)}
-\todo{@johannes wieso ist dc3 so scheiße? (mb)}
-\todo{wieso taucht deep shallow nur auf dna auf? (mb)}
-\todo{vermisst jemand seine ref komplett? (mb)}
 
 \subsection{Evaluation (parallel)}
 
@@ -690,7 +718,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={SA construction time [min]},
                 legend columns=2,
-                legend to name=ea:legend-par-all-0,
+                legend to name=ea-legend-par-all-0,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
@@ -763,7 +791,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
     \end{tikzpicture}
 
     \medskip
-    \ref{ea:legend-par-all-0}
+    \ref{ea-legend-par-all-0}
     \caption{Vergleich der parallelen Implementierungen mit Laufzeit und Speicherbedarf auf wiki.txt}
     \label{ea:fig-par-all-0}
 \end{figure}
@@ -780,7 +808,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={SA construction time [min]},
                 legend columns=2,
-                legend to name=ea:legend-par-all-1,
+                legend to name=ea-legend-par-all-1,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
@@ -854,7 +882,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
     \end{tikzpicture}
 
     \medskip
-    \ref{ea:legend-par-all-1}
+    \ref{ea-legend-par-all-1}
     \caption{Vergleich der parallelen Implementierungen mit Laufzeit und Speicherbedarf auf dna.txt}
     \label{ea:fig-par-all-1}
 \end{figure}
@@ -871,7 +899,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
                 xlabel={num threads, input size [200\,MB]},
                 ylabel={SA construction time [min]},
                 legend columns=2,
-                legend to name=ea:legend-par-all-2,
+                legend to name=ea-legend-par-all-2,
                 legend style={
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
@@ -945,11 +973,10 @@ These are variants of the sequential algorithms, that were mostly naively parall
     \end{tikzpicture}
 
     \medskip
-    \ref{ea:legend-par-all-2}
+    \ref{ea-legend-par-all-2}
     \caption{Vergleich der parallelen Implementierungen mit Laufzeit und Speicherbedarf auf commoncrawl.txt}
     \label{ea:fig-par-all-2}
 \end{figure}
-\FloatBarrier
 
 Contrary to the results of the sequential algorithms, the performance of the parallel SACAs differ widely between the input text.
 For example, Deep-Shallow\_par is the best algorithm on \texttt{wiki.txt},
@@ -957,16 +984,15 @@ as it uses 0 extra memory and outperformes the other algorithms in terms of runt
 However, it is surpassed on \texttt{dna.txt} by even the naive-parallel SACA and fails to compute the correct \sa on \texttt{commoncrawl.txt}.
 
 Discarding4 has consistent runtime performance on all of the three texts but comes with a heavy memory pricetag.
-Its memory comsumption is the same as for the parallel DC3 implementation, which in turn has higher or equal runtime compared to Discarding4 on all three input texts.
+Its memory comsumption is the same as for the parallel DC3 implementation,
+which in turn has higher or equal runtime compared to Discarding4 on all three input texts.
 
 Parallel BPR is the fastest algorithm on \texttt{commoncrawl.txt} and its memory consumption is similar to that of the naive parallel SACA.
 It needs a lot more memory than parallel SACAs with almost no need for extra memory (Deep-Shallow\_par, pSAIS).
 
-\todo{bpr memory consumption <=> naive (mb) das ist nur Zufall, weil beide (scheinbar) eine working copy in SA-Größe benutzen (fg)}
 \todo{warum brechen da algos ab? (mb)}
 \todo{warum brechen alle algos ab 8 kernen ab? (mb)}
 \todo{sicherstellen dass mind eine ref drin ist (divsufsort par ref) (mb)}
-
 
 \subsection{Evaluation (GPU)}
 
