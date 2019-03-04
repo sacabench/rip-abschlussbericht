@@ -1,5 +1,5 @@
 \begin{figure}
-\begin{minted}[escapeinside=@@, mathescape=true, linenos=true, autogobble, obeytabs=true, tabsize=2]{python}
+\begin{minted}[escapeinside=@@,numbers=left, tabsize=2, breaklines]{python}
 def phase_2():
 	SA[1] = @$n$@ 
 	for @$i$@ = 1 up to @$n$@:
@@ -10,7 +10,7 @@ def phase_2():
 			if SA[@$sr$@ + 1] @$\neq$@ nil: 
 				break
 			SA[@$sr$@ + 1] = @$j$@
-			# remove $j$ from its current group and put it into a new group
+			# remove @$j$@ from its group and put it into a new group
 			oldGroup = group(@$j$@)
 			group(@$j$@).remove(j)
 			newGroup = Group()
