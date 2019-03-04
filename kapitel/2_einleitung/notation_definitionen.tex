@@ -2,18 +2,20 @@
 \todo{Macht die Definitionen lieber wirklich als Definitionen und nicht als subsections}
 Einige\currentauthor{Rosa Pink und\\Marvin Löbel} grundlegende Notationen und Definitionen werden hier kurz vorangestellt.
 
-\subsection{Intervalle}
+\begin{definition}[Intervall]
 Wir nutzen $[i, j] = \{i, \dots, j\}$ und $[i, j) = [i, j - 1]$ als Kurzschreibweise für Integer-Intervalle.
+\end{definition}
 
-\subsection{Alphabet und lexikographische Sortierung}
+\begin{definition}[Alphabet und lexikographische Sortierung]
 Das konstante Alphabet ist definiert als $\Sigma = \{\sigma_1, \sigma_2, ..., \sigma_{|\Sigma|-1}\} \cup \{\$\}$.
 Es besteht aus Symbolen bzw. Zeichen $\sigma_i$, die im Eingabe-String vorkommen dürfen, und dem Sentinel-Symbol \$, welches das Ende des Strings markiert. 
 Die Zeichen sind wie folgt lexikographisch (nach \textit{lexikographischer Sortierung})
 geordnet: $\$ < \sigma_1 < \sigma_2 < ... < \sigma_{|\Sigma|-1}$. 
 Sie lassen sich durch Integer-Werte repräsentieren, indem wir \$ den Wert 0 zuweisen und $\sigma_i$ den Wert $i$.
 $\Sigma^+$ bezeichnet weiter die Menge aller Strings über diesem Alphabet mit echt positiver Länge.
+\end{definition}
 
-\subsection{Input-String und Suffix}
+\begin{definition}[Input-String und Suffix]
 Der Input-String wird \inputtext genannt und hat die Länge $n$. Das $i$-te Zeichen im
 Input-String ist \inputtext[i], das $i$-te Suffix  (kurz: Suffix $i$) ist 
 \begin{align*}
@@ -21,22 +23,26 @@ Input-String ist \inputtext[i], das $i$-te Suffix  (kurz: Suffix $i$) ist
 \end{align*} \inputtext[n]
 ist das Terminalsymbol \$ (sowie alle \inputtext[m] mit $m>n$) und ist formal nicht Teil des Eingabe-Strings.
 Der Eingabe-String beginnt bei \inputtext[0].
+\end{definition}
 
-\subsection{Suffix-Array}
+\begin{definition}[Suffix-Array]
 Das Suffix-Array, kurz \sa, bezeichnet ein Array, in dem in lexikographischer Reihenfolge
 die Suffix-Indizes (Positionen des Anfangsbuchstabens) gespeichert sind.
 Das bedeutet, $\sa[j] = i$ genau dann, wenn $\mathsf{T}[i,n)$ das $j$-te Suffix von \inputtext in lexikografischer Ordnung ist.
+\end{definition}
 
-\subsection{Buckets}
-\label{def:bucket}
-Alle Suffixe, die mit demselben Zeichen $c_0 \in \Sigma$ beginnen, formen ein zusammenhängendes Intervall im Suffix-Array.
-Dieses Intervall wird $c_0$-Bucket genannt und mit $\mathsf b_{c_0}$ bezeichnet.
-Der $(c_0,c_1)$-Bucket $\mathsf b_{c_0, c_1}$ bezeichnet das Intervall, dessen Suffixe mit denselben zwei Zeichen $c_0, c_1 \in \Sigma$ beginnen.
-Ähnlich dazu bezeichnet der Bucket $\mathsf b_\omega$ alle Suffixe im \sa, die alle mit dem String $\omega \in \Sigma^+$ anfangen.
+\begin{definition}[Bucket]
+    \label{def:bucket}
+    Alle Suffixe, die mit demselben Zeichen $c_0 \in \Sigma$ beginnen, formen ein zusammenhängendes Intervall im Suffix-Array.
+    Dieses Intervall wird $c_0$-Bucket genannt und mit $\bucket{c_0}$ bezeichnet.
+    Der $(c_0,c_1)$-Bucket $\bucket{c_0, c_1}$ bezeichnet das Intervall, dessen Suffixe mit denselben zwei Zeichen $c_0, c_1 \in \Sigma$ beginnen.\par
+    Ähnlich dazu bezeichnet der Bucket $\bucket{\omega}$ alle Suffixe im \sa, die alle mit dem String $\omega \in \Sigma^m$ mit \(m > 0\) anfangen. \(\bucket{\omega}\) heißt dann auch Level-\(m\)-Bucket.
+\end{definition}
 
-\subsection{Textwiederholung}
+\begin{definition}[Textwiederholung]
 \label{def:repetition}
 Eine Wiederholung in $\mathsf{T}$ ist ein Teilstring $\mathsf{T}[i, i + rp]$ mit $ r \geq 2, p \geq 0$ und $i, i + rp \in [0, n)$, sodass $\mathsf{T}[i, i+p) = \mathsf{T}[i + p, i + 2p) = \dots = \mathsf{T}[i + (r-1)p, i + rp)$.
+\end{definition}
 
 \subsection{Praxisrelevante Grenzen}
 

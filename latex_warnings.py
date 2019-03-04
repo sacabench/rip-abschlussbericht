@@ -99,6 +99,7 @@ for line in output:
     def print_warning(warn_text):
         global last_file
         global current_file
+        global print_all_files
 
         if current_file != last_file:
             if not print_all_files:
@@ -109,8 +110,8 @@ for line in output:
     for m in re_path.findall(line):
         last_file_candidate = str(m[0])
         if print_all_files:
-            print("File {}".format(colorize(last_file, CGREEN)))
             last_file = last_file_candidate
+            print("File {}".format(colorize(last_file, CGREEN)))
         if last_file_candidate.endswith(".tex"):
             last_file = last_file_candidate
             if os.path.isfile(last_file):
