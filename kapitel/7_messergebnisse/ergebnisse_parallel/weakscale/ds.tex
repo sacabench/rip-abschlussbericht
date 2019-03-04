@@ -4,7 +4,7 @@
 % IMPORT-DATA stats_parallel ../result_weakscale.txt
 % IMPORT-DATA stats_sequential ../../ergebnisse_sequentiell/results.txt
 
-\begin{figure}[ht]
+\begin{figure}[!t]
     \centering
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[
@@ -92,7 +92,7 @@
     \label{fig-par-ds-0}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[!t]
     \centering
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[
@@ -181,7 +181,7 @@
     \label{fig-par-ds-1}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[!t]
     \centering
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[
@@ -271,5 +271,24 @@
 \end{figure}
 \FloatBarrier
 
-\currentauthor{Marvin Böcker}
+Auf \currentauthor{Marvin Böcker} dem ersten Bild bezüglich \emph{wiki.txt} lässt sich erkennen,
+dass der parallele Deep-Shallow zwar erst von der Referenz und dem parallelen DivSufSort geschlagen wird, 
+ab einer bestimmten Kernanzahl der parallele Deep-Shallow
+alle Vergleichsalgorithmen dominiert.
 
+In zweite Abbildung (\emph{dna.txt}) zeichnet sich ein anderes Bild.
+Aufgrund der geringen Alphabetgröße können nur wenige Kerne benutzt werden,
+wodurch die im Weak-Scaling-Experiment erhöhte Textgröße
+schwer wiegt und die Laufzeit signifikant erhöht.
+Dort wird unser Algorithmus erst vom parallelen DivSufSort
+und mit höherer Kernzahl vom naiv-parallelen geschlagen.
+
+Auf dem dritten Bild (\emph{commoncrawl.txt}) ist erkennbar, dass zu Beginn der naive SACA
+der unser Algorthmus sich prinzipiell in ihrer Performance sehr ähnlich sind,
+paralleles Deep-Shallow allerdings ab \SI{1600}{MB} das SA aufgrund von
+Segfaults nicht mehr konstruieren kann.
+
+Insgesamt lässt sich daher sagen, dass die Skalierung zwar adäquat ist,
+die Unzuverlässigkeit jedoch inakzeptabel.
+Leider war es uns im Zeitrahmen der Projektgruppe jedoch nicht mehr
+möglich diesen Fehler noch zu beheben.

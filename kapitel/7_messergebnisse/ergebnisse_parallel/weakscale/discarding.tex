@@ -22,12 +22,13 @@
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
                 },
+                ymax=7
             ]
 
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="wiki.txt" AND sacheck="ok"
+            %% ) WHERE thread_count < 9 AND input="wiki.txt" AND sacheck="ok"
             %% AND (algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,3.20359) (2,3.69207) (4,4.44643) (8,5.90081) };
@@ -36,13 +37,13 @@
             \addlegendentry{algo=Discarding4Parallel};
             \addplot coordinates { (1,0.474964) (2,0.890462) (4,1.72981) (8,3.69632) };
             \addlegendentry{algo=DivSufSort\_par\_ref};
-            \addplot coordinates { (1,2.71662) (2,3.54087) (4,4.03271) (8,4.7199) (12,5.55871) (16,5.86449) };
+            \addplot coordinates { (1,2.71662) (2,3.54087) (4,4.03271) (8,4.7199) };
             \addlegendentry{algo=NaivParallel};
 
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="wiki.txt" AND sacheck="ok"
+            %% ) WHERE thread_count < 9 AND input="wiki.txt" AND sacheck="ok"
             %% AND (algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,2.4246) (2,5.13328) (4,10.9069) (8,23.9962) };
@@ -68,7 +69,7 @@
             %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="wiki.txt" AND sacheck="ok"
+            %% ) WHERE thread_count < 9 AND input="wiki.txt" AND sacheck="ok"
             %% AND (algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,2.34575) (2,4.69158) (4,9.38307) (8,18.766) };
@@ -77,13 +78,13 @@
             \addlegendentry{algo=Discarding4Parallel};
             \addplot coordinates { (1,0.000246726) (2,0.000247501) (4,0.000249021) (8,0.000252061) };
             \addlegendentry{algo=DivSufSort\_par\_ref};
-            \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) (12,18.75) (16,25) };
+            \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) };
             \addlegendentry{algo=NaivParallel};
 
             %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="wiki.txt" AND sacheck="ok"
+            %% ) WHERE thread_count < 9 AND input="wiki.txt" AND sacheck="ok"
             %% AND (algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,2.34575) (2,4.6895) (4,9.377) (8,18.752) };
@@ -116,12 +117,13 @@
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
                 },
+                ymax=6
             ]
 
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="dna.txt" AND sacheck="ok"
+            %% ) WHERE thread_count < 9 AND input="dna.txt" AND sacheck="ok"
             %% AND (algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,3.2561) (2,3.83204) (4,4.51572) (8,5.42115) };
@@ -130,13 +132,13 @@
             \addlegendentry{algo=Discarding4Parallel};
             \addplot coordinates { (1,0.516853) (2,1.01441) (4,2.06209) (8,4.53356) };
             \addlegendentry{algo=DivSufSort\_par\_ref};
-            \addplot coordinates { (1,3.06848) (2,4.3148) (4,4.73058) (8,5.05918) (12,5.68415) (16,5.68597) };
+            \addplot coordinates { (1,3.06848) (2,4.3148) (4,4.73058) (8,5.05918) };
             \addlegendentry{algo=NaivParallel};
 
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="dna.txt" AND sacheck="ok"
+            %% ) WHERE thread_count < 9 AND input="dna.txt" AND sacheck="ok"
             %% AND (algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,2.32164) (2,4.98423) (4,10.6304) (8,21.3285) };
@@ -163,7 +165,7 @@
             %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="dna.txt" AND sacheck="ok"
+            %% ) WHERE thread_count < 9 AND input="dna.txt" AND sacheck="ok"
             %% AND (algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,2.34575) (2,4.69158) (4,9.38307) (8,18.766) };
@@ -172,13 +174,13 @@
             \addlegendentry{algo=Discarding4Parallel};
             \addplot coordinates { (1,0.000246726) (2,0.000247501) (4,0.000249021) (8,0.000252061) };
             \addlegendentry{algo=DivSufSort\_par\_ref};
-            \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) (12,18.75) (16,25) };
+            \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) };
             \addlegendentry{algo=NaivParallel};
 
             %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="dna.txt" AND sacheck="ok"
+            %% ) WHERE thread_count < 9 AND input="dna.txt" AND sacheck="ok"
             %% AND (algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,2.34575) (2,4.6895) (4,9.377) (8,18.752) };
@@ -211,12 +213,13 @@
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
                 },
+                ymax=12
             ]
 
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
+            %% ) WHERE thread_count < 9 AND input="commoncrawl.txt" AND sacheck="ok"
             %% AND (algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,5.61108) (2,6.40921) (4,7.93302) (8,10.0045) };
@@ -225,13 +228,13 @@
             \addlegendentry{algo=Discarding4Parallel};
             \addplot coordinates { (1,0.438349) (2,0.817589) (4,1.57076) (8,3.18317) };
             \addlegendentry{algo=DivSufSort\_par\_ref};
-            \addplot coordinates { (1,7.15567) (2,7.39145) (4,8.81336) (8,11.3875) (12,13.2541) (16,15.516) };
+            \addplot coordinates { (1,7.15567) (2,7.39145) (4,8.81336) (8,11.3875) };
             \addlegendentry{algo=NaivParallel};
 
             %% MULTIPLOT(algo) SELECT thread_count AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
+            %% ) WHERE thread_count < 9 AND input="commoncrawl.txt" AND sacheck="ok"
             %% AND (algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,4.39624) (2,9.27186) (4,20.3309) (8,43.9922) };
@@ -258,7 +261,7 @@
             %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_parallel GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
+            %% ) WHERE thread_count < 9 AND input="commoncrawl.txt" AND sacheck="ok"
             %% AND (algo="Discarding2Parallel" OR algo="Discarding4Parallel" OR algo="DivSufSort_par_ref" OR algo="NaivParallel")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,2.34575) (2,4.69158) (4,9.38307) (8,18.766) };
@@ -267,13 +270,13 @@
             \addlegendentry{algo=Discarding4Parallel};
             \addplot coordinates { (1,0.000246726) (2,0.000247501) (4,0.000249021) (8,0.000252061) };
             \addlegendentry{algo=DivSufSort\_par\_ref};
-            \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) (12,18.75) (16,25) };
+            \addplot coordinates { (1,0.0) (2,1.5625) (4,3.12501) (8,6.25002) };
             \addlegendentry{algo=NaivParallel};
 
             %% MULTIPLOT(algo) SELECT thread_count AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats_sequential GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok"
+            %% ) WHERE thread_count < 9 AND input="commoncrawl.txt" AND sacheck="ok"
             %% AND (algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (1,2.34575) (2,4.6895) (4,9.377) (8,18.752) };
@@ -289,3 +292,15 @@
     \ref{legend-par-discarding-2}
 \end{figure}
 \FloatBarrier
+
+Wir werten nun das Verhalten der zwei parallelen \textit{Discarding} Varianten des \textit{Doubling}-Algorithmus mit $a$-Tupling für $a=2$ und $a=4$ (siehe \cref{chapter:saca:doubling:par}) bei skalierender Eingabegröße und Thread-Anzahl aus. Allgemein sind die Ergebnisse ähnlich zu denen der sequentiellen Messung aus \cref{messeval:scaling:seq:doubling}, da die einzige Änderung am Algorithmus die Nutzung eines parallelen Sortieralgorithmus ist, und sich dies auf alle Varianten des Algorithmus gleich auswirkt.
+
+\paragraph{Die Speichermessung} zeigt also ebenfalls, dass der Speicherverbrauch der Algorithmen rein von der Länge der Eingabe und der Größe von \texttt{sa\_index} abhängt. Dies ist erneut aus den Diagrammen und Tabellen \ref{messung:tab:memory-large-par-weak} und \ref{messung:tab:memory-large-par-strong} ersichtlich.
+
+Es gilt also ebenfalls, dass das Algorithmusverhalten mit der Implementierung (\cref{chapter:saca:doubling:memory}) übereinstimmt. Ebenso hat der Algorithmus wieder bei zu großer Eingabe einen zu hohen Speicherverbrauch, wie man in \cref{messung:tab:memory-large-par-weak} erkennt.
+
+\paragraph{Die Laufzeitmessung} zeigt im Gegensatz zum sequentiellen Fall (\cref{messeval:scaling:seq:doubling}) einen deutlichen Unterschied zwischen $a$-Tupling mit $a=2$ und $a=4$, wobei letzteres schneller ist. Dies deutet darauf hin, dass der parallele Ips4o Sortierer stärker auf die dadurch verursachten Unterschiede in der Anzahl und Größe der zu sortierenden Elemente reagiert als der sequentielle.
+
+Dies führt jedoch auch dazu, dass \textit{Discarding} mit $a=2$ je nach Eingabe nah am parallelen Naiven Algorithmus liegt und teilweise sogar langsamer ist. Im Gegensatz zum sequentiellen Fall wird das \sa also mit $a=4$ wesentlich schneller berechnet.
+
+Verglichen zum parallelen \textit{DivSufSort} fällt auf, dass der Algorithmus ihn zwar in den erfolgreich gemessenen Bereich bis 8 Kerne nicht schlägt, aber eine Extrapolation der Laufzeit andeutet dass dies bei höheren Kernanzahlen geschehen kann. \textit{Discarding} scheint somit besser zu Skalieren.

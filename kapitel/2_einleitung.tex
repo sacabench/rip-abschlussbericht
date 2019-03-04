@@ -2,7 +2,7 @@
 
 Im \currentauthor{Christopher Poeplau und Marvin Böcker} Zuge der Projektgruppe 2018/2019 beschäftigt sich
 \emph{\sacabench} mit Suffix-Array-Konstruktionsalgorithmen. \emph{SACA} ist das Akronym für
-\textbf{S}uffix \textbf{A}rray \textbf{C}onstruction \textbf{A}lgorithm und \emph{Bench} die Abkürzung für Benchmark,
+\textbf{S}uffix \textbf{A}rray \textbf{C}on\-struction \textbf{A}lgorithm und \emph{Bench} die Abkürzung für Benchmark,
 also dem Messen von Laufzeit und Speicherplatz der Algorithmen.
 
 Die Forschung an effizienten Konstruktionsalgorithmen für Suffix-Arrays hat in den letzten Jahren durch
@@ -14,7 +14,9 @@ sind effiziente Algorithmen in Bezug auf Zeit und Speicherplatz notwendig~\cite[
 Ein Suffix-Array repräsentiert die Suffixe eines Strings \inputtext{} in lexikographischer Reihenfolge.
 Sei $\inputtext{} = \text{suffix}$. Für den String \inputtext{} ergeben sich folgende Suffixe:
 %
-\begin{center}
+
+\begin{table}[htb]
+\centering
   \begin{tabular}{ | l | c | r }
     \hline
         $i$ & $\inputtext{}[i, n)$ \\ \hline
@@ -26,13 +28,17 @@ Sei $\inputtext{} = \text{suffix}$. Für den String \inputtext{} ergeben sich fo
         5 & x \\ \hline
         6 & \$ \\
     \hline
+
   \end{tabular}
-\end{center}
+  \caption{Suffixe des Strings \inputtext}
+\end{table}
+
 %
 Es ist sofort ersichtlich, dass $\inputtext{}[0, n) = \inputtext{}$ und $\inputtext{}[n-2, n)=\$$ gilt.
-Sortiert man die Suffixe nun lexikografisch, ergibt sich das Suffix-Array:
+\newpage \noindent Sortiert man die Suffixe nun lexikografisch, ergibt sich das Suffix-Array:
 %
-\begin{center}
+\begin{table}[H]
+\centering
   \begin{tabular}{ | l | c | r }
     \hline
         $i$ & $\inputtext{}[i, n)$ \\ \hline
@@ -45,10 +51,11 @@ Sortiert man die Suffixe nun lexikografisch, ergibt sich das Suffix-Array:
         5 & x \\
     \hline
   \end{tabular}
-\end{center}
+  \caption{Sortiertes Suffix-Array des Strings \inputtext}
+\end{table}
+
 %
 Somit ergibt sich das Suffix-Array $\sa = \{ 6,3,2,4,0,1,5 \}$.
-
 Ziel ist die effiziente Konstruktion dieses Arrays.
 Dabei gibt es Algorithmen, die den Fokus auf die Laufzeit setzen,
 andere wiederum auf die Speicheroptimierung und wieder andere versuchen, den besten Kompromiss aus beiden Welten zu finden.

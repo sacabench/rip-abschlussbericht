@@ -4,7 +4,7 @@
 Nicht \currentauthor{Oliver Magiera} immer kann eine Laufzeit von $\mathcal O(n\log{n})$ beim Quicksort garantiert werden.
 Für diesen Zweck wurde der Introsort Algorithmus (auf Basis des binären Quicksort) entworfen \cite{Musser97}:
 nach einer Rekursionstiefe $h$ durch den Quicksort Algorithmus wird Heapsort verwendet,
-um ein Teilarray \textbf{A'} von \textbf{A} endgültig zu sortieren.
+um ein Teilarray $\mathsf{A'}$ von $\mathsf A$ endgültig zu sortieren.
 Als Wert für die maximale Tiefe $h$ hat sich $2 \lfloor \log_2{|A|}\rfloor$ als empirisch geeignet herausgestellt.
 Eine weitere Optimierung liegt in der Verwendung von Insertionsort,
 wenn die Anzahl der Elemente einen Schwellwert $\theta$ unterschreitet.
@@ -56,5 +56,5 @@ Durch die vorige Vorverarbeitung über die innere Introsort-Schleife müssen nur
 der Länge $\leq \theta$ final sortiert werden.
 Dies funktioniert deshalb effizient, da z.~B. Elemente im Intervall $[0, \theta)$ noch nicht
 endgültig sortiert sind, sie befinden sich jedoch bereits im richtigen Intervall.
-Somit wird kein Element aus $[\theta, 2 \theta)$ oder einem hinteren Intervall in \textbf{A} kleiner
+Somit wird kein Element aus $[\theta, 2 \theta)$ oder einem hinteren Intervall in $\mathsf A$ kleiner
 sein als ein beliebiges Element aus dem Intervall $[0,\theta)$.

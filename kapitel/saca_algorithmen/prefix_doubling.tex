@@ -1,4 +1,5 @@
 \section{Prefix-Doubling}
+\label{chapter:saca:doubling}
 
 \subsection{Einleitung}
 
@@ -379,6 +380,7 @@ Dies hat auch Auswirkungen auf den Sortieralgorithmus und die Anwendbarkeit des 
 Dies verhindert jedoch ein direktes Anwenden des Pipelining-Ansatzes im vorgestellen Sinne, da die Sortierschritte in den Algorithmen nicht mehr als Stream-akzeptierend bzw. -erzeugend betrachtet werden können. Aufgrund des Fehlens von IO-Operationen auf externen Speicher hat dies allerdings auch geringe Auswirkungen. In \cref{algo:doubling:sec:usedoptimizations} nutzen wir stattdessen die Pipelining-Idee dafür, den Speicherverbrauch der Arrays stark zu senken.
 
 \subsubsection{Umsetzung}
+\label{chapter:saca:doubling:memory}
 
 Die Implementierung besteht aus einer C++-Klasse, die über dem benutzten \texttt{sa\_index}-Typ und der Tupelgröße \texttt{a} gemäß des $a$-Tuplings templatisiert ist.
 
@@ -734,3 +736,10 @@ Da der Ausgabe-\texttt{span} zu einer Allokation von mindestens $n \log n$ Bits 
 %\todo{Beispiel Grafik?}
 
 Dies würde jedoch die Implementierung wesentlich komplexer machen, da die Komponenten eines Tupels nun über mehrere disjunkte \texttt{span}s verteilt wären. Da das Interface der Sortierer-Implementierungen darauf beruht, nur vollständige Elemente eines Arrays zu sortieren, wäre somit also auch eine Anpassung der benutzten Sortieralgorithmen notwendig.
+
+\subsection{Parallelisierung}
+\label{chapter:saca:doubling:par}
+
+Alle vorgestellten Varianten des Algorithmus lassen sich trivial parallelisieren, indem ein paralleler Sortieralgorithmus benutzt wird. Wir nutzen hierzu den parallelen Ips4o Algorithmus aus \cref{section:ips4o}.
+
+In anderen Aspekten ist eine parallelisieren der Algorithmen nicht effektiv möglich, da sowohl die Umbenennungsphase als auch die Paarbildungsphase inhärent sequentielle Abläufe beinhalten.
