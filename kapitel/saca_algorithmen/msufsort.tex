@@ -19,7 +19,7 @@ Da diese Techniken selbst alle noch kein Suffix Array konstruieren, muss anschli
 
 \subsection{Bestandteile des Algorithmus und Pseudocode} \label{mainPart}
 In diesem Kapitel wird der Algorithmus vorgestellt. Dazu wird er, wie von Maniscalco und Puglisi, in vier Abschnitte eingeteilt, die jeweils unterschiedliche Konzepte realisieren und alle dazu beitragen, dass der Algorithmus schneller wird. 
-Obwohl die Abschnitte aufeinander aufbauen, kann schon ein Algorithmus der nur den ersten Abschnitt implementiert das \isa konstruieren. Im Originalpaper von Maniscalco und Puglisi wurden eine Version mit Abschnitt \ref{erwIndSort} und eine ohne diesen implementiert und im Anschluss experimentell mit anderen SACAs verglichen. Dabei stellte sich die Version mit erweitertem induzierten Sortieren als überlegen heraus.
+Obwohl die Abschnitte aufeinander aufbauen, kann schon ein Algorithmus der nur den ersten Abschnitt implementiert das \isa konstruieren. Im Originalpaper von Maniscalco und Puglisi wurden eine Version mit Abschnitt \ref{erwIndSort_sec} und eine ohne diesen implementiert und im Anschluss experimentell mit anderen SACAs verglichen. Dabei stellte sich die Version mit erweitertem induzierten Sortieren als überlegen heraus.
 
 \subsubsection{$u$-Chain Bucket-Sort}
 \label{4.1}
@@ -119,7 +119,7 @@ repeat:
 \end{listing}
 
 \subsubsection{Erweitertes Induziertes Sortieren} 
-\label{erwIndSort}
+\label{erwIndSort_sec}
 
 In diesem Abschnitt wird die Idee des Induzierten Sortierens weitergeführt, um die Laufzeit des mSufSort weiter zu verbessern.
 Dazu wurde überlegt, dass sich alle Suffixe direkt zu Beginn in zwei Gruppen unterteilen lassen: Typ S (smaller) und Typ L (larger).\\
