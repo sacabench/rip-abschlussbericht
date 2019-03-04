@@ -1,5 +1,6 @@
 \clearpage
 \subsubsection{Doubling und Discarding}
+\label{messeval:scaling:seq:doubling}
 
 \textbf{Configuration} \hfill Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
 % IMPORT-DATA stats2 ../results.txt
@@ -21,12 +22,13 @@
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
                 },
+                ymax=40
             ]
 
             %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="wiki.txt" AND sacheck="ok" 
+            %% ) WHERE thread_count < 9 AND input="wiki.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (0.195312,2.4246) (0.390625,5.13328) (0.78125,10.9069) (1.5625,23.9962) };
@@ -35,7 +37,7 @@
             \addlegendentry{algo=Discarding4};
             \addplot coordinates { (0.195312,11.0806) (0.390625,22.9862) (0.78125,47.518) (1.5625,97.2159) };
             \addlegendentry{algo=Doubling};
-            \addplot coordinates { (0.195312,2.7048) (0.390625,6.0286) (0.78125,15.8137) (1.5625,28.8136) (2.34375,59.9193) (3.125,65.215) (3.90625,105.373) };
+            \addplot coordinates { (0.195312,2.7048) (0.390625,6.0286) (0.78125,15.8137) (1.5625,28.8136) };
             \addlegendentry{algo=Naiv};
 
         \end{axis}
@@ -54,7 +56,7 @@
             %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="wiki.txt" AND sacheck="ok" 
+            %% ) WHERE thread_count < 9 AND input="wiki.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (0.195312,2.34575) (0.390625,4.6895) (0.78125,9.377) (1.5625,18.752) };
@@ -63,7 +65,7 @@
             \addlegendentry{algo=Discarding4};
             \addplot coordinates { (0.195312,2.34575) (0.390625,4.6895) (0.78125,9.377) (1.5625,18.752) };
             \addlegendentry{algo=Doubling};
-            \addplot coordinates { (0.195312,0.0) (0.390625,0.0) (0.78125,0.0) (1.5625,0.0) (2.34375,0.0) (3.125,0.0) (3.90625,0.0) };
+            \addplot coordinates { (0.195312,0.0) (0.390625,0.0) (0.78125,0.0) (1.5625,0.0) };
             \addlegendentry{algo=Naiv};
 
             \legend{}
@@ -72,6 +74,7 @@
 
     \medskip
     \ref{legend-seq-doubling-0}
+    \caption{Discarding2, Discarding4 und Doubling auf wiki.txt}
 \end{figure}
 
 \begin{figure}[ht]
@@ -91,12 +94,13 @@
                     /tikz/every even column/.append style={column sep=0.5cm,black},
                     /tikz/every even column/.append style={black},
                 },
+                ymax=40
             ]
 
             %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="dna.txt" AND sacheck="ok" 
+            %% ) WHERE thread_count < 9 AND input="dna.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (0.195312,2.32164) (0.390625,4.98423) (0.78125,10.6304) (1.5625,21.3285) };
@@ -105,7 +109,7 @@
             \addlegendentry{algo=Discarding4};
             \addplot coordinates { (0.195312,5.53637) (0.390625,11.3228) (0.78125,23.2906) (1.5625,47.8121) };
             \addlegendentry{algo=Doubling};
-            \addplot coordinates { (0.195312,3.07022) (0.390625,6.92539) (0.78125,15.1993) (1.5625,31.8829) (2.34375,50.4039) (3.125,86.2066) (3.90625,90.5095) };
+            \addplot coordinates { (0.195312,3.07022) (0.390625,6.92539) (0.78125,15.1993) (1.5625,31.8829) };
             \addlegendentry{algo=Naiv};
 
         \end{axis}
@@ -124,7 +128,7 @@
             %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="dna.txt" AND sacheck="ok" 
+            %% ) WHERE thread_count < 9 AND input="dna.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (0.195312,2.34575) (0.390625,4.6895) (0.78125,9.377) (1.5625,18.752) };
@@ -133,7 +137,7 @@
             \addlegendentry{algo=Discarding4};
             \addplot coordinates { (0.195312,2.34575) (0.390625,4.6895) (0.78125,9.377) (1.5625,18.752) };
             \addlegendentry{algo=Doubling};
-            \addplot coordinates { (0.195312,0.0) (0.390625,0.0) (0.78125,0.0) (1.5625,0.0) (2.34375,0.0) (3.125,0.0) (3.90625,0.0) };
+            \addplot coordinates { (0.195312,0.0) (0.390625,0.0) (0.78125,0.0) (1.5625,0.0) };
             \addlegendentry{algo=Naiv};
 
             \legend{}
@@ -142,6 +146,7 @@
 
     \medskip
     \ref{legend-seq-doubling-1}
+    \caption{Discarding2, Discarding4 und Doubling auf dna.txt}
 \end{figure}
 
 \begin{figure}[ht]
@@ -166,7 +171,7 @@
             %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, time/1000/60 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" 
+            %% ) WHERE thread_count < 9 AND input="commoncrawl.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (0.195312,4.39624) (0.390625,9.27186) (0.78125,20.3309) (1.5625,43.9922) };
@@ -194,7 +199,7 @@
             %% MULTIPLOT(algo) SELECT prefix/1024/1024/1024.0 AS x, memPeak/1024/1024/1024 AS y, MULTIPLOT
             %% FROM (
             %% SELECT algo, input, MEDIAN(memFinal) AS memFinal, MEDIAN(memOff) AS memOff, AVG(memPeak) AS memPeak, prefix, rep, thread_count, MEDIAN(time) AS time, sacheck FROM stats2 GROUP BY algo, input, prefix, rep, thread_count
-            %% ) WHERE input="commoncrawl.txt" AND sacheck="ok" 
+            %% ) WHERE thread_count < 9 AND input="commoncrawl.txt" AND sacheck="ok" 
             %% AND (algo="Naiv" OR algo="Doubling" OR algo="Discarding2" OR algo="Discarding4")
             %% GROUP BY MULTIPLOT,x ORDER BY MULTIPLOT,x
             \addplot coordinates { (0.195312,2.34575) (0.390625,4.6895) (0.78125,9.377) (1.5625,18.752) };
@@ -212,5 +217,25 @@
 
     \medskip
     \ref{legend-seq-doubling-2}
+    \caption{Discarding2, Discarding4 und Doubling auf commoncrawl.txt}
 \end{figure}
 \FloatBarrier
+
+Wir werten nun das Verhalten des \textit{Doubling}-Algorithmus, sowie zwei seiner Varianten mit \textit{Discarding} und $a$-Tupling für $a=2$ und $a=4$ (siehe \cref{chapter:saca:doubling}), bei skalierender Eingabegröße aus.
+
+\paragraph{Die Speichermessung} zeigt, dass der Speicherverbrauch der Algorithmen rein von der Länge der Eingabe und der Größe von \texttt{sa\_index} abhängt. Dies ist aus den Diagrammen und Tabellen \ref{messung:tab:memory-small-seq-none} und \ref{messung:tab:memory-large-seq-weak} ersichtlich.
+
+Dies stimmt mit ihren erwartete Verhalten basierend auf der Implementierung (\cref{chapter:saca:doubling:memory}) überein, gemäß der alle Varianten des Algorithmus nur auf einem Array von $|\inputtext|$ Elementen arbeiten. So liegt zum Beispiel der theoretische Speicherverbrauch des Discardings mit $a$=4 und der Arrayüberlagerungsoptimierung für eine 200 MiB Eingabe bei $200~\text{[MiB]} * (a+1) * \texttt{sizeof(sa\_index)} = 4000~\text{[MiB]} = 3.907~\text{[GiB]}$, was fast genau den gemessenen Betrag entspricht.
+
+An \cref{messung:tab:sa-chk-large-seq-weak} erkennt man jedoch auch, das der Speicherverbrauch relativ hoch ist, da ab einer Eingabelänge von über 1600 MiB das Speicherlimit des Systems erreicht wird. Der Algorithmus ist somit nicht für Speicher-limitierte Systeme geeignet.
+
+\paragraph{Die Laufzeitmessung} in \cref{messung:tab:time-small-seq-none} und  \cref{messung:tab:time-large-seq-weak} zeigt, dass das reine \textit{Doubling} einer der langsamsten Algorithmen ist. Dies ist bei seiner theoretischen Laufzeit von $\mathcal{O}(\text{sort}(n) \ceil*{\log \text{maxlcp}})$ (\cref{algo:doubling:sec:doubling}) plausibel, da Suffix-Indexe die eindeutig feststehen ggf. wiederholt neu bestimmt werden.
+
+Der optimierte Algorithmus -- \textit{Discarding} mit $a$-Tupling, Pipelining, Arrayüberlagerung und Wordpacking -- behandelt stattdessen jeden Suffix-Index nur solange bis er eindeutig feststeht. Dies lässt sich aus den Diagrammen und Tabellen ablesen, bei denen der Algorithmus für beide $a$-Werte in der Laufzeit besser als der Naive Algorithmus skaliert.
+
+In \cref{messung:tab:time-small-seq-none} sieht man jedoch auch, dass für kleine Eingaben der Unterschied zum Naiven Algorithmus teilweise nicht signifikant ist, der Laufzeitvorteil also nur für größere Eingaben zu trage kommt.
+
+Laut der theoretischen Betrachtung sollte der Algorithmus mit $a=4$ schneller sein als mit $a=2$. Dies ist in der Messung für die meisten Eingaben der Fall, es gibt aber auch Ausnahmen bei denen der Unterschied gering oder sogar umgekehrt ausfällt. Am größten tritt dieser Effekt bei \texttt{pc\_dna} und \texttt{dna.txt} auf, was darauf schließen lässt das bei kleinen Alphabetgrößen $a=2$ effizienter zu sein scheint, bzw. die gemeinsamen Prefixe bei DNA kurz genug ausfallen das bei $a=4$ die Iterationsschritte zu grob-granular sind und eindeutige Suffix-Index zu lange beibehalten werden.
+
+Im Vergleich zum Naiven Algorithmus fällt jedoch auch auf, das es keinen signifikanten Unterschied in der Laufzeit bei verschiedenen $a$ Werten gibt, weshalb man in Anbetracht des wesentlich größeren Speicherbedarfs bei $a=4$ für In-Memory Implementierungen vermutlich besser beim normalen verdoppeln, also $a=2$ bleiben sollte.
+

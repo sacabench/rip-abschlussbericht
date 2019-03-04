@@ -93,6 +93,9 @@
 
     \medskip
     \ref{legend-par-dc-0}
+    \caption{Paralleler DC3 und Vergleichsalgorithmen auf wiki.txt.}
+
+\label{fig-par-dc-0}
 \end{figure}
 
 \begin{figure}[ht]
@@ -184,6 +187,8 @@
 
     \medskip
     \ref{legend-par-dc-1}
+   \caption{Paralleler DC3 und Vergleichsalgorithmen auf dna.txt}
+\label{fig-par-dc-1}
 \end{figure}
 
 \begin{figure}[ht]
@@ -275,5 +280,12 @@
 
     \medskip
     \ref{legend-par-dc-2}
+    \caption{Paralleler DC3 und Vergleichsalgorithmen auf commoncrawl.txt}
+\label{fig-par-dc-2}
 \end{figure}
 \FloatBarrier
+
+In \currentauthor{Johannes Bahne} den Abbildungen \ref{fig-par-dc-0},\ref{fig-par-dc-1} und \ref{fig-par-dc-2} sind die Implementierungen, die in dem \sacabench Framework umgesetzt worden sind, miteinander verglichen worden, die auf dem \emph{Difference Cover} basieren.
+Dabei ist der DC3-Parallel-V2 die Variante des parallelen DC3 mit naiver Parallelisierung der ersten beiden Phasen und die Implementierung des siebten Theorems, das in \cref{dc3-parallel} näher erläutert worden ist, für die dritte Phase.
+
+Die Laufzeiten des DC3-Parallel-V2 sind auf allen getesteten Eingaben größer als die des DivSufSort\_par\_ref. Aber auf dem Testdatensatz \texttt{commoncrawl.txt} ist der DC3-Parallel-V2 schneller als der naive parallele Sortierer und belegt den zweiten Platz vor dem naiv parallelen Algorithmus, dem DC3 und dem DC3\_ref. Der zusätzliche Speicherbrauch des DC3-Parallel-V2 ist jedoch größer als bei dem sequentiellen DC3, aber besser als der Speicherbrauch der Referenzimplementierung des DC3. Dass die Algorithmen DC3, DC3\_ref und DC3-Parallel-V2 ab der Eingabegröße von $2400$ MiB abbrechen, liegt daran, dass das Speicherlimit des Messsystems mit diesen Algorithmen überschritten wird. Auffällig ist auch, dass der DC3-Parallel-V2 bezüglich der Laufzeit gut skaliert.

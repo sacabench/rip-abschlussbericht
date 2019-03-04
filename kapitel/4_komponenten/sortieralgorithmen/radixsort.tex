@@ -1,11 +1,9 @@
 \subsection{Radixsort}
 \label{sort:radix}
 
-\todo{Jetzt ist Radixsort hier hinter dem bucketsort, da beide sehr ähnlich sind. evtl Bezug nehmen?}
-
 In \currentauthor{Nico Bertram} diesem Abschnitt behandeln wir das Sortierverfahren \emph{Radixsort}.
 Dabei handelt es sich im Gegensatz zu den anderen Sortieralgorithmen, die in unserem Framework verwendet werden,
-nicht um einen vergleichsbasierten Sortieralgorithmus.
+nicht um einen vergleichsbasierten Sortieralgorithmus, sondern ist ähnlich zu Bucketsort (\cref{section:bucketsort}).
 Es werden stattdessen die einzelnen Stellen der zu sortierenden Elemente $\mathsf{A}$ in einer bestimmten Reihenfolge sortiert.
 Die Stellen der Elemente sind dabei Zeichen aus einem endlichen Alphabet.
 Da wir die Größe des Alphabets im Voraus kennen, lassen sich die Elemente in Buckets einsortieren.
@@ -91,7 +89,7 @@ In dieser Variante werden die Elemente beginnend ab dem LSD sortiert.
 Die Sortierung der Elemente anhand der aktuellen Schritte ist analog zum MSD-Radixsort.
 Wenn wir eine Stelle weitergehen, müssen aber alle Elemente anhand der nächsten Stelle sortiert werden.
 
-Im folgenden Beispiel sortieren wir erneut die Elemente $\mathsf{A}=\{512, 794, 187, 394, 384\}$.
+Im folgenden Beispiel sortieren wir die Elemente $\mathsf{A}=\{512, 794, 187, 394, 384\}$.
 Dabei verwenden wir diesmal den LSD-Radixsort.
 Wir beginnen mit der Sortierung an der letzten Stelle.
 

@@ -15,7 +15,7 @@ Beide Varianten des Algorithmus verwenden die von Seward \cite{seward2000} besch
 	\label{fig:seward}
 \end{figure}
 Der Unterschied besteht lediglich in der Reihenfolge, in der die Sortieroperationen und das Induzieren angewendet werden: Während Schürmann nach jedem Durchlauf durch einen Top-Level Bucket direkt den Rest dieses Buckets induziert und danach erneut die Bucket-Pointer aktualisiert, werden bei der \sacabench-Implementierung zuerst alle Top-Level Buckets vorsortiert, bevor im Anschluss in einem Durchlauf alle verbleibenden Indizes zusammen induziert werden. 
-\begin{listing}[h]
+\begin{listing}[ht]
     \begin{minipage}{0.5\textwidth}
         \begin{minted}[autogobble, mathescape]{python}
             # m is assumed to be $|\Sigma|$

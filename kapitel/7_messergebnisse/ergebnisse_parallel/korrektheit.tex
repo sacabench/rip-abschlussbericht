@@ -2,3 +2,9 @@
 
 Wie auch bei den sequentiellen Experimenten wurden alle Ergebnisse der parallelen Algorithmen mittels SA-Checker auf Korrektheit überprüft.
 Die Ergebnisse dieser Tests sind in \cref{anhang:messwerte:weakscale} (\cref{messung:tab:sa-chk-large-par-weak}) gelistet.
+
+Man sieht in der Tabelle, dass viele unserer parallelen Implementierungen das korrekte \sa berechnen. Dennoch brechen einige Algorithmen bei bestimmten Eingaben ab, wenn ein Algorithmus zu viel Speicher benötigt, das Zeitlimit des Systems überschreitet oder wenn ein Laufzeitfehler auftritt. \par
+Speicherfehler treten unter anderem beim DC3-Parallel-V1 und Discarding2\-Parallel ab einer Eingabegröße von $2400$ MiB auf. Der Osipov\_parallel\_wp benötigt sogar ab $1600$ MiB zu viel Speicher. \par
+Das Zeitlimit des Systems wird beim MSufSortV2\_par und MSufSort\_par auf \texttt{commoncrawl.txt} bei einer Eingabegröße von $1600$ MiB und auf \texttt{dna.txt} und \texttt{wiki.txt} erst bei $4000$ MiB überschritten. Auch der PARALLEL\_SAIS überschreitet auf \texttt{wiki.txt} ab $3200$ MiB das Zeitlimit. \par
+Laufzeitfehler treten beim PARALLEL\_SAIS auf allen drei Eingabedateien ab einer Größe von $2400$ MiB auf. Der Deep-Shallow\_par bricht auf der Datei \texttt{commoncrawl.txt} ab einer Größe von $1600$ MiB ab und beim MSufSort\_par und MSufSort\_scan\_par treten gelegentlich Laufzeitfehler auf. \par
+Man sieht auch, dass beide Referenz-Implementierungen $\text{DivSufSort\_par}_{ref}$ und $\text{DivSufSort\_PARALLEL}_{ref}$ nicht immer das korrekte \sa berechnen. Ab einer Eingabegröße von $2400$ MiB wird auf allen Eingabetexten das falsche \sa berechnet. Beim $\text{DivSufSort\_PARALLEL}_{ref}$ bricht der Algorithmus auf allen übrigen Eingaben mit einem Laufzeitfehler ab.

@@ -1,9 +1,13 @@
 TEX = latexmk
+WRAPPER = ./latex_warnings.py
 
 all : pdf
 
 pdf :
-	$(TEX) -pdf main.tex
+	$(WRAPPER) $(TEX) -pdf main.tex
+
+verbose :
+	$(WRAPPER) -V $(TEX) -pdf main.tex
 
 run :
 	$(TEX) -pdf -pv main.tex

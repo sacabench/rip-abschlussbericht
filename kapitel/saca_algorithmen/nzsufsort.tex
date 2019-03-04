@@ -46,11 +46,13 @@ Wenn man die Vorberechnung auf den Beispieltext anwendet, sieht man, dass es meh
 \begin{table}[H]
 	\footnotesize
 	\centering
+  	\resizebox{\textwidth}{!}{
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
 		$\mathsf{T}[i]$ & c & a & a & b & a & c & c & a & a & b & a & c & a & a & \$ & \$ & \$ \\
 		$Typ$ & L & S & S & L & S & L & L & S & S & L & S & L & L & L & S & S & S
 	\end{tabular}
+	}
 \end{table}
 
 Also wird der Eingabetext entsprechend transformiert.
@@ -58,18 +60,20 @@ Also wird der Eingabetext entsprechend transformiert.
 \begin{table}[H]
 	\footnotesize
 	\centering
+  	\resizebox{\textwidth}{!}{
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
 		$\mathsf{T}[i]$ & a & c & c & b & c & a & a & c & c & b & c & a & c & c & d & d & d \\
 		$Typ$ & S & L & L & S & L & S & S & L & L & S & L & S & S & S & L & L & L
 	\end{tabular}
+	}
 \end{table}
 
 \subsubsection{Erste Phase}
 
 In der ersten Phase des nzSufSort berechnen wir zunächst den reduzierten Text $\mathsf{T}_{12}$. Dies funktioniert ähnlich wie im DC3, indem wir zunächst das Positions-Array der S-Typ-Positionen $\mathsf{P}_{12}$ berechnen. Dieses wird mit der Inplace-Variante des Radixsort \cref{sort:radix:inplace} anhand der $Z_3$-Strings sortiert und die lexikographischen Ränge der S-Typ-Positionen werden anhand der Sortierung bestimmt. \par
 
-Im ersten Schritt muss das Positions-Array $\mathsf{P}_{12}$ der S-Typ-Positionen in die ersten $n_{12}$ Elemente von $\sa$ berechnet werden. Die S-Typ-Positionen lassen sich einfach durch einen Rechtsdurchlauf durch $\mathsf{T}$ bestimmen. Anhand von  \texttt{count\_s\_type\_pos} lässt sich zu einer S-Typ-Position $i$ ermitteln, ob diese die $j$-te S-Typ-Position mit $j \text{ modulo } 3 = 1$ oder $j \text{ modulo } 3 = 2$ ist. Falls $j \text{ modulo } 3 = 1$ ist, wird $i$ an Position $\frac{j}{3}$ der ersten Hälfte von $\mathsf{P}_{12}$ geschrieben, falls $j \text{ modulo } 3 = 2$ ist an Position $\frac{j}{3}$ der zweiten Hälfte. \par
+Im ersten Schritt muss das Positions-Array $\mathsf{P}_{12}$ der S-Typ-Positionen in die ersten $n_{12}$ Elemente von $\sa$ berechnet werden. Die S-Typ-Positionen lassen sich einfach durch einen Rechtsdurchlauf durch $\mathsf{T}$ bestimmen. Anhand von  \texttt{count\_s\_type\_pos} lässt sich zu einer S-Typ-Position $i$ ermitteln, ob diese die $j$-te S-Typ-Position mit $j \text{ modulo } 3 = 1$ oder $j \text{ modulo } 3 = 2$ ist. Ist $j \text{ modulo } 3 = 1$, wird $i$ an Position $\frac{j}{3}$ der ersten Hälfte von $\mathsf{P}_{12}$ geschrieben, falls $j \text{ modulo } 3 = 2$ ist an Position $\frac{j}{3}$ der zweiten Hälfte. \par
 In der folgenden Tabelle sehen wir das Positions-Array des Beispieltextes. Der Index $j$ bezeichnet die $j$-te S-Typ-Position und das Positions-Array ist aufgeteilt in die Mengen mit $j \text{ modulo } 3 = 1$ und $j \text{ modulo } 3 = 2$.
 
 \begin{table}[H]
@@ -120,16 +124,18 @@ Zunächst wird der Zustand zu Beginn der Berechnung gezeigt. In $\sa$ ist zunäc
 	\end{tabular}
 \end{table}
 
-Anschließend wird das Positions-Array $\mathsf{P}_{12}$ umgedreht in den L-Typ-Positionen von $\sa$ von rechts nach links gespeichert.
+Anschließend wird das Positions-Array $\mathsf{P}_{12}$ umgedreht in den L-Typ-Positio\-nen von $\sa$ von rechts nach links gespeichert.
 
 \begin{table}[H]
 	\footnotesize
 	\centering
+  	\resizebox{\textwidth}{!}{
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
 		$\sa[i]$ & - & - & - & - & - & - & - & - & \textcolor{red}{13} & - & \textcolor{red}{9} & - & - & - & \textcolor{red}{3} & \textcolor{red}{11} & \textcolor{red}{5} \\
 		$Typ$ & S & L & L & S & L & S & S & L & L & S & L & S & S & S & L & L & L
 	\end{tabular}
+	}
 \end{table}
 
 Im nächsten Schritt wird $\mathsf{P}_{12}$ durchlaufen und die lexikographischen Ränge der $Z_3$-Strings, die an den jeweiligen Positionen von $\mathsf{P}_{12}$ beginnen, bestimmt und in die S-Typ-Positionen von $\sa$ geschrieben.
@@ -137,11 +143,13 @@ Im nächsten Schritt wird $\mathsf{P}_{12}$ durchlaufen und die lexikographische
 \begin{table}[H]
 	\footnotesize
 	\centering
+  	\resizebox{\textwidth}{!}{
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
 		$\sa[i]$ & - & - & - & \textcolor{blue}{3} & - & \textcolor{blue}{1} & - & - & \textcolor{red}{13} & \textcolor{blue}{4} & \textcolor{red}{9} & \textcolor{blue}{2} & - & \textcolor{blue}{5} & \textcolor{red}{3} & \textcolor{red}{11} & \textcolor{red}{5} \\
 		$Typ$ & S & L & L & S & L & S & S & L & L & S & L & S & S & S & L & L & L
 	\end{tabular}
+	}
 \end{table}
 
 Nun müssen die lexikographischen Ränge in die L-Typ-Positionen geschrieben werden.
@@ -149,11 +157,13 @@ Nun müssen die lexikographischen Ränge in die L-Typ-Positionen geschrieben wer
 \begin{table}[H]
 	\footnotesize
 	\centering
+  	\resizebox{\textwidth}{!}{
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
 		$\sa[i]$ & - & - & - & - & - & - & - & - & \textcolor{blue}{1} & - & \textcolor{blue}{2} & - & - & - & \textcolor{blue}{3} & \textcolor{blue}{4} & \textcolor{blue}{5} \\
 		$Typ$ & S & L & L & S & L & S & S & L & L & S & L & S & S & S & L & L & L
 	\end{tabular}
+	}
 \end{table}
 
 Die lexikographischen Ränge werden anschließend an das Ende von $\sa$ kopiert.
@@ -161,11 +171,13 @@ Die lexikographischen Ränge werden anschließend an das Ende von $\sa$ kopiert.
 \begin{table}[H]
 	\footnotesize
 	\centering
+  	\resizebox{\textwidth}{!}{
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
 		$\sa[i]$ & - & - & - & - & - & - & - & - & - & - & - & - & \textcolor{blue}{1} & \textcolor{blue}{2} & \textcolor{blue}{3} & \textcolor{blue}{4} & \textcolor{blue}{5} \\
 		$Typ$ & S & L & L & S & L & S & S & L & L & S & L & S & S & S & L & L & L
 	\end{tabular}
+	}
 \end{table}
 
 Im letzten Schritt werden die lexikographischen Ränge von rechts nach links an den Anfang von $\sa$ geschrieben. Dabei werden die Gruppen der $i$-ten S-Typ-Positionen mit $i \text{ modulo } 3 = 1$ und $i \text{ modulo } 3 = 2$ umgedreht. Dadurch steht am Ende der Berechnung der lexikographischen Ränge am Beginn von $\sa$ der reduzierte Text $\mathsf{T}_{12}$.
@@ -173,11 +185,13 @@ Im letzten Schritt werden die lexikographischen Ränge von rechts nach links an 
 \begin{table}[H]
 	\footnotesize
 	\centering
+  	\resizebox{\textwidth}{!}{
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
 		$\sa[i]$ & \textcolor{blue}{3} & \textcolor{blue}{4} & \textcolor{blue}{5} & \textcolor{blue}{1} & \textcolor{blue}{2} & - & - & - & - & - & - & - & - & - & - & - & - \\
 		$Typ$ & S & L & L & S & L & S & S & L & L & S & L & S & S & S & L & L & L
 	\end{tabular}
+	}
 \end{table}
 
 Im letzten Schritt der ersten Phase wird das Suffix-Array $\sa_{12}$ von $\mathsf{T}_{12}$ durch einen Aufruf des DC3-Lite \cref{dc3:lite} bestimmt, falls die lexikographischen Ränge nicht eindeutig sind. Falls die lexikographischen Ränge eindeutig sind, entspricht $\mathsf{T}_{12}$ dem $\mathsf{ISA}_{12}$. Also kann $\sa_{12}$ in diesem Fall direkt berechnet werden, indem das Inverse von $\sa_{12}$ berechnet wird. \par
@@ -248,11 +262,13 @@ Das Vereinigen von $\sa_0$ und $\sa_{12}$ wird nun am Beispieltext demonstriert.
 \begin{table}[H]
 	\footnotesize
 	\centering
+  	\resizebox{\textwidth}{!}{
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
 		$\sa[i]$ & \textcolor{red}{0} & \textcolor{red}{6} & \textcolor{red}{12} & \textcolor{blue}{5} & \textcolor{blue}{11} & \textcolor{blue}{3} & \textcolor{blue}{9} & \textcolor{blue}{13} & - & - & - & - & - & - & - & - & - \\
 		$Typ$ & S & L & L & S & L & S & S & L & L & S & L & S & S & S & L & L & L
 	\end{tabular}
+	}
 \end{table}
 
 $\sa_0$ und $\sa_{12}$ werden zu Beginn umgedreht von rechts nach links in die L-Typ-Positionen von $\sa$ kopiert. Im Feld $h$ wird die Startposition von $\sa_0$ in $\sa$ gespeichert. Dies ist im Beispiel die Position $7$.
@@ -260,11 +276,13 @@ $\sa_0$ und $\sa_{12}$ werden zu Beginn umgedreht von rechts nach links in die L
 \begin{table}[H]
 	\footnotesize
 	\centering
+  	\resizebox{\textwidth}{!}{
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
 		$\sa[i]$ & - & - & \textcolor{red}{12} & - & \textcolor{red}{6} & - & - & \textcolor{red}{0} & \textcolor{blue}{13} & - & \textcolor{blue}{9} & - & - & - & \textcolor{blue}{3} & \textcolor{blue}{11} & \textcolor{blue}{5} \\
 		$Typ$ & S & L & L & S & L & S & S & L & L & S & L & S & S & S & L & L & L
 	\end{tabular}
+	}
 \end{table}
 
 Nun werden $\mathsf{ISA}_0$ und $\mathsf{ISA}_{12}$ berechnet und in die S-Typ-Positionen von $\sa$ geschrieben. Die Elemente von $\mathsf{ISA}_0$ sind im Folgenden mit orange und die Elemente von $\mathsf{ISA}_{12}$ mit grün markiert.
@@ -272,11 +290,13 @@ Nun werden $\mathsf{ISA}_0$ und $\mathsf{ISA}_{12}$ berechnet und in die S-Typ-P
 \begin{table}[H]
 	\footnotesize
 	\centering
+  	\resizebox{\textwidth}{!}{
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
 		$\sa[i]$ & \textcolor{orange}{7} & - & \textcolor{red}{12} & \textcolor{green}{14} & \textcolor{red}{6} & \textcolor{green}{16} & \textcolor{orange}{4} & \textcolor{red}{0} & \textcolor{blue}{13} & \textcolor{green}{10} & \textcolor{blue}{9} & \textcolor{green}{15} & \textcolor{orange}{2} & \textcolor{green}{8} & \textcolor{blue}{3} & \textcolor{blue}{11} & \textcolor{blue}{5} \\
 		$Typ$ & S & L & L & S & L & S & S & L & L & S & L & S & S & S & L & L & L
 	\end{tabular}
+	}
 \end{table}
 
 Indem wir $\sa_0$ und $\sa_{12}$ von rechts nach links durchlaufen, berechnen wir durch Vergleiche der $Z_1$-Strings, bzw. $Z_2$-Strings die Positionen im vereinigten Suffix-Array. 
@@ -284,11 +304,13 @@ Indem wir $\sa_0$ und $\sa_{12}$ von rechts nach links durchlaufen, berechnen wi
 \begin{table}[H]
 	\footnotesize
 	\centering
+  	\resizebox{\textwidth}{!}{
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
 		$\sa[i]$ & \textcolor{orange}{7} & - & \textcolor{red}{6} & \textcolor{green}{14} & \textcolor{red}{2} & \textcolor{green}{16} & \textcolor{orange}{4} & \textcolor{red}{1} & \textcolor{blue}{7} & \textcolor{green}{10} & \textcolor{blue}{5} & \textcolor{green}{15} & \textcolor{orange}{2} & \textcolor{green}{8} & \textcolor{blue}{4} & \textcolor{blue}{3} & \textcolor{blue}{0} \\
 		$Typ$ & S & L & L & S & L & S & S & L & L & S & L & S & S & S & L & L & L
 	\end{tabular}
+	}
 \end{table}
 
 Nun verknüpfen wir $\mathsf{ISA}_0$ und $\mathsf{ISA}_{12}$ mit den Positionen von $\sa_0$ und $\sa_{12}$ im vereinigten Suffix-Array. Dadurch erhalten wir das inverse Suffix-Array der S-Typ-Positionen $\mathsf{ISA}_S$.
@@ -296,11 +318,13 @@ Nun verknüpfen wir $\mathsf{ISA}_0$ und $\mathsf{ISA}_{12}$ mit den Positionen 
 \begin{table}[H]
 	\footnotesize
 	\centering
+  	\resizebox{\textwidth}{!}{
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
 		$\sa[i]$ & \textcolor{orange}{1} & - & \textcolor{red}{6} & \textcolor{green}{4} & \textcolor{red}{2} & \textcolor{green}{0} & \textcolor{orange}{2} & \textcolor{red}{1} & \textcolor{blue}{7} & \textcolor{green}{5} & \textcolor{blue}{5} & \textcolor{green}{3} & \textcolor{orange}{6} & \textcolor{green}{7} & \textcolor{blue}{4} & \textcolor{blue}{3} & \textcolor{blue}{0} \\
 		$Typ$ & S & L & L & S & L & S & S & L & L & S & L & S & S & S & L & L & L
 	\end{tabular}
+	}
 \end{table}
 
 Zuletzt wird das $\mathsf{ISA}_S$ an das Ende von $\sa$ kopiert. 
@@ -308,11 +332,13 @@ Zuletzt wird das $\mathsf{ISA}_S$ an das Ende von $\sa$ kopiert.
 \begin{table}[H]
 	\footnotesize
 	\centering
+  	\resizebox{\textwidth}{!}{
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
 		$\sa[i]$ & - & - & - & - & - & - & - & - & - & 1 & 4 & 0 & 2 & 5 & 3 & 6 & 7 \\
 		$Typ$ & S & L & L & S & L & S & S & L & L & S & L & S & S & S & L & L & L
 	\end{tabular}
+	}
 \end{table}
 
 Durch einen Durchlauf durch $\mathsf{ISA}_S$ lässt sich das inverse Suffixarray $\sa_{S}$ berechnen, das Suffix-Array der S-Typ-Positionen von $\mathsf{T}$. Für den nächsten Schritt muss noch das Positions-Array $\mathsf{P}$ der S-Typ-Positionen in $\mathsf{T}$ berechnet werden, damit die Positionen in $\sa_{S}$ auf $\mathsf{T}$ aktualisiert werden. \\
@@ -345,10 +371,12 @@ Das fertig konstruierte Suffix-Array des transformierten Beispieltextes ist dann
 \begin{table}[H]
 	\footnotesize
 	\centering
+  	\resizebox{\textwidth}{!}{
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
 		$\sa[i]$ & 5 & 0 & 6 & 11 & 3 & 9 & 4 & 10 & 2 & 8 & 1 & 7 & 12 & 13 & 14 & 15 & 16 
 	\end{tabular}
+	}
 \end{table}
 
 Um das Beispiel zu vervollständigen, muss das $\sa$ noch umgedreht werden, da der Beispieltext transformiert wurde. Dies ist das fertige $\sa$ vom Beispieltext.
@@ -356,8 +384,10 @@ Um das Beispiel zu vervollständigen, muss das $\sa$ noch umgedreht werden, da d
 \begin{table}[H]
 	\footnotesize
 	\centering
+  	\resizebox{\textwidth}{!}{
 	\begin{tabular}{c| c c c c c c c c c c c c c c c c c}
 		$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 \\
 		$\sa[i]$ & 16 & 15 & 14 & 13 & 12 & 7 & 1 & 8 & 2 & 10 & 4 & 9 & 3 & 11 & 6 & 0 & 5 
 	\end{tabular}
+	}
 \end{table}
