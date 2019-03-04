@@ -1,5 +1,4 @@
 \section{Notation und Definitionen}
-\todo{Macht die Definitionen lieber wirklich als Definitionen und nicht als subsections}
 Einige\currentauthor{Rosa Pink und\\Marvin Löbel} grundlegende Notationen und Definitionen werden hier kurz vorangestellt.
 
 \begin{definition}[Intervall]
@@ -8,16 +7,16 @@ Wir nutzen $[i, j] = \{i, \dots, j\}$ und $[i, j) = [i, j - 1]$ als Kurzschreibw
 
 \begin{definition}[Alphabet und lexikographische Sortierung]
 Das konstante Alphabet ist definiert als $\Sigma = \{\sigma_1, \sigma_2, ..., \sigma_{|\Sigma|-1}\} \cup \{\$\}$.
-Es besteht aus Symbolen bzw. Zeichen $\sigma_i$, die im Eingabe-String vorkommen dürfen, und dem Sentinel-Symbol \$, welches das Ende des Strings markiert. 
+Es besteht aus Symbolen bzw. Zeichen $\sigma_i$, die im Eingabe-String vorkommen dürfen, und dem Sentinel-Symbol \$, welches das Ende des Strings markiert.
 Die Zeichen sind wie folgt lexikographisch (nach \textit{lexikographischer Sortierung})
-geordnet: $\$ < \sigma_1 < \sigma_2 < ... < \sigma_{|\Sigma|-1}$. 
+geordnet: $\$ < \sigma_1 < \sigma_2 < ... < \sigma_{|\Sigma|-1}$.
 Sie lassen sich durch Integer-Werte repräsentieren, indem wir \$ den Wert 0 zuweisen und $\sigma_i$ den Wert $i$.
 $\Sigma^+$ bezeichnet weiter die Menge aller Strings über diesem Alphabet mit echt positiver Länge.
 \end{definition}
 
 \begin{definition}[Input-String und Suffix]
 Der Input-String wird \inputtext genannt und hat die Länge $n$. Das $i$-te Zeichen im
-Input-String ist \inputtext[i], das $i$-te Suffix  (kurz: Suffix $i$) ist 
+Input-String ist \inputtext[i], das $i$-te Suffix  (kurz: Suffix $i$) ist
 \begin{align*}
 \suffix{i} := \inputtext[i,n) = \inputtext[i]\inputtext[i+1]...\inputtext[n-1]
 \end{align*} \inputtext[n]

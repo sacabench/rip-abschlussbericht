@@ -22,7 +22,7 @@ Anschließend beschreiben wir wie möglichst effizient das Pivotelement gewonnen
 \subsubsection{Ternary Quicksort}
 \label{section:ternary_quicksort}
 
-\begin{listing}[!h]
+\begin{listing}[!ht]
     \begin{minted}{python}
     def bentley_mcilroy_tq(A: Array<SuffixStartPos>):
       if |A| > 1:
@@ -51,7 +51,7 @@ Anschließend können die Elemente durch Vertauschen in den richtigen Bereich ge
 
 Nachdem wir alle Elemente in die drei Bereiche aufgeteilt haben, müssen $\mathsf{A}_{\text{left}}$ und $\mathsf{A}_{\text{right}}$ rekursiv sortiert werden.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 	\centering
 	\begin{tikzpicture}
 	\draw (0,0) -- (10,0) -- (10,1) -- (0,1) -- cycle;

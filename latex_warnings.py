@@ -8,6 +8,7 @@ import re
 re_warning = re.compile("Warning|Error")
 re_full = re.compile("Overfull|Underfull")
 re_path = re.compile("(\\./.*?\\.(pygtex|pygstyle|tex|pdf|png|toc|sty|w18))")
+re_run = re.compile("Run number [0-9]+ of rule")
 
 todo_words = ["TODO", "FIXME", "todo", "fixme", "Todo", "Fixme"]
 re_todo = re.compile("|".join(todo_words))
@@ -96,6 +97,9 @@ def colorize(text, colorcode):
 last_file = None
 current_file = "asdf"
 for line in output:
+    if re_run.match(line):
+        print(colorize(line.strip(), CBEIGEBG))
+
     def print_warning(warn_text):
         global last_file
         global current_file
