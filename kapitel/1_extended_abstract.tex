@@ -339,7 +339,7 @@ Memory Size        & 64GiB \\
 
 In the \crefrange{ea:runtime-all-0}{ea:runtime-all-2} we show the performance of the implementations of different SACAs on three texts.
 The texts are \texttt{wiki.txt} (a current XML-dump of Wikipedia),
-\texttt{dna.txt} (a cleaned-up version from the 1000 Genome Project~\cite{1000genomeproject}}
+\texttt{dna.txt} (a cleaned-up version from the 1000 Genome Project~\cite{1000genomeproject})
 and \texttt{commoncrawl.txt} (an ASCII-only subset of the Commoncrawl dataset~\cite{commoncrawl}).
 
 \todo{Testsystem, Methodologie, ... (mb)}
@@ -947,7 +947,8 @@ However, it is surpassed on \texttt{dna.txt} by even the naive-parallel SACA and
 Discarding4 has consistent runtime performance on all of the three texts but comes with a heavy memory pricetag.
 Its memory comsumption is the same as for the parallel DC3 implementation, which in turn has higher or equal runtime compared to Discarding4 on all three input texts.
 
-Parallel BPR is the fastes algorithm on \texttt{commoncrawl.txt} and its memory consumption is similar to that of the naive parallel SACA. It needs a lot more memory than parallel SACAs with almost no need for extra memory (Deep-Shallow\_par, pSAIS).
+Parallel BPR is the fastest algorithm on \texttt{commoncrawl.txt} and its memory consumption is similar to that of the naive parallel SACA.
+It needs a lot more memory than parallel SACAs with almost no need for extra memory (Deep-Shallow\_par, pSAIS).
 
 \todo{bpr memory consumption <=> naive (mb) das ist nur Zufall, weil beide (scheinbar) eine working copy in SA-Größe benutzen (fg)}
 \todo{warum brechen da algos ab? (mb)}
