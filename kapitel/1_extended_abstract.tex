@@ -341,6 +341,25 @@ Our experiment texts are \texttt{wiki.txt}, \texttt{dna.txt} and \texttt{commonc
 
 \subsection{Evaluation (sequential)}
 
+In the Figures \ref{ea:runtime-all-ref-0} to \ref{ea:runtime-all-ref-2} we show the performance of
+the implementations of different SACAs on a 1600 MiB prefix of the three texts.
+
+The clear winners in all three cases is divsufsort, followed by BPR and SAIS-Lite
+\footnote{divsufsort and SAIS-Lite both are optimized implementations by Yuta Mori~\cite{saca:5}.}.
+In terms of memory consumption, divsufsort and SACA-K are the two best algorithms since they use no extra space,
+follwed by Deep-Shallow, which uses very little extra space.
+The worst algorithm in both runtime performance as well as memory consumption is in all three cases the reference implementation of DC3,
+which is followed by SADS (a variant of SAIS~\cite{saca:6}) in terms of performance and BPR in terms of memory consumption.
+However, caused by source code incompatibilities,
+memory utilization for BPR is not intuitively comparable to other algorithms as we are only able measure absolute memory
+but not extra memory for this specific algorithm.
+The runtime performance and memory consumption of the DC3 implementation is not well optimized by its authors~\cite{saca:9}.
+
+The algorithms SACA-K, qsufsort, SAIS and GSACA share the \blindtext.
+
+\todo{wieso taucht deep shallow nur auf dna auf? (mb)}
+\todo{vermisst jemand seine ref komplett? (mb)}
+
 % IMPORT-DATA stats_parallel 7_messergebnisse/ergebnisse_parallel/result_weakscale.txt
 % IMPORT-DATA results_sequential 7_messergebnisse/ergebnisse_sequentiell/results.txt
 
@@ -655,26 +674,6 @@ Our experiment texts are \texttt{wiki.txt}, \texttt{dna.txt} and \texttt{commonc
     \caption{Comparison of the in \sacabench included reference implementations of SACAs, including time and memory consumption: commoncrawl.txt}
     \label{ea:runtime-all-ref-2}
 \end{figure}
-\FloatBarrier
-
-In the Figures \ref{ea:runtime-all-ref-0} to \ref{ea:runtime-all-ref-2} we show the performance of
-the implementations of different SACAs on a 1600 MiB prefix of the three texts.
-
-The clear winners in all three cases is divsufsort, followed by BPR and SAIS-Lite
-\footnote{divsufsort and SAIS-Lite both are optimized implementations by Yuta Mori~\cite{saca:5}.}.
-In terms of memory consumption, divsufsort and SACA-K are the two best algorithms since they use no extra space,
-follwed by Deep-Shallow, which uses very little extra space.
-The worst algorithm in both runtime performance as well as memory consumption is in all three cases the reference implementation of DC3,
-which is followed by SADS (a variant of SAIS~\cite{saca:6}) in terms of performance and BPR in terms of memory consumption.
-However, caused by source code incompatibilities,
-memory utilization for BPR is not intuitively comparable to other algorithms as we are only able measure absolute memory
-but not extra memory for this specific algorithm.
-The runtime performance and memory consumption of the DC3 implementation is not well optimized by its authors~\cite{saca:9}.
-
-The algorithms SACA-K, qsufsort, SAIS and GSACA share the \blindtext.
-
-\todo{wieso taucht deep shallow nur auf dna auf? (mb)}
-\todo{vermisst jemand seine ref komplett? (mb)}
 
 \subsection{Evaluation (parallel)}
 
@@ -941,7 +940,6 @@ These are variants of the sequential algorithms, that were mostly naively parall
     \caption{Vergleich der parallelen Implementierungen mit Laufzeit und Speicherbedarf auf commoncrawl.txt}
     \label{ea:fig-par-all-2}
 \end{figure}
-\FloatBarrier
 
 Contrary to the results of the sequential algorithms, the performance of the parallel SACAs differ widely between the input text.
 For example, Deep-Shallow\_par is the best algorithm on \texttt{wiki.txt},
