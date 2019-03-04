@@ -307,7 +307,7 @@ We therefore chose the best option for the required use-case.
 \section{Evaluation (sequential)}
 
 In the \crefrange{ea:runtime-all-0}{ea:runtime-all-2} we show the performance of the implementations of different SACAs on three texts.
-The texts are \texttt{wiki.txt}, \texttt{dna.txt} and \texttt{commoncrawl.txt} from the \todo{was für ne quelle?} repository~\cite{xxx}.
+The texts are \texttt{wiki.txt}, \texttt{dna.txt} and \texttt{commoncrawl.txt} from the \emph{so und so} repository~\cite{xxx}\todo{was für ne quelle?}.
 \todo{Testsystem, Methodologie, ... (mb)}
 \todo{Fixt hier bitte eure multiply defined labels. Ihr benutzt die gleichen wie im Auswertungskapitel}
 
@@ -628,7 +628,7 @@ The texts are \texttt{wiki.txt}, \texttt{dna.txt} and \texttt{commoncrawl.txt} f
 The clear winners in all three cases is divsufsort, followed by BPR and SAIS-Lite
 \footnote{divsufsort and SAIS-Lite both are optimized implementations by Yuta Mori~\cite{saca:5}.}.
 In terms of memory consumption, divsufsort and SACA-K are the two best algorithms since they use no extra space,
-follwed by Deep-Shallow\_ref\todo{Du schreibst alle Algos ohne \_ref bis auf deep-shallow}, which uses very little extra space.
+follwed by Deep-Shallow, which uses very little extra space.
 The worst algorithm in both runtime performance as well as memory consumption is in all three cases the reference implementation of DC3,
 which is followed by SADS (a variant of SAIS~\cite{saca:6}) in terms of performance and BPR in terms of memory consumption.
 However, caused by source code incompatibilities, memory utilization for BPR is not intuitively comparable to other algorithms as we are only able measure absolute memory but not extra memory for this specific algorithm.
