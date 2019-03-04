@@ -239,8 +239,9 @@ This is also done by SACA-K and GSACA, which are both similar to SAIS, but add s
 (SACA-K for example doesn't use any extra space).
 mSufSort is another inducing-SACA, but since it constructs the \isa instead of the \sa,
 it's not derived from any other SACA.
-The two other recursive SACAs are DC3 (which sorts $\frac{2}{3}$ of the suffixes in a recursion step)
-and nzSufSort (which is similar to DC3 but improves on some aspects)\todo{nico? johannes? bitte ergänzen}.
+The two other recursive SACAs are DC3 (which sorts $\frac{2}{3}$ of the suffixes in a recursion step), which utilizes the \emph{Difference Cover} concept to sort all suffixes beginning at positions $1$, $2$, $4$, $5$ and so on at first. After that, it uses this order to induce all suffixes beginning at positions $0$, $3$ and so on before these two are merged into the correct \sa.
+nzSufSort sorts the S-Type suffixes by using the \emph{Difference Cover} concept before inducing the L-Type suffixes similar to SAIS in one pass. It was the first presented algorithm, which is \emph{optimal lightweight}. This means it has running time $\mathcal O (n)$ by using only constant extra space.
+
 
 \section{Optimization Strategies}
 
@@ -331,6 +332,7 @@ Evaluation of both the sequential SACAs, including the reference algorithms, as 
 We evaluate the performance of the chosen SACAs on an identical test system, the specifications of which are described in \cref{ea:lido}.
 This enables us to directly compare these algorithms in terms of runtime performance and memory consumption.
 We set an arbitrary limit of 2 hours of runtime as well as 60 GiB of used system memory.
+The GPU SACAs are run on an NVIDIA\textregistered Tesla K40.
 Our experiment texts are \texttt{wiki.txt}, \texttt{dna.txt} and \texttt{commoncrawl.txt}:
 %
 \begin{description}
@@ -791,7 +793,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
 
     \medskip
     \ref{ea-legend-par-all-0}
-    \caption{Vergleich der parallelen Implementierungen mit Laufzeit und Speicherbedarf auf wiki.txt}
+    \caption{Comparison of the in \sacabench included parallel implementations of SACAs, including time and memory consumption: wiki.txt}
     \label{ea:fig-par-all-0}
 \end{figure}
 
@@ -882,7 +884,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
 
     \medskip
     \ref{ea-legend-par-all-1}
-    \caption{Vergleich der parallelen Implementierungen mit Laufzeit und Speicherbedarf auf dna.txt}
+    \caption{Comparison of the in \sacabench included parallel implementations of SACAs, including time and memory consumption: dna.txt}
     \label{ea:fig-par-all-1}
 \end{figure}
 
@@ -973,7 +975,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
 
     \medskip
     \ref{ea-legend-par-all-2}
-    \caption{Vergleich der parallelen Implementierungen mit Laufzeit und Speicherbedarf auf commoncrawl.txt}
+    \caption{Comparison of the in \sacabench included parallel implementations of SACAs, including time and memory consumption: commoncrawl.txt}
     \label{ea:fig-par-all-2}
 \end{figure}
 
@@ -989,13 +991,19 @@ which in turn has higher or equal runtime compared to Discarding4 on all three i
 Parallel BPR is the fastest algorithm on \texttt{commoncrawl.txt} and its memory consumption is similar to that of the naive parallel SACA.
 It needs a lot more memory than parallel SACAs with almost no need for extra memory (Deep-Shallow\_par, pSAIS).
 
-\todo{warum brechen da algos ab? (mb)}
-\todo{warum brechen alle algos ab 8 kernen ab? (mb)}
-\todo{sicherstellen dass mind eine ref drin ist (divsufsort par ref) (mb)}
+The parallel DivSufSort uses little extra memory and still has great performance until 8 cores (1600 MiB text).
+After this point, the text size (3200 MiB) is too large to be addressed with 32-bits
+and since the implementation we used supports only 32-bit suffix indices, the suffix array can't be constructed correctly.
+This is also the case for the lines for the other algorithms that stop at 8 cores.
+
+Deep-Shallow stops at 800 MiB, because it produces Segfaults from 1600 MiB on.
+Sadly we couldn't fix this problem in time.
+
+\FloatBarrier
 
 \subsection{Evaluation (GPU)}
 
-\begin{figure}[ht]
+\begin{figure}[!ht]
     \textbf{Configuration} \hfill Prefix size: 200\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz\\
 \textcolor{white}{h} \hspace{0.65cm}  NVIDIA\textsuperscript{\textregistered} Tesla K40 @ 2880 CUDA\textsuperscript{\textregistered} cores
     \centering\small
@@ -1037,7 +1045,7 @@ It needs a lot more memory than parallel SACAs with almost no need for extra mem
 \label{ea:gpu_benchmark:1}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[!ht]
     \textbf{Configuration} \hfill Prefix size: 200\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz \\\textcolor{white}{h} \hspace{0.65cm}  NVIDIA\textsuperscript{\textregistered} Tesla K40 @ 2880 CUDA\textsuperscript{\textregistered} cores
     \centering\small
     \begin{tikzpicture}[trim axis left]
