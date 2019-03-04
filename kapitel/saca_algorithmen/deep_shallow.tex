@@ -104,7 +104,7 @@ Daher wird ein Verfahren verwendet, welches diese Strings schnell sortieren kann
 Genauer gesagt werden drei Verfahren verwendet, je nachdem welches anwendbar ist.
 Diese werden insgesamt Deep Sort genannt.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \newcommand{\tnode}{\node[draw,circle]}
 \newcommand{\trans}{\draw[-stealth]}
@@ -514,7 +514,7 @@ Wir schneiden die ersten $(1 - 0) = 1$ Zeichen aus unserer String-Menge ab und s
 Da wir bereits ein Element im Bucket kennen und annehmen, dass die anderen Suffixe nah daran liegen, fällt das Suchen des ersten Elements im Bucket weg.
 Im Ausgangspaper konnten die Autoren eine signifikante Performance-Erhöhung mittels dieses Ansatzes zeigen.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \begin{tikzpicture}[remember picture]
 \node at (0,0) {\tikz[na] \coordinate[yshift=-2pt] (a);banaba};
@@ -584,7 +584,7 @@ So können sie beim Sortieren von $\mathsf{b}_\sigma$ übersprungen werden.
 
 \subsection{Beispiel}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 \hline
@@ -599,7 +599,7 @@ So können sie beim Sortieren von $\mathsf{b}_\sigma$ übersprungen werden.
 
 \newcommand{\tnode}{\node[draw,circle]}
 \newcommand{\trans}{\draw[-stealth]}
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \centering
 \begin{tikzpicture}
 \tnode at (0,0) (0) {0};
@@ -679,7 +679,7 @@ Schlussendlich ist damit der gesamte Text sortiert, da es keine unsortierten Buc
 \subsection{Variante und Parallelität}
 \label{ds:zweite}
 
-\begin{listing}[!h]
+\begin{listing}[!ht]
 \begin{minted}[mathescape=true, escapeinside=||]{python}
 def deep_shallow_sort_parallel(T: Text):
   Create a bucket for every character pair |$\alpha, \beta \in \Sigma$|.
