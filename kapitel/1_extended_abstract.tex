@@ -355,9 +355,10 @@ memory utilization for BPR is not intuitively comparable to other algorithms as 
 but not extra memory for this specific algorithm.
 The runtime performance and memory consumption of the DC3 implementation is not well optimized by its authors~\cite{saca:9}.
 
-The algorithms SACA-K, qsufsort, SAIS and GSACA share the \blindtext.
+The algorithms SACA-K, qsufsort, SAIS and GSACA share the mid field in terms of runtime performance.
+Notable is the low memory consumption of SAIS and SACA-K, which only use some and none extra memory respectively.
 
-\todo{wieso taucht deep shallow nur auf dna auf? (mb)}
+\todo{800mb benutzen}
 \todo{vermisst jemand seine ref komplett? (mb)}
 
 % IMPORT-DATA stats_parallel 7_messergebnisse/ergebnisse_parallel/result_weakscale.txt
@@ -674,6 +675,8 @@ The algorithms SACA-K, qsufsort, SAIS and GSACA share the \blindtext.
     \caption{Comparison of the in \sacabench included reference implementations of SACAs, including time and memory consumption: commoncrawl.txt}
     \label{ea:runtime-all-ref-2}
 \end{figure}
+
+\FloatBarrier
 
 \subsection{Evaluation (parallel)}
 
