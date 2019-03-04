@@ -281,25 +281,7 @@ and development of GPUs shows higher performance improvements than CPU developme
 
 \subsection{Sorting Algorithms}
 
-Many SACAs use sorting algorithms at some point. For the benchmark a variety of sorting algorithms were implemented so that all SACAs can use them.
-We include some versions of quicksort, bucketsort and radixsort.
-This is especially interesting for naive parallelization, where one may just switch from a sequential sorting algorithm to a parallel one
-and thereby improve performance.
-Besides our own implemented sorting algorithms some external sorting algorithms are also included.
-Most of those external sorting algorithms are made for parallel use.
-
-\subsubsection{Binary vs. ternary comparison-based sort}
-
-Multiple versions of quicksort are implemented:
-Two of them are introsort~\cite{Musser97} and ternary quicksort~\cite{ternary_quicksort}.
-It has been shown that the binary sorting procedure is faster,
-if there are no equal elements in the set to be sorted~\cite{saca:4,ternary_quicksort};
-otherwise, the ternary version is faster~\cite{ternary_quicksort}.
-We therefore chose the best option for the required use-case.
-
-\section{Evaluation}
-
-\begin{table}[t]
+\begin{table}[!t]
     \centering
     \begin{tabular}{ll}
         \toprule
@@ -323,12 +305,29 @@ We therefore chose the best option for the required use-case.
         Memory Size          & 64GiB \\
         \bottomrule
     \end{tabular}
-    \caption{Configuration of compute nodes used to run the SACAs in this evaluation. These Nodes are part of the LiDO3 Compute Cluster at TU Dortmund.}
+    \caption{Configuration of compute nodes used to run the SACAs in this evaluation. These nodes are part of the LiDO3 compute cluster~\cite{lido3} at TU Dortmund.}
     \label{ea:lido}
 \end{table}
 
-\noindent
-Evaluation of both the sequential SACAs, including the reference algorithms, as well as of the parallel SACAs is done on LiDO3 \todo{Referenz}.
+Many SACAs use sorting algorithms at some point. For the benchmark a variety of sorting algorithms were implemented so that all SACAs can use them.
+We include some versions of quicksort, bucketsort and radixsort.
+This is especially interesting for naive parallelization, where one may just switch from a sequential sorting algorithm to a parallel one
+and thereby improve performance.
+Besides our own implemented sorting algorithms some external sorting algorithms are also included.
+Most of those external sorting algorithms are made for parallel use.
+
+\subsubsection{Binary vs. ternary comparison-based sort}
+
+Multiple versions of quicksort are implemented:
+Two of them are introsort~\cite{Musser97} and ternary quicksort~\cite{ternary_quicksort}.
+It has been shown that the binary sorting procedure is faster,
+if there are no equal elements in the set to be sorted~\cite{saca:4,ternary_quicksort};
+otherwise, the ternary version is faster~\cite{ternary_quicksort}.
+We therefore chose the best option for the required use-case.
+
+\section{Evaluation}
+
+Evaluation of both the sequential SACAs, including the reference algorithms, as well as of the parallel SACAs is done on LiDO3~\cite{lido3}.
 We evaluate the performance of the chosen SACAs on an identical test system, the specifications of which are described in \cref{ea:lido}.
 This enables us to directly compare these algorithms in terms of runtime performance and memory consumption.
 We set an arbitrary limit of 2 hours of runtime as well as 60 GiB of used system memory.
@@ -345,7 +344,7 @@ Our experiment texts are \texttt{wiki.txt}, \texttt{dna.txt} and \texttt{commonc
 % IMPORT-DATA stats_parallel 7_messergebnisse/ergebnisse_parallel/result_weakscale.txt
 % IMPORT-DATA results_sequential 7_messergebnisse/ergebnisse_sequentiell/results.txt
 
-\begin{figure}[!h]
+\begin{figure}[!t]
     \textbf{Configuration} \hfill Input file: wiki.txt \hfill Prefix size: 1600\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
     \centering\small
     \begin{tikzpicture}[trim axis left]
@@ -449,7 +448,7 @@ Our experiment texts are \texttt{wiki.txt}, \texttt{dna.txt} and \texttt{commonc
     \label{ea:runtime-all-ref-0}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[!t]
     \textbf{Configuration} \hfill Input file: dna.txt \hfill Prefix size: 1600\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
     \centering\small
     \begin{tikzpicture}[trim axis left]
@@ -555,7 +554,7 @@ Our experiment texts are \texttt{wiki.txt}, \texttt{dna.txt} and \texttt{commonc
     \label{ea:runtime-all-ref-1}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[!t]
     \textbf{Configuration} \hfill Input file: commoncrawl.txt \hfill Prefix size: 1600\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
     \centering\small
     \begin{tikzpicture}[trim axis left]
