@@ -9,7 +9,7 @@ Der \textbf{Suffix Array Induced Sorting-Algorithmus}\cite[Kap.~3]{saca:6} (kurz
 \label{saisAlg}
 
 
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{minted}[escapeinside=@@,numbers=left,breaklines]{python}
 def SAIS(T,SA):
 # T is the input string;
@@ -17,7 +17,7 @@ def SAIS(T,SA):
 # t: array[@$0,n-1$@] of boolean;
 # P@$_1$@, T@$_1$@: array[@$0,n_1-1$@] of integer;
 # B: array[@$0,|\Sigma (T)|-1$@] of integer;
-Scan T once to classify all the characters as L- or S-type into t;
+Scan T once to classify all the characters as L- or S-Type into t;
 Scan t once to find all the LMS-substrings in T into P@$_1$@;
 Induced sort all the LMS-substrings using P@$_1$@ and B;
 Name each LMS-substring in T by its bucket index to get a new shortened string T@$_1$@;
@@ -41,7 +41,7 @@ Sei $\inputtext = caabaccaabacaa\$$ der String zu dem das Suffix-Array konstruie
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
     \hline
         $i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 \\ \hline
-        $T$ & c & a & a & b & a & c & c & a & a & b & a & c & a & a & \$ \\ \hline
+        $\mathsf{T}$ & c & a & a & b & a & c & c & a & a & b & a & c & a & a & \$ \\ \hline
         $t$ & L & S & S & L & S & L & L & S & S & L & S & L & L & L & S \\
     \hline
   \end{tabular}
@@ -57,7 +57,7 @@ Sei $\inputtext = caabaccaabacaa\$$ der String zu dem das Suffix-Array konstruie
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
     \hline
         $i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 \\ \hline
-        $T$ & c & a & a & b & a & c & c & a & a & b & a & c & a & a & \$ \\ \hline
+        $\mathsf{T}$ & c & a & a & b & a & c & c & a & a & b & a & c & a & a & \$ \\ \hline
             & L & S & S & L & S & L & L & S & S & L & S & L & L & L & S \\ \hline
             &   & * &   &   & * &   &   & * &   &   & * &   &   &   & * \\
     \hline
@@ -72,7 +72,7 @@ Sei $\inputtext = caabaccaabacaa\$$ der String zu dem das Suffix-Array konstruie
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
     \hline
         $i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 \\ \hline
-        $T$ & c & a & a & b & a & c & c & a & a & b & a & c & a & a & \$ \\ \hline
+        $\mathsf{T}$ & c & a & a & b & a & c & c & a & a & b & a & c & a & a & \$ \\ \hline
             & L & S & S & L & S & L & L & S & S & L & S & L & L & L & S \\ \hline
             &   & * &   &   & * &   &   & * &   &   & * &   &   &   & * \\ \hline
    $Bucket$ &\$ & \multicolumn{7}{c}{a} &   & \multicolumn{1}{c}{b} &   & \multicolumn{3}{c}{c} & \\ \hline
@@ -107,7 +107,7 @@ Sei $\inputtext = caabaccaabacaa\$$ der String zu dem das Suffix-Array konstruie
 \centering
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
     \hline
-        $T_1$ & 1 & 3 & 1 & 2 & 0 \\ \hline
+        $\mathsf{T}_1$ & 1 & 3 & 1 & 2 & 0 \\ \hline
               & 1 & 4 & 7 & 10 & 14  \\
     \hline
   \end{tabular}
@@ -115,7 +115,7 @@ Sei $\inputtext = caabaccaabacaa\$$ der String zu dem das Suffix-Array konstruie
 \end{table}
 \bigskip
 
-\noindent Die Zahlen $1$ und $7$ werden demselben Bucket zugeordnet, da diese noch nicht sortiert werden konnten. Analog dazu wird der 14 der \textit{kleinste} Bucket zugeordnet, da das $\$$-Zeichen das lexikographisch kleinste Zeichen ist. Auf den so gewonnenen String $T_1$ wird nun der SAIS angewendet. Zunächst werden die LMS-Indizes $\{4, 2\}$ ihren \textit{Buckets} zugeordnet. Es folgt eine Iteration von links nach rechts. Entspricht das Vorgängerzeichen Typ $L$, wird es an der nächst linken freien Position des jeweiligen Buckets eingeordnet. Anschließend folgt eine Iteration von rechts nach links, bei der das Vorgängerzeichen an der nächst rechten freien Position einsortiert wird, wenn es vom Typ $S$ ist.
+\noindent Die Zahlen $1$ und $7$ werden demselben Bucket zugeordnet, da diese noch nicht sortiert werden konnten. Analog dazu wird der 14 der \textit{kleinste} Bucket zugeordnet, da das $\$$-Zeichen das lexikographisch kleinste Zeichen ist. Auf den so gewonnenen String $\mathsf{T}_1$ wird nun der SAIS angewendet. Zunächst werden die LMS-Indizes $\{4, 2\}$ ihren \textit{Buckets} zugeordnet. Es folgt eine Iteration von links nach rechts. Entspricht das Vorgängerzeichen Typ $L$, wird es an der nächst linken freien Position des jeweiligen Buckets eingeordnet. Anschließend folgt eine Iteration von rechts nach links, bei der das Vorgängerzeichen an der nächst rechten freien Position einsortiert wird, wenn es vom Typ $S$ ist.
 
 \begin{table}[H]
 \centering
@@ -123,7 +123,7 @@ Sei $\inputtext = caabaccaabacaa\$$ der String zu dem das Suffix-Array konstruie
     \hline
           & \tiny{1} & \tiny{4} & \tiny{7} & \tiny{10} & \tiny{14} \\ \hline
       $i$ & 0 & 1 & 2 & 3 & 4  \\ \hline
-    $T_1$ & 1 & 3 & 1 & 2 & 0  \\ \hline
+    $\mathsf{T}_1$ & 1 & 3 & 1 & 2 & 0  \\ \hline
       $t_1$ & S & L & S\textsuperscript{*} & L & S\textsuperscript{*}  \\ \hline
 $Buckets$ & 0 & \multicolumn{1}{c}{1} & & 2 & 3 \\ \hline
           & S & \multicolumn{1}{c}{S} & & L & L \\ \hline
@@ -131,13 +131,13 @@ $Buckets$ & 0 & \multicolumn{1}{c}{1} & & 2 & 3 \\ \hline
           & & 2 & 0 & & \\
     \hline
   \end{tabular}
-  \caption{Induzieren von $SA_1$}
+  \caption{Induzieren von $\mathsf{SA}_1$}
 \end{table}
 \bigskip
 
 \noindent Es ist zu beachten, dass die rot markierte $2$ im zweiten Durchlauf von der $0$ überschrieben wird, im nächsten Schritt aber direkt wieder von der $3$ induziert wird.
 
-Das Ergebnis des Induzierens ist das Suffix-Array $SA_1 = \{4, 2, 0, 3, 1\}$. Damit kann auf die ursprüngliche Reihenfolge geschlossen werden. Demnach ist das sortierte LMS-Array: $\{14, 7, 1, 10, 4\}$ \\
+Das Ergebnis des Induzierens ist das Suffix-Array $\mathsf{SA}_1 = \{4, 2, 0, 3, 1\}$. Damit kann auf die ursprüngliche Reihenfolge geschlossen werden. Demnach ist das sortierte LMS-Array: $\{14, 7, 1, 10, 4\}$ \\
 Die Rekursionstiefe von $1$ ändert sich wieder auf die Tiefe von $0$ und das ursprüngliche Problem wird gelöst, da jetzt die Reihenfolge eindeutig bestimmt ist. Analog zum Rekursionsschritt, werden zunächst die LMS-Indizes in die jeweiligen \textit{S-Buckets} einsortiert, um dann durch eine links-rechts und rechts-links-Iteration das Suffix-Array \sa zu berechnen:
 
 \begin{table}[H]
@@ -146,7 +146,7 @@ Die Rekursionstiefe von $1$ ändert sich wieder auf die Tiefe von $0$ und das ur
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
     \hline
         $i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 \\ \hline
-        $T$ & c & a & a & b & a & c & c & a & a & b & a & c & a & a & \$ \\ \hline
+        $\mathsf{T}$ & c & a & a & b & a & c & c & a & a & b & a & c & a & a & \$ \\ \hline
             & L & S & S & L & S & L & L & S & S & L & S & L & L & L & S \\ \hline
             &   & * &   &   & * &   &   & * &   &   & * &   &   &   & * \\ \hline
    $Bucket$ &\$ & \multicolumn{7}{c}{a} &   & \multicolumn{1}{c}{b} &   & \multicolumn{3}{c}{c} & \\ \hline

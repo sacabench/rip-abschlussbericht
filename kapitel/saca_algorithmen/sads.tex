@@ -19,7 +19,7 @@ Es folgt ein Beispiel für eine Klassifizierung, die dc-Zeichen (hier mit ** mar
   \begin{tabular}{ | l | c | c| c| c| c| c| c| c| c| c| c| c| c| c| c| c| c | }
     \hline
         $i$ & 0 & 1 & 2 & 3 & 4 & 5 \\ \hline
-        $T$ & b & a & c & a & a & \$ \\ \hline
+        $\mathsf{T}$ & b & a & c & a & a & \$ \\ \hline
         $ $ & L & S & L & L & L & S \\ \hline
       	$ $ & & * & & ** & & * \\
     \hline
@@ -48,17 +48,17 @@ Sei $\omega(\inputtext,i)$ die $\omega$-gewichtende Funktion, definiert als $\om
 \label{sadsAlg}
 \begin{figure}[h]
 \begin{minted}[escapeinside=@@,numbers=left, breaklines]{python}
-SADS(T, SA)
+def SADS(T, SA)
 # T is the input string;
 # SA is the output suffix array of T
 # t: array[@$0,n-1$@] of boolean;
 # P@$_1$@, S@$_1$@: array[@$0,n_1-1$@] of integer;
 # B: array[@$0,|\Sigma (T)|-1$@] of integer;
-Scan T once to classify all the characters as L- or S-type into t;
+Scan T once to classify all the characters as L- or S-Type into t;
 Scan t once to find all the d-critical-substrings in T into P@$_1$@;
 Bucket sort all the d-critical substrings using P@$_1$@ and B;
 Name each d-critical-substring in T by its bucket index to get a new shortened string T@$_1$@;
-if @$|T_1|$@ = Number of Buckets
+if @$|\mathsf{T}_1|$@ = Number of Buckets
    Directly compute SA@$_1$@ from T@$_1$@;
 else
    SADS(T@$_1$@, SA@$_1$@); # Fire a recursive call
@@ -77,7 +77,7 @@ zu bestimmen, sodass folgende, schon aus dem SAIS bekannte, Klassifizierung ents
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
     \hline
         $i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 \\ \hline
-        $\inputtext$ & c & a & a & b & a & c & c & a & a & b & a & c & a & a & \$ \\ \hline
+        $\mathsf{T}$ & c & a & a & b & a & c & c & a & a & b & a & c & a & a & \$ \\ \hline
         $t$ & L & S & S & L & S & L & L & S & S & L & S & L & L & L & S \\
     \hline
   \end{tabular}
@@ -93,7 +93,7 @@ zu bestimmen, sodass folgende, schon aus dem SAIS bekannte, Klassifizierung ents
   \begin{tabular}{ | l | c | c| c| c| c| c| c| c| c| c| c| c| c| c| c| c| c | }
     \hline
         $i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 \\ \hline
-        $\inputtext$ & c & a & a & b & a & c & c & a & a & b & a & c & a & a & \$ \\ \hline
+        $\mathsf{T}$ & c & a & a & b & a & c & c & a & a & b & a & c & a & a & \$ \\ \hline
         $t$ & L & S & S & L & S & L & L & S & S & L & S & L & L & L & S \\ \hline
         $P_1$ & & * & & & * & & & * & & & * & & ** & & * \\
     \hline
@@ -138,7 +138,7 @@ Im nächsten Schritt werden $\{12, 7, 1\}$ zum \textit{a-Bucket} zusortiert. Dab
 \centering
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
     \hline
-        $T_1$ & 2 & 4 & 2 & 3 & 1 & 0 \\ \hline
+        $\mathsf{T}_1$ & 2 & 4 & 2 & 3 & 1 & 0 \\ \hline
               & 1 & 4 & 7 & 10 & 12 & 14  \\
     \hline
   \end{tabular}
@@ -152,11 +152,11 @@ Im nächsten Schritt werden $\{12, 7, 1\}$ zum \textit{a-Bucket} zusortiert. Dab
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
     \hline
         $i$ & 0 & 1 & 2 & 3 & 4 & 5 \\ \hline
-      $T_1$ & 2 & 4 & 2 & 3 & 1 & 0  \\ \hline
+      $\mathsf{T}_1$ & 2 & 4 & 2 & 3 & 1 & 0  \\ \hline
       $t_1$ & S & L & S\textsuperscript{*} & L & L & S\textsuperscript{*} \\
     \hline
   \end{tabular}
-  \caption{Beschreibung des Teilproblems mit String $T_1$}
+  \caption{Beschreibung des Teilproblems mit String $\mathsf{T}_1$}
 \end{table}
 \bigskip
 
@@ -166,7 +166,7 @@ Im nächsten Schritt werden $\{12, 7, 1\}$ zum \textit{a-Bucket} zusortiert. Dab
 \centering
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
     \hline
-        $SA_1$ & 1 & 0 \\ \hline
+        $\mathsf{SA}_1$ & 1 & 0 \\ \hline
         $dc$ & 2 & 5 \\
     \hline
   \end{tabular}
@@ -174,25 +174,25 @@ Im nächsten Schritt werden $\{12, 7, 1\}$ zum \textit{a-Bucket} zusortiert. Dab
 \end{table}
 \bigskip
 
-\noindent Der letzte Schritt des Algorithmus besteht darin, das Suffix-Array \sa rekursiv aus den Teillösungen zu induzieren. Dazu wird das bestehende $T_1$ aus dem Rekursionsschritt sortiert, sodass sich die Buckets $\{0,1,2,2,3,4\}$ ergeben. Folgender Algorithmus wird nun für den ersten Schritt des Induzierens angewandt\cite[Kap.~4.5]{saca:6}:\newpage
-\begin{figure}[H]
-\begin{minted}[mathescape=true, escapeinside=||, frame=single]{text}
-    Initialize each item of SA as |$-1$|. Find the end of
-    each bucket in |$SA$| for all the suffixes in |$S$|. Scan
-    |$SA_1$| once from right to left, if |$suf(T, P_1[SA_1[i]])$|
-    is a LMS suffix then put |$P_1[SA_1[i]]$| to the current
-    end of the bucket for |$suf(T, P_1[SA_1[i]])$| in |$SA$| and
-    forward the bucket's end one item to the left.
+\noindent Der letzte Schritt des Algorithmus besteht darin, das Suffix-Array \sa rekursiv aus den Teillösungen zu induzieren. Dazu wird das bestehende $\mathsf{T}_1$ aus dem Rekursionsschritt sortiert, sodass sich die Buckets $\{0,1,2,2,3,4\}$ ergeben. Folgender Algorithmus wird nun für den ersten Schritt des Induzierens angewandt\cite[Kap.~4.5]{saca:6}:\newpage
+\begin{figure}[h]
+\begin{minted}[escapeinside=@@,numbers=left,breaklines]{python}
+Initialize each item of SA as @$-1$@;
+Find the end of each bucket in @$\sa$@ for all the suffixes in @$\inputtext$@;
+Scan @$\mathsf{SA}_1$@ once from right to left;
+if @$suf(\inputtext, P_1[\mathsf{SA}_1[i]])$@ = LMS-suffix
+   put @$P_1[\mathsf{SA}_1[i]]$@ to the current end of the bucket for @$suf(\inputtext, P_1[\mathsf{SA}_1[i]])$@ in @$\sa$@ and forward the buckets end one item to the left;	   
 \end{minted}
 \caption{Algorithmus zur Induktion}
 \end{figure}
+
 \noindent Aus Gründen der Übersichtlichkeit, entsprechen leere Felder einem unbeschriebenen Feld, anstelle von $-1$.
 
 \begin{table}[H]
 \centering
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
     \hline
-     $SA_1$ & 1 & 0 & & & & \\ \hline
+     $\mathsf{SA}_1$ & 1 & 0 & & & & \\ \hline
    $Bucket$ & 0 & 1 & \multicolumn{1}{c}{2} & & 3 & 4 \\ \hline
       $t$   & S & L & \multicolumn{1}{c}{S} & & L & L \\ \hline
             & 5 & & & & &  \\ \hline
@@ -200,18 +200,18 @@ Im nächsten Schritt werden $\{12, 7, 1\}$ zum \textit{a-Bucket} zusortiert. Dab
             & & & 2 & 0 & & \\
     \hline
   \end{tabular}
-  \caption{Induzieren von $SA_1$}
+  \caption{Induzieren von $\mathsf{SA}_1$}
 \end{table}
 \bigskip
 
-\noindent Es ergibt sich das Suffix-Array $SA_1 = \{5, 4, 2, 0, 3, 1\}$, mit dem jetzt das finale Suffix-Array \sa induziert wird:
+\noindent Es ergibt sich das Suffix-Array $\mathsf{SA}_1 = \{5, 4, 2, 0, 3, 1\}$, mit dem jetzt das finale Suffix-Array \sa induziert wird:
 
 \begin{table}[H]
 \centering
 \begin{adjustbox}{width=1\textwidth}
   \begin{tabular}{ | l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
     \hline
-     $SA_1$ & 5 & 4 & 2 & 0 & 3 & 1 & & & & & & & & & \\ \hline
+     $\mathsf{SA}_1$ & 5 & 4 & 2 & 0 & 3 & 1 & & & & & & & & & \\ \hline
    $Bucket$ &\$ & \multicolumn{7}{c}{a} &   & \multicolumn{1}{c}{b} &   & \multicolumn{3}{c}{c} & \\ \hline
       $Typ$ & S & \multicolumn{1}{c}{L} &   & \multicolumn{5}{c}{S} &   & \multicolumn{1}{c}{L} &    & \multicolumn{3}{c}{L} &\\ \hline
             & 14 & & & & & (7) & (1) & (10) & (4) & & & & & & \\ \hline

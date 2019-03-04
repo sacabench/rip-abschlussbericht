@@ -99,7 +99,7 @@ Exemplarisch für den ersten Durchgang folgt ein Beispiel. Der Einfachheit halbe
 	\end{tabular}
 \end{center}
 
-Dadurch, dass das Sentinel das lexikographisch kleinstmögliche Zeichen ist und im pSAIS nur einmalig vorkommt, kann der 3. Block in seiner Gesamtheit klassifiziert werden. Der zweite Block versucht das letzte $a$ zu klassifizieren. Dies ist jedoch nicht möglich, da das nächste Zeichen auch ein $a$ ist. An dieser Stelle ist es noch nicht möglich, auf dessen Typ zuzugreifen und diesen zu übernehmen, da alle Threads gleichzeitig arbeiten und zu diesem Zeitpunkt nicht gewährleistet ist, dass der Typ schon geschrieben wurde. An den jeweiligen Stellen, die nicht klassifizert werden konnten steht ein x. Die Blöcke 0 und 1 konnten nichts klassifizieren, da auch mit dem nächsten Zeichen ihres Blocks keine Informationen über den Vorgängertypen ermitteln konnten. Alle Threads speichern zudem den ermittelten Typ an ihren Threadgrenzen. Da nur Block 2 und 3 klassifizieren konnten, steht nur bei ihnen kein $x$.
+Dadurch, dass das Sentinel das lexikographisch kleinstmögliche Zeichen ist und im pSAIS nur einmalig vorkommt, kann der 3. Block in seiner Gesamtheit klassifiziert werden. Der zweite Block versucht das letzte \textit{a} zu klassifizieren. Dies ist jedoch nicht möglich, da das nächste Zeichen auch ein \textit{a} ist. An dieser Stelle ist es noch nicht möglich, auf dessen Typ zuzugreifen und diesen zu übernehmen, da alle Threads gleichzeitig arbeiten und zu diesem Zeitpunkt nicht gewährleistet ist, dass der Typ schon geschrieben wurde. An den jeweiligen Stellen, die nicht klassifizert werden konnten steht ein x. Die Blöcke 0 und 1 konnten nichts klassifizieren, da auch mit dem nächsten Zeichen ihres Blocks keine Informationen über den Vorgängertypen ermitteln konnten. Alle Threads speichern zudem den ermittelten Typ an ihren Threadgrenzen. Da nur Block 2 und 3 klassifizieren konnten, steht nur bei ihnen kein x.
 
 Im zweiten und finalen Durchgang des Klassifizierens werden die Informationen der benachbarten Blöcke genutzt, um den gesamten Text zu klassifizieren, der noch nicht klassifiziert werden konnte:
 
@@ -111,6 +111,6 @@ Im zweiten und finalen Durchgang des Klassifizierens werden die Informationen de
 	\end{tabular}
 \end{center}
 
-Im ersten Durchgang fehlte im Block 2 noch die Information, welchem Typ das $a$ entsprach. Diese Information ist nun vorhanden und das letzte Zeichen des Blocks kann klassifiziert werden. Das fettgedruckte rote \textit{S} konnte also durch die Information aus dem dritten Block klassifiziert werden. Analog verhält es sich mit den ersten beiden Blöcken, deren Zeichen alle S-Typen sind. Hier wird die Information aus dem zweiten Block auf die vorherigen beiden Blöcke übertragen.
+Im ersten Durchgang fehlte im Block 2 noch die Information, welchem Typ das \textit{a} entsprach. Diese Information ist nun vorhanden und das letzte Zeichen des Blocks kann klassifiziert werden. Das fettgedruckte rote \textit{S} konnte also durch die Information aus dem dritten Block klassifiziert werden. Analog verhält es sich mit den ersten beiden Blöcken, deren Zeichen alle S-Typen sind. Hier wird die Information aus dem zweiten Block auf die vorherigen beiden Blöcke übertragen.
 
 
