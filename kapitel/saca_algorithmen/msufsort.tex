@@ -316,12 +316,18 @@ Die größte Herausforderung bei der Implementierung ist wohl der Umgang mit den
 Sämtliche hier beschriebene Optimierungen, bis auf die Verwendung eines effektiven Alphabets, wurden noch nicht implementiert, dafür wurde allerdings bei der initialen Befüllung des Chainstacks ein Trick angewandt. 
 Statt diese nämlich über eine $u$-Chain Verfeinerung mittels Introsort (auf einer Eingabelänge von O($n$)) zu lösen, wurde ein Array der Größe O($|\Sigma|$) eingeführt. Dieses enthält immer das rechteste Element einer $u$-Chain zum Zeitpunkt der Bearbeitung, dh. nach einem kompletten Scan von links nach rechts enthält es in sortierter Reihenfolge alle Elemente, die so direkt auf den Chainstack geschrieben werden können.
 Dadurch konnte der Speicherverbrauch im Vergleich zur Referenzimplementierung noch deutlich gesenkt werden. Erst für Alphabete, deren Größe die Anzahl der Typ S-Suffixe übersteigt, lohnt diese Optimierung nicht.\\
+Zudem existiert die Variante mSufSort\_scan, in der die Verfeinerung der $u$-Chains nur mit diesem Verfahren ausgeführt werden.
 
 Eine weitere Optimierung könnte, solange keine Wiederholungserkennung benötigt wird, noch darin bestehen, die Sortieroperation für $u$-Chains zu vereinfachen, indem diese nicht mehr konsequent geordnet verlinkt werden, sondern auch chaotisch gelinkt werden darf. Dies würde eine Wiederholungserkennung, wie im Originalpaper beschrieben, unmöglich machen, aber sicher einige Laufzeit einsparen.\\
 
 Auch wäre noch denkbar, ein Sortierverfahren zu verwenden, das direkt auf den einfach verlinkten Listen funktioniert, statt jeweils die Liste zu durchlaufen und damit einen Vektor zu befüllen, bevor darauf Introsort angewandt werden kann.\\
 
 Zur Zeit verwenden wir den naiven Inplace Ansatz zur Umwandlung des \isa zu \sa - es ist daher noch mit weiterer Verbesserung der Laufzeit zu rechnen, wenn andere Varianten eingebaut werden, auch wenn diese auf Kosten des Speicherverbrauchs gehen wird.
+
+\subsection{Naive Parallelisierung}
+
+Grundsätzlich ist es möglich, in mSufSort statt Introsort einen parallelen Sortieralgorithmus zu verwenden. Bei Versuchen wurde dazu \ipsviero \cite{axtmann2017} angewandt. An anderer Stelle, wo ein stabiler Sortierer verwendet wurde um unnötige Rechenzeit durch doppelte Vergleiche zu vermeiden, kann ebenfalls ein paralleles Gegenstück verwendet werden.
+Bei der Auswertung zeigt sich, dass \ipsviero sich nicht für den Einsatz im mSufSort eignet, da die Laufzeit der parallelen Varianten die der sequentiellen übersteigen.
 
 
 \subsection{Fazit}
