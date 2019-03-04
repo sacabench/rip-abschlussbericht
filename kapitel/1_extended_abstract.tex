@@ -60,7 +60,7 @@ in order to measure and compare them fairly.
 
 \subsection{Running a single algorithm}
 
-\begin{figure}[!ht]
+\begin{figure}[!h]
     \centering
     \includegraphics[width=\textwidth]{kapitel/1_extended_abstract/tudostat_example.png}
     \caption{Example of runtime and memory consumption of the phases of DivSufSort, measured by \sacabench and visualized on the tudostat website~\cite{tudostat}.}
@@ -90,7 +90,7 @@ This can be done by using the flag \termfont{-r} followed by the number of execu
 These and many more options are listed by the tool together with an explanation by adding \termfont{-h} to any subcommand.
 An example would be:
 
-\termfont{sacabench/sacabench construct -c -b /destination/path/to/result.json -f -p 1K -r 2 -{}-rplot -{}-latexplot BPR /path/to/input}
+\termfont{sacabench/sacabench construct BPR /path/to/input -c -p 1K -r 2\\ -{}-rplot -{}-latexplot  -b /destination/path/to/result.json -f}
 
 This command executes the SACA BPR two times on a prefix of the input file of 1 KB, 
 uses the checker to validate the result and writes the resulting JSON file to the given path.
@@ -101,11 +101,11 @@ This configuration can be used by adding the flag \termfont{-{}-config} together
 An example of such a configuration can be seen in \ref{sacabench-construct:config:engl}.
 Using the shown file, the command 
 
-\termfont{sacabench/sacabench construct -{}-config /path/to/config BPR /path/to/input}
+\termfont{sacabench/sacabench construct BPR /path/to/input -{}-config\\ /path/to/config }
 
 is the same as the previous command.
 
-\begin{figure}[!ht]
+\begin{figure}[!h]
 \begin{minted}
 [
 frame=lines,
@@ -239,8 +239,8 @@ This is also done by SACA-K and GSACA, which are both similar to SAIS, but add s
 (SACA-K for example doesn't use any extra space).
 mSufSort is another inducing-SACA, but since it constructs the \isa instead of the \sa,
 it's not derived from any other SACA.
-The two other recursive SACAs are DC3 (which sorts $\frac{2}{3}$ of the suffixes in a recursion step), which utilizes the \emph{Difference Cover} concept to sort all suffixes beginning at positions $1$, $2$, $4$, $5$ and so on at first. After that, it uses this order to induce all suffixes beginning at positions $0$, $3$ and so on before these two are merged into the correct \sa.
-nzSufSort sorts the S-Type suffixes by using the \emph{Difference Cover} concept before inducing the L-Type suffixes similar to SAIS in one pass. It was the first presented algorithm, which is \emph{optimal lightweight}. This means it has running time $\mathcal O (n)$ by using only constant extra space.
+The two other recursive SACAs are DC3 (which sorts $\frac{2}{3}$ of the suffixes in a recursion step)
+and nzSufSort (which is similar to DC3 but improves on some aspects)\todo{nico? johannes? bitte ergänzen}.
 
 \section{Optimization Strategies}
 
@@ -361,7 +361,7 @@ Notable is the low memory consumption of SAIS and SACA-K, which only use some an
 % IMPORT-DATA stats_parallel 7_messergebnisse/ergebnisse_parallel/result_weakscale.txt
 % IMPORT-DATA results_sequential 7_messergebnisse/ergebnisse_sequentiell/results.txt
 
-\begin{figure}[!ht]
+\begin{figure}[!h]
     \textbf{Configuration} \hfill Input file: wiki.txt \hfill Prefix size: 1600\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
     \centering\small
     \begin{tikzpicture}[trim axis left]
@@ -474,7 +474,7 @@ Notable is the low memory consumption of SAIS and SACA-K, which only use some an
     \label{ea:runtime-all-ref-0}
 \end{figure}
 
-\begin{figure}[!ht]
+\begin{figure}[!h]
     \textbf{Configuration} \hfill Input file: dna.txt \hfill Prefix size: 1600\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
     \centering\small
     \begin{tikzpicture}[trim axis left]
@@ -585,7 +585,7 @@ Notable is the low memory consumption of SAIS and SACA-K, which only use some an
     \label{ea:runtime-all-ref-1}
 \end{figure}
 
-\begin{figure}[!ht]
+\begin{figure}[!h]
     \textbf{Configuration} \hfill Input file: commoncrawl.txt \hfill Prefix size: 1600\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
     \centering\small
     \begin{tikzpicture}[trim axis left]
@@ -704,7 +704,7 @@ In this section we will compare the performance of the runtime and memory perfor
 These are variants of the sequential algorithms, that were mostly naively parallelized, with the exception of parallel SAIS
 \footnote{This algorithm uses read/write buffers and a parallel pipeline based on work of Lao et al~\cite{psais}.}.
 
-\begin{figure}[!ht]
+\begin{figure}[!h]
     \centering
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[
@@ -795,7 +795,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
     \label{ea:fig-par-all-0}
 \end{figure}
 
-\begin{figure}[!ht]
+\begin{figure}[!h]
     \centering
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[
@@ -886,7 +886,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
     \label{ea:fig-par-all-1}
 \end{figure}
 
-\begin{figure}[!ht]
+\begin{figure}[!h]
     \centering
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[
@@ -1078,7 +1078,7 @@ It needs a lot more memory than parallel SACAs with almost no need for extra mem
 \label{ea:gpu_benchmark:2}
 \end{figure}
 \FloatBarrier
-Figures \ref{ea:gpu_benchmark:1} and \ref{ea:gpu_benchmark:2} show the runtime comparisons between the parallel version of Mori's DivSufSort and the variants of the Osipov prefix doubler implemented by us, both the parallel variant for the CPU and for the GPU. 
+Figures \ref{ea:gpu_benchmark:1} and \ref{ea:gpu_benchmark:2} show the runtime comparisons between the parallel version of Mori's DivSufSort and the variants of the Osipov prefix doubler implemented by us, both the parallel variant for the CPU and for the GPU. Both CPU implementations use the 20 available cores.
 
 It can be seen here too that the DivSufSort on all four input texts is in part clearly superior to the other CPU implementation in terms of runtime. The situation is different in comparison to the GPU implementation: on all four input texts it achieves better runtimes than both CPU algorithms. On average this takes 12.6 seconds in our benchmarks, the DivSufSort 24.26 seconds and the CPU counterpart of the prefix doubler even 56.48 seconds. 
 In addition, it can be observed that both the GPU-Osipov with 3.28 seconds and the parallel DivSufSort with 4.5 seconds have small standard deviations and therefore do not react disproportionately differently to different input texts. The CPU version of the Osipov algorithm, which has a standard deviation of 14.19 seconds for the four texts of the same size and thus comparatively large fluctuations in the runtime, has a different effect.
@@ -1099,7 +1099,7 @@ We can confirm divsufsort's dominance on most of the tested texts.
 Our parallel implementations scale well up to 20 CPU cores and the GPU-SACA (Osipov/Prefix Doubling) is faster than the parallel divsufsort.
 We show that shared-memory parallelization is a fruitful approach to suffix sorting
 and can be used to accelerate construction of medium to large size suffix arrays.
-Since there are some texts on which the \sa can't be calculated by any of our included algorithms\todo{Sicherstellen, dass die Tabelle iwo steht},
+Since there are some texts on which the \sa can't be calculated in reasonable time by any of our included algorithms\todo{Sicherstellen, dass die Tabelle iwo steht},
 there is definitly area to improve in the future.
 Since GPUs evolve much more quickly and stronger than modern CPUs
 but the amount of GPU-parallel SACAs is still small, there is much room for improvement.
