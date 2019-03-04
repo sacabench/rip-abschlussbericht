@@ -1099,8 +1099,6 @@ We can confirm divsufsort's dominance on most of the tested texts.
 Our parallel implementations scale well up to 20 CPU cores and the GPU-SACA (Osipov/Prefix Doubling) is faster than the parallel divsufsort.
 We show that shared-memory parallelization is a fruitful approach to suffix sorting
 and can be used to accelerate construction of medium to large size suffix arrays.
-Since there are some texts on which the \sa can't be calculated in reasonable time by any of our included algorithms\todo{Sicherstellen, dass die Tabelle iwo steht},
-there is definitly area to improve in the future.
 Since GPUs evolve much more quickly and stronger than modern CPUs
 but the amount of GPU-parallel SACAs is still small, there is much room for improvement.
 
