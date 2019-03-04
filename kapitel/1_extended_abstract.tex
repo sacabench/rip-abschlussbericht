@@ -60,7 +60,7 @@ in order to measure and compare them fairly.
 
 \subsection{Running a single algorithm}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \centering
     \includegraphics[width=\textwidth]{kapitel/1_extended_abstract/tudostat_example.png}
     \caption{Example of runtime and memory consumption of the phases of DivSufSort, measured by \sacabench and visualized on the tudostat website~\cite{tudostat}.}
@@ -105,7 +105,7 @@ Using the shown file, the command
 
 is the same as the previous command.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 \begin{minted}
 [
 frame=lines,
@@ -348,7 +348,7 @@ and \texttt{commoncrawl.txt} (an ASCII-only subset of the Commoncrawl dataset~\c
 % IMPORT-DATA stats_parallel 7_messergebnisse/ergebnisse_parallel/result_weakscale.txt
 % IMPORT-DATA results_sequential 7_messergebnisse/ergebnisse_sequentiell/results.txt
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \textbf{Configuration} \hfill Input file: wiki.txt \hfill Prefix size: 1600\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
     \centering\small
     \begin{tikzpicture}[trim axis left]
@@ -450,7 +450,7 @@ and \texttt{commoncrawl.txt} (an ASCII-only subset of the Commoncrawl dataset~\c
     \ref{ea:runtime-all-ref-0}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \textbf{Configuration} \hfill Input file: dna.txt \hfill Prefix size: 1600\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
     \centering\small
     \begin{tikzpicture}[trim axis left]
@@ -556,7 +556,7 @@ and \texttt{commoncrawl.txt} (an ASCII-only subset of the Commoncrawl dataset~\c
     \ref{ea:runtime-all-ref-1}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \textbf{Configuration} \hfill Input file: commoncrawl.txt \hfill Prefix size: 1600\,MiB \\ Model name: Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E5-2640 v4 @ 2.40GHz
     \centering\small
     \begin{tikzpicture}[trim axis left]
@@ -677,7 +677,7 @@ In this section we will compare the performance of the runtime and memory perfor
 These are variants of the sequential algorithms, that were mostly naively parallelized, with the exception of parallel SAIS
 \footnote{This algorithm uses read/write buffers and a parallel pipeline based on work of Lao et al~\cite{psais}.}.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \centering
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[
@@ -763,7 +763,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
     \label{ea:fig-par-all-0}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \centering
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[
@@ -850,7 +850,7 @@ These are variants of the sequential algorithms, that were mostly naively parall
     \label{ea:fig-par-all-1}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \centering
     \begin{tikzpicture}[trim axis left]
         \begin{axis}[
