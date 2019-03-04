@@ -331,6 +331,7 @@ Evaluation of both the sequential SACAs, including the reference algorithms, as 
 We evaluate the performance of the chosen SACAs on an identical test system, the specifications of which are described in \cref{ea:lido}.
 This enables us to directly compare these algorithms in terms of runtime performance and memory consumption.
 We set an arbitrary limit of 2 hours of runtime as well as 60 GiB of used system memory.
+The GPU SACAs are run on an NVIDIA\textregistered Tesla K40.
 Our experiment texts are \texttt{wiki.txt}, \texttt{dna.txt} and \texttt{commoncrawl.txt}:
 %
 \begin{description}
@@ -992,6 +993,8 @@ It needs a lot more memory than parallel SACAs with almost no need for extra mem
 \todo{warum brechen da algos ab? (mb)}
 \todo{warum brechen alle algos ab 8 kernen ab? (mb)}
 \todo{sicherstellen dass mind eine ref drin ist (divsufsort par ref) (mb)}
+
+\FloatBarrier
 
 \subsection{Evaluation (GPU)}
 
