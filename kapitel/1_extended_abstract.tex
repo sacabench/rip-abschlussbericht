@@ -90,7 +90,7 @@ This can be done by using the flag \termfont{-r} followed by the number of execu
 These and many more options are listed by the tool together with an explanation by adding \termfont{-h} to any subcommand.
 An example would be:
 
-\termfont{sacabench/sacabench construct -c -b /destination/path/to/result.json -f -p 1K -r 2 -{}-rplot -{}-latexplot BPR /path/to/input}
+\termfont{sacabench/sacabench construct BPR /path/to/input -c -p 1K -r 2\\ -{}-rplot -{}-latexplot  -b /destination/path/to/result.json -f}
 
 This command executes the SACA BPR two times on a prefix of the input file of 1 KB, 
 uses the checker to validate the result and writes the resulting JSON file to the given path.
@@ -101,7 +101,7 @@ This configuration can be used by adding the flag \termfont{-{}-config} together
 An example of such a configuration can be seen in \ref{sacabench-construct:config:engl}.
 Using the shown file, the command 
 
-\termfont{sacabench/sacabench construct -{}-config /path/to/config BPR /path/to/input}
+\termfont{sacabench/sacabench construct BPR /path/to/input -{}-config\\ /path/to/config }
 
 is the same as the previous command.
 
